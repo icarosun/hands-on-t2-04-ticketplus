@@ -1,0 +1,30 @@
+{
+  "name": "ticketplus",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "nodemon -e js,json,ts,yaml src/index.ts",
+    "swagger": "ts-node src/swagger.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "nodemon": "^3.0.1",
+    "prisma": "^5.7.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "prisma": {
+    "mock": "ts-node prisma/mock.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.7.1",
+    "@types/express": "^4.17.17",
+    "dotenv": "^16.3.1",
+    "envalid": "^8.0.0",
+    "express": "^4.18.2"
+  }
+}
