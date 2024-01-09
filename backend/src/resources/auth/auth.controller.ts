@@ -12,9 +12,9 @@ async function cadastrar (req: Request, res: Response) {
 	 *	- sobrenome
 	 *	- email
 	 *	- senha
-	 *	- tipoUsuario
-	 *		-- comprador
-	 *		-- organizador
+	 *	- tipoUsuarioId
+	 *		-- id do comprador (daf7a4e1-3345-49a5-809d-55bb4d0633d7)
+	 *		-- id do organizador (60124bd9-8654-4717-ba11-deda3df4e0bb)
 	* */
 	/* A requisição deve ser dropada caso:
 	 *  - Algum campo estiver vazio
