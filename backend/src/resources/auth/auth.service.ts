@@ -3,12 +3,12 @@ import { genSalt, hash, compare } from "bcryptjs";
 
 import { TiposUsuarios } from "../tipoUsuario/tipoUsuario.constants"; //
 import { CadastroUsuarioDto, LoginDto } from "./auth.types";
-import { findUsuarioByEmail } from "../usuario/usuario.service";
+import { buscaUsuarioPorEmail } from "../usuario/usuario.service";
 
 const prisma = new PrismaClient();
 
 
-export const cadastrarUsuario = async (usuario: CadastroUsuarioDto): Promise<Usuario> => {
+export async function cadastrarUsuario (usuario: CadastroUsuarioDto): Promise<Usuario> {
 	/*
 	 * Campos do argumento usuario:
 	 *	- nome
@@ -19,8 +19,8 @@ export const cadastrarUsuario = async (usuario: CadastroUsuarioDto): Promise<Usu
 	 *		-- comprador
 	 *		-- organizador
 	* */
-	const rounds = parseInt(process.env.SALT_ROUNDS);
-	const salt = await getSalt(rounds);
+	const rounds = parseInt(process.env.SALT_ROUNDS!);
+	const salt = await genSalt(rounds);
 	const senha = await hash(usuario.senha, salt);
 	let tipoUsuarioId: string = '';
 	if (usuario.tipoUsuario === TiposUsuarios.COMPRADOR) tipoUsuarioId = TiposUsuarios.COMPRADOR_ID;

@@ -7,7 +7,7 @@ import { TiposUsuarios } from "../tipoUsuario/tipoUsuario.constants"; //
 const prisma = new PrismaClient();
 
 
-export async function findUsuarioByEmail (email: string): Promise<Usuario | null> {
+export async function buscaUsuarioPorEmail (email: string): Promise<Usuario | null> {
 	return await prisma.usuario.findUnique({
 		where: { email }
 	});
