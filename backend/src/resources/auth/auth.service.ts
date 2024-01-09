@@ -14,7 +14,7 @@ const prisma = new PrismaClient();
 	 *	- sobrenome
 	 *	- email
 	 *	- senha
-	 *	- tipoUsuario
+	 *	- tipo
 	 *		-- comprador
 	 *		-- organizador
 	* */
@@ -22,14 +22,14 @@ export async function cadastrarUsuario (usuario: CadastroUsuarioDto): Promise<Us
 	const rounds = parseInt(process.env.SALT_ROUNDS!);
 	const salt = await genSalt(rounds);
 	const senha = await hash(usuario.senha, salt);
-	let tipoUsuarioId: string = '';
-	if (usuario.tipoUsuario === TiposUsuarios.COMPRADOR) tipoUsuarioId = TiposUsuarios.COMPRADOR_ID;
-	else tipoUsuarioId = TiposUsuarios.ORGANIZADOR_ID; // A validação do corpo da requisição garante que, neste ponto, o valor no campo "tipoUsuario" é apenas "comprador" ou "organizador"
+	let tipoId: string = '';
+	if (usuario.tipoId === TiposUsuarios.COMPRADOR) tipoId = TiposUsuarios.COMPRADOR_ID;
+	else tipoId = TiposUsuarios.ORGANIZADOR_ID; // A validação do corpo da requisição garante que, neste ponto, o valor no campo "tipoUsuario" é apenas "comprador" ou "organizador"
 	return await prisma.usuario.create({
 		data: {
 			...usuario,
 			senha: senha,
-			tipoUsuarioId: tipoUsuarioId
+			tipoId: tipoId
 		}
 	});
 }
