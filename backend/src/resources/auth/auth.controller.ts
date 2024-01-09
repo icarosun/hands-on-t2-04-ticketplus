@@ -33,3 +33,17 @@ async function cadastrar (req: Request, res: Response) {
 		res.status(500).json(error);
 	}
 }
+
+export function logar (req: Request, res: Response) {
+	/**
+	 *  Campos na requisição:
+	 * 		- email
+	 * 		- senha
+	 */
+	const credenciais = req.body as LoginDto;
+	try {
+		if (await autenticar(credenciais)) 
+	} catch (error) {
+		res.status(500).json(error);
+	}
+}
