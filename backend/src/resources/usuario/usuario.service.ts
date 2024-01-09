@@ -1,8 +1,8 @@
-import { PrismaClient, Usuario } from "@prisma/client"; //
-import { genSalt, hash } from "bcryptjs"; //
+import { PrismaClient, Usuario } from "@prisma/client";
+import { genSalt, hash } from "bcryptjs";
 
-import { CadastroUsuarioDto, AtualizaUsuarioDto, UsuarioDto } from "./usuario/types";
-import { TiposUsuarios } from "../tipoUsuario/tipoUsuario.constants"; //
+import { UsuarioDto, AtualizaUsuarioDto } from "./usuario.types";
+import { TiposUsuarios } from "../tipoUsuario/tipoUsuario.constants";
 
 const prisma = new PrismaClient();
 
