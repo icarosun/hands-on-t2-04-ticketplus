@@ -12,6 +12,7 @@ declare module "express-session" {
   interface SessionData {
     uid: string;
     nomeUsuario: string;
+    sobrenomeUsuario: string;
     tipoUsuarioId: string;
   }
 }

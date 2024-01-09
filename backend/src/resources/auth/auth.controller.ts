@@ -5,7 +5,7 @@ import { cadastrarUsuario, autenticar } from "./auth.service";
 import { CadastroUsuarioDto, LoginDto } from "./auth.types";
 
 
-async function cadastrar (req: Request, res: Response) {
+export async function cadastrar (req: Request, res: Response) {
 	/*
 	 * Campos na requisição:
 	 *	- nome
@@ -34,7 +34,7 @@ async function cadastrar (req: Request, res: Response) {
 	}
 }
 
-export function logar (req: Request, res: Response) {
+export async function logar (req: Request, res: Response) {
 	/**
 	 *  Campos na requisição:
 	 * 		- email
@@ -42,7 +42,14 @@ export function logar (req: Request, res: Response) {
 	 */
 	const credenciais = req.body as LoginDto;
 	try {
-		if (await autenticar(credenciais)) 
+		const usuario = await autenticar(credenciais);
+		if (!usuario)
+			return res.status(401).json({ msg: "Email e/ou senha invalidos" });
+		req.session.uid = usuario.id;
+		req.session.nomeUsuario = usuario.nome;
+		req.session.sobrenomeUsuario = usuario.sobrenome;
+		req.session.tipoUsuarioId = usuario.tipoUsuarioId;
+		res.status(200).json({ msg: "Login realizado com sucesso" });
 	} catch (error) {
 		res.status(500).json(error);
 	}
