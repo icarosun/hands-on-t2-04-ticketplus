@@ -28,7 +28,7 @@ const cadastrar = async (req: Request, res: Response) => {
 		if (await findUsuarioByEmail(usuario.email))
 			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })
 		const usuario = await cadastrarUsuario(req.body);
-		res.status(201).json(usuario);
+		res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
 	} catch (error) {
 		res.status(500).json(error);
 	}

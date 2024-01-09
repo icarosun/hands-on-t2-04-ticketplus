@@ -19,7 +19,7 @@ export const cadastrarUsuario = async (usuario: CadastroUsuarioDto): Promise<Usu
 	 *		-- comprador
 	 *		-- organizador
 	* */
-	const rounds = parseInt(process.env.SALT_ROUNDS!);
+	const rounds = parseInt(process.env.SALT_ROUNDS);
 	const salt = await getSalt(rounds);
 	const senha = await hash(usuario.senha, salt);
 	let tipoUsuarioId: string = '';
