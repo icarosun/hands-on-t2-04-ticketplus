@@ -15,8 +15,8 @@ const prisma = new PrismaClient();
 	 *	- email
 	 *	- senha
 	 *	- tipoUsuarioId
-	 *		-- comprador
-	 *		-- organizador
+	 *		-- id do comprador (daf7a4e1-3345-49a5-809d-55bb4d0633d7)
+	 *		-- id do organizador (60124bd9-8654-4717-ba11-deda3df4e0bb)
 	* */
 export async function cadastrarUsuario (usuario: CadastroUsuarioDto): Promise<Usuario> {
 	const rounds = parseInt(process.env.SALT_ROUNDS!);
@@ -34,10 +34,15 @@ export async function cadastrarUsuario (usuario: CadastroUsuarioDto): Promise<Us
 	});
 }
 
-export async function autenticar (usuario: LoginDto): Promise<Usuario | null> {
-	const usuarioEncontrado = await buscaUsuarioPorEmail(usuario.email);
+export async function autenticar (credenciais: LoginDto): Promise<Usuario | null> {
+	/**
+	 *  Campos do argumento credenciais:
+	 * 		- email
+	 * 		- senha
+	 */
+	const usuarioEncontrado = await buscaUsuarioPorEmail(credenciais.email);
 	if (!usuarioEncontrado) return null;
-	const ok = await compare(usuario.senha, usuarioEncontrado.senha);
+	const ok = await compare(credenciais.senha, usuarioEncontrado.senha);
 	if (!ok) return null;
 	return usuarioEncontrado;
 }

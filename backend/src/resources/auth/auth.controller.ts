@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { buscaUsuarioPorEmail } from "../usuario/usuario.service";
 import { cadastrarUsuario, autenticar } from "./auth.service";
-import { CadastroUsuarioDto } from "./auth.types";
+import { CadastroUsuarioDto, LoginDto } from "./auth.types";
 
 
 async function cadastrar (req: Request, res: Response) {
