@@ -1,5 +1,14 @@
 version: "3.8"
 services:
+  frontend:
+    container_name: ticketplus_frontend
+    build:
+      context: ./frontend
+    ports:
+      - ${PORT_FRONT}:${PORT_FRONT}
+    volumes:
+      - ./frontend:/usr/src/app
+    env_file: ./frontend/.env
   backend:
     container_name: ticketplus_backend
     build:
