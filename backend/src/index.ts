@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
+import router from "./router";
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ declare module "express-session" {
     tipoUsuarioId: string;
   }
 }
+
+app.use(router);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando SUAVEMENTE na porta ${PORT}`);
