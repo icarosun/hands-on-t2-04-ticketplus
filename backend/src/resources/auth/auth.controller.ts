@@ -26,7 +26,6 @@ async function cadastrar (req: Request, res: Response) {
 	 *  - O campo de tipoUsuario seja diferente de "comprador" AND (&&) diferente de "organizador"
 	*/ 	
 	const usuario = req.body as CadastroUsuarioDto;
-	console.log(usuario);
 	try {
 		if (await buscaUsuarioPorEmail(usuario.email))
 			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })

@@ -10,10 +10,6 @@ import authController from "../auth/auth.controller";
 const router = Router();
 
 
-router.get("/", (req: Request, res: Response) => {
-    res.send(req.session);
-})
-
 router.post("/",
     validarSchema(schemasUsuario.schemaCadastroUsuario),
     authController.cadastrar

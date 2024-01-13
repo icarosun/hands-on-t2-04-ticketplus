@@ -1,7 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
+import cookieParser from "cookie-parser";
+import { v4 as uuidv4 } from "uuid";
 
+import { setLangCookie } from "./middlewares/setLangCookie";
 import router from "./router";
 
 dotenv.config();
@@ -28,14 +31,17 @@ declare module "express-session" {
 }
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   session({
-    secret: 'secret secret',
-    resave: false,
+    genid: () => uuidv4(),
+    secret: "sdfgLSgfm#sme@asdl*asd3S",
+    resave: true,
+    cookie: { maxAge: 10 * 24 * 60 * 60 * 1000 },
     saveUninitialized: true,
-    cookie: { secure: true },
-  }),
+  })
 );
+app.use(setLangCookie);
 app.use(router);
 
 
