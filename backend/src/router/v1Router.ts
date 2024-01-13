@@ -1,9 +1,17 @@
 import { Router } from "express";
 
+import authRouter from "../resources/auth/auth.router";
 import eventoRouter from "../resources/evento/evento.router";
 import compraRouter from "../resources/compra/compra.router";
 
 const router = Router();
+
+
+router.use(
+	"/auth",
+  // #swagger.tags = ['Auth']
+	authRouter
+);
 
 router.use(
   "/evento",
