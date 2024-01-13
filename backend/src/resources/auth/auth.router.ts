@@ -9,10 +9,6 @@ import authController from "../auth/auth.controller";
 const router = Router();
 
 
-router.get("/", (req: Request, res: Response) => {
-    res.send("Rotas de autenticação")
-});
-
 router.post("/",
 validarSchema(schemasUsuario.schemaCadastroUsuario),
     authController.cadastrar
