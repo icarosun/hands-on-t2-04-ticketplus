@@ -37,7 +37,7 @@ async function cadastrar (req: Request, res: Response) {
 	}
 }
 
-async function logar (req: Request, res: Response) {
+async function login (req: Request, res: Response) {
 	/**
 	 *  Campos na requisição:
 	 * 		- email
@@ -60,4 +60,11 @@ async function logar (req: Request, res: Response) {
 	}
 }
 
-export default { cadastrar, logar };
+async function logout (req: Request, res: Response) {
+	req.session.destroy((error) => {
+		if (error) res.status(500).json({ msg: "Erro ao tentar efetuar o logout" });
+		return res.status(200).json({ msg: "Usuario deslogado com sucesso" });
+	})
+}
+
+export default { cadastrar, login, logout };
