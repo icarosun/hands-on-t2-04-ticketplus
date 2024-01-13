@@ -1,68 +1,65 @@
-import swaggerAutogen from 'swagger-autogen';
-import dotenv from 'dotenv';
+import swaggerAutogen from "swagger-autogen";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 const doc = {
-    info: {
-        title: "Api da loja virtual",
-        description: "Documentação da API da Loja Virtual no Web Academy"
+  info: {
+    title: "Api do TicketPlus",
+    description: "Documentação da API - TicketPlus",
+  },
+  host: `${process.env.HOST}:${process.env.PORT}`,
+  definitions: {
+    CreateCompraDto: {
+      usuarioId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
+      eventoId: "19454928-0f2b-44e6-ba87-8e65a1fff615",
+      qtde_ingressos: 3,
+      valor_total: 32.5,
+      status: "Pago",
+      forma_pagamento: "Cartão de Crédito",
     },
-    host: `${process.env.HOST}:${process.env.PORT}`,
-    // exemplo de um dado de entidade
-    definitions: {
-        ReturnReadAllEventos: [{
-                    "id": "19a233e8-fc69-4f14-b21f-9a27003c31bd",
-                    "nome": "arraoz",
-                    "preco": 2,
-                    "estoque": 1,
-                    "createdAt": "2023-11-01T00:31:02.184Z",
-                    "updatedAt": "2023-11-01T00:31:02.184Z"
-                },
-                {
-                    "id": "72091312-1ba3-4b60-9f0c-4f7ce128ebd2",
-                    "nome": "Mouse",
-                    "preco": 379,
-                    "estoque": 5,
-                    "createdAt": "2023-11-07T22:01:08.554Z",
-                    "updatedAt": "2023-11-11T14:00:35.424Z"
-                },
-                {
-                    "id": "ad6d2f8c-b32b-42d2-832a-6bef04fd4158",
-                    "nome": "arroz",
-                    "preco": 2,
-                    "estoque": 1,
-                    "createdAt": "2023-11-01T00:30:15.445Z",
-                    "updatedAt": "2023-11-01T00:30:15.445Z"
-                },
-                {
-                    "id": "b066e5b6-6bf5-4718-8f42-9290102734bd",
-                    "nome": "arraozss",
-                    "preco": 2,
-                    "estoque": 1,
-                    "createdAt": "2023-11-01T00:33:27.057Z",
-                    "updatedAt": "2023-11-01T00:33:27.057Z"
-                },
-                {
-                    "id": "ba28ccab-59dc-4872-8fd0-419cc765f3ce",
-                    "nome": "Salad",
-                    "preco": 439,
-                    "estoque": 3,
-                    "createdAt": "2023-11-07T22:06:20.656Z",
-                    "updatedAt": "2023-11-07T22:06:20.656Z"
-                },
-                {
-                    "id": "f733fc26-2f0c-4df2-8728-45761518fb61",
-                    "nome": "feijão",
-                    "preco": 2.56,
-                    "estoque": 1,
-                    "createdAt": "2023-11-07T21:47:49.170Z",
-                    "updatedAt": "2023-11-07T21:47:49.170Z"
-                }]
-    }
+    ReturnReadAllEventos: [
+      {
+        id: "19454928-0f2b-44e6-ba87-8e65a1fff615",
+        titulo: "Chiado da Chinela",
+        localizacao: "Av. Torquato Tapajós, nº 207",
+        faixaEtaria: 18,
+        categoria: "Show de Forró",
+        createdAt: "2024-01-13T15:04:31.647Z",
+        updatedAt: "2024-01-13T15:04:31.647Z",
+      },
+      {
+        id: "19454928-0f2b-44e6-ba87-8e65a1fff616",
+        titulo: "Suá sem dó",
+        localizacao: "Av. do Turismo, nº 1033",
+        faixaEtaria: 23,
+        categoria: "Show de Forró Pisapé",
+        createdAt: "2024-01-13T15:04:31.647Z",
+        updatedAt: "2024-01-13T15:04:31.647Z",
+      },
+      {
+        id: "19454928-0f2b-44e6-ba87-8e65a1fff617",
+        titulo: "Galinha Pintadinha - ao vivo",
+        localizacao: "Rua Empaminondas, nº 2",
+        faixaEtaria: 5,
+        categoria: "Festa Infantil",
+        createdAt: "2024-01-13T15:04:31.647Z",
+        updatedAt: "2024-01-13T15:04:31.647Z",
+      },
+      {
+        id: "19454928-0f2b-44e6-ba87-8e65a1fff618",
+        titulo: "Javascript Mental",
+        localizacao: "Rua Timbiras, nº 555",
+        faixaEtaria: 30,
+        categoria: "Workshop",
+        createdAt: "2024-01-13T15:04:31.647Z",
+        updatedAt: "2024-01-13T15:04:31.647Z",
+      },
+    ],
+  },
 };
 
 const outputFile = `${__dirname}/swagger-doc.json`;
-const routers = [`${__dirname}/router/index.ts`]
+const routers = [`${__dirname}/router/index.ts`];
 
-swaggerAutogen()(outputFile,routers,doc);
+swaggerAutogen()(outputFile, routers, doc);

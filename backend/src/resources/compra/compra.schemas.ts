@@ -1,5 +1,10 @@
-import Joi, { Schema } from 'joi';
+import Joi, { Schema } from "joi";
 
-export const eventoSchema: Schema = Joi.object().keys({
-    
-})
+export const compraSchema: Schema = Joi.object().keys({
+  usuarioId: Joi.string().length(36).required(),
+  eventoId: Joi.string().length(36).required(),
+  qtde_ingressos: Joi.number().min(1).required(),
+  valor_total: Joi.number().precision(2).required(),
+  status: Joi.string().max(50).required(),
+  forma_pagamento: Joi.string().max(50).required(),
+});
