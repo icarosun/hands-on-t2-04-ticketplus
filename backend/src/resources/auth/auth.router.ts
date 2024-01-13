@@ -4,18 +4,24 @@ import { Router } from "express";
 import schemasUsuario from "../usuario/usuario.schemas";
 import { validarSchema } from "../../middlewares/validarSchema";
 import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
+import { usuarioNaoAutenticado } from "../../middlewares/usuarioNaoAutenticado";
 import authController from "../auth/auth.controller";
 
 const router = Router();
 
 
+router.get("/", (req: Request, res: Response) => {
+    res.send(req.session);
+})
+
 router.post("/",
-validarSchema(schemasUsuario.schemaCadastroUsuario),
+    validarSchema(schemasUsuario.schemaCadastroUsuario),
     authController.cadastrar
 );
 
 router.put("/",
     validarSchema(schemasUsuario.schemaLoginUsuario),
+    usuarioNaoAutenticado,
     authController.login
 );
 

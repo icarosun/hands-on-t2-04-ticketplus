@@ -9,17 +9,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT ?? 3000;
 
-app.use(express.json());
-app.use(
-  session({
-    secret: 'secret secret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true },
-  }),
-);
-app.use(router);
-
 
 /* interface CompraIngresso {
   usuarioId: string;
@@ -37,6 +26,17 @@ declare module "express-session" {
     // carrinho: CompraIngresso[];
   }
 }
+
+app.use(express.json());
+app.use(
+  session({
+    secret: 'secret secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  }),
+);
+app.use(router);
 
 
 app.listen(PORT, () => {
