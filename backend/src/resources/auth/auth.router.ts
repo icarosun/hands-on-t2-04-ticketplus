@@ -3,7 +3,7 @@ import { Router } from "express";
 
 import schemasUsuario from "../usuario/usuario.schemas";
 import { validarSchema } from "../../middlewares/validarSchema";
-import { isAuth } from "../../middlewares/isAuth";
+import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
 import authController from "../auth/auth.controller";
 
 const router = Router();
@@ -20,7 +20,7 @@ router.put("/",
 );
 
 router.delete("/",
-    isAuth,
+    usuarioAutenticado,
     authController.logout
 );
 
