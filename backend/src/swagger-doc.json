@@ -1,0 +1,131 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Api do TicketPlus",
+    "description": "Documentação da API - TicketPlus",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3333",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/v1/evento/": {
+      "get": {
+        "tags": [
+          "Evento"
+        ],
+        "summary": "Exibe todos os eventos.",
+        "description": "Exibe todos os eventos existentes no banco de dados",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReturnReadAllEventos"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/v1/compra/": {
+      "post": {
+        "tags": [
+          "Compra"
+        ],
+        "summary": "Adiciona uma compra no banco.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateCompraDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CreateCompraDto": {
+      "type": "object",
+      "properties": {
+        "usuarioId": {
+          "type": "string",
+          "example": "19454928-0f2b-44e6-ba87-8e65a1fff621"
+        },
+        "eventoId": {
+          "type": "string",
+          "example": "19454928-0f2b-44e6-ba87-8e65a1fff615"
+        },
+        "qtde_ingressos": {
+          "type": "number",
+          "example": 3
+        },
+        "valor_total": {
+          "type": "number",
+          "example": 32.5
+        },
+        "status": {
+          "type": "string",
+          "example": "Pago"
+        },
+        "forma_pagamento": {
+          "type": "string",
+          "example": "Cartão de Crédito"
+        }
+      }
+    },
+    "ReturnReadAllEventos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "19454928-0f2b-44e6-ba87-8e65a1fff618"
+          },
+          "titulo": {
+            "type": "string",
+            "example": "Javascript Mental"
+          },
+          "localizacao": {
+            "type": "string",
+            "example": "Rua Timbiras, nº 555"
+          },
+          "faixaEtaria": {
+            "type": "number",
+            "example": 30
+          },
+          "categoria": {
+            "type": "string",
+            "example": "Workshop"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2024-01-13T15:04:31.647Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-01-13T15:04:31.647Z"
+          }
+        }
+      }
+    }
+  }
+}

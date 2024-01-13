@@ -1,10 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
+import swaggerUi from "swagger-ui-express";
+import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { v4 as uuidv4 } from "uuid";
 
 import { setLangCookie } from "./middlewares/setLangCookie";
+import swaggerFile from "./swagger-doc.json";
 import router from "./router";
 
 dotenv.config();
@@ -30,7 +33,9 @@ declare module "express-session" {
   }
 }
 
+app.use(morgan("combined"));
 app.use(express.json());
+app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(cookieParser());
 app.use(
   session({

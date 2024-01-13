@@ -5,22 +5,29 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "nodemon -e js,json,ts,yaml src/index.ts",
-    "swagger": "ts-node src/swagger.ts"
+    "swagger": "ts-node src/swagger.ts",
+    "migrate": "docker exec -it ticketplus_backend npx prisma migrate dev",
+    "seed": "docker exec -it ticketplus_backend npx prisma db seed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^20.10.6",
+    "@types/swagger-jsdoc": "^6.0.1",
+    "@types/swagger-ui-express": "^4.1.6",
     "@types/cookie-parser": "^1.4.6",
     "@types/node": "^20.10.6",
     "@types/uuid": "^9.0.7",
     "nodemon": "^3.0.1",
     "prisma": "^5.7.1",
+    "swagger-autogen": "^2.23.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "prisma": {
-    "mock": "ts-node prisma/mock.ts"
+    "seed": "ts-node ./prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.7.1",
@@ -34,6 +41,8 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "joi": "^17.11.0",
+    "morgan": "^1.10.0",
+    "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.1"
   }
 }

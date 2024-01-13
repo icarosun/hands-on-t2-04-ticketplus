@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -10,51 +11,61 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Evento {
-  id              String      @id @default(uuid()) @db.Char(36)
-  titulo          String      @db.VarChar(100)
-  localizacao     String      @db.VarChar(100)
-  faixaEtaria     Int         @db.Int
-  ingressosEvento Ingressos[]
-  Categorias      Categorias  @relation(fields: [categoriaId], references: [id])
-  categoriaId     String      @db.Char(36)
-  createdAt       DateTime    @default(now()) @map("created_at")
-  updatedAt       DateTime    @updatedAt @map("updated_at")
-
-  @@map("eventos")
-}
-
 model Usuario {
-  id              String        @id @default(uuid()) @db.Char(36)
-  nome            String        @db.VarChar(100)
-  sobrenome       String        @db.VarChar(300)
-  email           String        @unique @db.VarChar(100)
-  senha           String        @db.VarChar(100)
-  tipoUsuario     String        @db.Char(40)
-  createdAt       DateTime      @default(now()) @map("created_at")
-  updatedAt       DateTime      @updatedAt @map("updated_at")
+  id             String   @id @default(uuid()) @db.Char(36)
+  nome           String   @db.VarChar(100)
+  sobrenome      String   @db.VarChar(100)
+  email          String   @unique @db.VarChar(100)
+  senha          String   @db.VarChar(100)
+  tipoUsuario    String   @db.Char(36)
+  usuarioTickets Ticket[]
+  usuarioCompras Compra[]
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@map("usuarios")
 }
 
-model Ingressos {
-  id               String             @id @default(uuid()) @db.Char(36)
-  valor            Decimal            @db.Decimal(9, 2)
-  quantidade       Int                @db.Int
-  evento           Evento             @relation(fields: [eventoId], references: [id])
-  eventoId         String             @db.Char(36)
-  createdAt        DateTime           @default(now()) @map("created_at")
-  updatedAt        DateTime           @updatedAt @map("updated_at")
+model Evento {
+  id            String   @id @default(uuid()) @db.Char(36)
+  titulo        String   @db.VarChar(100)
+  localizacao   String   @db.VarChar(100)
+  faixaEtaria   Int      @db.Int
+  eventoTickets Ticket[]
+  eventoCompras Compra[]
+  categoria     String   @db.VarChar(100)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
-  @@map("ingressos")
+  @@map("eventos")
 }
 
-model Categorias {
+model Ticket {
+  id         String   @id @default(uuid()) @db.Char(36)
+  valor      Decimal  @db.Decimal(9, 2)
+  quantidade Int      @db.Int
+  evento     Evento   @relation(fields: [eventoId], references: [id])
+  eventoId   String   @db.Char(36)
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId  String   @db.Char(36)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("tickets")
+}
+
+model Compra {
   id              String   @id @default(uuid()) @db.Char(36)
-  descricao       String   @db.VarChar(100)
-  categoriaEvento Evento[]
+  usuario         Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId       String   @db.Char(36)
+  evento          Evento   @relation(fields: [eventoId], references: [id])
+  eventoId        String   @db.Char(36)
+  qtde_ingressos  Int      @db.Int
+  valor_total     Decimal  @db.Decimal(9, 2)
+  status          String   @db.VarChar(50)
+  forma_pagamento String   @db.VarChar(50)
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
 
-  @@map("categorias")
+  @@map("compras")
 }
