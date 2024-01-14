@@ -10,3 +10,5 @@ export async function index (req: Request, res: Response) {
         res.status(500).json(error);
     }
 }
+
+export default { index }

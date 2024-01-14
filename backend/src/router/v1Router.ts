@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import authRouter from "../resources/auth/auth.router";
+import usuarioRouter from "../resources/usuario/usuario.router";
 import eventoRouter from "../resources/evento/evento.router";
 import compraRouter from "../resources/compra/compra.router";
 
@@ -12,6 +13,12 @@ router.use(
   // #swagger.tags = ['Auth']
 	authRouter
 );
+
+router.use(
+  "/usuario",
+  // #swagger.tags = ['Usuario']
+  usuarioRouter
+)
 
 router.use(
   "/evento",
