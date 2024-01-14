@@ -9,6 +9,7 @@ export type CreateCompraDto = Pick<
   | "status"
   | "forma_pagamento"
 >;
+
 export type UpdateCompraDto = Pick<
   Compra,
   | "eventoId"

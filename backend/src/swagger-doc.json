@@ -5,12 +5,85 @@
     "description": "Documentação da API - TicketPlus",
     "version": "1.0.0"
   },
-  "host": "localhost:3333",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
+    "/v1/auth/": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/v1/evento/": {
       "get": {
         "tags": [
@@ -43,13 +116,16 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/CreateCompraDto"
+              "$ref": "#/definitions/ModeloCompraSwagger"
             }
           }
         ],
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "422": {
             "description": "Unprocessable Entity"
@@ -62,13 +138,9 @@
     }
   },
   "definitions": {
-    "CreateCompraDto": {
+    "ModeloCompraSwagger": {
       "type": "object",
       "properties": {
-        "usuarioId": {
-          "type": "string",
-          "example": "19454928-0f2b-44e6-ba87-8e65a1fff621"
-        },
         "eventoId": {
           "type": "string",
           "example": "19454928-0f2b-44e6-ba87-8e65a1fff615"

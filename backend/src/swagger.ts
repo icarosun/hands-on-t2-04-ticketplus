@@ -10,8 +10,7 @@ const doc = {
   },
   host: `${process.env.HOST}:${process.env.PORT}`,
   definitions: {
-    CreateCompraDto: {
-      usuarioId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
+    ModeloCompraSwagger: {
       eventoId: "19454928-0f2b-44e6-ba87-8e65a1fff615",
       qtde_ingressos: 3,
       valor_total: 32.5,

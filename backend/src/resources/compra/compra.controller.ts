@@ -3,13 +3,18 @@ import { createCompra } from "./compra.service";
 import { CreateCompraDto } from "./compra.types";
 
 const create = async (req: Request, res: Response) => {
-  /* #swagger.summary = 'Adiciona uma compra no banco.'
+  /* 
+    #swagger.summary = 'Adiciona uma compra no banco.'
         #swagger.parameters['body'] = {
       in: 'body',
-      schema: { $ref: '#/definitions/CreateCompraDto'}
+      schema: { $ref: '#/definitions/ModeloCompraSwagger'}
     }
-    */
-  const compra = req.body as CreateCompraDto;
+  */
+  let compra = req.body as CreateCompraDto;
+  compra = {
+    ...compra,
+    usuarioId: String(req.session.uid)
+  }
   try {
     const newCompra = await createCompra(compra);
     res.status(201).json(newCompra);
