@@ -5,7 +5,7 @@ dotenv.config();
 
 const doc = {
   info: {
-    title: "Api do TicketPlus",
+    title: "API do TicketPlus",
     description: "Documentação da API - TicketPlus",
   },
   host: `${process.env.HOST}:${process.env.PORT}`,
