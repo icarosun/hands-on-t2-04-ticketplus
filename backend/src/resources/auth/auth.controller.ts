@@ -6,6 +6,13 @@ import { CadastroUsuarioDto, LoginDto } from "./auth.types";
 import { defineTipoUsuarioId } from "../../utils/defineTipoUsuarioId";
 
 async function cadastrar (req: Request, res: Response) {
+	/*
+   		#swagger.summary = 'Cadastra um usuário.'
+   		#swagger.parameters['body'] = {
+        	in: 'body',
+        	schema: { $ref: '#/definitions/CadastraUsuario' }
+   		}
+  	*/
 	const usuario = req.body as CadastroUsuarioDto;
 	try {
 		if (await buscaUsuarioPorEmail(usuario.email))
@@ -18,11 +25,13 @@ async function cadastrar (req: Request, res: Response) {
 }
 
 async function login (req: Request, res: Response) {
-	/**
-	 *  Campos na requisição:
-	 * 		- email
-	 * 		- senha
-	 */
+	/*
+   		#swagger.summary = "Faz o login de usuário."
+   		#swagger.parameters['body'] = {
+			in: 'body',
+			schema: { $ref: '#/definitions/Login' }
+   		}
+   */
 	const credenciais = req.body as LoginDto;
 	try {
 		const usuario = await autenticar(credenciais);
@@ -41,6 +50,9 @@ async function login (req: Request, res: Response) {
 }
 
 async function logout (req: Request, res: Response) {
+	/*
+		#swagger.summary = "Logout de usuário."
+  	*/
 	req.session.destroy((error) => {
 		if (error) res.status(500).json({ msg: "Erro ao tentar efetuar o logout" });
 		return res.status(200).json({ msg: "Usuario deslogado com sucesso" });

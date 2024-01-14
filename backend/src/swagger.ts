@@ -55,6 +55,40 @@ const doc = {
         updatedAt: "2024-01-13T15:04:31.647Z",
       },
     ],
+    Usuarios: [
+      {
+        "id": "0b2ea4ac-ba7d-4605-8b4a-d2752f4cab23",
+        "nome": "Comprador",
+        "sobrenome": "Usuario",
+        "email": "compradorusuario@usuario.com",
+        "senha": "$2a$10$wspOMexHYHDxs9ewX99M5.4RYVDJuPppzpaoj/pnH7Sjedq1Vaja.",
+        "tipoUsuario": "daf7a4e1-3345-49a5-809d-55bb4d0633d7",
+        "createdAt": "2024-01-13T06:12:38.916Z",
+        "updatedAt": "2024-01-13T06:12:38.916Z"
+      },
+      {
+        "id": "18b39e33-8aa5-4a6f-9f2c-c62eef849145",
+        "nome": "Organizador",
+        "sobrenome": "Usuario",
+        "email": "organizadorusuario@usuario.com",
+        "senha": "$2a$10$OM56.XNwB1g5hb3wwSt5lOZ4zduxZ8osQUODcFtrosfqL7oTizawO",
+        "tipoUsuario": "60124bd9-8654-4717-ba11-deda3df4e0bb",
+        "createdAt": "2024-01-13T15:22:34.130Z",
+        "updatedAt": "2024-01-13T15:22:34.130Z"
+      }
+    ],
+    CadastraUsuario: {
+      "nome": "João",
+      "sobrenome": "Silva",
+      "email": "joaosilva@usuario.com",
+      "senha": "Senhamuitoforte680$",
+      "repeteSenha": "Senhamuitoforte680$",
+      "tipoUsuario": "comprador"
+    },
+    Login: {
+      "email": "joaosilva@usuario.com",
+      "senha": "Senhamuitoforte680$"
+    }
   },
 };
 

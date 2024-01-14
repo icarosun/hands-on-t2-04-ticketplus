@@ -16,18 +16,14 @@
         "tags": [
           "Auth"
         ],
+        "summary": "Cadastra um usuário.",
         "description": "",
         "parameters": [
           {
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/CadastraUsuario"
             }
           }
         ],
@@ -50,7 +46,17 @@
         "tags": [
           "Auth"
         ],
+        "summary": "Faz o login de usuário.",
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -70,6 +76,7 @@
         "tags": [
           "Auth"
         ],
+        "summary": "Logout de usuário.",
         "description": "",
         "responses": {
           "200": {
@@ -89,10 +96,14 @@
         "tags": [
           "Usuario"
         ],
+        "summary": "Exibe todos os usuários.",
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Usuarios"
+            }
           },
           "500": {
             "description": "Internal Server Error"
@@ -212,6 +223,88 @@
             "type": "string",
             "example": "2024-01-13T15:04:31.647Z"
           }
+        }
+      }
+    },
+    "Usuarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "18b39e33-8aa5-4a6f-9f2c-c62eef849145"
+          },
+          "nome": {
+            "type": "string",
+            "example": "Organizador"
+          },
+          "sobrenome": {
+            "type": "string",
+            "example": "Usuario"
+          },
+          "email": {
+            "type": "string",
+            "example": "organizadorusuario@usuario.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "$2a$10$OM56.XNwB1g5hb3wwSt5lOZ4zduxZ8osQUODcFtrosfqL7oTizawO"
+          },
+          "tipoUsuario": {
+            "type": "string",
+            "example": "60124bd9-8654-4717-ba11-deda3df4e0bb"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2024-01-13T15:22:34.130Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-01-13T15:22:34.130Z"
+          }
+        }
+      }
+    },
+    "CadastraUsuario": {
+      "type": "object",
+      "properties": {
+        "nome": {
+          "type": "string",
+          "example": "João"
+        },
+        "sobrenome": {
+          "type": "string",
+          "example": "Silva"
+        },
+        "email": {
+          "type": "string",
+          "example": "joaosilva@usuario.com"
+        },
+        "senha": {
+          "type": "string",
+          "example": "Senhamuitoforte680$"
+        },
+        "repeteSenha": {
+          "type": "string",
+          "example": "Senhamuitoforte680$"
+        },
+        "tipoUsuario": {
+          "type": "string",
+          "example": "comprador"
+        }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "joaosilva@usuario.com"
+        },
+        "senha": {
+          "type": "string",
+          "example": "Senhamuitoforte680$"
         }
       }
     }
