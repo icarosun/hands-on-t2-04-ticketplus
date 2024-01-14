@@ -6,25 +6,6 @@ import { CadastroUsuarioDto, LoginDto } from "./auth.types";
 import { defineTipoUsuarioId } from "../../utils/defineTipoUsuarioId";
 
 async function cadastrar (req: Request, res: Response) {
-	/*
-	 * Campos na requisição:
-	 *	- nome
-	 *	- sobrenome
-	 *	- email
-	 *	- senha
-	 *	- senhaRepetida
-	 *	- tipoUsuarioId
-	 *		-- id do comprador (daf7a4e1-3345-49a5-809d-55bb4d0633d7)
-	 *		-- id do organizador (60124bd9-8654-4717-ba11-deda3df4e0bb)
-	* */
-	/* A requisição deve ser dropada caso:
-	 *  - Algum campo estiver vazio
-	 *  - Os campos primeiroNome/sobrenome apresentem caracteres numéricos ou especiais
-	 *  - O campo email não apresente uma sintaxe de email correta
-	 *  - A senha não seja forte o suficiente
-	 *  - O valor de "senhaRepetida" não seja igual ao de "senha"
-	 *  - O campo de tipoUsuario seja diferente de "comprador" AND (&&) diferente de "organizador"
-	*/ 	
 	const usuario = req.body as CadastroUsuarioDto;
 	try {
 		if (await buscaUsuarioPorEmail(usuario.email))

@@ -14,7 +14,7 @@ const create = async (req: Request, res: Response) => {
   compra = {
     ...compra,
     usuarioId: String(req.session.uid)
-  }
+  };
   try {
     const newCompra = await createCompra(compra);
     res.status(201).json(newCompra);
