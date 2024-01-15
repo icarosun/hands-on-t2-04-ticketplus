@@ -1,10 +1,26 @@
 import { Request, Response } from "express";
+
+import { getAllCompras } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { CreateCompraDto } from "./compra.types";
 import { getTicketByEvento } from "../ticket/ticket.service";
 import { TicketDto } from "../ticket/tickets.types";
 import { Decimal } from "@prisma/client/runtime/library";
 
+
+const index = async (req: Request, res: Response) => {
+  /* #swagger.summary = 'Exibe todas as compras.'
+    #swagger.description = 'Exibe todos as compras existentes no banco de dados'
+        #swagger.responses[200] = {
+            schema: { $ref: '#/definitions/Compras' }
+  } */
+  try {
+    const compras = await getAllCompras();
+    res.status(200).json({compras});
+  } catch (error) {
+    res.status(500).json({error});
+  }
+}
 
 const create = async (req: Request, res: Response) => {
   /* 
@@ -31,8 +47,8 @@ const create = async (req: Request, res: Response) => {
     await createCompra(compra);
     res.status(201).json({ msg: "Compra realizada com sucesso" });
   } catch (e) {
-    res.status(500).json(e);
+    res.status(500).json({e});
   }
 };
 
-export default { create };
+export default { index, create };

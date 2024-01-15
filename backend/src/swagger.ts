@@ -15,6 +15,35 @@ const doc = {
       qtde_ingressos: 3,
       forma_pagamento: "Cartão de Crédito",
     },
+    Compras: [
+      {
+        id: "b470d926-bba1-4a8f-af29-0aab82a24643",
+        usuarioId: "0b2ea4ac-ba7d-4605-8b4a-d2752f4cab23",
+        eventoId: "19454928-0f2b-44e6-ba87-8e65a1fff615",
+        qtde_ingressos: 100,
+        valor_total: 59.99,
+        status: "Pago",
+        forma_pagamento: "PIX"
+      },
+      {
+        id: "73fc3562-ef65-4d06-9916-d70d14f9affb",
+        usuarioId: "0b2ea4ac-ba7d-4605-8b4a-d2752f4cab23",
+        eventoId: "19454928-0f2b-44e6-ba87-8e65a1fff616",
+        qtde_ingressos: 50,
+        valor_total: 39.89,
+        status: "Pago",
+        forma_pagamento: "Cartão de Crédito"
+      },
+      {
+        id: "b8684ba0-106d-4d91-94fc-f3a4caae151b",
+        usuarioId: "0b2ea4ac-ba7d-4605-8b4a-d2752f4cab23",
+        eventoId: "19454928-0f2b-44e6-ba87-8e65a1fff617",
+        qtde_ingressos: 5000,
+        valor_total: 199.99,
+        status: "Pago",
+        forma_pagamento: "Boleto"
+      }
+    ],
     ReturnReadAllEventos: [
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff615",

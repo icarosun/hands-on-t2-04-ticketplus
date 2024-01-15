@@ -5,7 +5,7 @@
     "description": "Documentação da API - TicketPlus",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "localhost:5000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -132,6 +132,24 @@
       }
     },
     "/v1/compra/": {
+      "get": {
+        "tags": [
+          "Compra"
+        ],
+        "summary": "Exibe todas as compras.",
+        "description": "Exibe todos as compras existentes no banco de dados",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Compras"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
       "post": {
         "tags": [
           "Compra"
@@ -148,9 +166,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "201": {
             "description": "Created"
           },
@@ -185,6 +200,42 @@
         "forma_pagamento": {
           "type": "string",
           "example": "Cartão de Crédito"
+        }
+      }
+    },
+    "Compras": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "b8684ba0-106d-4d91-94fc-f3a4caae151b"
+          },
+          "usuarioId": {
+            "type": "string",
+            "example": "0b2ea4ac-ba7d-4605-8b4a-d2752f4cab23"
+          },
+          "eventoId": {
+            "type": "string",
+            "example": "19454928-0f2b-44e6-ba87-8e65a1fff617"
+          },
+          "qtde_ingressos": {
+            "type": "number",
+            "example": 5000
+          },
+          "valor_total": {
+            "type": "number",
+            "example": 199.99
+          },
+          "status": {
+            "type": "string",
+            "example": "Pago"
+          },
+          "forma_pagamento": {
+            "type": "string",
+            "example": "Boleto"
+          }
         }
       }
     },
