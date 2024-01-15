@@ -7,12 +7,6 @@ export const compraSchema: Schema = Joi.object({
   qtde_ingressos: Joi.number()
     .min(1)
     .required(),
-  valor_total: Joi.number()
-    .precision(2)
-    .required(),
-  status: Joi.string()
-    .max(50)
-    .required(),
   forma_pagamento: Joi.string()
     .valid(
       "PIX",

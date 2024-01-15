@@ -3,6 +3,7 @@ import { CreateCompraDto } from "./compra.types";
 
 const prisma = new PrismaClient();
 
+
 export const createCompra = async (
   compra: CreateCompraDto
 ): Promise<Compra> => {
