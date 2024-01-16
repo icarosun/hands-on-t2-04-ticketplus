@@ -18,9 +18,9 @@ async function cadastrar (req: Request, res: Response) {
 		if (await buscaUsuarioPorEmail(usuario.email))
 			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })
 		await cadastrarUsuario(req.body);
-		res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
+		return res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
 	} catch (error) {
-		res.status(500).json(error);
+		return res.status(500).json(error);
 	}
 }
 
@@ -43,9 +43,9 @@ async function login (req: Request, res: Response) {
 		req.session.sobrenomeUsuario = usuario.sobrenome;
 		req.session.email = usuario.email;
 		req.session.tipoUsuarioId = tipoUsuarioId;
-		res.status(200).json({ msg: "Login realizado com sucesso" });
+		return res.status(200).json({ msg: "Login realizado com sucesso" });
 	} catch (error) {
-		res.status(500).json(error);
+		return res.status(500).json(error);
 	}
 }
 

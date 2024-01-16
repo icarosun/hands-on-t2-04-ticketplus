@@ -11,9 +11,9 @@ export async function index (req: Request, res: Response) {
     */
     try {
         const usuarios = await listaUsuarios();
-        res.status(200).json(usuarios);
+        return res.status(200).json(usuarios);
     } catch (error) {
-        res.status(500).json(error);
+        return res.status(500).json(error);
     }
 }
 

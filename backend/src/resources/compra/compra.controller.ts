@@ -16,9 +16,9 @@ const index = async (req: Request, res: Response) => {
   } */
   try {
     const compras = await getAllCompras();
-    res.status(200).json({compras});
+    return res.status(200).json({compras});
   } catch (error) {
-    res.status(500).json({error});
+    return res.status(500).json({error});
   }
 }
 
@@ -35,7 +35,7 @@ const create = async (req: Request, res: Response) => {
   try {
     const ticketEvento = await getTicketByEvento(compra.eventoId) as TicketDto;
     if (!ticketEvento)
-      res.status(404).json({ msg: "O evento informado nao possui tickets" })
+      return res.status(404).json({ msg: "O evento informado nao possui tickets" })
     const valorTicket: number = ticketEvento.valor as unknown as number;
     const valor_total: number = valorTicket * qtde_ingressos;
     compra = {
@@ -45,9 +45,9 @@ const create = async (req: Request, res: Response) => {
       status: "Pago"
     };
     await createCompra(compra);
-    res.status(201).json({ msg: "Compra realizada com sucesso" });
+    return res.status(201).json({ msg: "Compra realizada com sucesso" });
   } catch (e) {
-    res.status(500).json({e});
+    return res.status(500).json({e});
   }
 };
 

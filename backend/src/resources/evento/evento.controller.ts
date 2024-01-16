@@ -9,9 +9,9 @@ const index = async (req: Request, res: Response) => {
   } */
   try {
     const eventos = await getAllEventos();
-    res.status(200).json(eventos);
+    return res.status(200).json(eventos);
   } catch (e) {
-    res.status(500).json(e);
+    return res.status(500).json(e);
   }
 };
 
