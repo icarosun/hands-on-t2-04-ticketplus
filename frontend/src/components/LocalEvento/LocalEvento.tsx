@@ -2,11 +2,15 @@ import { faLocationDot, faMapPin } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { ListGroup, Modal } from 'react-bootstrap';
+import { HttpInstance } from '../../utils/http';
 
 const LocalEventoModal = () => {
     const [showModal, setShowModal] = useState(false);
 
-    const handleShow = () => setShowModal(true);
+    const handleShow = () => {
+        HttpInstance.initHttp();
+        setShowModal(true);
+    }
     const handleClose = () => setShowModal(false);
 
     return (
