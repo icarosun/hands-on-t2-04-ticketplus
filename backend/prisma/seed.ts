@@ -11,6 +11,8 @@ async function evento() {
         localizacao: "Av. Torquato Tapajós, nº 207",
         faixaEtaria: 18,
         categoria: "Show de Forró",
+        descricao:
+          "Forró estilo pé de serra. Mulher não paga. Cerveja liberada a partir da 00:00",
       },
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff616",
@@ -18,6 +20,8 @@ async function evento() {
         localizacao: "Av. do Turismo, nº 1033",
         faixaEtaria: 23,
         categoria: "Show de Forró Pisapé",
+        descricao:
+          "Forró ao céu aberto, com piscina e bar liberado até 1h da manhã.",
       },
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff617",
@@ -25,6 +29,8 @@ async function evento() {
         localizacao: "Rua Empaminondas, nº 2",
         faixaEtaria: 5,
         categoria: "Festa Infantil",
+        descricao:
+          "Ambiente fechado e climatizado, crianças de até 8 anos tem entrada franca.",
       },
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff618",
@@ -32,6 +38,17 @@ async function evento() {
         localizacao: "Rua Timbiras, nº 555",
         faixaEtaria: 30,
         categoria: "Workshop",
+        descricao:
+          "Aprenda como otimizar o seu raciocínio quântico para a programação web.",
+      },
+      {
+        id: "19454928-0f2b-44e6-ba87-8e65a1fff619",
+        titulo: "Amazon Games",
+        localizacao: "Rua Maceió, nº 7",
+        faixaEtaria: 40,
+        categoria: "Workshop Gamer",
+        descricao:
+          "Venha conhecer os diversos jogos e mercadorias do mundo gamer.",
       },
     ],
     skipDuplicates: true,
@@ -43,19 +60,19 @@ async function usuario() {
     data: [
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff621",
-        nome: "Tarcisio",
-        sobrenome: "Moreira",
+        nome: "WebAcademy",
+        sobrenome: "Silva",
         tipoUsuario: "daf7a4e1-3345-49a5-809d-55bb4d0633d7",
-        senha: "123456",
-        email: "tarcisio.moreira@gmail.com",
+        senha: "$2a$10$KSQe4QRqp30agHrkr1rueOvRQHi8hobNZmeWyIGQENz678.haa7PO", //Senha: 12345678
+        email: "webacademy@email.com",
       },
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff622",
-        nome: "Josenilda",
-        sobrenome: "Amarantes",
+        nome: "Luiz",
+        sobrenome: "Silva",
         tipoUsuario: "daf7a4e1-3345-49a5-809d-55bb4d0633d7",
-        senha: "1234567",
-        email: "josenilda.amarantes@hotmail.com",
+        senha: "$2a$10$u0WWbaKvdNNRzZgbtPDwFORMmFdbvWVNOyvd0qxGziyF7F9TA5VgG", // Senha: 12345678
+        email: "joaosilva@usuario.com",
       },
     ],
     skipDuplicates: true,

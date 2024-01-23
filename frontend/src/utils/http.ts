@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "../../node_modules/axios/index";
+import axios, { AxiosInstance } from "axios";
 
 export const headers: Readonly<Record<string, string | boolean>> = {
   Accept: "application/json",
@@ -15,8 +15,8 @@ class Http {
   }
 
   initHttp() {
-    const PORT_BACK =  import.meta.env.PORT_BACK;
-    const apiUrl = `http://localhost:${PORT_BACK}`;
+    const PORT_BACK = import.meta.env.VITE_PORT_BACK;
+    const apiUrl = `http://localhost:${PORT_BACK}/v1`;
     console.log(apiUrl);
     const http = axios.create({
       baseURL: apiUrl,
