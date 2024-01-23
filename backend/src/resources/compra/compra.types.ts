@@ -4,18 +4,18 @@ export type CreateCompraDto = Pick<
   Compra,
   | "eventoId"
   | "usuarioId"
-  | "qtde_ingressos"
-  | "valor_total"
+  | "qtdeIngressos"
+  | "valorTotal"
   | "status"
-  | "forma_pagamento"
+  | "formaPagamento"
 >;
 
 export type UpdateCompraDto = Pick<
   Compra,
   | "eventoId"
   | "usuarioId"
-  | "qtde_ingressos"
-  | "valor_total"
+  | "qtdeIngressos"
+  | "valorTotal"
   | "status"
-  | "forma_pagamento"
+  | "formaPagamento"
 >;

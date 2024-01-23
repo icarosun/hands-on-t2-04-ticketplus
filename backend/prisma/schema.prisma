@@ -31,6 +31,7 @@ model Evento {
   titulo        String   @db.VarChar(100)
   localizacao   String   @db.VarChar(100)
   faixaEtaria   Int      @db.Int
+  descricao     String   @db.VarChar(200)
   eventoTickets Ticket[]
   eventoCompras Compra[]
   categoria     String   @db.VarChar(100)
@@ -41,31 +42,31 @@ model Evento {
 }
 
 model Ticket {
-  id         String    @id @default(uuid()) @db.Char(36)
-  valor      Decimal   @db.Decimal(9, 2)
-  quantidade Int       @db.Int
-  evento     Evento    @relation(fields: [eventoId], references: [id])
-  eventoId   String    @db.Char(36)
-  usuario    Usuario?  @relation(fields: [usuarioId], references: [id])
-  usuarioId  String?   @db.Char(36)
-  createdAt  DateTime  @default(now()) @map("created_at")
-  updatedAt  DateTime  @updatedAt @map("updated_at")
+  id         String   @id @default(uuid()) @db.Char(36)
+  valor      Decimal  @db.Decimal(9, 2)
+  quantidade Int      @db.Int
+  evento     Evento   @relation(fields: [eventoId], references: [id])
+  eventoId   String   @db.Char(36)
+  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId  String   @db.Char(36)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
 
   @@map("tickets")
 }
 
 model Compra {
-  id              String   @id @default(uuid()) @db.Char(36)
-  usuario         Usuario  @relation(fields: [usuarioId], references: [id])
-  usuarioId       String   @db.Char(36)
-  evento          Evento   @relation(fields: [eventoId], references: [id])
-  eventoId        String   @db.Char(36)
-  qtde_ingressos  Int      @db.Int
-  valor_total     Decimal  @db.Decimal(9, 2)
-  status          String   @db.VarChar(50)
-  forma_pagamento String   @db.VarChar(50)
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(uuid()) @db.Char(36)
+  usuario        Usuario  @relation(fields: [usuarioId], references: [id])
+  usuarioId      String   @db.Char(36)
+  evento         Evento   @relation(fields: [eventoId], references: [id])
+  eventoId       String   @db.Char(36)
+  qtdeIngressos  Int      @db.Int
+  valorTotal     Decimal  @db.Decimal(9, 2)
+  status         String   @db.VarChar(50)
+  formaPagamento String   @db.VarChar(50)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@map("compras")
 }
