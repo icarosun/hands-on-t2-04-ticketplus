@@ -43,7 +43,11 @@ async function login (req: Request, res: Response) {
 		req.session.sobrenomeUsuario = usuario.sobrenome;
 		req.session.email = usuario.email;
 		req.session.tipoUsuarioId = tipoUsuarioId;
-		return res.status(200).json({ msg: "Login realizado com sucesso" });
+		return res.status(200).json({
+			nome: usuario.nome,
+			sobrenome: usuario.sobrenome,
+			email: usuario.email
+		});
 	} catch (error) {
 		return res.status(500).json(error);
 	}

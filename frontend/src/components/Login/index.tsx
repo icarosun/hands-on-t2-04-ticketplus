@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { login, User } from "../../services/login.service";
+import { login, Usuario } from "../../services/login.service";
 import { setSession } from "../../redux/slices/session.slice";
 
 const LoginModal = () => {
@@ -22,16 +22,15 @@ const LoginModal = () => {
 
   async function doLogin() {
     try {
-      const res: User = await login(email, password);
-      localStorage.setItem("user", JSON.stringify(res));
+      const dadosUsuario: Usuario = await login(email, password);
       navigate("/paginacomprador");
       dispatch(setSession({
-        name: 'nome',
-        surname: 'sobrenome',
-        email: 'email'
+        nome: dadosUsuario.nome,
+        sobrenome: dadosUsuario.sobrenome,
+        email: dadosUsuario.email
       }));
     } catch (error) {
-      //ToastError("Verifique suas credências e tente novamente");
+      //ToastError("Verifique suas credenciais e tente novamente");
       console.log(error);
     }
   }

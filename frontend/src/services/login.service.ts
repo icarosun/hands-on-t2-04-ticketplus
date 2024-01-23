@@ -1,17 +1,22 @@
 import { HttpInstance } from "../utils/http";
 
-export interface User {
+export interface Usuario {
+  nome: string;
+  sobrenome: string;
   email: string;
 }
 
-export async function login(email: string, senha: string): Promise<User> {
-  const result = await HttpInstance.http.put("/auth", { email, senha });
+export async function login(email: string, senha: string): Promise<Usuario> {
+  const res = await HttpInstance.http.put("/auth", { email, senha });
+  const usuario = res.data as Usuario;
 
-  if (result.status !== 200) throw Error();
+  if (res.status !== 200) throw Error();
 
-  const user: User = {
-    email: email,
+  const dadosUsuario: Usuario = {
+    nome: usuario.nome,
+    sobrenome: usuario.sobrenome,
+    email: usuario.email,
   };
 
-  return user;
+  return dadosUsuario;
 }
