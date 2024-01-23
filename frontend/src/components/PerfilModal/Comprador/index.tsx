@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, ListGroup, OverlayTrigger, Popover } from 'react-bootstrap';
 import { logout } from '../../../services/logout.service';
+import { setSession } from '../../../redux/slices/session.slice';
 
 const PerfilCompradorModal = () => {
     const [showPopover, setShowPopover] = useState(false);
     
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const popoverStyle = {
@@ -24,9 +27,9 @@ const PerfilCompradorModal = () => {
     async function doLogout () {
         try {
             const res = await logout();
-            navigate("/");
+            console.log(res);
         } catch (error) {
-            console.error(error);
+            console.error(error.response.data.msg);
         }
     }
 

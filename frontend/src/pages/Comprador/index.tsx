@@ -17,13 +17,13 @@ import { defineSessaoUsuario } from '../../utils/defineSessaoUsuario.ts';
 export default function PaginaComprador() {
     const [isMenuOpen, setMenuOpen] = useState(false);
 
-    /*useEffect(() => {
-        defineSessaoUsuario();
-    }, []);*/
-
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
+
+    useEffect(() => {
+        defineSessaoUsuario();
+    }, []);
 
     return (
         <div className="App">

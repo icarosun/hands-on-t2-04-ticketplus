@@ -58,9 +58,9 @@ async function logout (req: Request, res: Response) {
 		#swagger.summary = "Logout de usuário."
   	*/
 	req.session.destroy((error) => {
-		if (error) res.status(500).json({ msg: "Erro ao tentar efetuar o logout" });
-		return res.status(200).json({ msg: "Usuario deslogado com sucesso" });
-	})
+		if (error) res.status(500).json(error);
+		res.status(200).json({ msg: "Usuário deslogado com sucesso." });
+	});
 }
 
 export default { cadastrar, login, logout };
