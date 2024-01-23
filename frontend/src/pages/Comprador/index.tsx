@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { Collapse, Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,12 +12,19 @@ import {
     faFutbol,
     faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
+import { defineSessaoUsuario } from '../../utils/defineSessaoUsuario.ts';
+
 export default function PaginaComprador() {
     const [isMenuOpen, setMenuOpen] = useState(false);
+
+    /*useEffect(() => {
+        defineSessaoUsuario();
+    }, []);*/
 
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
+
     return (
         <div className="App">
             <h5 className="ms-5 mt-5">

@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CarrouselEventos from '../../components/CarrouselEventos/index.tsx';
 import { useState } from 'react';
 import ListaGeralEventos from '../../components/ListaGeralEventos/index.tsx';
+
+
 export default function PaginaInicial() {
     const [isMenuOpen, setMenuOpen] = useState(false);
 

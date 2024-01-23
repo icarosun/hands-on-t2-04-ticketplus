@@ -6,7 +6,7 @@ export interface Usuario {
   email: string;
 }
 
-export async function login(email: string, senha: string): Promise<Usuario | null> {
+export async function login (email: string, senha: string): Promise<Usuario | null> {
   const res = await HttpInstance.http.put("/auth", { email, senha });
   if (res.status === 401) return null;
   const usuario = res.data as Usuario;

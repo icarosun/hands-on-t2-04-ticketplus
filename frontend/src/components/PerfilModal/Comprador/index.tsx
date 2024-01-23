@@ -1,10 +1,14 @@
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
 import { Button, ListGroup, OverlayTrigger, Popover } from 'react-bootstrap';
+import { logout } from '../../../services/logout.service';
 
 const PerfilCompradorModal = () => {
     const [showPopover, setShowPopover] = useState(false);
+    
+    const navigate = useNavigate();
 
     const popoverStyle = {
         backgroundColor: '#fff',
@@ -16,6 +20,15 @@ const PerfilCompradorModal = () => {
     };
 
     const handleToggle = () => setShowPopover(!showPopover);
+
+    async function doLogout () {
+        try {
+            const res = await logout();
+            navigate("/");
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     //const handleClose = () => setShowPopover(false);
 
@@ -47,7 +60,7 @@ const PerfilCompradorModal = () => {
                             </ListGroup.Item>
                         </ListGroup>
                         <div className="d-grid gap-2">
-                            <button type="button" className="btn btn-outline-secondary btn-sm mt-3">Logout</button>
+                            <button type="button" className="btn btn-outline-secondary btn-sm mt-3" onClick={doLogout}>Logout</button>
                         </div>
                     </div>
                 </Popover>

@@ -3,7 +3,7 @@ import { Usuario, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function getSessaoUsuario (idUsuario: string): Promise<Usuario | null> {
-    return await prisma.usuario.findUnique({
+    return await prisma.usuario.findFirst({
         where: {
             id: idUsuario
     }});

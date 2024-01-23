@@ -7,7 +7,6 @@ const router = Router();
 
 
 router.get("/",
-    usuarioAutenticado,
     sessaoController.index
 );
 
