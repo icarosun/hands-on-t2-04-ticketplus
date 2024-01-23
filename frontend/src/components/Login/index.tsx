@@ -16,22 +16,23 @@ const LoginModal = () => {
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
-  /*  const chamaPaginaDoComprador = () => {
-    navigate("/paginacomprador");
-  };*/
 
   async function doLogin() {
     try {
-      const dadosUsuario: Usuario = await login(email, password);
-      navigate("/paginacomprador");
+      const dadosUsuario: Usuario | null = await login(email, password);
       dispatch(setSession({
-        nome: dadosUsuario.nome,
-        sobrenome: dadosUsuario.sobrenome,
-        email: dadosUsuario.email
+        nome: dadosUsuario?.nome,
+        sobrenome: dadosUsuario?.sobrenome,
+        email: dadosUsuario?.email
       }));
+      navigate("/paginacomprador");
     } catch (error) {
-      //ToastError("Verifique suas credenciais e tente novamente");
-      console.log(error);
+      const errorStatus = error.response.status;
+      if (errorStatus === 401) {
+        alert("Usuário e/ou senha inválidos");
+        return;
+      }
+      console.error(error);
     }
   }
 
