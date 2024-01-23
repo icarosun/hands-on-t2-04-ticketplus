@@ -5,6 +5,7 @@ import swaggerUi from "swagger-ui-express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { v4 as uuidv4 } from "uuid";
+import cors from "cors";
 
 import { setLangCookie } from "./middlewares/setLangCookie";
 import swaggerFile from "./swagger-doc.json";
@@ -14,7 +15,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
-
+const frontendUrl = process.env.FRONTEND_URL;
 
 /* interface CompraIngresso {
   usuarioId: string;
@@ -34,6 +35,7 @@ declare module "express-session" {
 }
 
 app.use(morgan("combined"));
+app.use(cors({ credentials: true, origin: frontendUrl }));
 app.use(express.json());
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(cookieParser());
@@ -48,7 +50,6 @@ app.use(
 );
 app.use(setLangCookie);
 app.use(router);
-
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando SUAVEMENTE na porta ${PORT}`);
