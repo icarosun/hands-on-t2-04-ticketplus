@@ -17,7 +17,6 @@ class Http {
   initHttp() {
     const PORT_BACK = import.meta.env.VITE_PORT_BACK;
     const apiUrl = `http://localhost:${PORT_BACK}/v1`;
-    console.log(apiUrl);
     const http = axios.create({
       baseURL: apiUrl,
       headers,

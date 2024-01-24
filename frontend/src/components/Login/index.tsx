@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { login, User } from "../../services/login.service";
+import { login, Usuario } from "../../services/login.service";
+import { setSession } from "../../redux/slices/session.slice";
 
 const LoginModal = () => {
+  const dispatch = useDispatch();
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
 
@@ -13,18 +16,23 @@ const LoginModal = () => {
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
-  /*  const chamaPaginaDoComprador = () => {
-    navigate("/paginacomprador");
-  };*/
 
   async function doLogin() {
     try {
-      const res: User = await login(email, password);
-      localStorage.setItem("user", JSON.stringify(res));
+      const dadosUsuario: Usuario | null = await login(email, password);
+      dispatch(setSession({
+        nome: dadosUsuario?.nome,
+        sobrenome: dadosUsuario?.sobrenome,
+        email: dadosUsuario?.email
+      }));
       navigate("/paginacomprador");
     } catch (error) {
-      //ToastError("Verifique suas credências e tente novamente");
-      console.log(error);
+      const errorStatus = error.response.status;
+      if (errorStatus === 401) {
+        alert("Usuário e/ou senha inválidos");
+        return;
+      }
+      console.error(error);
     }
   }
 

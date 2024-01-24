@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CarrouselEventos from '../../components/CarrouselEventos/index.tsx';
 import { useState } from 'react';
 import ListaGeralEventos from '../../components/ListaGeralEventos/index.tsx';
+
+
 export default function PaginaInicial() {
     const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -45,7 +47,6 @@ export default function PaginaInicial() {
                 </Collapse>
             </Container>
             <div className='mt-5 ms-5 me-5'>
-                <CarrouselEventos></CarrouselEventos>
                 <ListaGeralEventos></ListaGeralEventos>
             </div>
         </div>

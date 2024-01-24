@@ -1,3 +1,32 @@
+import { HttpInstance } from "../../utils/http";
+
+
+interface ProductDataType {
+  id: string;
+  imageUrl: string;
+  titulo: string;
+  localizacao: string;
+  descricao: string;
+}
+
+export const productData: ProductDataType[] = [];
+
+const res = await HttpInstance.http.get("/evento");
+const eventos = res.data;
+
+console.log(eventos);
+
+eventos.map((data: ProductDataType) => {
+  productData.push({
+    id: data.id,
+    imageUrl: "https://images.sympla.com.br/65818da477050-xs.png",
+    titulo: data.titulo,
+    localizacao: data.localizacao,
+    descricao: data.descricao
+  })
+})
+ 
+
 export const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -18,70 +47,3 @@ export const responsive = {
       items: 1,
     },
   };
-  
-  export const productData = [
-    {
-      id: 1,
-      imageurl:
-        "https://images.sympla.com.br/65818da477050-xs.png",
-      name: "Evento LoremIpsum",
-      place: "Manaus",
-      description: "Some text about the product..",
-    },
-    {
-      id: 2,
-      imageurl:
-        "https://images.sympla.com.br/659b22bf6e054-xs.jpg",
-        name: "Evento LoremIpsum",
-      place: "Manaus",
-      description: "Some text about the product..",
-    },
-    {
-      id: 3,
-      imageurl:
-      "https://images.sympla.com.br/65818da477050-xs.png",
-      name: "Evento LoremIpsum",
-      place: "Manaus",
-      description: "Some text about the product..",
-    },
-    {
-      id: 4,
-      imageurl:
-      "https://images.sympla.com.br/65818da477050-xs.png",
-      name: "Evento LoremIpsum",
-      place: "Manaus",
-      description: "Some text about the product..",
-    },
-    {
-      id: 5,
-      imageurl:
-        "https://images.sympla.com.br/659b22bf6e054-xs.jpg",
-        name: "Evento LoremIpsum",
-      place: "Manaus",
-      description: "Some text about the product..",
-    },
-    {
-      id: 6,
-      imageurl:
-        "https://images.sympla.com.br/659b22bf6e054-xs.jpg",
-        name: "Evento LoremIpsum",
-      place: "Manaus",
-      description: "Some text about the product..",
-    },
-    {
-      id: 7,
-      imageurl:
-        "https://images.sympla.com.br/659b22bf6e054-xs.jpg",
-        name: "Evento LoremIpsum",
-      place: "Manaus",
-      description: "Some text about the product..",
-    },
-    {
-      id: 8,
-      imageurl:
-        "https://images.sympla.com.br/659b22bf6e054-xs.jpg",
-        name: "Evento LoremIpsum",
-      place: "Manaus",
-      description: "Some text about the product..",
-    },
-  ];
