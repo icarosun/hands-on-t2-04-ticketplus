@@ -1,13 +1,44 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
-import LocalEventoModal from '../../LocalEvento/LocalEvento.tsx';
-import CarrinhoModal from '../../CarrinhoDeCompra/CarrinhoDeCompra.tsx';
 import PerfilCompradorModal from '../../PerfilModal/Comprador/index.tsx';
+import SaldoComponente from '../../CarteiraUsuario/CarteiraItem.tsx';
+import IngressosComprados from '../../IngressosComprados/IngressosComprados.tsx';
 
 const NavbarComprador = () => {
+    const saldoAtual = 25.50;
+    const ingressos = [
+        {
+            id: 1,
+            imageUrlEvento: "https://ufam.edu.br/images/Artigos/2023/04-Abril/DC_2.jpg",
+            nomeEvento: "Nome do Evento",
+            localEvento: "Local do Evento",
+            dataEvento: "01/01/2023",
+            quantidadeIngressos: 2,
+            nomeProprietario: "Proprietário 1",
+        },
+        {
+            id: 2,
+            imageUrlEvento: "https://ufam.edu.br/images/Artigos/2023/04-Abril/DC_2.jpg",
+            nomeEvento: "Nome do Evento",
+            localEvento: "Local do Evento",
+            dataEvento: "01/01/2023",
+            quantidadeIngressos: 2,
+            nomeProprietario: "Proprietário 1",
+        },
+        {
+            id: 3,
+            imageUrlEvento: "https://ufam.edu.br/images/Artigos/2023/04-Abril/DC_2.jpg",
+            nomeEvento: "Nome do Evento",
+            localEvento: "Local do Evento",
+            dataEvento: "01/01/2023",
+            quantidadeIngressos: 2,
+            nomeProprietario: "Proprietário 1",
+        },
+    ];
+
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{height:'80px'}}>
+        <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ height: '80px' }}>
             <div className="container-fluid">
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -31,9 +62,9 @@ const NavbarComprador = () => {
                             className="form-control"
                             placeholder="Pesquisar Evento"
                             aria-label="Search"
-                            style={{width:'400px', height:'45px', border:'0', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)'}}
+                            style={{ width: '400px', height: '45px', border: '0', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)' }}
                         />
-                        <button className="btn btn-primary" type="submit" style={{width:'60px'}}>
+                        <button className="btn btn-primary" type="submit" style={{ width: '60px' }}>
                             <FontAwesomeIcon icon={faSearch} />
                         </button>
                     </div>
@@ -44,10 +75,10 @@ const NavbarComprador = () => {
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0 ustify-content-end">
 
                             <li className="nav-item">
-                                <LocalEventoModal></LocalEventoModal>
+                                <SaldoComponente saldo={saldoAtual} />
                             </li>
                             <li className="nav-item">
-                                <CarrinhoModal></CarrinhoModal>
+                                <IngressosComprados ingressos={ingressos}></IngressosComprados>
                             </li>
                             <li className="nav-item">
                                 <PerfilCompradorModal></PerfilCompradorModal>

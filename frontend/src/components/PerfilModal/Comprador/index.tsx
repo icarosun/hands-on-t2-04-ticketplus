@@ -51,7 +51,7 @@ const PerfilCompradorModal = () => {
                     <div className="text-center">
                         {/* Foto de perfil circular */}
                         <img
-                            src="https://cdn-icons-png.flaticon.com/128/826/826823.png"
+                            src="https://webacademy.icomp.ufam.edu.br/assets/img/logo_letra_branca.png"
                             alt="Foto de Perfil"
                             className="mb-3"
                             width="50"

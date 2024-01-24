@@ -67,7 +67,7 @@ export default function PaginaComprador() {
 }
 const categorias = [
     { nome: "Teatros", icon: faMasksTheater },
-    { nome: "Festas e Shows", icon: faChampagneGlasses },
+    { nome: "Festas", icon: faChampagneGlasses },
     { nome: "Gastronomia", icon: faBurger },
     { nome: "Workshops", icon: faGraduationCap },
     { nome: "Tecnologia", icon: faMicrochip },
