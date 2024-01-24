@@ -20,7 +20,7 @@ class Http {
     const http = axios.create({
       baseURL: apiUrl,
       headers,
-      withCredentials: false,
+      withCredentials: true,
     });
 
     this.instance = http;
