@@ -2,9 +2,9 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import SignUpModal from '../../SignUp/index.tsx';
-import LocalEventoModal from '../../LocalEvento/LocalEvento.tsx';
+//import LocalEventoModal from '../../LocalEvento/LocalEvento.tsx';
 import LoginModal from '../../Login/index.tsx';
-import CarrinhoModal from '../../CarrinhoDeCompra/CarrinhoDeCompra.tsx';
+//import CarrinhoModal from '../../CarrinhoDeCompra/CarrinhoDeCompra.tsx';
 
 const Navbar = () => {
   return (
@@ -52,12 +52,12 @@ const Navbar = () => {
           </form>
 
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
+            {/*<li className="nav-item">
               <LocalEventoModal></LocalEventoModal>
             </li>
             <li className="nav-item">
               <CarrinhoModal></CarrinhoModal>
-            </li>
+            </li>*/}
             <li className="nav-item">
               <LoginModal></LoginModal>
             </li>

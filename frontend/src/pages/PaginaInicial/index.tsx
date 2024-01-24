@@ -1,7 +1,6 @@
 import { Container, Row, Col, Card, Button, Collapse } from 'react-bootstrap';
 import { faMasksTheater, faBurger, faGraduationCap, faChampagneGlasses, faMicrochip, faFutbol, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import CarrouselEventos from '../../components/CarrouselEventos/index.tsx';
 import { useState } from 'react';
 import ListaGeralEventos from '../../components/ListaGeralEventos/index.tsx';
 export default function PaginaInicial() {
@@ -45,7 +44,6 @@ export default function PaginaInicial() {
                 </Collapse>
             </Container>
             <div className='mt-5 ms-5 me-5'>
-                <CarrouselEventos></CarrouselEventos>
                 <ListaGeralEventos></ListaGeralEventos>
             </div>
         </div>
@@ -53,7 +51,7 @@ export default function PaginaInicial() {
 }
 const categorias = [
     { nome: "Teatros", icon: faMasksTheater },
-    { nome: "Festas e Shows", icon: faChampagneGlasses },
+    { nome: "Festas", icon: faChampagneGlasses },
     { nome: "Gastronomia", icon: faBurger },
     { nome: "Workshops", icon: faGraduationCap },
     { nome: "Tecnologia", icon: faMicrochip },
