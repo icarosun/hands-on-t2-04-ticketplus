@@ -7,10 +7,10 @@ export default function CarrouselEventos() {
   const product = productData.map((item, index) => (
     <EventoModal
       key={index}
-      name={item.name}
-      url={item.imageurl}
-      place={item.place}
-      description={item.description}
+      name={item.titulo}
+      url={item.imageUrl}
+      place={item.localizacao}
+      description={item.descricao}
     />
   ));
 

@@ -21,7 +21,7 @@ model Usuario {
   usuarioTickets Ticket[]
   usuarioCompras Compra[]
   createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("usuarios")
 }
@@ -36,7 +36,7 @@ model Evento {
   eventoCompras Compra[]
   categoria     String   @db.VarChar(100)
   createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("eventos")
 }
@@ -50,7 +50,7 @@ model Ticket {
   usuario    Usuario  @relation(fields: [usuarioId], references: [id])
   usuarioId  String   @db.Char(36)
   createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("tickets")
 }
@@ -66,7 +66,7 @@ model Compra {
   status         String   @db.VarChar(50)
   formaPagamento String   @db.VarChar(50)
   createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
+  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("compras")
 }
