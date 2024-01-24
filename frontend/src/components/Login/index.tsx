@@ -29,7 +29,7 @@ const LoginModal = () => {
     } catch (error) {
       const errorStatus = error.response.status;
       if (errorStatus === 401) {
-        alert("Usuário e/ou senha inválidos");
+        alert("Usuário ou senha inválidos");
         return;
       }
       console.error(error);

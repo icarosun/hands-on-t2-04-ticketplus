@@ -26,9 +26,15 @@ const PerfilCompradorModal = () => {
 
     async function doLogout () {
         try {
-            const res = await logout();
-            console.log(res);
+            await logout();
+            dispatch(setSession({
+                nome: '',
+                sobrenome: '',
+                email: ''
+            }));
+            navigate("/");
         } catch (error) {
+            alert("Erro ao tentar realizar o logout");
             console.error(error.response.data.msg);
         }
     }

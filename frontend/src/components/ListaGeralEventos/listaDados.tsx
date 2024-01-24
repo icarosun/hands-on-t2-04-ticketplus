@@ -14,8 +14,6 @@ export const productData: ProductDataType[] = [];
 const res = await HttpInstance.http.get("/evento");
 const eventos = res.data;
 
-console.log(eventos);
-
 eventos.map((data: ProductDataType) => {
   productData.push({
     id: data.id,
