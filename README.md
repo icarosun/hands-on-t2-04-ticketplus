@@ -1,6 +1,7 @@
 # TicketPlus
 
-Comandos básicos
+Comandos básicos:
+
 cp .env.example .env -> geral
 
 cp frontend/.env.example frontend/.env
