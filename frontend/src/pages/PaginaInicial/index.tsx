@@ -47,7 +47,6 @@ export default function PaginaInicial() {
                 </Collapse>
             </Container>
             <div className='mt-5 ms-5 me-5'>
-                <CarrouselEventos></CarrouselEventos>
                 <ListaGeralEventos></ListaGeralEventos>
             </div>
         </div>

@@ -9,10 +9,10 @@ export default function ListaGeralEventos() {
         {productData.map((item, index) => (
           <div className="col mb-4" key={index}>
             <ItemModal
-              name={item.name}
-              url={item.imageurl}
-              place={item.place}
-              description={item.description}
+              name={item.titulo}
+              url={item.imageUrl}
+              place={item.localizacao}
+              description={item.descricao}
             />
           </div>
         ))}
