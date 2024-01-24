@@ -2,6 +2,14 @@ import { PrismaClient, Evento } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const getAllEventos = async ():Promise<Evento[]> => {
+export async function getAllEventos(): Promise<Evento[]> {
     return await prisma.evento.findMany();
+}
+
+export async function getEventoService (idEvento: string): Promise<Evento | null> {
+    return await prisma.evento.findUnique({
+        where: {
+            id: idEvento
+        }
+    });
 }
