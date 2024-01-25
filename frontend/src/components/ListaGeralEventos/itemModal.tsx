@@ -1,16 +1,47 @@
 import { faMapPin } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Badge } from "react-bootstrap";
 import Card from "react-bootstrap/esm/Card";
 import EventDetailsContainer from "../EventDetailsContaner/EventDetailsContainer";
+import { getDetalhesEvento } from "../../services/evento.service";
+import { DetalhesEventoType } from "../../services/evento.service";
 
-export default function ItemModal(props: { url: string | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; place: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) {
+interface EventoDataType {
+  titulo: string;
+  descricao: string;
+  localizacao: string;
+  preco: number;
+}
+
+export default function ItemModal(props: { id: string; url: string | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; place: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) {
   const [showEventDetails, setShowEventDetails] = useState(false);
+  const [eventoData, setEventoData] = useState<EventoDataType>({
+    titulo: "",
+    descricao: "",
+    localizacao: "",
+    preco: NaN
+  });
 
-  const handleCardClick = () => {
-    setShowEventDetails(true);
+  const handleCardClick = async () => {
+    try {
+      const idEvento = props.id;
+      const res = await getDetalhesEvento(idEvento);
+      setEventoData(res?.data as DetalhesEventoType);
+    } catch (error) {
+      console.log(props.id);
+    }
   };
+
+  useEffect(() => {
+    if (
+      eventoData.titulo !== ""
+      && eventoData.descricao !== ""
+      && eventoData.localizacao !== ""
+      && String(eventoData.preco) !== "NaN"
+    )
+      setShowEventDetails(true);
+  }, [eventoData])
 
   const handleCloseEventDetails = () => {
     setShowEventDetails(false);
@@ -24,7 +55,7 @@ export default function ItemModal(props: { url: string | undefined; name: string
         cursor: 'pointer',
         border: '0',
       }}
-        onClick={handleCardClick}>
+        onClick={() => handleCardClick()}>
         <Card.Body>
           <div>
             <Card.Img src={props.url} className="img-fluid rounded-start" style={{ width: '300px', height: '200px' }} />
@@ -46,10 +77,10 @@ export default function ItemModal(props: { url: string | undefined; name: string
         detailsEvent={{
           id: 0,
           imageUrl: 'https://ufam.edu.br/images/Artigos/2023/04-Abril/DC_2.jpg',
-          title: 'Evento XYZ',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-          price: 200.0,
-          place: 'Rua X, Bairro Y nº 1',
+          title: eventoData.titulo,
+          description: eventoData.descricao,
+          price: eventoData.preco,
+          place: eventoData.localizacao,
           handleAddToCart: () => { },
           handleCheckout: () => { },
         }}
