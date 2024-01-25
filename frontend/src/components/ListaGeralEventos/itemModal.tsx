@@ -6,6 +6,7 @@ import Card from "react-bootstrap/esm/Card";
 import EventDetailsContainer from "../EventDetailsContaner/EventDetailsContainer";
 import { getDetalhesEvento } from "../../services/evento.service";
 import { DetalhesEventoType } from "../../services/evento.service";
+import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
 
 interface EventoDataType {
   titulo: string;
@@ -29,9 +30,24 @@ export default function ItemModal(props: { id: string; url: string | undefined; 
       const res = await getDetalhesEvento(idEvento);
       setEventoData(res?.data as DetalhesEventoType);
     } catch (error) {
-      console.log(props.id);
+      console.error(error);
     }
   };
+
+  const handleCheckout = async () => {
+    try {
+      const res = await defineSessaoUsuario();
+      const sessaoData = res.data;
+      if (JSON.stringify(sessaoData) === "{}") {
+        alert("Realize o login para fazer a compra");
+        return
+      }
+      alert("Compra sendo realizada...");
+    } catch (error) {
+      alert("Erro ao tentar realizar a compra");
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     if (
@@ -82,7 +98,7 @@ export default function ItemModal(props: { id: string; url: string | undefined; 
           price: eventoData.preco,
           place: eventoData.localizacao,
           handleAddToCart: () => { },
-          handleCheckout: () => { },
+          handleCheckout: handleCheckout,
         }}
         handleClose={handleCloseEventDetails}
       />
