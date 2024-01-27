@@ -58,9 +58,9 @@ const IngressosComprados: React.FC<IngressosCompradosProps> = ({ ingressos }) =>
 
                                     {/* Segunda coluna */}
                                     <Col md={6}>
-                                        <p>
+                                        {/*<p>
                                             <strong>Data:</strong> {ingresso.dataEvento}
-                                        </p>
+                                        </p>*/}
                                         <p>
                                             <strong>Quantidade de Ingressos:</strong>{" "}
                                             <Badge bg="primary">{ingresso.quantidadeIngressos}</Badge>

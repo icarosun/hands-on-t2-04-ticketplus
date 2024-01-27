@@ -8,6 +8,7 @@ export async function listaUsuarios (): Promise<Usuario[] | null> {
 }
 
 export async function buscaUsuarioPorEmail (email: string | undefined): Promise<Usuario | null> {
+	if (email === undefined) return null;
 	return await prisma.usuario.findUnique({
 		where: { email }
 	});

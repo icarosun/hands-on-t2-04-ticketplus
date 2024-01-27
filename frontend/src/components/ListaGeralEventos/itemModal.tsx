@@ -48,8 +48,10 @@ export default function ItemModal(props: { id: number; url: string | undefined; 
         return
       }
       const resCompra = await compraTicket(eventoId);
-      if (resCompra.status === 201)
+      if (resCompra.status === 201) {
         alert("Compra realizada com sucesso");
+        location.reload();
+      }
     } catch (error) {
       const errorStatus = error.response.status;
       if (errorStatus === 401) {

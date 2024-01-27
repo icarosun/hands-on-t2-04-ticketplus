@@ -6,7 +6,7 @@ import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
 
 const router = Router();
 
-// Rota adicionada apenas para fins de verificação das compras na API. Não deve permanecer na versão final, a "versão de produção"
+// Rota adicionada apenas para fins de verificação das compras na API, não deve permanecer na versão final
 router.get("/",
     compraController.index
 );
