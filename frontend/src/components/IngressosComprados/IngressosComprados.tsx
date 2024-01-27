@@ -3,6 +3,8 @@ import { Modal, Button, Card, Badge, Row, Col, Figure } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTicket } from "@fortawesome/free-solid-svg-icons";
+import { InfoIngressoType } from "../Navbar/Comprador";
+
 
 interface Ingresso {
     id: number;
@@ -15,7 +17,7 @@ interface Ingresso {
 }
 
 interface IngressosCompradosProps {
-    ingressos: Ingresso[];
+    ingressos: InfoIngressoType[];
 }
 
 const IngressosComprados: React.FC<IngressosCompradosProps> = ({ ingressos }) => {

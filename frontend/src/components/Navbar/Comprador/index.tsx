@@ -11,18 +11,20 @@ import { defineSessaoUsuario } from '../../../utils/defineSessaoUsuario.ts';
 import { CompraType } from '../../../services/listaIngressos.ts';
 import { listaIngressos } from '../../../services/listaIngressos.ts';
 
-const NavbarComprador = () => {
-    const [saldoAtual, setSaldoAtual] = useState<number>(0);
-    const [ingressos, setIngressos] = useState<InfoIngressoType[]>([]);
+export interface InfoIngressoType {
+    id: number;
+    imageUrlEvento: string;
+    nomeEvento: string;
+    localEvento: string;
+    quantidadeIngressos: number;
+    nomeProprietario: string;
+}
 
-    interface InfoIngressoType {
-        id: number;
-        imageUrlEvento: string;
-        nomeEvento: string;
-        localEvento: string;
-        quantidadeIngressos: number;
-        nomeProprietario: string;
-    }
+const NavbarComprador = () => {
+    const [saldoAtual, setSaldoAtual] = useState<number | undefined>(undefined);
+    const [ingressos, setIngressos] = useState<InfoIngressoType[]>([]);
+    const [mostraSpinner, setMostraSpinner] = useState(true);
+
 
 
     const navigate = useNavigate();
@@ -59,6 +61,10 @@ const NavbarComprador = () => {
             }
         })();
     }, []);
+
+    useEffect(() => {
+        if (saldoAtual !== undefined) setMostraSpinner(false);
+    }, [saldoAtual]);
     
 
 
@@ -97,10 +103,10 @@ const NavbarComprador = () => {
 
                 <div className="nav justify-content-end">
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 ustify-content-end">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 justify-content-end align-items-center">
 
                             <li className="nav-item">
-                                <SaldoComponente saldo={saldoAtual} />
+                                <SaldoComponente saldo={saldoAtual} spinner={mostraSpinner}/>
                             </li>
                             <li className="nav-item">
                                 <IngressosComprados ingressos={ingressos}></IngressosComprados>

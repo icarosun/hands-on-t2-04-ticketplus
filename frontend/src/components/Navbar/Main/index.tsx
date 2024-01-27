@@ -25,7 +25,7 @@ const Navbar = () => {
         <div className="navbar-brand">
           <div className="container text-center">
             <div className="row d-flex justify-content-center align-items-center">
-              <div className="col">
+              <div className="col d-flex">
                 <FontAwesomeIcon icon={faTicket}></FontAwesomeIcon>
               </div>
               <div className="col mb-0">
