@@ -69,6 +69,7 @@ async function usuario() {
         tipoUsuario: "daf7a4e1-3345-49a5-809d-55bb4d0633d7",
         senha: "$2a$10$KSQe4QRqp30agHrkr1rueOvRQHi8hobNZmeWyIGQENz678.haa7PO", //Senha: 12345678
         email: "webacademy@email.com",
+        saldo: 60.66
       },
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff622",
@@ -76,6 +77,7 @@ async function usuario() {
         tipoUsuario: "daf7a4e1-3345-49a5-809d-55bb4d0633d7",
         senha: "$2a$10$u0WWbaKvdNNRzZgbtPDwFORMmFdbvWVNOyvd0qxGziyF7F9TA5VgG", // Senha: 12345678
         email: "joaosilva@usuario.com",
+        saldo: 25.5
       },
     ],
     skipDuplicates: true,
