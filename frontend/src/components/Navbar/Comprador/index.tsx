@@ -53,7 +53,7 @@ const NavbarComprador = () => {
                 });
                 setIngressos(ingressosAux);
             } catch (error) {
-                alert("Erro ao tentar obter a sessão do usuário");
+                navigate("/");
                 console.error(error);
             }
         })();

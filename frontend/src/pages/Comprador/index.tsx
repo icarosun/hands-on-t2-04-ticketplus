@@ -12,18 +12,22 @@ import {
     faFutbol,
     faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
-import { defineSessaoUsuario } from '../../utils/defineSessaoUsuario.ts';
+import { useNavigate } from 'react-router-dom';
 
 export default function PaginaComprador() {
     const [isMenuOpen, setMenuOpen] = useState(false);
 
+    const navigate = useNavigate();
+    
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
 
     useEffect(() => {
-        defineSessaoUsuario();
+        if (!localStorage.email || localStorage.email === "undefined")
+            navigate("/");
     }, []);
+
 
     return (
         <div className="App">

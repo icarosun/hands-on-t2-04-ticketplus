@@ -4,9 +4,24 @@ import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import SignUpModal from '../../SignUp/index.tsx';
 //import LocalEventoModal from '../../LocalEvento/LocalEvento.tsx';
 import LoginModal from '../../Login/index.tsx';
+import { useEffect } from 'react';
+import { defineSessaoUsuario } from '../../../utils/defineSessaoUsuario.ts';
 //import CarrinhoModal from '../../CarrinhoDeCompra/CarrinhoDeCompra.tsx';
 
 const Navbar = () => {
+
+  useEffect(() => {
+    (async () => {
+        try {
+            const resSessao = await defineSessaoUsuario();
+            if (resSessao.status === 308) window.location.href = "/";
+        } catch (error) {
+            window.location.href = "/";
+            console.error(error);
+        }
+    })();
+}, []);
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ height: '80px' }}>
       <div className="container-fluid">
