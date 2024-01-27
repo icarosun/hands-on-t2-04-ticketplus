@@ -1,13 +1,10 @@
 import Joi, { Schema } from "joi";
 
 export const compraSchema: Schema = Joi.object({
-  usuarioId: Joi.string()
-    .length(36)
-    .required(),
   eventoId: Joi.string()
     .length(36)
     .required(),
-  forma_pagamento: Joi.string()
+  formaPagamento: Joi.string()
     .valid(
       "PIX",
       "Cartão de Crédito",

@@ -4,6 +4,7 @@ export type CreateCompraDto = Pick<
   Compra,
   | "usuarioId"
   | "eventoId"
+  | "ticketId"
   | "formaPagamento"
   | "valor"
   | "status"

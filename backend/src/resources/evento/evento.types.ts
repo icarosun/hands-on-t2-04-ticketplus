@@ -6,4 +6,5 @@ export type EventoDto = Pick<Evento,
   | "localizacao"
   | "categoria"
   | "faixaEtaria"
+  | "preco"
 >;

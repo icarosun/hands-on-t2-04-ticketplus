@@ -4,10 +4,11 @@ import { getAllCompras } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { CreateCompraDto } from "./compra.types";
 import { getEventoService } from "../evento/evento.service";
+import { createTicketService } from "../ticket/ticket.service";
 import { EventoDto } from "../evento/evento.types";
 import { Decimal } from "@prisma/client/runtime/library";
 
-const index = async (req: Request, res: Response) => {
+async function index  (req: Request, res: Response) {
   /* #swagger.summary = 'Exibe todas as compras.'
     #swagger.description = 'Exibe todos as compras existentes no banco de dados'
         #swagger.responses[200] = {
@@ -21,7 +22,7 @@ const index = async (req: Request, res: Response) => {
   }
 };
 
-const create = async (req: Request, res: Response) => {
+async function create (req: Request, res: Response) {
   /* 
     #swagger.summary = 'Adiciona uma compra no banco.'
         #swagger.parameters['body'] = {
@@ -29,26 +30,26 @@ const create = async (req: Request, res: Response) => {
       schema: { $ref: '#/definitions/Compra'}
     }
   */
-  /*const dadosCompra = req.body as CreateCompraDto;
-  const usuarioId = dadosCompra.usuarioId;
+  const dadosCompra = req.body as CreateCompraDto;
   const eventoId = dadosCompra.eventoId;
-  const formaPagamento = dadosCompra.formaPagamento;
   // const qtdeIngressos: number = dadosCompra.qtdeIngressos;
   try {
-    const evento = getEventoService(eventoId) as unknown as EventoDto;
-    const valorTicket: number = evento.;
-    const valorTotal: number = valorTicket * qtdeIngressos;
+    const evento = await getEventoService(eventoId) as unknown as EventoDto;
+    const valor: Decimal = evento.preco as unknown as Decimal;
+    const novoTicket = await createTicketService(eventoId);
+    const ticketId = novoTicket.id;
     const compra = {
-      ...dadosCompra,
+      ...dadosCompra, // eventoId, formaPagamento
       usuarioId: String(req.session.uid),
-      valorTotal: valorTotal as unknown as Decimal,
+      ticketId: ticketId,
+      valor: valor,
       status: "Pago",
     };
     await createCompra(compra);
     return res.status(201).json({ msg: "Compra realizada com sucesso" });
   } catch (e) {
     return res.status(500).json({ e });
-  }*/
+  }
 };
 
 export default { index, create };
