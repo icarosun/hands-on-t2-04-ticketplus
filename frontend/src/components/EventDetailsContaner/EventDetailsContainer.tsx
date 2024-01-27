@@ -1,8 +1,8 @@
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import { Figure, Modal } from 'react-bootstrap';
 
-import { setQtdeIngressos } from '../../redux/slices/app.slice';
+// import { setQtdeIngressos } from '../../redux/slices/app.slice';
 
 interface TicketQuantityProps {
     quantity: number;
@@ -99,7 +99,7 @@ const EventDetailsContainer: React.FC<EventDetailsContainerProps> = ({ show, han
                                     src={detailsEvent.imageUrl}
                                 />
                             </Figure>
-                            <p><strong>Preço:</strong> R$ {detailsEvent.price}</p>
+                            <p><strong>Preço:</strong> R$ {String(detailsEvent.price).replace(".",",")}</p>
                             <p><strong>Local do Evento:</strong> {detailsEvent.place}</p>
                         </div>
                         <div className="col-md-6">
