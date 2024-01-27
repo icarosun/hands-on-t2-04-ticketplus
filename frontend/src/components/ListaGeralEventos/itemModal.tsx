@@ -8,7 +8,6 @@ import { getDetalhesEvento } from "../../services/evento.service";
 import { DetalhesEventoType } from "../../services/evento.service";
 import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
 import { compraTicket } from "../../services/compra.service";
-import store from "../../redux/store";
 
 interface EventoDataType {
   titulo: string;

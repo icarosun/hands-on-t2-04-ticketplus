@@ -12,9 +12,9 @@ const SaldoComponente: React.FC<SaldoComponenteProps> = ({ saldo }) => {
     const corTexto = saldo > 0 ? "text-success" : "text-danger";
 
     return (
-        <Button variant="light" className="text-decoration-none ms-3">
+        <Button variant="light" className="text-decoration-none ms-3 d-flex flex-row align-items-center gap-1">
             <FontAwesomeIcon icon={faWallet} className='text-primary' />
-            <span className={`p ${corTexto}`}>{`R$ ${saldo.toFixed(2)}`}</span>
+            <div className={`p ${corTexto}`}>{`R$ ${String(parseFloat(String(saldo)).toFixed(2)).replace('.', ',')}`}</div>
         </Button>
     );
 };

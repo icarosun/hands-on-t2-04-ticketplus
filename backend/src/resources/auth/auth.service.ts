@@ -8,17 +8,6 @@ import { buscaUsuarioPorEmail } from "../usuario/usuario.service";
 const prisma = new PrismaClient();
 
 
-/*
-	 * Campos do argumento usuario:
-	 *	- nome
-	 *	- sobrenome
-	 *	- email
-	 *	- senha
-	 *	- senhaRepetida
-	 *	- tipoUsuarioId
-	 *		-- id do comprador (daf7a4e1-3345-49a5-809d-55bb4d0633d7)
-	 *		-- id do organizador (60124bd9-8654-4717-ba11-deda3df4e0bb)
-	* */
 export async function cadastrarUsuario (usuario: CadastroUsuarioDto): Promise<Usuario> {
 	const rounds = parseInt(process.env.SALT_ROUNDS!);
 	const salt = await genSalt(rounds);
@@ -29,6 +18,7 @@ export async function cadastrarUsuario (usuario: CadastroUsuarioDto): Promise<Us
 			nome: usuario.nome,
 			email: usuario.email,
 			senha: senha,
+			saldo: usuario.saldo,
 			tipoUsuario: tipoUsuarioId
 		}
 	});

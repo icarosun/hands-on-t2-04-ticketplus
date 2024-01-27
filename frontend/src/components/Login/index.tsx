@@ -23,7 +23,8 @@ const LoginModal = () => {
       dispatch(setSession({
         nome: dadosUsuario?.nome,
         sobrenome: dadosUsuario?.sobrenome,
-        email: dadosUsuario?.email
+        email: dadosUsuario?.email,
+        saldo: dadosUsuario?.saldo
       }));
       navigate("/paginacomprador");
     } catch (error) {

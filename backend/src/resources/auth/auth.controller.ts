@@ -42,6 +42,7 @@ async function login (req: Request, res: Response) {
 		req.session.nomeUsuario = usuario.nome;
 		req.session.email = usuario.email;
 		req.session.tipoUsuarioId = tipoUsuarioId;
+		req.session.saldo = usuario.saldo as unknown as number;
 		return res.status(200).json({
 			nome: usuario.nome,
 			email: usuario.email

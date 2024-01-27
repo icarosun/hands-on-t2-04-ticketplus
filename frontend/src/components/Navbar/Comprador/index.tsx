@@ -1,12 +1,29 @@
+import { useEffect, useState } from 'react';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import PerfilCompradorModal from '../../PerfilModal/Comprador/index.tsx';
 import SaldoComponente from '../../CarteiraUsuario/CarteiraItem.tsx';
 import IngressosComprados from '../../IngressosComprados/IngressosComprados.tsx';
+import { defineSessaoUsuario } from '../../../utils/defineSessaoUsuario.ts';
+
 
 const NavbarComprador = () => {
-    const saldoAtual = 25.50;
+    const [saldoAtual, setSaldoAtual] = useState<number>(0);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const res = await defineSessaoUsuario();
+                const saldo = res.data.saldo;
+                setSaldoAtual(saldo);
+            } catch (error) {
+                alert("Erro ao tentar obter os dados da sessão do usuário");
+                console.error(error);
+            }
+        })();
+    }, [])
+    
     const ingressos = [
         {
             id: 1,
