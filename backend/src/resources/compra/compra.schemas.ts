@@ -1,11 +1,11 @@
 import Joi, { Schema } from "joi";
 
 export const compraSchema: Schema = Joi.object({
-  eventoId: Joi.string()
+  usuarioId: Joi.string()
     .length(36)
     .required(),
-  qtde_ingressos: Joi.number()
-    .min(1)
+  ticketId: Joi.string()
+    .length(36)
     .required(),
   forma_pagamento: Joi.string()
     .valid(

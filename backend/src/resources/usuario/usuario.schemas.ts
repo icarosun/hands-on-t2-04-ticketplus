@@ -12,11 +12,11 @@ const schemaCadastroUsuario = Joi.object({
 		.max(100)
 		.pattern(new RegExp(regexNomeSobrenome))
 		.required(),
-	sobrenome: Joi.string()
+	/*sobrenome: Joi.string()
 		.min(3)
 		.max(300)
 		.pattern(new RegExp(regexNomeSobrenome))
-		.required(),
+		.required(),*/
 	email: Joi.string()
 		.email()
 		.required(),
