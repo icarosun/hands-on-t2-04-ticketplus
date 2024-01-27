@@ -3,7 +3,7 @@ import { Compra } from "@prisma/client";
 export type CreateCompraDto = Pick<
   Compra,
   | "usuarioId"
-  | "ticketId"
+  | "eventoId"
   | "formaPagamento"
   | "valor"
   | "status"
@@ -11,9 +11,5 @@ export type CreateCompraDto = Pick<
 
 export type UpdateCompraDto = Pick<
   Compra,
-  | "usuarioId"
-  | "ticketId"
-  | "formaPagamento"
-  | "valor"
   | "status"
 >;

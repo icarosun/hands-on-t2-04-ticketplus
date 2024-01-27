@@ -29,7 +29,10 @@ const create = async (req: Request, res: Response) => {
       schema: { $ref: '#/definitions/Compra'}
     }
   */
-  /*let dadosCompra = req.body as CreateCompraDto;
+  /*const dadosCompra = req.body as CreateCompraDto;
+  const usuarioId = dadosCompra.usuarioId;
+  const eventoId = dadosCompra.eventoId;
+  const formaPagamento = dadosCompra.formaPagamento;
   // const qtdeIngressos: number = dadosCompra.qtdeIngressos;
   try {
     const ticketEvento = (await getTicketByEvento(

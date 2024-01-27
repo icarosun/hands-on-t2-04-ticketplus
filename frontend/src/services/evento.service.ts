@@ -8,6 +8,6 @@ export interface DetalhesEventoType {
     data: object;
 }
 
-export async function getDetalhesEvento (idEvento: string): Promise<DetalhesEventoType | null> {
+export async function getDetalhesEvento (idEvento: number): Promise<DetalhesEventoType | null> {
     return await HttpInstance.http.get(`/evento/${idEvento}`);
 }

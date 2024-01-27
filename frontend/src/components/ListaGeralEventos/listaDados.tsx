@@ -2,7 +2,7 @@ import { HttpInstance } from "../../utils/http";
 
 
 interface ProductDataType {
-  id: string;
+  id: number;
   imageUrl: string;
   titulo: string;
   localizacao: string;
