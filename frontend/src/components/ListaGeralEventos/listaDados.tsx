@@ -7,6 +7,7 @@ interface ProductDataType {
   titulo: string;
   localizacao: string;
   descricao: string;
+  preco: number;
 }
 
 export const productData: ProductDataType[] = [];
@@ -20,7 +21,8 @@ eventos.map((data: ProductDataType) => {
     imageUrl: "https://images.sympla.com.br/65818da477050-xs.png",
     titulo: data.titulo,
     localizacao: data.localizacao,
-    descricao: data.descricao
+    descricao: data.descricao,
+    preco: data.preco
   })
 });
 

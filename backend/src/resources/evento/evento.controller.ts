@@ -27,7 +27,7 @@ async function getEvento (req: Request, res: Response) {
       titulo: evento.titulo,
       descricao: evento.descricao,
       localizacao: evento.localizacao,
-      preco: 10.0
+      preco: evento.preco
     }
     return res.status(200).json(dadosEvento);
   } catch (error) {
