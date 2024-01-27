@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { getAllCompras } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { CreateCompraDto } from "./compra.types";
-import { getTicketByEvento } from "../ticket/ticket.service";
+import { getEventoService } from "../evento/evento.service";
 import { EventoDto } from "../evento/evento.types";
 import { Decimal } from "@prisma/client/runtime/library";
 
@@ -35,14 +35,8 @@ const create = async (req: Request, res: Response) => {
   const formaPagamento = dadosCompra.formaPagamento;
   // const qtdeIngressos: number = dadosCompra.qtdeIngressos;
   try {
-    const ticketEvento = (await getTicketByEvento(
-      dadosCompra.eventoId
-    )) as TicketDto;
-    if (!ticketEvento)
-      return res
-        .status(404)
-        .json({ msg: "O evento informado nao possui tickets" });
-    const valorTicket: number = ticketEvento.valor as unknown as number;
+    const evento = getEventoService(eventoId) as unknown as EventoDto;
+    const valorTicket: number = evento.;
     const valorTotal: number = valorTicket * qtdeIngressos;
     const compra = {
       ...dadosCompra,

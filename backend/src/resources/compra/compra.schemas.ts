@@ -4,7 +4,7 @@ export const compraSchema: Schema = Joi.object({
   usuarioId: Joi.string()
     .length(36)
     .required(),
-  ticketId: Joi.string()
+  eventoId: Joi.string()
     .length(36)
     .required(),
   forma_pagamento: Joi.string()

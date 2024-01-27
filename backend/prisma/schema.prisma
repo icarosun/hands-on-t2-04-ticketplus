@@ -29,10 +29,11 @@ model Usuario {
 model Evento {
   id            Int      @id @default(autoincrement()) @db.Int()
   titulo        String   @db.VarChar(100)
-  descricao      String   @db.Text()
+  descricao     String   @db.Text()
   localizacao   String   @db.VarChar(100)
   categoria     String   @db.Char(100)
   faixaEtaria   Int      @db.Int
+  preco         Decimal  @db.Decimal(9, 2)
   
   ticket        Ticket?
   compras       Compra[]
