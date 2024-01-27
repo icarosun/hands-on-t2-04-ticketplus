@@ -27,7 +27,6 @@ export async function cadastrarUsuario (usuario: CadastroUsuarioDto): Promise<Us
 	return await prisma.usuario.create({
 		data: {
 			nome: usuario.nome,
-			sobrenome: usuario.sobrenome,
 			email: usuario.email,
 			senha: senha,
 			tipoUsuario: tipoUsuarioId

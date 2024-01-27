@@ -40,12 +40,10 @@ async function login (req: Request, res: Response) {
 		const tipoUsuarioId = defineTipoUsuarioId(usuario.tipoUsuario);
 		req.session.uid = usuario.id;
 		req.session.nomeUsuario = usuario.nome;
-		req.session.sobrenomeUsuario = usuario.sobrenome;
 		req.session.email = usuario.email;
 		req.session.tipoUsuarioId = tipoUsuarioId;
 		return res.status(200).json({
 			nome: usuario.nome,
-			sobrenome: usuario.sobrenome,
 			email: usuario.email
 		});
 	} catch (error) {

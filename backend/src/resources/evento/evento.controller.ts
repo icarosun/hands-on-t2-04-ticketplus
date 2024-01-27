@@ -18,7 +18,7 @@ async function index(req: Request, res: Response) {
 }
 
 async function getEvento (req: Request, res: Response) {
-  const idEvento = req.params.idEvento;
+  const idEvento = parseInt(req.params.idEvento);
   try {
     const evento = await getEventoService(idEvento) as EventoDto;
     if (!evento)

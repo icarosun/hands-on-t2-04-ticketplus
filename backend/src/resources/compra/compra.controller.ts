@@ -29,8 +29,8 @@ const create = async (req: Request, res: Response) => {
       schema: { $ref: '#/definitions/Compra'}
     }
   */
-  let dadosCompra = req.body as CreateCompraDto;
-  const qtdeIngressos: number = dadosCompra.qtdeIngressos;
+  /*let dadosCompra = req.body as CreateCompraDto;
+  // const qtdeIngressos: number = dadosCompra.qtdeIngressos;
   try {
     const ticketEvento = (await getTicketByEvento(
       dadosCompra.eventoId
@@ -51,7 +51,7 @@ const create = async (req: Request, res: Response) => {
     return res.status(201).json({ msg: "Compra realizada com sucesso" });
   } catch (e) {
     return res.status(500).json({ e });
-  }
+  }*/
 };
 
 export default { index, create };

@@ -6,7 +6,7 @@ export async function getAllEventos(): Promise<Evento[]> {
     return await prisma.evento.findMany();
 }
 
-export async function getEventoService (idEvento: string): Promise<Evento | null> {
+export async function getEventoService (idEvento: number): Promise<Evento | null> {
     return await prisma.evento.findUnique({
         where: {
             id: idEvento
