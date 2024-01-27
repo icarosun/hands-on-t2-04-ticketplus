@@ -53,6 +53,7 @@ const NavbarComprador = () => {
                 });
                 setIngressos(ingressosAux);
             } catch (error) {
+                alert("Erro ao tentar definir a sessão do usuário");
                 navigate("/");
                 console.error(error);
             }
@@ -70,11 +71,11 @@ const NavbarComprador = () => {
                 <div className="navbar-brand">
                     <div className="container text-center">
                         <div className="row align-items-center">
-                            <div className="col">
+                            <div className="col d-flex">
                                 <FontAwesomeIcon icon={faTicket}></FontAwesomeIcon>
                             </div>
                             <div className="col">
-                                <h5>TicketPlus</h5>
+                                <h5 className="mb-0">TicketPlus</h5>
                             </div>
                         </div>
                     </div>

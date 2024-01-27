@@ -4,24 +4,9 @@ import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import SignUpModal from '../../SignUp/index.tsx';
 //import LocalEventoModal from '../../LocalEvento/LocalEvento.tsx';
 import LoginModal from '../../Login/index.tsx';
-import { useEffect } from 'react';
-import { defineSessaoUsuario } from '../../../utils/defineSessaoUsuario.ts';
 //import CarrinhoModal from '../../CarrinhoDeCompra/CarrinhoDeCompra.tsx';
 
 const Navbar = () => {
-
-  useEffect(() => {
-    (async () => {
-        try {
-            const resSessao = await defineSessaoUsuario();
-            if (resSessao.status === 308) window.location.href = "/";
-        } catch (error) {
-            window.location.href = "/";
-            console.error(error);
-        }
-    })();
-}, []);
-
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ height: '80px' }}>
       <div className="container-fluid">
@@ -39,12 +24,12 @@ const Navbar = () => {
 
         <div className="navbar-brand">
           <div className="container text-center">
-            <div className="row align-items-center">
+            <div className="row d-flex justify-content-center align-items-center">
               <div className="col">
                 <FontAwesomeIcon icon={faTicket}></FontAwesomeIcon>
               </div>
-              <div className="col">
-                <h5>TicketPlus</h5>
+              <div className="col mb-0">
+                <h5 className="mb-0">TicketPlus</h5>
               </div>
             </div>
           </div>

@@ -33,6 +33,7 @@ const PerfilCompradorModal = () => {
                 email: ''
             }));
             localStorage.removeItem("email");
+            localStorage.removeItem("nomeUsuario");
             navigate("/");
         } catch (error) {
             alert("Erro ao tentar realizar o logout");
@@ -50,16 +51,19 @@ const PerfilCompradorModal = () => {
             overlay={
                 <Popover id="popover-user-profile" style={popoverStyle}>
                     <div className="text-center">
-                        {/* Foto de perfil circular */}
+                        {/* Foto de perfil circular
                         <img
                             src="https://webacademy.icomp.ufam.edu.br/assets/img/logo_letra_branca.png"
                             alt="Foto de Perfil"
                             className="mb-3"
                             width="50"
                             height="50"
-                        />
+                        />*/}
+                        <Button variant="primary" className="rounded-circle mb-2" style={{ width: '40px', height: '40px' }}>
+                            <FontAwesomeIcon icon={faUser} />
+                        </Button>
                         {/* Nome do usuário */}
-                        <h6>Web Academy</h6>
+                        <h6>{localStorage.nomeUsuario}</h6>
                         {/* Lista de ações */}
                         <ListGroup className='mt-3'>
                             <ListGroup.Item action onClick={() => console.log('Configurar Perfil')}>

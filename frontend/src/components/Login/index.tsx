@@ -27,6 +27,7 @@ const LoginModal = () => {
         saldo: dadosUsuario?.saldo
       }));
       localStorage.setItem("email", String(dadosUsuario?.email));
+      localStorage.setItem("nomeUsuario", String(dadosUsuario?.nome));
       navigate("/paginacomprador");
       location.reload();
     } catch (error) {

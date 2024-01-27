@@ -26,7 +26,7 @@ const IngressosComprados: React.FC<IngressosCompradosProps> = ({ ingressos }) =>
 
     return (
         <div>
-            <Button variant="light" className="ms-2 me-2" onClick={handleShow}>
+            <Button variant="light" className="ms-2 me-2 d-flex align-items-center" onClick={handleShow}>
                 <FontAwesomeIcon icon={faTicket} className="me-2" />
                 INGRESSOS
             </Button>
