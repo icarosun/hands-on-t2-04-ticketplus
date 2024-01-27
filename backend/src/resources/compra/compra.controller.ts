@@ -4,7 +4,7 @@ import { getAllCompras } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { CreateCompraDto } from "./compra.types";
 import { getTicketByEvento } from "../ticket/ticket.service";
-import { TicketDto } from "../ticket/tickets.types";
+import { EventoDto } from "../evento/evento.types";
 import { Decimal } from "@prisma/client/runtime/library";
 
 const index = async (req: Request, res: Response) => {
@@ -29,11 +29,11 @@ const create = async (req: Request, res: Response) => {
       schema: { $ref: '#/definitions/Compra'}
     }
   */
-  let compra = req.body as CreateCompraDto;
-  const qtdeIngressos: number = compra.qtdeIngressos;
+  let dadosCompra = req.body as CreateCompraDto;
+  const qtdeIngressos: number = dadosCompra.qtdeIngressos;
   try {
     const ticketEvento = (await getTicketByEvento(
-      compra.eventoId
+      dadosCompra.eventoId
     )) as TicketDto;
     if (!ticketEvento)
       return res
@@ -41,8 +41,8 @@ const create = async (req: Request, res: Response) => {
         .json({ msg: "O evento informado nao possui tickets" });
     const valorTicket: number = ticketEvento.valor as unknown as number;
     const valorTotal: number = valorTicket * qtdeIngressos;
-    compra = {
-      ...compra,
+    const compra = {
+      ...dadosCompra,
       usuarioId: String(req.session.uid),
       valorTotal: valorTotal as unknown as Decimal,
       status: "Pago",

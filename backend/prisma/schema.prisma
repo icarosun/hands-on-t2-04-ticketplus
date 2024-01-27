@@ -14,12 +14,12 @@ datasource db {
 model Usuario {
   id             String   @id @default(uuid()) @db.Char(36)
   nome           String   @db.VarChar(100)
-  sobrenome      String   @db.VarChar(100)
   email          String   @unique @db.VarChar(100)
   senha          String   @db.VarChar(100)
   tipoUsuario    String   @db.Char(36)
-  usuarioTickets Ticket[]
-  usuarioCompras Compra[]
+
+  compras Compra[]
+
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -27,14 +27,15 @@ model Usuario {
 }
 
 model Evento {
-  id            String   @id @default(uuid()) @db.Char(36)
+  id            Int      @id @default(autoincrement()) @db.Int()
   titulo        String   @db.VarChar(100)
+  descricao      String   @db.Text()
   localizacao   String   @db.VarChar(100)
+  categoria     String   @db.Char(100)
   faixaEtaria   Int      @db.Int
-  descricao     String   @db.VarChar(200)
-  eventoTickets Ticket[]
-  eventoCompras Compra[]
-  categoria     String   @db.VarChar(100)
+  
+  ticket        Ticket?
+
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -43,12 +44,12 @@ model Evento {
 
 model Ticket {
   id         String   @id @default(uuid()) @db.Char(36)
-  valor      Decimal  @db.Decimal(9, 2)
-  quantidade Int      @db.Int
+
+  eventoId   Int      @unique @db.Int()
+
   evento     Evento   @relation(fields: [eventoId], references: [id])
-  eventoId   String   @db.Char(36)
-  usuario    Usuario  @relation(fields: [usuarioId], references: [id])
-  usuarioId  String   @db.Char(36)
+  compra     Compra?
+
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -57,14 +58,16 @@ model Ticket {
 
 model Compra {
   id             String   @id @default(uuid()) @db.Char(36)
-  usuario        Usuario  @relation(fields: [usuarioId], references: [id])
-  usuarioId      String   @db.Char(36)
-  evento         Evento   @relation(fields: [eventoId], references: [id])
-  eventoId       String   @db.Char(36)
-  qtdeIngressos  Int      @db.Int
-  valorTotal     Decimal  @db.Decimal(9, 2)
-  status         String   @db.VarChar(50)
   formaPagamento String   @db.VarChar(50)
+  valor          Decimal  @db.Decimal(9, 2)
+  status         String   @db.VarChar(50)
+  
+  usuarioId      String   @db.Char(36)
+  ticketId       String   @unique @db.Char(36)
+
+  ticket         Ticket   @relation(fields: [ticketId], references: [id])
+  usuario        Usuario  @relation(fields: [usuarioId], references: [id])
+  
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
 

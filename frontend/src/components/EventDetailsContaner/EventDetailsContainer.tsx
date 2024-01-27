@@ -1,6 +1,8 @@
-// src/components/MovieModal.js
-import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Figure, Modal } from 'react-bootstrap';
+
+import { setQtdeIngressos } from '../../redux/slices/app.slice';
 
 interface TicketQuantityProps {
     quantity: number;
@@ -66,11 +68,19 @@ interface EventDetailsContainerProps {
 }
 
 const EventDetailsContainer: React.FC<EventDetailsContainerProps> = ({ show, handleClose, detailsEvent }) => {
-    const [ticketQuantity, setTicketQuantity] = useState(0);
+    // const [ticketQuantity, setTicketQuantity] = useState(0);
 
-    const handleTicketQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    /*const handleTicketQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTicketQuantity(parseInt(event.target.value, 10));
-    };
+    };*/
+
+    /*const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setQtdeIngressos({
+            qtdeIngressos: ticketQuantity
+        }))
+    }, [ticketQuantity]);*/
 
     return (
         <Modal show={show} onHide={handleClose} size="lg" dialogClassName="modal-90w" style={{ borderBottom: 'none' }}>
@@ -89,15 +99,15 @@ const EventDetailsContainer: React.FC<EventDetailsContainerProps> = ({ show, han
                                     src={detailsEvent.imageUrl}
                                 />
                             </Figure>
-                            <p><strong>Preço:</strong> {detailsEvent.price}</p>
+                            <p><strong>Preço:</strong> R$ {detailsEvent.price}</p>
                             <p><strong>Local do Evento:</strong> {detailsEvent.place}</p>
                         </div>
                         <div className="col-md-6">
                             <p>{detailsEvent.description}</p>
-                            <TicketQuantity
+                            {/*<TicketQuantity
                                 quantity={ticketQuantity}
                                 onChange={handleTicketQuantityChange}
-                            />
+                            />*/}
                         </div>
                     </div>
                 )}

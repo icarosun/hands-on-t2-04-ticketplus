@@ -7,6 +7,8 @@ import EventDetailsContainer from "../EventDetailsContaner/EventDetailsContainer
 import { getDetalhesEvento } from "../../services/evento.service";
 import { DetalhesEventoType } from "../../services/evento.service";
 import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
+import { compraTicket } from "../../services/compra.service";
+import store from "../../redux/store";
 
 interface EventoDataType {
   titulo: string;
@@ -23,6 +25,8 @@ export default function ItemModal(props: { id: string; url: string | undefined; 
     localizacao: "",
     preco: NaN
   });
+  
+  // const storeState = store.getState()
 
   const handleCardClick = async () => {
     try {
@@ -36,13 +40,17 @@ export default function ItemModal(props: { id: string; url: string | undefined; 
 
   const handleCheckout = async () => {
     try {
-      const res = await defineSessaoUsuario();
-      const sessaoData = res.data;
+      const eventoId = props.id;
+      // const qtdeIngressos = parseInt(storeState.AppReducer.qtdeIngressos);
+      const resSessao = await defineSessaoUsuario();
+      const sessaoData = resSessao.data;
       if (JSON.stringify(sessaoData) === "{}") {
         alert("Realize o login para fazer a compra");
         return
       }
-      alert("Compra sendo realizada...");
+      const resCompra = await compraTicket(eventoId);
+      if (resCompra.status === 200)
+        alert("Compra realizada com sucesso");
     } catch (error) {
       alert("Erro ao tentar realizar a compra");
       console.error(error);
@@ -92,7 +100,7 @@ export default function ItemModal(props: { id: string; url: string | undefined; 
         show={showEventDetails}
         detailsEvent={{
           id: 0,
-          imageUrl: 'https://ufam.edu.br/images/Artigos/2023/04-Abril/DC_2.jpg',
+          imageUrl: "https://ufam.edu.br/images/Artigos/2023/04-Abril/DC_2.jpg",
           title: eventoData.titulo,
           description: eventoData.descricao,
           price: eventoData.preco,

@@ -4,9 +4,13 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import SessionReducer from "./slices/session.slice";
+import AppReducer from "./slices/app.slice";
 
 export const store = configureStore({
-    reducer: SessionReducer
+    reducer: {
+        SessionReducer,
+        AppReducer
+    }
 });
 
 export default store;

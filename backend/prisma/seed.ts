@@ -6,7 +6,7 @@ async function evento() {
   await prisma.evento.createMany({
     data: [
       {
-        id: "19454928-0f2b-44e6-ba87-8e65a1fff615",
+        id: 1,
         titulo: "Chiado da Chinela",
         localizacao: "Av. Torquato Tapajós, nº 207",
         faixaEtaria: 18,
@@ -15,7 +15,7 @@ async function evento() {
           "Forró estilo pé de serra. Mulher não paga. Cerveja liberada a partir da 00:00",
       },
       {
-        id: "19454928-0f2b-44e6-ba87-8e65a1fff616",
+        id: 2,
         titulo: "Suá sem dó",
         localizacao: "Av. do Turismo, nº 1033",
         faixaEtaria: 23,
@@ -24,7 +24,7 @@ async function evento() {
           "Forró ao céu aberto, com piscina e bar liberado até 1h da manhã.",
       },
       {
-        id: "19454928-0f2b-44e6-ba87-8e65a1fff617",
+        id: 3,
         titulo: "Galinha Pintadinha - ao vivo",
         localizacao: "Rua Empaminondas, nº 2",
         faixaEtaria: 5,
@@ -33,7 +33,7 @@ async function evento() {
           "Ambiente fechado e climatizado, crianças de até 8 anos tem entrada franca.",
       },
       {
-        id: "19454928-0f2b-44e6-ba87-8e65a1fff618",
+        id: 4,
         titulo: "Javascript Mental",
         localizacao: "Rua Timbiras, nº 555",
         faixaEtaria: 30,
@@ -42,7 +42,7 @@ async function evento() {
           "Aprenda como otimizar o seu raciocínio quântico para a programação web.",
       },
       {
-        id: "19454928-0f2b-44e6-ba87-8e65a1fff619",
+        id: 5,
         titulo: "Amazon Games",
         localizacao: "Rua Maceió, nº 7",
         faixaEtaria: 40,
@@ -61,7 +61,6 @@ async function usuario() {
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff621",
         nome: "WebAcademy",
-        sobrenome: "Silva",
         tipoUsuario: "daf7a4e1-3345-49a5-809d-55bb4d0633d7",
         senha: "$2a$10$KSQe4QRqp30agHrkr1rueOvRQHi8hobNZmeWyIGQENz678.haa7PO", //Senha: 12345678
         email: "webacademy@email.com",
@@ -69,7 +68,6 @@ async function usuario() {
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff622",
         nome: "Luiz",
-        sobrenome: "Silva",
         tipoUsuario: "daf7a4e1-3345-49a5-809d-55bb4d0633d7",
         senha: "$2a$10$u0WWbaKvdNNRzZgbtPDwFORMmFdbvWVNOyvd0qxGziyF7F9TA5VgG", // Senha: 12345678
         email: "joaosilva@usuario.com",
