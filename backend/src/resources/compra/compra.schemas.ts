@@ -1,9 +1,7 @@
 import Joi, { Schema } from "joi";
 
 export const compraSchema: Schema = Joi.object({
-  eventoId: Joi.string()
-    .length(36)
-    .required(),
+  eventoId: Joi.number(),
   formaPagamento: Joi.string()
     .valid(
       "PIX",

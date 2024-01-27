@@ -51,7 +51,12 @@ export default function ItemModal(props: { id: number; url: string | undefined; 
       if (resCompra.status === 201)
         alert("Compra realizada com sucesso");
     } catch (error) {
-      alert("Erro ao tentar realizar a compra");
+      const errorStatus = error.response.status;
+      if (errorStatus === 401) {
+        alert("Saldo insuficiente");
+        return;
+      }
+      alert("Erro ao tentar realizar a compra. Tente mais tarde");
       console.error(error);
     }
   }

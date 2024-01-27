@@ -1,4 +1,5 @@
 import { PrismaClient, Usuario } from "@prisma/client";
+import { Decimal } from "@prisma/client/runtime/library";
 
 const prisma = new PrismaClient();
 
@@ -10,4 +11,15 @@ export async function buscaUsuarioPorEmail (email: string | undefined): Promise<
 	return await prisma.usuario.findUnique({
 		where: { email }
 	});
-} 
+}
+
+export async function updateUsuarioService (usuarioId: string | undefined, saldo: Decimal): Promise<Usuario | null> {
+	return await prisma.usuario.update({
+		where: {
+			id: usuarioId
+		},
+		data: {
+			saldo
+		}
+	})
+}

@@ -6,6 +6,7 @@ export type UsuarioDto = Pick<Usuario,
     | "email"
     | "senha"
     | "tipoUsuario"
+    | "saldo"
 >;
 
-export type AtualizaUsuarioDto = UsuarioDto;
+export type UpdateUsuarioDto = UsuarioDto;
