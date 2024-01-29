@@ -1,5 +1,7 @@
 import { HttpInstance } from "../../utils/http";
 
+// import { HttpInstance } from "../../../src/assets/imgs/amazon-games.jpg";
+
 
 interface ProductDataType {
   id: number;
@@ -18,7 +20,7 @@ const eventos = res.data;
 eventos.map((data: ProductDataType) => {
   productData.push({
     id: data.id,
-    imageUrl: "https://images.sympla.com.br/65818da477050-xs.png",
+    imageUrl: data.imageUrl,
     titulo: data.titulo,
     localizacao: data.localizacao,
     descricao: data.descricao,

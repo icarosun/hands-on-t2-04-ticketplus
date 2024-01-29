@@ -44,7 +44,7 @@ const NavbarComprador = () => {
                     const usuario = compra.usuario;
                     const ingressoInfo = {
                         id: parseInt(`${ingresso.id}${index}`),
-                        imageUrlEvento: "https://ufam.edu.br/images/Artigos/2023/04-Abril/DC_2.jpg",
+                        imageUrlEvento: ingresso.imageUrl,
                         nomeEvento: ingresso.titulo,
                         localEvento: ingresso.localizacao,
                         quantidadeIngressos: 1,

@@ -35,6 +35,7 @@ model Evento {
   categoria     String   @db.Char(100)
   faixaEtaria   Int      @db.Int
   preco         Decimal  @db.Decimal(9, 2)
+  imageUrl      String   @db.VarChar(100)
   
   ticket        Ticket[]
   compras       Compra[]

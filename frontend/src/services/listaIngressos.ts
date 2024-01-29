@@ -6,7 +6,7 @@ export interface CompraType {
     status: string;
     evento: {
         id: string;
-        // imageUrlEvento: string;
+        imageUrl: string;
         titulo: string;
         localizacao: string;
         /* quantidadeIngressos: number; */

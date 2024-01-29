@@ -6,6 +6,7 @@ export interface DetalhesEventoType {
     localizacao: string;
     preco: number;
     data: object;
+    imageUrl: string;
 }
 
 export async function getDetalhesEvento (idEvento: number): Promise<DetalhesEventoType | null> {

@@ -13,7 +13,8 @@ async function evento() {
         categoria: "Show de Forró",
         descricao:
           "Forró estilo pé de serra. Mulher não paga. Cerveja liberada a partir da 00:00",
-        preco: 12.99
+        preco: 12.99,
+        imageUrl: "../../../src/assets/imgs/chiado-da-chinela.jpg"
       },
       {
         id: 2,
@@ -23,7 +24,8 @@ async function evento() {
         categoria: "Show de Forró Pisapé",
         descricao:
           "Forró ao céu aberto, com piscina e bar liberado até 1h da manhã.",
-        preco: 15.89
+        preco: 15.89,
+        imageUrl: "../../../src/assets/imgs/sua-sem-do.jpg"
       },
       {
         id: 3,
@@ -33,7 +35,8 @@ async function evento() {
         categoria: "Festa Infantil",
         descricao:
           "Ambiente fechado e climatizado, crianças de até 8 anos tem entrada franca.",
-        preco: 21.99
+        preco: 21.99,
+        imageUrl: "../../../src/assets/imgs/galinha-pintadinha.jpg"
       },
       {
         id: 4,
@@ -43,7 +46,8 @@ async function evento() {
         categoria: "Workshop",
         descricao:
           "Aprenda como otimizar o seu raciocínio quântico para a programação web.",
-        preco: 199.99
+        preco: 199.99,
+        imageUrl: "../../../src/assets/imgs/javascript-mental.jpg"
       },
       {
         id: 5,
@@ -53,7 +57,8 @@ async function evento() {
         categoria: "Workshop Gamer",
         descricao:
           "Venha conhecer os diversos jogos e mercadorias do mundo gamer.",
-        preco: 20.89
+        preco: 20.89,
+        imageUrl: "../../../src/assets/imgs/amazon-games.jpg"
       },
     ],
     skipDuplicates: true,

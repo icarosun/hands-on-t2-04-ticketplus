@@ -63,7 +63,7 @@ const PerfilCompradorModal = () => {
                             <FontAwesomeIcon icon={faUser} />
                         </Button>
                         {/* Nome do usuário */}
-                        <h6>{localStorage.nomeUsuario}</h6>
+                        <h6>{sessionStorage.nomeUsuario}</h6>
                         {/* Lista de ações */}
                         <ListGroup className='mt-3'>
                             <ListGroup.Item action onClick={() => console.log('Configurar Perfil')}>

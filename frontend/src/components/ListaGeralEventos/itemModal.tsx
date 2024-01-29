@@ -14,6 +14,7 @@ interface EventoDataType {
   descricao: string;
   localizacao: string;
   preco: number;
+  imageUrl: string;
 }
 
 export default function ItemModal(props: { id: number; url: string | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; description: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; place: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }) {
@@ -22,7 +23,8 @@ export default function ItemModal(props: { id: number; url: string | undefined; 
     titulo: "",
     descricao: "",
     localizacao: "",
-    preco: NaN
+    preco: NaN,
+    imageUrl: ""
   });
   
   // const storeState = store.getState()
@@ -80,6 +82,7 @@ export default function ItemModal(props: { id: number; url: string | undefined; 
     setShowEventDetails(false);
   };
 
+
   return (
     <div className="ms-0" style={{ width: '400px' }}>
       <Card className="ms-0" style={{
@@ -109,7 +112,7 @@ export default function ItemModal(props: { id: number; url: string | undefined; 
         show={showEventDetails}
         detailsEvent={{
           id: 0,
-          imageUrl: "https://ufam.edu.br/images/Artigos/2023/04-Abril/DC_2.jpg",
+          imageUrl: eventoData.imageUrl,
           title: eventoData.titulo,
           description: eventoData.descricao,
           price: eventoData.preco,
