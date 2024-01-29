@@ -1,10 +1,13 @@
 import axios, { AxiosInstance } from "axios";
 
 export const headers: Readonly<Record<string, string | boolean>> = {
-  Accept: "application/json",
+  "Accept": "application/json",
   "Content-Type": "application/json; charset=utf-8",
   "Access-Control-Allow-Credentials": false,
   "X-Requested-With": "XMLHttpRequest",
+  "Cache-Control": "no-cache",
+  "Pragma": "no-cache",
+  "Expires": "0",
 };
 
 class Http {

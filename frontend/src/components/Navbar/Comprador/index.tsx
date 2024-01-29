@@ -55,7 +55,6 @@ const NavbarComprador = () => {
                 });
                 setIngressos(ingressosAux);
             } catch (error) {
-                alert("Erro ao tentar definir a sessão do usuário");
                 navigate("/");
                 console.error(error);
             }

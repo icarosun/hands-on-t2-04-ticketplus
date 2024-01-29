@@ -6,8 +6,8 @@ import Card from "react-bootstrap/esm/Card";
 import EventDetailsContainer from "../EventDetailsContaner/EventDetailsContainer";
 import { getDetalhesEvento } from "../../services/evento.service";
 import { DetalhesEventoType } from "../../services/evento.service";
-import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
 import { compraTicket } from "../../services/compra.service";
+import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
 
 interface EventoDataType {
   titulo: string;
@@ -52,10 +52,13 @@ export default function ItemModal(props: { id: number; url: string | undefined; 
         alert("Compra realizada com sucesso");
         location.reload();
       }
-    } catch (error) {
+    } catch (error: any) {
       const errorStatus = error.response.status;
       if (errorStatus === 401) {
         alert("Saldo insuficiente");
+        return;
+      } else if (errorStatus === 308) {
+        alert("Realize o login para fazer a compra");
         return;
       }
       alert("Erro ao tentar realizar a compra. Tente mais tarde");

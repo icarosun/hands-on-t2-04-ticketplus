@@ -32,8 +32,8 @@ const PerfilCompradorModal = () => {
                 sobrenome: '',
                 email: ''
             }));
-            localStorage.removeItem("email");
-            localStorage.removeItem("nomeUsuario");
+            sessionStorage.removeItem("email");
+            sessionStorage.removeItem("nomeUsuario");
             navigate("/");
         } catch (error) {
             alert("Erro ao tentar realizar o logout");

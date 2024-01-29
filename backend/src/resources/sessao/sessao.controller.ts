@@ -8,7 +8,7 @@ export async function index (req: Request, res: Response) {
         const sobrenomeUsuario = req.session.sobrenomeUsuario;
         const email = req.session.email;
         const usuario = await buscaUsuarioPorEmail(email);
-        if (!usuario) return res.status(308)
+        if (usuario === null) return res.status(308).json({});
         const saldo = usuario?.saldo;
         const dadosSessaoUsuario = {
             nome: nomeUsuario,

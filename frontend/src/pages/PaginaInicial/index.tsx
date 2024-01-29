@@ -1,24 +1,16 @@
 import { Container, Row, Col, Card, Button, Collapse } from 'react-bootstrap';
 import { faMasksTheater, faBurger, faGraduationCap, faChampagneGlasses, faMicrochip, faFutbol, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ListaGeralEventos from '../../components/ListaGeralEventos/index.tsx';
-import { useNavigate } from 'react-router-dom';
 
 
 export default function PaginaInicial() {
     const [isMenuOpen, setMenuOpen] = useState(false);
 
-    const navigate = useNavigate();
-
     const toggleMenu = () => {
         setMenuOpen(!isMenuOpen);
     };
-
-    useEffect(() => {
-        if (localStorage.email && localStorage.email !== "undefined" && localStorage.email !== "")
-            navigate("/paginacomprador");
-    }, []);
 
 
     return (
