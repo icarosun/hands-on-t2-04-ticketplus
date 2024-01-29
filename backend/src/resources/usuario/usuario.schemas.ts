@@ -27,7 +27,8 @@ const schemaCadastroUsuario = Joi.object({
 	repeteSenha: Joi.ref('senha'),
 	tipoUsuario: Joi.string()
 		.valid(TiposUsuarios.ORGANIZADOR, TiposUsuarios.COMPRADOR)
-		.required()
+		.required(),
+	saldo: Joi.number()
 });
 
 const schemaLoginUsuario = Joi.object({
