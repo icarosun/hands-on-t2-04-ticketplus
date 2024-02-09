@@ -12,70 +12,111 @@ datasource db {
 }
 
 model Usuario {
-  id             String   @id @default(uuid()) @db.Char(36)
-  nome           String   @db.VarChar(100)
-  email          String   @unique @db.VarChar(100)
-  senha          String   @db.VarChar(100)
-  tipoUsuario    String   @db.Char(36)
-  saldo          Decimal  @db.Decimal(9, 2)
+  id        String   @id @default(uuid()) @db.Char(36)
+  nome      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(100)
+  senha     String   @db.VarChar(100)
+  //tipoUsuario    String   @db.Char(36)
+  saldo     Decimal  @db.Decimal(9, 2)
+  compras   Compra[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  compras        Compra[]
+  @@map("compradores")
+}
 
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
+model Organizador {
+  id    String @id @default(uuid()) @db.Char(36)
+  nome  String @db.VarChar(100)
+  email String @unique @db.VarChar(100)
+  senha String @db.VarChar(100)
+  conta String @db.VarChar(100)
+  cnpj  String @db.Char(14)
 
-  @@map("usuarios")
+  eventos Evento[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("organizadores")
 }
 
 model Evento {
-  id            Int      @id @default(autoincrement()) @db.Int()
-  titulo        String   @db.VarChar(100)
-  descricao     String   @db.Text()
-  localizacao   String   @db.VarChar(100)
-  categoria     String   @db.Char(100)
-  faixaEtaria   Int      @db.Int
-  preco         Decimal  @db.Decimal(9, 2)
-  imageUrl      String   @db.VarChar(100)
-  
-  ticket        Ticket[]
-  compras       Compra[]
+  //id                Int     @id @default(autoincrement()) @db.Int()
+  id                String  @id @default(uuid()) @db.Char(36)
+  titulo            String  @db.VarChar(100)
+  descricao         String  @db.Text()
+  localizacao       String  @db.VarChar(100)
+  faixaEtaria       Int     @db.Int
+  preco             Decimal @db.Decimal(9, 2)
+  imageUrl          String  @db.VarChar(100)
+  organizadorId     String  @db.Char(36)
+  categoriaEventoId String  @db.Char(36)
 
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
+  ticket     Ticket[]
+  tipoTicket TipoTicket[]
+
+  Organizador     Organizador     @relation(fields: [organizadorId], references: [id])
+  CategoriaEvento CategoriaEvento @relation(fields: [categoriaEventoId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("eventos")
 }
 
 model Ticket {
-  id         String   @id @default(uuid()) @db.Char(36)
+  id           String @id @default(uuid()) @db.Char(36)
+  eventoId     String @db.Char(36)
+  //eventoId     Int    @db.Int()
+  tipoTicketId String @db.Char(36)
 
-  eventoId   Int      @db.Int()
+  tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
+  evento     Evento     @relation(fields: [eventoId], references: [id])
+  compra     Compra[]
 
-  evento     Evento   @relation(fields: [eventoId], references: [id])
-  compra     Compra?
-
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("tickets")
 }
 
 model Compra {
-  id             String   @id @default(uuid()) @db.Char(36)
-  formaPagamento String   @db.VarChar(50)
-  valor          Decimal  @db.Decimal(9, 2)
-  status         String   @db.VarChar(50)
-  
-  usuarioId      String   @db.Char(36)
-  ticketId       String   @unique @db.Char(36)
-  eventoId       Int      @db.Int()
+  id             String  @id @default(uuid()) @db.Char(36)
+  formaPagamento String  @db.VarChar(50)
+  valor          Decimal @db.Decimal(9, 2)
+  status         String  @db.VarChar(50)
 
-  usuario        Usuario  @relation(fields: [usuarioId], references: [id])
-  ticket         Ticket   @relation(fields: [ticketId], references: [id])
-  evento         Evento   @relation(fields: [eventoId], references: [id])
-  
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")
+  usuarioId String @db.Char(36)
+  ticketId  String @unique @db.Char(36)
+  //eventoId  Int    @db.Int()
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  ticket  Ticket  @relation(fields: [ticketId], references: [id])
+  //evento  Evento  @relation(fields: [eventoId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("compras")
+}
+
+model TipoTicket {
+  id        String @id @default(uuid()) @db.Char(36)
+  descricao String @db.VarChar(50)
+
+  ticket   Ticket[]
+  Evento   Evento   @relation(fields: [eventoId], references: [id])
+  eventoId String   @db.Char(36)
+
+  @@map("tipoTickets")
+}
+
+model CategoriaEvento {
+  id        String @id @default(uuid()) @db.Char(36)
+  descricao String @db.VarChar(50)
+
+  evento Evento[]
+
+  @@map("categoriaEvento")
 }
