@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 //import { TiposUsuarios } from "../src/resources/tipoUsuario/tipoUsuario.constants";
 const prisma = new PrismaClient();
 
-async function evento() {
+async function evento () {
   await prisma.evento.createMany({
     data: [
       {
@@ -20,53 +20,57 @@ async function evento() {
       {
         id: 2,
         titulo: "Suá sem dó",
-        localizacao: "Av. do Turismo, nº 1033",
-        faixaEtaria: 23,
-        categoria: "Show de Forró Pisapé",
         descricao:
           "Forró ao céu aberto, com piscina e bar liberado até 1h da manhã.",
+        localizacao: "Av. do Turismo, nº 1033",
+        faixaEtaria: 23,
         preco: 15.89,
-        imageUrl: "../../../src/assets/imgs/sua-sem-do.jpg"
+        imageUrl: "../../../src/assets/imgs/sua-sem-do.jpg",
+        organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
+        categoriaEventoId: 1,
       },
       {
         id: 3,
         titulo: "Galinha Pintadinha - ao vivo",
         localizacao: "Rua Empaminondas, nº 2",
         faixaEtaria: 5,
-        categoria: "Festa Infantil",
         descricao:
           "Ambiente fechado e climatizado, crianças de até 8 anos tem entrada franca.",
         preco: 21.99,
-        imageUrl: "../../../src/assets/imgs/galinha-pintadinha.jpg"
+        imageUrl: "../../../src/assets/imgs/galinha-pintadinha.jpg",
+        organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
+        categoriaEventoId: 1,
       },
       {
         id: 4,
         titulo: "Javascript Mental",
         localizacao: "Rua Timbiras, nº 555",
         faixaEtaria: 30,
-        categoria: "Workshop",
         descricao:
           "Aprenda como otimizar o seu raciocínio quântico para a programação web.",
         preco: 199.99,
-        imageUrl: "../../../src/assets/imgs/javascript-mental.jpg"
+        imageUrl: "../../../src/assets/imgs/javascript-mental.jpg",
+        organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
+        categoriaEventoId: 1,
       },
       {
         id: 5,
         titulo: "Amazon Games",
         localizacao: "Rua Maceió, nº 7",
         faixaEtaria: 40,
-        categoria: "Workshop Gamer",
         descricao:
           "Venha conhecer os diversos jogos e mercadorias do mundo gamer.",
         preco: 20.89,
-        imageUrl: "../../../src/assets/imgs/amazon-games.jpg"
+        imageUrl: "../../../src/assets/imgs/amazon-games.jpg",
+        organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
+        categoriaEventoId: 1,
       },
     ],
     skipDuplicates: true,
   });
 }
 
-async function comprador() {
+async function comprador () {
   await prisma.comprador.createMany({
     data: [
       {
@@ -74,14 +78,14 @@ async function comprador() {
         nome: "Luiz",
         email: "joao@usuario.com",
         senha: "$2a$10$AlzsERbpGbrLig3.vPWGN.T.NzFxilZJqBIJ05vA00tJYommOYvRC", //Senha: 12345678
-        saldo: 60.66
+        saldo: 100
       },
     ],
     skipDuplicates: true,
   })
 }
 
-async function organizador() {
+async function organizador () {
   await prisma.organizador.createMany({
     data: [
       {
@@ -97,6 +101,17 @@ async function organizador() {
   });
 }
 
+async function categoriaEvento () {
+  await prisma.categoriaEvento.createMany({
+    data: [
+      {
+        id: 1,
+        descricao: "geral"
+      }
+    ]
+  })
+}
+
 evento()
   .catch((e) => {
     console.error(e);
@@ -104,7 +119,7 @@ evento()
   })
   .finally(async () => {
     await prisma.$disconnect();
-  });
+});
 
 comprador()
   .catch((e) => {
@@ -113,7 +128,7 @@ comprador()
   })
   .finally(async () => {
     await prisma.$disconnect();
-  });
+});
 
 organizador()
   .catch((e) => {
@@ -122,4 +137,13 @@ organizador()
   })
   .finally(async () => {
     await prisma.$disconnect();
-  });
+});
+
+categoriaEvento()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+});
