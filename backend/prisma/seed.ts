@@ -8,13 +8,14 @@ async function evento() {
       {
         id: 1,
         titulo: "Chiado da Chinela",
-        localizacao: "Av. Torquato Tapajós, nº 207",
-        faixaEtaria: 18,
-        categoria: "Show de Forró",
         descricao:
           "Forró estilo pé de serra. Mulher não paga. Cerveja liberada a partir da 00:00",
+        localizacao: "Av. Torquato Tapajós, nº 207",
+        faixaEtaria: 18,
         preco: 12.99,
-        imageUrl: "../../../src/assets/imgs/chiado-da-chinela.jpg"
+        imageUrl: "../../../src/assets/imgs/chiado-da-chinela.jpg",
+        organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
+        categoriaEventoId: 1,
       },
       {
         id: 2,
@@ -65,24 +66,31 @@ async function evento() {
   });
 }
 
-async function usuario() {
-  await prisma.usuario.createMany({
+async function comprador() {
+  await prisma.comprador.createMany({
     data: [
-      {
-        id: "19454928-0f2b-44e6-ba87-8e65a1fff621",
-        nome: "WebAcademy",
-        tipoUsuario: "daf7a4e1-3345-49a5-809d-55bb4d0633d7",
-        senha: "$2a$10$KSQe4QRqp30agHrkr1rueOvRQHi8hobNZmeWyIGQENz678.haa7PO", //Senha: 12345678
-        email: "webacademy@email.com",
-        saldo: 100,
-      },
       {
         id: "518ce6e8-b66c-4168-9bee-aa71d3c01647",
         nome: "Luiz",
         email: "joao@usuario.com",
         senha: "$2a$10$AlzsERbpGbrLig3.vPWGN.T.NzFxilZJqBIJ05vA00tJYommOYvRC", //Senha: 12345678
-        tipoUsuario: "daf7a4e1-3345-49a5-809d-55bb4d0633d7",
         saldo: 60.66
+      },
+    ],
+    skipDuplicates: true,
+  })
+}
+
+async function organizador() {
+  await prisma.organizador.createMany({
+    data: [
+      {
+        id: "19454928-0f2b-44e6-ba87-8e65a1fff621",
+        nome: "WebAcademy",
+        email: "webacademy@email.com",
+        senha: "$2a$10$KSQe4QRqp30agHrkr1rueOvRQHi8hobNZmeWyIGQENz678.haa7PO", //Senha: 12345678
+        conta: "001;48783-9",
+        cnpj: "01234567891011"
       },
     ],
     skipDuplicates: true,
@@ -98,7 +106,16 @@ evento()
     await prisma.$disconnect();
   });
 
-usuario()
+comprador()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
+
+organizador()
   .catch((e) => {
     console.error(e);
     process.exit(1);
