@@ -21,7 +21,9 @@ async function cadastrarComprador (req: Request, res: Response) {
   	*/
 	const usuario = req.body as CreateCompradorDto;
 	try {
-		if (await getCompradorByEmail(usuario.email))
+		const compradorEncontrado = await getCompradorByEmail(usuario.email);
+		const organizadorEncontrado = await getOrganizadorByEmail(usuario.email);
+		if (compradorEncontrado || organizadorEncontrado)
 			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })
 		await cadastrarCompradorService(req.body);
 		return res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
@@ -40,7 +42,9 @@ async function cadastrarOrganizador (req: Request, res: Response) {
   	*/
 	const usuario = req.body as CreateOrganizadorDto;
 	try {
-		if (await getOrganizadorByEmail(usuario.email))
+		const compradorEncontrado = await getCompradorByEmail(usuario.email);
+		const organizadorEncontrado = await getOrganizadorByEmail(usuario.email);
+		if (compradorEncontrado || organizadorEncontrado)
 			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })
 		await cadastrarOrganizadorService(req.body);
 		return res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
