@@ -30,8 +30,8 @@ model Organizador {
   nome  String @db.VarChar(100)
   email String @unique @db.VarChar(100)
   senha String @db.VarChar(100)
-  conta String @db.VarChar(100)
-  cnpj  String @db.Char(14)
+  conta String @db.VarChar(30)
+  cnpj  String @db.Char(18)
 
   eventos Evento[]
 
