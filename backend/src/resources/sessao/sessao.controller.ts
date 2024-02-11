@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { getCompradorByEmail } from "../comprador/comprador.service";
+import { TiposUsuarios } from "../tipoUsuario/tipoUsuario.constants";
 
 
 export async function index (req: Request, res: Response) {
@@ -10,21 +11,20 @@ export async function index (req: Request, res: Response) {
         const tipoUsuarioId = req.session.tipoUsuarioId;
         if (!nomeUsuario && !email)
             return res.status(308).json({});
-        const compradorEncontrado = await getCompradorByEmail(email);
-        if (compradorEncontrado) {
-            const saldo = compradorEncontrado.saldo;
+        const isComprador = tipoUsuarioId === TiposUsuarios.COMPRADOR_ID;
+        if (isComprador) {
+            const comprador = await getCompradorByEmail(email);
+            const saldo = comprador?.saldo;
             const dadosSessaoUsuario = {
                 nome: nomeUsuario,
                 email: email,
-                saldo: saldo,
-                tipoUsuarioId: tipoUsuarioId
+                saldo: saldo
             }
             return res.status(200).json(dadosSessaoUsuario);
         } else {
             const dadosSessaoUsuario = {
                 nome: nomeUsuario,
-                email: email,
-                tipoUsuarioId: tipoUsuarioId
+                email: email
             }
             return res.status(200).json(dadosSessaoUsuario);
         }
