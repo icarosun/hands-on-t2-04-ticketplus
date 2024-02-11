@@ -1,5 +1,5 @@
 import { PrismaClient, Comprador } from "@prisma/client";
-// import { Decimal } from "@prisma/client/runtime/library";
+import { Decimal } from "@prisma/client/runtime/library";
 
 const prisma = new PrismaClient();
 
@@ -14,7 +14,7 @@ export async function getCompradorByEmail (email: string | undefined): Promise<C
 	});
 }
 
-export async function updateSaldoComprador (compradorId: string | undefined, saldo: number): Promise<Comprador | null> {
+export async function updateSaldoComprador (compradorId: string | undefined, saldo: Decimal): Promise<Comprador | null> {
 	return await prisma.comprador.update({
 		where: {
 			id: compradorId

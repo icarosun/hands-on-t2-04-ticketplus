@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { Comprador } from "@prisma/client";
+import { Decimal } from "@prisma/client/runtime/library";
 
 import { getAllCompras } from "./compra.service";
 import { createCompra } from "./compra.service";
@@ -7,7 +9,6 @@ import { getEventoService } from "../evento/evento.service";
 import { createTicketService } from "../ticket/ticket.service";
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { updateSaldoComprador } from "../comprador/comprador.service";
-import { Comprador } from "@prisma/client";
 
 
 async function index  (req: Request, res: Response) {
@@ -43,22 +44,26 @@ async function create (req: Request, res: Response) {
     const evento = await getEventoService(eventoId);
     if (!evento)
       return res.status(404).json({ msg: "Evento nao encontrado" })
-    const valorIngresso = evento?.preco;
-    const tipoTicketId = 1;
-    if (saldoComprador < valorIngresso) {
+    const valor: Decimal = evento.preco as unknown as Decimal;
+    const saldoCompradorNumber = saldoComprador as unknown as number;
+    const valorNumber = valor as unknown as number;
+    if (parseFloat(String(saldoCompradorNumber)) < parseFloat(String(valorNumber))) {
       return res.status(401).json({ msg: "Saldo insuficiente" })
     }
+    const tipoTicketId = 1;
     const novoTicket = await createTicketService(eventoId, tipoTicketId);
     const ticketId = novoTicket.id;
     const compra = {
       ...dadosCompra, // eventoId, formaPagamento
-      usuarioId: String(req.session.uid),
+      compradorId: String(req.session.uid),
       ticketId: ticketId,
-      valor: valorIngresso,
+      valor: valor,
       status: "Pago",
     };
     await createCompra(compra);
-    await updateSaldoComprador(compradorId, saldoComprador);
+    const novoSaldoUsuario = saldoCompradorNumber - valorNumber;
+    const novoSaldoCompradorDecimal = novoSaldoUsuario as unknown as Decimal;
+    await updateSaldoComprador(compradorId, novoSaldoCompradorDecimal);
     return res.status(201).json({ msg: "Compra realizada com sucesso" });
   } catch (error) {
     return res.status(500).json(error);
