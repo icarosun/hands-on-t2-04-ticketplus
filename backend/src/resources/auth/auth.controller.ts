@@ -10,6 +10,7 @@ import {
 import { LoginDto } from "./auth.types";
 import { CreateCompradorDto } from "../comprador/comprador.types";
 import { CreateOrganizadorDto } from "../organizador/organizador.types";
+import { TiposUsuarios } from "../tipoUsuario/tipoUsuario.constants";
 
 async function cadastrarComprador (req: Request, res: Response) {
 	/*
@@ -69,6 +70,9 @@ async function login (req: Request, res: Response) {
 		req.session.uid = usuario.id;
 		req.session.nomeUsuario = usuario.nome;
 		req.session.email = usuario.email;
+		const isComprador = !Object.keys(usuario).includes('cnpj');
+		if (isComprador) req.session.tipoUsuarioId = TiposUsuarios.COMPRADOR_ID
+		else req.session.tipoUsuarioId = TiposUsuarios.ORGANIZADOR_ID
 		return res.status(200).json({
 			nome: usuario.nome,
 			email: usuario.email

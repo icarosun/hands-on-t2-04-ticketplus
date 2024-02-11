@@ -7,6 +7,7 @@ export async function index (req: Request, res: Response) {
     try {
         const nomeUsuario = req.session.nomeUsuario;
         const email = req.session.email;
+        const tipoUsuarioId = req.session.tipoUsuarioId;
         if (!nomeUsuario && !email)
             return res.status(308).json({});
         const compradorEncontrado = await getCompradorByEmail(email);
@@ -15,13 +16,15 @@ export async function index (req: Request, res: Response) {
             const dadosSessaoUsuario = {
                 nome: nomeUsuario,
                 email: email,
-                saldo: saldo
+                saldo: saldo,
+                tipoUsuarioId: tipoUsuarioId
             }
             return res.status(200).json(dadosSessaoUsuario);
         } else {
             const dadosSessaoUsuario = {
                 nome: nomeUsuario,
                 email: email,
+                tipoUsuarioId: tipoUsuarioId
             }
             return res.status(200).json(dadosSessaoUsuario);
         }
