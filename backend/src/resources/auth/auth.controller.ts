@@ -2,9 +2,14 @@ import { Request, Response } from "express";
 
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { getOrganizadorByEmail } from "../organizador/organizador.service";
-import { cadastrarUsuario, autenticar } from "./auth.service";
-import { CadastroUsuarioDto, LoginDto } from "./auth.types";
-import { defineTipoUsuarioId } from "../../utils/defineTipoUsuarioId";
+import { autenticar } from "./auth.service";
+import {
+	cadastrarCompradorService,
+	cadastrarOrganizadorService
+} from "./auth.service";
+import { LoginDto } from "./auth.types";
+import { CreateCompradorDto } from "../comprador/comprador.types";
+import { CreateOrganizadorDto } from "../organizador/organizador.types";
 
 async function cadastrarComprador (req: Request, res: Response) {
 	/*
@@ -14,11 +19,11 @@ async function cadastrarComprador (req: Request, res: Response) {
         	schema: { $ref: '#/definitions/CadastraUsuario' }
    		}
   	*/
-	const usuario = req.body as CadastroUsuarioDto;
+	const usuario = req.body as CreateCompradorDto;
 	try {
 		if (await getCompradorByEmail(usuario.email))
 			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })
-		await cadastrarUsuario(req.body);
+		await cadastrarCompradorService(req.body);
 		return res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
 	} catch (error) {
 		return res.status(500).json(error);
@@ -33,11 +38,11 @@ async function cadastrarOrganizador (req: Request, res: Response) {
         	schema: { $ref: '#/definitions/CadastraUsuario' }
    		}
   	*/
-	const usuario = req.body as CadastroUsuarioDto;
+	const usuario = req.body as CreateOrganizadorDto;
 	try {
 		if (await getOrganizadorByEmail(usuario.email))
 			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })
-		await cadastrarUsuario(req.body);
+		await cadastrarOrganizadorService(req.body);
 		return res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
 	} catch (error) {
 		return res.status(500).json(error);
@@ -57,12 +62,9 @@ async function login (req: Request, res: Response) {
 		const usuario = await autenticar(credenciais);
 		if (!usuario)
 			return res.status(401).json({ msg: "Email e/ou senha invalidos" });
-		const tipoUsuarioId = defineTipoUsuarioId(usuario.tipoUsuario);
 		req.session.uid = usuario.id;
 		req.session.nomeUsuario = usuario.nome;
 		req.session.email = usuario.email;
-		req.session.tipoUsuarioId = tipoUsuarioId;
-		req.session.saldo = usuario.saldo as unknown as number;
 		return res.status(200).json({
 			nome: usuario.nome,
 			email: usuario.email

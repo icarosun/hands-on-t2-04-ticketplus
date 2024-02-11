@@ -1,11 +1,17 @@
 import { Comprador } from "@prisma/client";
 
 
-export type CompradoroDto = Pick<Comprador,
+export type CompradorDto = Pick<Comprador,
     | "nome"
     | "email"
     | "senha"
     | "saldo"
 >;
 
-export type UpdateCompradoroDto = CompradoroDto;
+export type CreateCompradorDto = Pick<Comprador,
+    | "nome"
+    | "email"
+    | "senha"
+>;
+
+export type UpdateCompradorDto = CompradorDto;
