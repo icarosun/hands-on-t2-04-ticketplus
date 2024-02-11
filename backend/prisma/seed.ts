@@ -108,7 +108,41 @@ async function categoriaEvento () {
         id: 1,
         descricao: "geral"
       }
-    ]
+    ],
+    skipDuplicates: true,
+  })
+}
+
+async function tipoTicket() {
+  await prisma.tipoTicket.createMany({
+    data: [
+      {
+        id: 1,
+        descricao: "meia-entrada",
+        eventoId: 1
+      },
+      {
+        id: 2,
+        descricao: "meia-entrada",
+        eventoId: 2
+      },    
+      {
+        id: 3,
+        descricao: "meia-entrada",
+        eventoId: 3
+      },  
+      {
+        id: 4,
+        descricao: "meia-entrada",
+        eventoId: 4
+      },
+      {
+        id: 5,
+        descricao: "meia-entrada",
+        eventoId: 5
+      }
+    ],
+    skipDuplicates: true,
   })
 }
 
@@ -146,4 +180,12 @@ categoriaEvento()
   })
   .finally(async () => {
     await prisma.$disconnect();
+});
+
+tipoTicket().catch((e) => {
+  console.error(e);
+  process.exit(1);
+})
+.finally(async () => {
+  await prisma.$disconnect();
 });

@@ -116,7 +116,7 @@ model TipoTicket {
 }
 
 model CategoriaEvento {
-  id        Int @id @default(autoincrement()) @db.Int()
+  id        Int    @id @default(autoincrement()) @db.Int()
   descricao String @db.VarChar(50)
 
   evento Evento[]

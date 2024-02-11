@@ -5,8 +5,6 @@ import { createCompra } from "./compra.service";
 import { CreateCompraDto } from "./compra.types";
 import { getEventoService } from "../evento/evento.service";
 import { createTicketService } from "../ticket/ticket.service";
-import { EventoDto } from "../evento/evento.types";
-import { Decimal } from "@prisma/client/runtime/library";
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { updateSaldoComprador } from "../comprador/comprador.service";
 import { Comprador } from "@prisma/client";
