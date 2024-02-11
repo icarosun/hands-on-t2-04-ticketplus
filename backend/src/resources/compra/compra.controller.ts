@@ -46,10 +46,11 @@ async function create (req: Request, res: Response) {
     if (!evento)
       return res.status(404).json({ msg: "Evento nao encontrado" })
     const valorIngresso = evento?.preco;
+    const tipoTicketId = 1;
     if (saldoComprador < valorIngresso) {
       return res.status(401).json({ msg: "Saldo insuficiente" })
     }
-    const novoTicket = await createTicketService(eventoId);
+    const novoTicket = await createTicketService(eventoId, tipoTicketId);
     const ticketId = novoTicket.id;
     const compra = {
       ...dadosCompra, // eventoId, formaPagamento

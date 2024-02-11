@@ -14,6 +14,7 @@ export async function createTicketService (eventoId: number, tipoTicketId: numbe
     return await prisma.ticket.create({
         data: {
             eventoId,
+            tipoTicketId
         }
     })
 }
