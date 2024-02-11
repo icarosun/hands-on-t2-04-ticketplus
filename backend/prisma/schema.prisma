@@ -67,17 +67,17 @@ model Evento {
 }
 
 model Ticket {
-  id           String @id @default(uuid()) @db.Char(36)
+  id           String   @id @default(uuid()) @db.Char(36)
   // eventoId     String @db.Char(36)
-  eventoId     Int    @db.Int()
-  tipoTicketId String @db.Char(36)
+  eventoId     Int      @db.Int()
+  tipoTicketId Int   @db.Int()
 
   tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
   evento     Evento     @relation(fields: [eventoId], references: [id])
   compra     Compra[]
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @default(now()) @updatedAt @map("updated_at")
 
   @@map("tickets")
 }
@@ -85,28 +85,28 @@ model Ticket {
 model Compra {
   id             String  @id @default(uuid()) @db.Char(36)
   formaPagamento String  @db.VarChar(50)
-  valor          Float @db.Float()
+  valor          Float   @db.Float()
   status         String  @db.VarChar(50)
 
-  compradorId String @db.Char(36)
-  ticketId  String @unique @db.Char(36)
-  eventoId  Int    @db.Int()
+  compradorId String     @db.Char(36)
+  ticketId  String       @unique @db.Char(36)
+  eventoId  Int          @db.Int()
 
-  comprador Comprador @relation(fields: [compradorId], references: [id])
-  ticket  Ticket  @relation(fields: [ticketId], references: [id])
-  evento  Evento  @relation(fields: [eventoId], references: [id])
+  comprador Comprador    @relation(fields: [compradorId], references: [id])
+  ticket  Ticket         @relation(fields: [ticketId], references: [id])
+  evento  Evento         @relation(fields: [eventoId], references: [id])
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at")
 
   @@map("compras")
 }
 
 model TipoTicket {
-  id        String @id @default(uuid()) @db.Char(36)
+  id        Int @id @default(autoincrement()) @db.Int()
   descricao String @db.VarChar(50)
 
-  eventoId Int   @db.Int()
+  eventoId Int     @db.Int()
 
   ticket   Ticket[]
   Evento   Evento   @relation(fields: [eventoId], references: [id])

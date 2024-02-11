@@ -10,10 +10,10 @@ export const getTicketByEvento = async (eventoId: number): Promise<Ticket | null
     })
 }
 
-export async function createTicketService (eventoId: number): Promise<Ticket> {
+export async function createTicketService (eventoId: number, tipoTicketId: number): Promise<Ticket> {
     return await prisma.ticket.create({
         data: {
-            eventoId
+            eventoId,
         }
     })
 }
