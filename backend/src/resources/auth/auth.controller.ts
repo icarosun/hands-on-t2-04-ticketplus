@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 
-import { buscaUsuarioPorEmail } from "../usuario/usuario.service";
+import { getCompradorByEmail } from "../comprador/comprador.service";
+import { getOrganizadorByEmail } from "../organizador/organizador.service";
 import { cadastrarUsuario, autenticar } from "./auth.service";
 import { CadastroUsuarioDto, LoginDto } from "./auth.types";
 import { defineTipoUsuarioId } from "../../utils/defineTipoUsuarioId";
 
-async function cadastrar (req: Request, res: Response) {
+async function cadastrarComprador (req: Request, res: Response) {
 	/*
    		#swagger.summary = 'Cadastra um usuário.'
    		#swagger.parameters['body'] = {
@@ -15,7 +16,26 @@ async function cadastrar (req: Request, res: Response) {
   	*/
 	const usuario = req.body as CadastroUsuarioDto;
 	try {
-		if (await buscaUsuarioPorEmail(usuario.email))
+		if (await getCompradorByEmail(usuario.email))
+			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })
+		await cadastrarUsuario(req.body);
+		return res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
+	} catch (error) {
+		return res.status(500).json(error);
+	}
+}
+
+async function cadastrarOrganizador (req: Request, res: Response) {
+	/*
+   		#swagger.summary = 'Cadastra um usuário.'
+   		#swagger.parameters['body'] = {
+        	in: 'body',
+        	schema: { $ref: '#/definitions/CadastraUsuario' }
+   		}
+  	*/
+	const usuario = req.body as CadastroUsuarioDto;
+	try {
+		if (await getOrganizadorByEmail(usuario.email))
 			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })
 		await cadastrarUsuario(req.body);
 		return res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
@@ -62,4 +82,4 @@ async function logout (req: Request, res: Response) {
 	});
 }
 
-export default { cadastrar, login, logout };
+export default { cadastrarComprador, cadastrarOrganizador, login, logout };
