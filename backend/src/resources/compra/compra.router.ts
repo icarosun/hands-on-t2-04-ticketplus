@@ -3,6 +3,7 @@ import compraController from "./compra.controller";
 import { compraSchema } from "./compra.schemas";
 import { validarSchema } from "../../middlewares/validarSchema";
 import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
+import { isComprador } from "../../middlewares/isComprador";
 
 const router = Router();
 
@@ -12,6 +13,7 @@ router.get("/",
 );
 
 router.post("/",
+    isComprador,
     usuarioAutenticado,
     validarSchema(compraSchema),
     compraController.create
