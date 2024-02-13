@@ -8,3 +8,14 @@ export type EventoDto = Pick<Evento,
   | "preco"
   | "imageUrl"
 >;
+
+export type CreateEventoDto = Pick<Evento, 
+  | "titulo" 
+  | "descricao"
+  | "localizacao"
+  | "faixaEtaria"
+  | "preco"
+  | "imageUrl"
+  | "organizadorId"
+  | "categoriaEventoId"
+ >; 

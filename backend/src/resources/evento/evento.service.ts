@@ -1,4 +1,5 @@
 import { PrismaClient, Evento } from "@prisma/client";
+import { CreateEventoDto } from "./evento.types";
 
 const prisma = new PrismaClient();
 
@@ -12,4 +13,10 @@ export async function getEventoService (idEvento: number): Promise<Evento | null
             id: idEvento
         }
     });
+}
+
+export const createEvento = async(
+  evento: CreateEventoDto
+) : Promise<Evento> => {
+  return await prisma.evento.create({ data: evento });
 }

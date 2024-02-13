@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { getAllEventos } from "./evento.service";
-import { EventoDto } from "./evento.types";
+import { createEvento, getAllEventos } from "./evento.service";
+import { CreateEventoDto, EventoDto } from "./evento.types";
 import { getEventoService } from "./evento.service";
 
 async function index(req: Request, res: Response) {
@@ -36,4 +36,30 @@ async function getEvento (req: Request, res: Response) {
   }
 }
 
-export default { index, getEvento };
+async function create (req: Request, res: Response) {
+  /*
+    #swagger.summary = 'Criar um evento.'
+    #swagger.parameters['body'] = {
+      in: 'body',
+      schema: { $ref: '#/dfinitions/Evento'}
+    }
+  */
+
+  const dadosEvento = req.body;
+  const organizadorId = req.session.uid;
+
+  const evento = {
+    ...dadosEvento,
+    organizadorId,
+  } as CreateEventoDto;
+
+  try {
+    const novoEvento = await createEvento(evento);   
+
+    return res.status(201).json(novoEvento);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+export default { index, getEvento, create };
