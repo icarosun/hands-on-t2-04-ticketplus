@@ -20,9 +20,14 @@ import MenuButton from '@mui/joy/MenuButton';
 import Person from '@mui/icons-material/Person';
 import Settings from '@mui/icons-material/Settings';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import { TiposUsuarios } from "../../../utils/tipoUsuario.constants";
 
-// ** Styled Component
-const UserDropdownMenu = () => {
+
+interface UserDropdownMenuProps {
+  tipoUsuario: TiposUsuarios.COMPRADOR | TiposUsuarios.ORGANIZADOR;
+}
+
+const UserDropdownMenu = (props: UserDropdownMenuProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -42,6 +47,10 @@ const UserDropdownMenu = () => {
       alert("Erro ao tentar realizar o logout");
       console.error(error.response?.data?.msg); // acessando os dados de resposta se estiverem disponíveis
     }
+  }
+
+  const primeiraLetraMaiuscula = (palavra: string): string => {
+    return palavra.charAt(0).toUpperCase() + palavra.slice(1)
   }
 
   return (
@@ -80,7 +89,7 @@ const UserDropdownMenu = () => {
                 borderColor: 'background.surface',
               }}
             >
-              Cliente
+              {primeiraLetraMaiuscula(props.tipoUsuario)}
             </Chip>
             <Box
               sx={{

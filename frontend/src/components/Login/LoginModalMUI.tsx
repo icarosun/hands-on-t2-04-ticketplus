@@ -25,6 +25,7 @@ import Card from '@mui/material/Card'
 import Alert from '@mui/material/Alert';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import LockRoundedIcon from '@mui/icons-material/LockRounded';
+import { TiposUsuarios } from '../../utils/tipoUsuario.constants';
 
 interface State {
     email: string
@@ -88,7 +89,11 @@ const LoginPage = () => {
             handleOpenModalSuccessMessage();
             setTimeout(() => {
                 handleCloseModalSuccessMessage(); // Esconde a mensagem após 5 segundos
-                navigate("/paginacomprador");
+                if (dadosUsuario?.tipoUsuario === TiposUsuarios.COMPRADOR) {
+                    navigate("/paginacomprador");
+                } else {
+                    navigate("/paginaorganizador");
+                }
                 location.reload();
             }, 5000);
         } catch (error: any) {

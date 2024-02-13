@@ -21,6 +21,7 @@ import { defineSessaoUsuario } from '../../../utils/defineSessaoUsuario';
 import { CompraType, listaIngressos } from '../../../services/listaIngressos';
 import SaldoComponente from '../../CarteiraUsuario/CarteiraItem';
 import MeusIngressos from '../../IngressosComprados/MeusIngressos';
+import { TiposUsuarios } from '../../../utils/tipoUsuario.constants';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -74,8 +75,11 @@ export interface InfoIngressoType {
   nomeProprietario: string;
 }
 
+interface AppBarProps {
+  tipoUsuario: TiposUsuarios.COMPRADOR | TiposUsuarios.ORGANIZADOR;
+}
 
-const AppBarComprador = () => {
+const AppBarComprador = (props: AppBarProps) => {
   const [saldoAtual, setSaldoAtual] = useState<number | undefined>(undefined);
   const [ingressos, setIngressos] = useState<InfoIngressoType[]>([]);
   const [mostraSpinner, setMostraSpinner] = useState(true);
@@ -87,27 +91,29 @@ const AppBarComprador = () => {
     (async () => {
         try {
             const resSessao = await defineSessaoUsuario();
-            const resIngressos = await listaIngressos();
-            const saldo = resSessao.data.saldo;
-            setSaldoAtual(saldo);
-            const compras = resIngressos?.data.compras;
-            let index = 1;
-            const ingressosAux: InfoIngressoType[] = [];
-            compras?.map((compra: CompraType) => {
-                const ingresso = compra.evento;
-                const comprador = compra.comprador;
-                const ingressoInfo = {
-                    id: parseInt(`${ingresso.id}${index}`),
-                    imageUrlEvento: ingresso.imageUrl,
-                    nomeEvento: ingresso.titulo,
-                    localEvento: ingresso.localizacao,
-                    quantidadeIngressos: 1,
-                    nomeProprietario: comprador.nome
-                }
-                ingressosAux.push(ingressoInfo);
-                index++;
-            });
-            setIngressos(ingressosAux);
+            if (props.tipoUsuario === TiposUsuarios.COMPRADOR) {
+              const resIngressos = await listaIngressos();
+              const saldo = resSessao.data.saldo;
+              setSaldoAtual(saldo);
+              const compras = resIngressos?.data.compras;
+              let index = 1;
+              const ingressosAux: InfoIngressoType[] = [];
+              compras?.map((compra: CompraType) => {
+                  const ingresso = compra.evento;
+                  const comprador = compra.comprador;
+                  const ingressoInfo = {
+                      id: parseInt(`${ingresso.id}${index}`),
+                      imageUrlEvento: ingresso.imageUrl,
+                      nomeEvento: ingresso.titulo,
+                      localEvento: ingresso.localizacao,
+                      quantidadeIngressos: 1,
+                      nomeProprietario: comprador.nome
+                  }
+                  ingressosAux.push(ingressoInfo);
+                  index++;
+              });
+              setIngressos(ingressosAux);
+            }
         } catch (error) {
             navigate("/");
             console.error(error);
@@ -127,91 +133,126 @@ useEffect(() => {
     setAnchorElNav(null);
   };
 
+  let componentesComprador:any[] = []
+
+  const AppBarStyle: object = {
+    backgroundColor:'primary'
+  }
+
+  const ToolbarStyle: object = {
+    marginLeft:'20px',
+    marginRight:'20px',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
+
+  const SearchBarStyle = {
+    display: 'block'
+  }
+
+  if (props.tipoUsuario === TiposUsuarios.COMPRADOR) {
+    componentesComprador = [
+      <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        <SaldoComponente saldo={saldoAtual} spinner={mostraSpinner}/>
+        <MeusIngressos ingressos={ingressos}></MeusIngressos>
+      </Box>
+    ]
+  } else {
+    SearchBarStyle.display = 'none'
+  }
 
   return (
-    <AppBar position="static" style={{backgroundColor:'primary'}}>
-        <Toolbar disableGutters style={{marginLeft:'20px', marginRight:'20px'}}>
-          <ConfirmationNumberIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 3,
-              display: { xs: 'none', md: 'flex' },
-              fontWeight: 700,
-              letterSpacing: '.2rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            TicketPlus
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+    <AppBar position="static" style={AppBarStyle}>
+        <Toolbar disableGutters style={ToolbarStyle}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <ConfirmationNumberIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 3,
+                display: { xs: 'none', md: 'flex' },
+                fontWeight: 700,
+                letterSpacing: '.2rem',
+                color: 'inherit',
+                textDecoration: 'none',
               }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{ width: 320, maxWidth: '100%' }}>
-              <MenuList>
-                <MenuItem>
-                  <ListItemText>Cut</ListItemText>
-                </MenuItem>
-                <MenuItem>
-                  <ListItemText>Copy</ListItemText>
-                </MenuItem>
-              </MenuList>
-            </Menu>
+              key={`tp-1`}
+            >
+              TicketPlus
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{ width: 320, maxWidth: '100%' }}>
+                <MenuList>
+                  <MenuItem>
+                    <ListItemText>Cut</ListItemText>
+                  </MenuItem>
+                  <MenuItem>
+                    <ListItemText>Copy</ListItemText>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </Box>
+            <ConfirmationNumberIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 3,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.2rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+              key={`tp-2`}
+            >
+              TicketPlus
+            </Typography>
+
+            {componentesComprador}
+
           </Box>
-          <ConfirmationNumberIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 3,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.2rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            TicketPlus
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <SaldoComponente saldo={saldoAtual} spinner={mostraSpinner}/>
-            <MeusIngressos ingressos={ingressos}></MeusIngressos>
+
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <Search sx={SearchBarStyle}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Pesquisar Evento"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
+            <UserDropdownMenu tipoUsuario={props.tipoUsuario}/>
           </Box>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Pesquisar Evento"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          <UserDropdownMenu />
+
         </Toolbar>
     </AppBar>
   );
