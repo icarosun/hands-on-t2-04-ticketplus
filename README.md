@@ -1,20 +1,72 @@
-# TicketPlus
+# Atualizações para a Funcionalidade [F02-GE]
+## Tarefas
+### Frontend
 
-Comandos básicos:
+<table>
+<thead>
+<th>Descrição</th>
+<th>Atribuição</th>
+</thead>
 
-cp .env.example .env -> geral
+<tbody id="frontend-tasks-tbody">
 
-cp frontend/.env.example frontend/.env
+<tr>
+<td>
+Migrar a interface gráfica para Material UI
+</td>
+<td>
+<a href="https://github.com/gaspar51">gaspar51</a>
+</td>
+</tr>
 
-cp backend/.env.example backend/.env
+<tr>
+<td>
+Desenvolver a versão 1.0 do modelo da interface do Organizador
+</td>
+<td>
+<a href="https://github.com/gaspar51">gaspar51</a>
+</td>
+</tr>
 
-cd frontend && npm install && cd ..
+<tr>
+<td>
+Ajustar frontend para o modelo de dados da funcionalidade [F02-GE]
+</td>
+<td>
+<a href="https://github.com/shl0mo">shl0mo</a>
+</td>
+</tr>
 
-cd backend && npm install && cd ..
+</tbody>
+</table>
 
-docker compose up  ou  docker-compose up -d   
+### Backend
 
-docker exec -it ticketplus_backend npx prisma migrate dev
+<table>
+<thead>
+<th>Descrição</th>
+<th>Atribuição</th>
+</thead>
 
-docker exec -it ticketplus_backend npx prisma db seed
+<tbody id="backend-tasks-tbody">
 
+<tr>
+<td>
+Atualizar o modelo de dados para a funcionalidade [F02-GE]
+</td>
+<td>
+<a href="https://github.com/LGugs">LGugs</a>, <a href="https://github.com/cleogarcia">cleogarcia</a>, <a href="https://github.com/shl0mo">shl0mo</a>
+</td>
+</tr>
+
+<tr>
+<td>
+Ajustar backend para o modelo de dados da funcionalidade [F02-GE]
+</td>
+<td>
+<a href="https://github.com/shl0mo">shl0mo</a>
+</td>
+</tr>
+
+</tbody>
+</table>

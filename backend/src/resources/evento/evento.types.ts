@@ -4,7 +4,6 @@ export type EventoDto = Pick<Evento,
   | "titulo"
   | "descricao"
   | "localizacao"
-  | "categoria"
   | "faixaEtaria"
   | "preco"
   | "imageUrl"

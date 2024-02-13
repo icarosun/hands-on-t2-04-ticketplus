@@ -1,11 +1,3 @@
-import { Usuario } from "@prisma/client";
+import { Comprador, Organizador } from "@prisma/client";
 
-
-export type CadastroUsuarioDto = Pick<Usuario,
-    | "nome"
-    | "email"
-    | "senha"
-    | "tipoUsuario"
-    | "saldo"
->;
-export type LoginDto = Pick<Usuario, "email" | "senha">;
+export type LoginDto = Pick<Comprador | Organizador, "email" | "senha">;
