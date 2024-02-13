@@ -11,7 +11,7 @@ export interface CompraType {
         localizacao: string;
         /* quantidadeIngressos: number; */
     };
-    usuario: {
+    comprador: {
         nome: string;
     };
     data: {

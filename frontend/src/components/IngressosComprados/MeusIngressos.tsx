@@ -5,7 +5,7 @@ import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Typography from '@mui/joy/Typography';
-import { InfoIngressoType } from '../AppBar/AppBarComprador/AppBarComprador'
+import { InfoIngressoType } from '../AppBar/AppBarUsuario/AppBarUsuario'
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import { Button, Grid, Box, Sheet, Chip } from '@mui/joy';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
@@ -88,8 +88,8 @@ const MeusIngressos: React.FC<IngressosCompradosProps> = ({ ingressos }) => {
                         sx={{ flexGrow: 1 }}>
                         <Grid xs={12} sx={{ marginBottom: 2 }}>
                             <Grid container spacing={6} sx={{ margin: 2 }}>
-                                {ingressos.map((ingresso) => (
-                                    <Card orientation="horizontal" variant="outlined" sx={{ width: 420, margin: 1, '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' } }}>
+                                {ingressos.map((ingresso, index) => (
+                                    <Card key={`ticket-card-${index}`} orientation="horizontal" variant="outlined" sx={{ width: 420, margin: 1, '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' } }}>
                                         <CardOverflow>
                                             <AspectRatio ratio="1" sx={{ width: 120 }}>
                                                 <img

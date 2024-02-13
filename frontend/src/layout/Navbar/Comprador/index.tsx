@@ -1,10 +1,15 @@
 import { Outlet } from "react-router-dom";
-import AppBarComprador from "../../../components/AppBar/AppBarComprador/AppBarComprador.tsx";
+import AppBarComprador from "../../../components/AppBar/AppBarUsuario/AppBarUsuario.tsx";
+import { TiposUsuarios } from "../../../utils/tipoUsuario.constants.ts";
 
-export default function CompradorNavBarLayout() {
+interface NavBarLayoutProps {
+  tipoUsuario: TiposUsuarios.COMPRADOR | TiposUsuarios.ORGANIZADOR;
+}
+
+export default function CompradorNavBarLayout(props: NavBarLayoutProps) {
   return (
     <div>
-      <AppBarComprador></AppBarComprador>
+      <AppBarComprador tipoUsuario={props.tipoUsuario}></AppBarComprador>
       <Outlet />
     </div>
   );
