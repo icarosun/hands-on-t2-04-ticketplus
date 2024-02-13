@@ -56,7 +56,17 @@ async function create (req: Request, res: Response) {
   try {
     const novoEvento = await createEvento(evento);   
 
-    return res.status(201).json(novoEvento);
+    return res.status(201).json({
+      "id": novoEvento.id,
+      "titulo": novoEvento.titulo,
+      "descricao": novoEvento.descricao,
+      "localizacao": novoEvento.localizacao,
+      "faixaEtaria": novoEvento.faixaEtaria,
+      "preco": novoEvento.preco,
+      "imageUrl": novoEvento.imageUrl,
+      "categoriaEventoId": novoEvento.categoriaEventoId,
+      "createdAt": novoEvento.createdAt,
+    });
   } catch (error) {
     return res.status(500).json(error);
   }

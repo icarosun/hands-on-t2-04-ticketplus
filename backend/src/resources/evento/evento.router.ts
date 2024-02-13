@@ -1,7 +1,9 @@
 import { Router } from "express";
 import eventoController from "./evento.controller"
 import { validarSchema } from "../../middlewares/validarSchema";
-import Schemasevento from "./evento.schemas";
+import SchemasEvento from "./evento.schemas";
+import { isOrganizador } from "../../middlewares/isOrganizador";
+import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
 
 const router = Router();
 
@@ -13,8 +15,10 @@ router.get("/:idEvento",
     eventoController.getEvento
 );
 
-router.post("/", 
-  validarSchema(Schemasevento.schemaCreateEvento),
+router.post("/",
+  usuarioAutenticado, 
+  isOrganizador,
+  validarSchema(SchemasEvento.schemaCreateEvento),
   eventoController.create
 );
 
