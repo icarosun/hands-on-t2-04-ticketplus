@@ -12,8 +12,14 @@ router.get("/",
 );
 
 router.get("/:idEvento",
-    eventoController.getEvento
+    eventoController.read
 );
+
+router.put("/:idEvento",
+  usuarioAutenticado,
+  isOrganizador,
+  validarSchema(SchemasEvento.schemaCreateEvento),
+  eventoController.update);
 
 router.post("/",
   usuarioAutenticado, 

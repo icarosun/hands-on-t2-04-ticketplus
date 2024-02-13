@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { createEvento, getAllEventos } from "./evento.service";
-import { CreateEventoDto, EventoDto } from "./evento.types";
-import { getEventoService } from "./evento.service";
+import { createEvento, getAllEventos, updateEvento } from "./evento.service";
+import { CreateEventoDto, EventoDto, UpdateEventoDto } from "./evento.types";
+import { getEvento } from "./evento.service";
 
 async function index(req: Request, res: Response) {
   /* #swagger.summary = 'Exibe todos os eventos.'
@@ -17,10 +17,10 @@ async function index(req: Request, res: Response) {
   }
 }
 
-async function getEvento (req: Request, res: Response) {
+async function read (req: Request, res: Response) {
   const idEvento = parseInt(req.params.idEvento);
   try {
-    const evento = await getEventoService(idEvento) as EventoDto;
+    const evento = await getEvento(idEvento) as EventoDto;
     if (!evento)
       return res.status(404).json({ msg: "Evento nao encontrado" });
     const dadosEvento = {
@@ -72,4 +72,31 @@ async function create (req: Request, res: Response) {
   }
 }
 
-export default { index, getEvento, create };
+async function update (req: Request, res: Response) {
+  /*
+    #swagger.summary = 'Editar um evento.'
+    #swagger.parameters['body'] = {
+      in: 'body',
+      schema: { $ref: '#/dfinitions/Evento'}
+    }
+  */
+  const id = parseInt(req.params.idEvento); 
+  const newEvento = req.body as UpdateEventoDto; 
+  
+  try {
+    const evento = await getEvento(id);
+    
+    if (!evento) return res.status(404).json({ msg: "Evento não encontrado" })
+
+    if (evento.organizadorId === req.session.uid) {
+      await updateEvento(id, newEvento);
+      return res.status(200).json({ msg: "Evento atualizado"})
+    } else {
+      return res.status(401).json({ msg: "Usuário não autorizado"});
+    }
+  } catch (error) {
+    return res.status(500).json(error); 
+  }
+}
+
+export default { index, read, create, update };
