@@ -28,4 +28,10 @@ router.post("/",
   eventoController.create
 );
 
+router.delete("/:idEvento",
+  usuarioAutenticado,
+  isOrganizador,
+  eventoController.remove
+);
+
 export default router;
