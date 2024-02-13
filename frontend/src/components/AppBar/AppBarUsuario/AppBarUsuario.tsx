@@ -79,7 +79,7 @@ interface AppBarProps {
   tipoUsuario: TiposUsuarios.COMPRADOR | TiposUsuarios.ORGANIZADOR;
 }
 
-const AppBarComprador = (props: AppBarProps) => {
+const AppBarUsuario = (props: AppBarProps) => {
   const [saldoAtual, setSaldoAtual] = useState<number | undefined>(undefined);
   const [ingressos, setIngressos] = useState<InfoIngressoType[]>([]);
   const [mostraSpinner, setMostraSpinner] = useState(true);
@@ -258,4 +258,4 @@ useEffect(() => {
   );
 }
 
-export default AppBarComprador
+export default AppBarUsuario

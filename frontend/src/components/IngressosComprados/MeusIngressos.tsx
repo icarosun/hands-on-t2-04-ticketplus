@@ -5,7 +5,7 @@ import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Typography from '@mui/joy/Typography';
-import { InfoIngressoType } from '../AppBar/AppBarComprador/AppBarComprador'
+import { InfoIngressoType } from '../AppBar/AppBarUsuario/AppBarUsuario'
 import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined';
 import { Button, Grid, Box, Sheet, Chip } from '@mui/joy';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
