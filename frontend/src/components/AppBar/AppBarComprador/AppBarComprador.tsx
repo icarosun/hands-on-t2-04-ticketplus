@@ -95,14 +95,14 @@ const AppBarComprador = () => {
             const ingressosAux: InfoIngressoType[] = [];
             compras?.map((compra: CompraType) => {
                 const ingresso = compra.evento;
-                const usuario = compra.usuario;
+                const comprador = compra.comprador;
                 const ingressoInfo = {
                     id: parseInt(`${ingresso.id}${index}`),
                     imageUrlEvento: ingresso.imageUrl,
                     nomeEvento: ingresso.titulo,
                     localEvento: ingresso.localizacao,
                     quantidadeIngressos: 1,
-                    nomeProprietario: usuario.nome
+                    nomeProprietario: comprador.nome
                 }
                 ingressosAux.push(ingressoInfo);
                 index++;
