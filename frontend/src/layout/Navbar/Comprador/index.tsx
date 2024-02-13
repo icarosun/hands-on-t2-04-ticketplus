@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
-import NavbarComprador from "../../../components/Navbar/Comprador/index.tsx";
+import AppBarComprador from "../../../components/AppBar/AppBarComprador/AppBarComprador.tsx";
 
 export default function CompradorNavBarLayout() {
   return (
-    <div style={{ height: "100%", width: "100%" }}>
-      <NavbarComprador />
+    <div>
+      <AppBarComprador></AppBarComprador>
       <Outlet />
     </div>
   );
