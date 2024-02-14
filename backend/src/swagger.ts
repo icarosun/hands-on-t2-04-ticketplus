@@ -44,6 +44,46 @@ const doc = {
         forma_pagamento: "Boleto",
       },
     ],
+    CreateEventoDto: {
+      titulo: "Chiado da Chinela",
+      descricao:
+        "Forró estilo pé de serra. Mulher não paga. Cerveja liberada a partir da 00:00",
+      localizacao: "Av. Torquato Tapajós, nº 207",
+      faixaEtaria: 18,
+      preco: 12.99,
+      imageUrl: "../../../src/assets/imgs/chiado-da-chinela.jpg",
+      categoriaEventoId: 1,
+    },
+    UpdateEventoDto: {
+      titulo: "Bloco do Javeiro",
+      descricao:
+        "Forró estilo pé de serra. Mulher não paga. Cerveja liberada a partir da 00:00",
+      localizacao: "Av. Torquato Tapajós, nº 207",
+      faixaEtaria: 18,
+      preco: 12.99,
+      imageUrl: "../../../src/assets/imgs/chiado-da-chinela.jpg",
+      categoriaEventoId: 1,
+    },
+    ResponseEventoUpdated: {
+      id: "1",
+      titulo: "Bloco do Javeiro",
+      localizacao: "Av. Torquato Tapajós, nº 207",
+      faixaEtaria: 18,
+      preco: 12.99,
+      imageUrl: "../../../src/assets/imgs/chiado-da-chinela.jpg",
+      categoriaEventoId: 1,
+      createdAt: "2024-01-13T15:04:31.647Z",
+    },
+    Evento: {
+      id: "1",
+      titulo: "Chiado da Chinela",
+      localizacao: "Av. Torquato Tapajós, nº 207",
+      faixaEtaria: 18,
+      preco: 12.99,
+      imageUrl: "../../../src/assets/imgs/chiado-da-chinela.jpg",
+      categoriaEventoId: 1,
+      createdAt: "2024-01-13T15:04:31.647Z",
+    },
     ReturnReadAllEventos: [
       {
         id: "19454928-0f2b-44e6-ba87-8e65a1fff615",
