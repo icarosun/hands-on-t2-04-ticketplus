@@ -15,6 +15,14 @@ export async function getEvento (idEvento: number): Promise<Evento | null> {
     });
 }
 
+export const getEventosByOrganizador = async(
+  organizadorId: string 
+) : Promise<Evento[]> => {
+  return await prisma.evento.findMany({
+    where: { organizadorId }
+  });
+}
+
 export const createEvento = async(
   evento: CreateEventoDto
 ) : Promise<Evento> => {
