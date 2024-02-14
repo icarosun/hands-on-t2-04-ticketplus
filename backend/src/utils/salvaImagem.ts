@@ -3,9 +3,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const PORT = process.env.PORT ?? 3000;
-
-export function salvaImagem (caminhoPasta: string, imagemBase64: string): string {
+export async function salvaImagem (caminhoPasta: string, imagemBase64: string) {
+    console.log("SALVAR IMAGEM");
     if (!fs.existsSync(caminhoPasta)) {
         fs.mkdirSync(caminhoPasta);
     }
@@ -14,5 +13,4 @@ export function salvaImagem (caminhoPasta: string, imagemBase64: string): string
     if (caminhoPasta.includes('events')) nomeImagem = 'cartaz.jpg'
     else nomeImagem = 'avatar.jpg'
     fs.writeFileSync(`${caminhoPasta}/${nomeImagem}`, buffer)
-    return ''
 }

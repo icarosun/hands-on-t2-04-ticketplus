@@ -29,8 +29,6 @@ export default function CardEvento(props: { id: number; url: string | undefined;
         imageUrl: ""
     });
 
-    // const storeState = store.getState()
-
     const handleCardClick = async () => {
         try {
             const idEvento = props.id;

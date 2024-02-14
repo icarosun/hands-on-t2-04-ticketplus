@@ -12,7 +12,7 @@ const schemaCreateEvento = Joi.object({
   faixaEtaria: Joi.number(),
   preco: Joi.number()
     .required(),
-  imageUrl: Joi.string()
+  imageBase64: Joi.string()
     .required(),
   categoriaEventoId: Joi.number()
     .integer()

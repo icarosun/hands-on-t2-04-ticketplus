@@ -6,7 +6,6 @@ export type EventoDto = Pick<Evento,
   | "localizacao"
   | "faixaEtaria"
   | "preco"
-  | "imageUrl"
 >;
 
 export type CreateEventoDto = Pick<Evento, 
@@ -15,7 +14,6 @@ export type CreateEventoDto = Pick<Evento,
   | "localizacao"
   | "faixaEtaria"
   | "preco"
-  | "imageUrl"
   | "organizadorId"
   | "categoriaEventoId"
- >; 
+ >;
