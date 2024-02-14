@@ -6,6 +6,7 @@ import organizadorRouter from "../resources/organizador/organizador.router";
 import eventoRouter from "../resources/evento/evento.router";
 import compraRouter from "../resources/compra/compra.router";
 import sessaoRouter from "../resources/sessao/sessao.router";
+import imagemRouter from '../resources/imagem/imagem.router'
 
 const router = Router();
 
@@ -39,6 +40,12 @@ router.use(
   // #swagger.tags = ['Compra']
   compraRouter
 );
+
+router.use(
+  "/img",
+  // #swagger.tags = ['img']
+  imagemRouter
+)
 
 router.use(
   "/sessao",
