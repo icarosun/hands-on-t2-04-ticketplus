@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { createEvento, getAllEventos } from "./evento.service";
 import { CreateEventoDto, EventoDto } from "./evento.types";
 import { getEventoService } from "./evento.service";
+import { Decimal } from "@prisma/client/runtime/library";
+import { salvaImagem } from "../../utils/salvaImagem";
 
 async function index(req: Request, res: Response) {
   /* #swagger.summary = 'Exibe todos os eventos.'
@@ -44,29 +46,17 @@ async function create (req: Request, res: Response) {
       schema: { $ref: '#/dfinitions/Evento'}
     }
   */
-
-  const dadosEvento = req.body;
+  const dadosEvento = req.body as EventoDto;
   const organizadorId = req.session.uid;
-
   const evento = {
     ...dadosEvento,
-    organizadorId,
+    faixaEtaria: 10,
+    preco: dadosEvento.preco as unknown as Decimal,
+    organizadorId: organizadorId,
   } as CreateEventoDto;
-
   try {
-    const novoEvento = await createEvento(evento);   
-
-    return res.status(201).json({
-      "id": novoEvento.id,
-      "titulo": novoEvento.titulo,
-      "descricao": novoEvento.descricao,
-      "localizacao": novoEvento.localizacao,
-      "faixaEtaria": novoEvento.faixaEtaria,
-      "preco": novoEvento.preco,
-      "imageUrl": novoEvento.imageUrl,
-      "categoriaEventoId": novoEvento.categoriaEventoId,
-      "createdAt": novoEvento.createdAt,
-    });
+    const novoEvento = await createEvento(evento);
+    return res.status(201).json({ msg: "Evento criado com sucesso"});
   } catch (error) {
     return res.status(500).json(error);
   }

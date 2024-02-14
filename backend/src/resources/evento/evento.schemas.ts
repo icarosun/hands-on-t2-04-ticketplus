@@ -5,12 +5,18 @@ const schemaCreateEvento = Joi.object({
     .min(3)
     .max(100)
     .required(),
-  descricao: Joi.string().required(),
-  localizacao: Joi.string().required(),
-  faixaEtaria: Joi.number().required(),
-  preco: Joi.number().required(),
-  imageUrl: Joi.string().required(),
-  categoriaEventoId: Joi.number().integer().required()
+  descricao: Joi.string()
+    .required(),
+  localizacao: Joi.string()
+    .required(),
+  faixaEtaria: Joi.number(),
+  preco: Joi.number()
+    .required(),
+  imageUrl: Joi.string()
+    .required(),
+  categoriaEventoId: Joi.number()
+    .integer()
+    .required()
 });
 
 const schemaGetEvento = Joi.object({
