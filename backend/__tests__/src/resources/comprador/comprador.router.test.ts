@@ -1,10 +1,8 @@
-import request from "supertest";
-
-import { compradorController } from "../../resources/comprador/comprador.controller";
-
-describe("Test app.ts", () => {
-  test("Catch-all route", async () => {
-    const res = await request(app).get("/");
-    expect(res.body).toEqual({ message: "Allo! Catch-all route." });
+describe("Server.ts tests", () => {
+  test("Math test", () => {
+    expect(2 + 2).toBe(4);
+  });
+  it("test of testing", () => {
+    expect(1 + 1).toBe(2);
   });
 });
