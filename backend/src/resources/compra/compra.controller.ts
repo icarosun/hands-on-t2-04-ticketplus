@@ -5,7 +5,7 @@ import { Decimal } from "@prisma/client/runtime/library";
 import { getAllCompras } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { CreateCompraDto } from "./compra.types";
-import { getEventoService } from "../evento/evento.service";
+import { getEvento } from "../evento/evento.service";
 import { createTicketService } from "../ticket/ticket.service";
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { updateSaldoComprador } from "../comprador/comprador.service";
@@ -41,7 +41,7 @@ async function create (req: Request, res: Response) {
   try {
     const comprador = await getCompradorByEmail(emailComprador) as Comprador;
     const saldoComprador = comprador.saldo;
-    const evento = await getEventoService(eventoId);
+    const evento = await getEvento(eventoId);
     if (!evento)
       return res.status(404).json({ msg: "Evento nao encontrado" })
     const valor: Decimal = evento.preco as unknown as Decimal;
