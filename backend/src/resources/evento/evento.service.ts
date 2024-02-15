@@ -1,4 +1,4 @@
-import { PrismaClient, Evento } from "@prisma/client";
+import { PrismaClient, Evento, Compra, TipoTicket } from "@prisma/client";
 import { CreateEventoDto, UpdateEventoDto } from "./evento.types";
 
 const prisma = new PrismaClient();
@@ -15,33 +15,49 @@ export async function getEvento (idEvento: number): Promise<Evento | null> {
     });
 }
 
-export const getEventosByOrganizador = async(
+export const getEventosByOrganizador = async (
   organizadorId: string 
-) : Promise<Evento[]> => {
+): Promise<Evento[]> => {
   return await prisma.evento.findMany({
     where: { organizadorId }
   });
 }
 
-export const createEvento = async(
+export const getCompraByEventoId = async (eventoId: number): Promise<Compra | null> => {
+  return await prisma.compra.findFirst({
+    where: { eventoId }
+  })
+}
+
+export const createEvento = async (
   evento: CreateEventoDto
-) : Promise<Evento> => {
+): Promise<Evento> => {
   return await prisma.evento.create({ data: evento });
 }
 
-export const updateEvento = async(
-  idEvento: number, evento: UpdateEventoDto 
-) : Promise<Evento> => {
+export const updateEvento = async (
+  idEvento: number,
+  evento: UpdateEventoDto 
+): Promise<Evento> => {
   return await prisma.evento.update({
     where: { id: idEvento },
     data: evento
   })
 } 
 
-export const removeEvento = async(
+export const removeEvento = async (
   idEvento: number
-) : Promise<Evento> => {
+): Promise<Evento> => {
+  const tiposTicketsArray = await prisma.tipoTicket.findMany({
+    where: { eventoId: idEvento }
+  })
+  for (let tipoTicket of tiposTicketsArray) {
+    const tipoTicketId = tipoTicket.id;
+    await prisma.tipoTicket.delete({
+      where: { id: tipoTicketId }
+    })
+  }
   return await prisma.evento.delete({
-    where: { id: idEvento}
+    where: { id: idEvento }
   })
 }

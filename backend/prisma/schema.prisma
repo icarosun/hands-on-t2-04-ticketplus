@@ -103,7 +103,7 @@ model Compra {
 }
 
 model TipoTicket {
-  id        Int @id @default(autoincrement()) @db.Int()
+  id        Int    @id @default(autoincrement()) @db.Int()
   descricao String @db.VarChar(50)
 
   eventoId Int     @db.Int()

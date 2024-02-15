@@ -1,16 +1,30 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import { createEvento, getAllEventos } from "./evento.service";
-import { CreateEventoDto, EventoDto } from "./evento.types";
-import { getEventoService } from "./evento.service";
+import {
+  createEvento,
+  getAllEventos,
+  getEvento,
+  updateEvento,
+  removeEvento,
+  getCompraByEventoId
+} from "./evento.service";
+import {
+    EventoDto,
+    CreateEventoDto,
+    UpdateEventoDto
+} from "./evento.types";
 import { Decimal } from "@prisma/client/runtime/library";
-import { salvaImagem } from "../../utils/salvaImagem";
+import { ReqEventoType } from "./evento.types";
+import {
+  salvaImagemEvento,
+  excluiImagemEvento
+} from "./eventos.utils";
 
 dotenv.config();
 
 const PORT = process.env.PORT ?? 3000;
 
-async function index(req: Request, res: Response) {
+async function index (req: Request, res: Response) {
   /* #swagger.summary = 'Exibe todos os eventos.'
     #swagger.description = 'Exibe todos os eventos existentes no banco de dados'
         #swagger.responses[200] = {
@@ -57,17 +71,6 @@ async function read (req: Request, res: Response) {
   }
 }
 
-interface EventoType {
-  id: number;
-  titulo: string;
-  descricao: string;
-  localizacao: string;
-  preco: number;
-  imageBase64: string;
-  organizadorId: string;
-  categoriaEventoId: number;
-}
-
 async function create (req: Request, res: Response) {
   /*
     #swagger.summary = 'Criar um evento.'
@@ -79,7 +82,7 @@ async function create (req: Request, res: Response) {
       schema: { $ref: '#/definitions/Evento'}
     }
   */
-  const dadosEvento = req.body as EventoType;
+  const dadosEvento = req.body as ReqEventoType;
   const organizadorId = req.session.uid;
   const evento = {
     titulo: dadosEvento.titulo,
@@ -92,10 +95,9 @@ async function create (req: Request, res: Response) {
   } as CreateEventoDto;
   try {
     const novoEvento = await createEvento(evento);
-    const imageBase64 = dadosEvento.imageBase64;
     const idEvento = novoEvento.id;
-    const pastaEvents = `${__dirname.split('/resources/')[0]}/assets/img/events`;
-    salvaImagem(`${pastaEvents}/${idEvento}`, imageBase64);
+    const imageBase64 = dadosEvento.imageBase64;
+    salvaImagemEvento(idEvento, imageBase64);
     return res.status(201).json({ msg: "Evento criado com sucesso" });
   } catch (error) {
     return res.status(500).json(error);
@@ -113,21 +115,27 @@ async function update (req: Request, res: Response) {
         #swagger.responses[200] 
           
   } */
-
-  const id = parseInt(req.params.idEvento); 
-  const newEvento = req.body as UpdateEventoDto; 
-  
+  const dadosEvento = req.body as ReqEventoType;
+  const idEvento = parseInt(req.params.idEvento);
+  const imageBase64 = dadosEvento.imageBase64;
   try {
-    const evento = await getEvento(id);
-    
-    if (!evento) return res.status(404).json({ msg: "Evento não encontrado" })
-
+    const evento = await getEvento(idEvento);
+    if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
     if (evento.organizadorId === req.session.uid) {
-      await updateEvento(id, newEvento);
+      salvaImagemEvento(idEvento, imageBase64);
+      const eventoAtualzado = {
+        titulo: dadosEvento.titulo,
+        descricao: dadosEvento.descricao,
+        localizacao: dadosEvento.localizacao,
+        faixaEtaria: 10,
+        preco: dadosEvento.preco as unknown as Decimal,
+        organizadorId: dadosEvento.organizadorId,
+        categoriaEventoId: dadosEvento.categoriaEventoId
+      } as UpdateEventoDto;
+      await updateEvento(idEvento, eventoAtualzado);
       return res.status(200).json({ msg: "Evento atualizado"})
     }
-
-    return res.status(401).json({ msg: "Usuário não autorizado"});
+    return res.status(401).json({ msg: "Usuario nao autorizado"});
   } catch (error) {
     return res.status(500).json(error); 
   }
@@ -137,22 +145,20 @@ async function remove (req: Request, res: Response) {
   /* #swagger.summary = 'Remove um envento específico.'
    #swagger.parameters['idEvento'] = { description: 'Id do evento'}
     
-        #swagger.responses[200] 
+        #swagger.responses[200]
    */
-
-  const id = parseInt(req.params.idEvento); 
-  
+  const idEvento = parseInt(req.params.idEvento);
+  excluiImagemEvento(idEvento);
   try {
-    const evento = await getEvento(id);
-    
-    if (!evento) return res.status(404).json({ msg: "Evento não encontrado" })
-
-    if (evento.organizadorId === req.session.uid) {
-      await removeEvento(id);     
-      return res.status(200).json({ msg: "Evento removido"})
+    const evento = await getEvento(idEvento);
+    if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" })
+    const eventoCompra = await getCompraByEventoId(idEvento);
+    if (eventoCompra) return res.status(401).json({ msg: "Impossivel deletar: existem ingressos comprados para o evento" })
+    if (evento.organizadorId === req.session.uid) {      
+      await removeEvento(idEvento);
+      return res.status(200).json({ msg: "Evento removido com sucesso"})
     }
-
-    return res.status(401).json({ msg: "Usuário não autorizado"});
+    return res.status(401).json({ msg: "Usuario nao autorizado"});
   } catch (error) {
     return res.status(500).json(error); 
   }

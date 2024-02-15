@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const schemaCreateEvento = Joi.object({
+const eventoCamposSchema = {
   titulo: Joi.string()
     .min(3)
     .max(100)
@@ -17,11 +17,14 @@ const schemaCreateEvento = Joi.object({
   categoriaEventoId: Joi.number()
     .integer()
     .required()
-});
+}
 
-const schemaGetEvento = Joi.object({
-	idEvento: Joi.number()
-		.required()
-});
+const schemaCreateEvento = Joi.object(
+  eventoCamposSchema
+);
 
-export default { schemaCreateEvento, schemaGetEvento};
+const schemaUpdateEvento = Joi.object(
+  eventoCamposSchema
+);
+
+export default { schemaCreateEvento, schemaUpdateEvento};

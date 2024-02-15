@@ -9,7 +9,7 @@ export type EventoDto = Pick<Evento,
 >;
 
 export type CreateEventoDto = Pick<Evento, 
-  "titulo" 
+  | "titulo" 
   | "descricao"
   | "localizacao"
   | "faixaEtaria"
@@ -19,11 +19,21 @@ export type CreateEventoDto = Pick<Evento,
  >; 
 
 export type UpdateEventoDto = Pick<Evento, 
-  "titulo" 
+  | "titulo" 
   | "descricao"
   | "localizacao"
   | "faixaEtaria"
   | "preco"
-  | "imageUrl"
   | "categoriaEventoId"
  >;
+
+export interface ReqEventoType {
+  id: number;
+  titulo: string;
+  descricao: string;
+  localizacao: string;
+  preco: number;
+  imageBase64: string;
+  organizadorId: string;
+  categoriaEventoId: number;
+}

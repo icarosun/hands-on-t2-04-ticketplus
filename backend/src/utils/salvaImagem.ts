@@ -1,10 +1,6 @@
 import fs from 'fs';
-import dotenv from "dotenv";
 
-dotenv.config();
-
-export async function salvaImagem (caminhoPasta: string, imagemBase64: string) {
-    console.log("SALVAR IMAGEM");
+export function salvaImagem (caminhoPasta: string, imagemBase64: string) {
     if (!fs.existsSync(caminhoPasta)) {
         fs.mkdirSync(caminhoPasta);
     }
