@@ -1,16 +1,26 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import { createEvento, getAllEventos } from "./evento.service";
-import { CreateEventoDto, EventoDto } from "./evento.types";
-import { getEventoService } from "./evento.service";
+import {
+  createEvento,
+  getAllEventos,
+  getEvento,
+  updateEvento,
+  removeEvento
+} from "./evento.service";
+import {
+    EventoDto,
+    CreateEventoDto,
+    UpdateEventoDto
+} from "./evento.types";
 import { Decimal } from "@prisma/client/runtime/library";
+import { ReqEventoType } from "./evento.types";
 import { salvaImagem } from "../../utils/salvaImagem";
 
 dotenv.config();
 
 const PORT = process.env.PORT ?? 3000;
 
-async function index(req: Request, res: Response) {
+async function index (req: Request, res: Response) {
   /* #swagger.summary = 'Exibe todos os eventos.'
     #swagger.description = 'Exibe todos os eventos existentes no banco de dados'
         #swagger.responses[200] = {
@@ -57,17 +67,6 @@ async function read (req: Request, res: Response) {
   }
 }
 
-interface EventoType {
-  id: number;
-  titulo: string;
-  descricao: string;
-  localizacao: string;
-  preco: number;
-  imageBase64: string;
-  organizadorId: string;
-  categoriaEventoId: number;
-}
-
 async function create (req: Request, res: Response) {
   /*
     #swagger.summary = 'Criar um evento.'
@@ -79,7 +78,7 @@ async function create (req: Request, res: Response) {
       schema: { $ref: '#/definitions/Evento'}
     }
   */
-  const dadosEvento = req.body as EventoType;
+  const dadosEvento = req.body as ReqEventoType;
   const organizadorId = req.session.uid;
   const evento = {
     titulo: dadosEvento.titulo,
@@ -137,7 +136,7 @@ async function remove (req: Request, res: Response) {
   /* #swagger.summary = 'Remove um envento específico.'
    #swagger.parameters['idEvento'] = { description: 'Id do evento'}
     
-        #swagger.responses[200] 
+        #swagger.responses[200]
    */
 
   const id = parseInt(req.params.idEvento); 

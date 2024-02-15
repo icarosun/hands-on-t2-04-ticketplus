@@ -19,7 +19,8 @@ router.put("/:idEvento",
   usuarioAutenticado,
   isOrganizador,
   validarSchema(SchemasEvento.schemaCreateEvento),
-  eventoController.update);
+  eventoController.update
+);
 
 router.post("/",
   usuarioAutenticado, 

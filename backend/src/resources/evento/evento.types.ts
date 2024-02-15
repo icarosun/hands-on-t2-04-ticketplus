@@ -24,6 +24,16 @@ export type UpdateEventoDto = Pick<Evento,
   | "localizacao"
   | "faixaEtaria"
   | "preco"
-  | "imageUrl"
   | "categoriaEventoId"
  >;
+
+export interface ReqEventoType {
+  id: number;
+  titulo: string;
+  descricao: string;
+  localizacao: string;
+  preco: number;
+  imageBase64: string;
+  organizadorId: string;
+  categoriaEventoId: number;
+}
