@@ -43,6 +43,6 @@ export const removeEvento = async (
   idEvento: number
 ): Promise<Evento> => {
   return await prisma.evento.delete({
-    where: { id: idEvento}
+    where: { id: idEvento }
   })
 }

@@ -14,7 +14,10 @@ import {
 } from "./evento.types";
 import { Decimal } from "@prisma/client/runtime/library";
 import { ReqEventoType } from "./evento.types";
-import { salvaImagemEvento } from "./eventos.utils";
+import {
+  salvaImagemEvento,
+  excluiImagemEvento
+} from "./eventos.utils";
 
 dotenv.config();
 
@@ -127,7 +130,7 @@ async function update (req: Request, res: Response) {
         preco: dadosEvento.preco as unknown as Decimal,
         organizadorId: dadosEvento.organizadorId,
         categoriaEventoId: dadosEvento.categoriaEventoId
-      }
+      } as UpdateEventoDto;
       await updateEvento(idEvento, eventoAtualzado);
       return res.status(200).json({ msg: "Evento atualizado"})
     }
@@ -143,20 +146,16 @@ async function remove (req: Request, res: Response) {
     
         #swagger.responses[200]
    */
-
-  const id = parseInt(req.params.idEvento); 
-  
+  const idEvento = parseInt(req.params.idEvento); 
   try {
-    const evento = await getEvento(id);
-    
+    const evento = await getEvento(idEvento);
     if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" })
-
-    if (evento.organizadorId === req.session.uid) {
-      await removeEvento(id);     
-      return res.status(200).json({ msg: "Evento removido"})
+    if (evento.organizadorId === req.session.uid) {      
+      await removeEvento(idEvento);
+      excluiImagemEvento(idEvento);
+      return res.status(200).json({ msg: "Evento removido com sucesso"})
     }
-
-    return res.status(401).json({ msg: "Usuário não autorizado"});
+    return res.status(401).json({ msg: "Usuario nao autorizado"});
   } catch (error) {
     return res.status(500).json(error); 
   }
