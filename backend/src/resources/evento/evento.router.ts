@@ -23,7 +23,7 @@ router.post("/",
   eventoController.create
 );
 
-router.put("/",
+router.put("/:idEvento",
   usuarioAutenticado,
   isOrganizador,
   validarSchema(SchemasEvento.schemaUpdateEvento),

@@ -1,4 +1,4 @@
-import { PrismaClient, Evento } from "@prisma/client";
+import { PrismaClient, Evento, Compra, TipoTicket } from "@prisma/client";
 import { CreateEventoDto, UpdateEventoDto } from "./evento.types";
 
 const prisma = new PrismaClient();
@@ -23,6 +23,12 @@ export const getEventosByOrganizador = async (
   });
 }
 
+export const getCompraByEventoId = async (eventoId: number): Promise<Compra | null> => {
+  return await prisma.compra.findFirst({
+    where: { eventoId }
+  })
+}
+
 export const createEvento = async (
   evento: CreateEventoDto
 ): Promise<Evento> => {
@@ -42,6 +48,15 @@ export const updateEvento = async (
 export const removeEvento = async (
   idEvento: number
 ): Promise<Evento> => {
+  const tiposTicketsArray = await prisma.tipoTicket.findMany({
+    where: { eventoId: idEvento }
+  })
+  for (let tipoTicket of tiposTicketsArray) {
+    const tipoTicketId = tipoTicket.id;
+    await prisma.tipoTicket.delete({
+      where: { id: tipoTicketId }
+    })
+  }
   return await prisma.evento.delete({
     where: { id: idEvento }
   })

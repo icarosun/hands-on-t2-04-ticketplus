@@ -5,7 +5,8 @@ import {
   getAllEventos,
   getEvento,
   updateEvento,
-  removeEvento
+  removeEvento,
+  getCompraByEventoId
 } from "./evento.service";
 import {
     EventoDto,
@@ -115,7 +116,7 @@ async function update (req: Request, res: Response) {
           
   } */
   const dadosEvento = req.body as ReqEventoType;
-  const idEvento = parseInt(req.body.idEvento);
+  const idEvento = parseInt(req.params.idEvento);
   const imageBase64 = dadosEvento.imageBase64;
   try {
     const evento = await getEvento(idEvento);
@@ -146,13 +147,15 @@ async function remove (req: Request, res: Response) {
     
         #swagger.responses[200]
    */
-  const idEvento = parseInt(req.params.idEvento); 
+  const idEvento = parseInt(req.params.idEvento);
+  excluiImagemEvento(idEvento);
   try {
     const evento = await getEvento(idEvento);
     if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" })
+    const eventoCompra = await getCompraByEventoId(idEvento);
+    if (eventoCompra) return res.status(401).json({ msg: "Impossivel deletar: existem ingressos comprados para o evento" })
     if (evento.organizadorId === req.session.uid) {      
       await removeEvento(idEvento);
-      excluiImagemEvento(idEvento);
       return res.status(200).json({ msg: "Evento removido com sucesso"})
     }
     return res.status(401).json({ msg: "Usuario nao autorizado"});
