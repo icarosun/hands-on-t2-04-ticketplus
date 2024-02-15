@@ -14,7 +14,7 @@ import {
 } from "./evento.types";
 import { Decimal } from "@prisma/client/runtime/library";
 import { ReqEventoType } from "./evento.types";
-import { salvaImagem } from "../../utils/salvaImagem";
+import { salvaImagemEvento } from "./eventos.utils";
 
 dotenv.config();
 
@@ -91,10 +91,9 @@ async function create (req: Request, res: Response) {
   } as CreateEventoDto;
   try {
     const novoEvento = await createEvento(evento);
-    const imageBase64 = dadosEvento.imageBase64;
     const idEvento = novoEvento.id;
-    const pastaEvents = `${__dirname.split('/resources/')[0]}/assets/img/events`;
-    salvaImagem(`${pastaEvents}/${idEvento}`, imageBase64);
+    const imageBase64 = dadosEvento.imageBase64;
+    salvaImagemEvento(idEvento, imageBase64);
     return res.status(201).json({ msg: "Evento criado com sucesso" });
   } catch (error) {
     return res.status(500).json(error);
@@ -112,16 +111,27 @@ async function update (req: Request, res: Response) {
         #swagger.responses[200] 
           
   } */
-  const dadosEvento = req.body as UpdateEventoDto;
+  const dadosEvento = req.body as ReqEventoType;
   const idEvento = parseInt(req.body.idEvento);
+  const imageBase64 = dadosEvento.imageBase64;
   try {
     const evento = await getEvento(idEvento);
     if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
     if (evento.organizadorId === req.session.uid) {
-      await updateEvento(idEvento, dadosEvento);
+      salvaImagemEvento(idEvento, imageBase64);
+      const eventoAtualzado = {
+        titulo: dadosEvento.titulo,
+        descricao: dadosEvento.descricao,
+        localizacao: dadosEvento.localizacao,
+        faixaEtaria: 10,
+        preco: dadosEvento.preco as unknown as Decimal,
+        organizadorId: dadosEvento.organizadorId,
+        categoriaEventoId: dadosEvento.categoriaEventoId
+      }
+      await updateEvento(idEvento, eventoAtualzado);
       return res.status(200).json({ msg: "Evento atualizado"})
     }
-    return res.status(401).json({ msg: "Usuário nao autorizado"});
+    return res.status(401).json({ msg: "Usuario nao autorizado"});
   } catch (error) {
     return res.status(500).json(error); 
   }
