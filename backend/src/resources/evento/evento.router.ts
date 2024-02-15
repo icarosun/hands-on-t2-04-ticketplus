@@ -5,21 +5,15 @@ import SchemasEvento from "./evento.schemas";
 import { isOrganizador } from "../../middlewares/isOrganizador";
 import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
 
+
 const router = Router();
 
 router.get("/",
-    eventoController.index
+  eventoController.index
 );
 
 router.get("/:idEvento",
-    eventoController.read
-);
-
-router.put("/:idEvento",
-  usuarioAutenticado,
-  isOrganizador,
-  validarSchema(SchemasEvento.schemaCreateEvento),
-  eventoController.update
+  eventoController.read
 );
 
 router.post("/",
@@ -29,10 +23,18 @@ router.post("/",
   eventoController.create
 );
 
+router.put("/",
+  usuarioAutenticado,
+  isOrganizador,
+  validarSchema(SchemasEvento.schemaUpdateEvento),
+  eventoController.update
+);
+
 router.delete("/:idEvento",
   usuarioAutenticado,
   isOrganizador,
   eventoController.remove
 );
+
 
 export default router;

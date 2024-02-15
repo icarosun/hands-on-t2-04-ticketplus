@@ -112,21 +112,16 @@ async function update (req: Request, res: Response) {
         #swagger.responses[200] 
           
   } */
-
-  const id = parseInt(req.params.idEvento); 
-  const newEvento = req.body as UpdateEventoDto; 
-  
+  const dadosEvento = req.body as UpdateEventoDto;
+  const idEvento = parseInt(req.body.idEvento);
   try {
-    const evento = await getEvento(id);
-    
-    if (!evento) return res.status(404).json({ msg: "Evento não encontrado" })
-
+    const evento = await getEvento(idEvento);
+    if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
     if (evento.organizadorId === req.session.uid) {
-      await updateEvento(id, newEvento);
+      await updateEvento(idEvento, dadosEvento);
       return res.status(200).json({ msg: "Evento atualizado"})
     }
-
-    return res.status(401).json({ msg: "Usuário não autorizado"});
+    return res.status(401).json({ msg: "Usuário nao autorizado"});
   } catch (error) {
     return res.status(500).json(error); 
   }
@@ -144,7 +139,7 @@ async function remove (req: Request, res: Response) {
   try {
     const evento = await getEvento(id);
     
-    if (!evento) return res.status(404).json({ msg: "Evento não encontrado" })
+    if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" })
 
     if (evento.organizadorId === req.session.uid) {
       await removeEvento(id);     
