@@ -3,7 +3,7 @@ import { TiposCriaAlteraEventoModal } from "../../utils/tipoCriaAlteraEventoModa
 
 const PaginaOrganizador = () => {
     return (
-        <ModalCriaAlteraEvento tipoModal={TiposCriaAlteraEventoModal.CADASTRA}/>
+        <ModalCriaAlteraEvento tipoModal={TiposCriaAlteraEventoModal.EDITA}/>
     )
 }
 

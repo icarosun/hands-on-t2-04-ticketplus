@@ -6,9 +6,7 @@ import {
     CardContent,
 } from '@mui/material';
 import FormInput from '../FormInput';
-import Textarea from '@mui/joy/Textarea';
 import Button from '@mui/joy/Button';
-import { TextareaStyle } from './styles';
 import { TiposCriaAlteraEventoModal } from '../../utils/tipoCriaAlteraEventoModal.constants';
 
 interface State {
@@ -53,20 +51,18 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
             <Button
                 fullWidth
                 variant='solid'
-                sx={{ marginTop: 1 }}
             >
-                Cadastrar Evento
+                Cadastrar
             </Button>
         );
     } else {
-        titulo = "Atualização de Evento";
+        titulo = "Edição de Evento";
         botaoModal.push(
             <Button
                 fullWidth
                 variant='solid'
-                sx={{ marginTop: 1 }}
             >
-                Atualizar Evento
+                Atualizar
             </Button>
         );
     }
@@ -114,17 +110,14 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
                                 onChange={handleChange("titulo")}
                                 type="text"
                             />
-                            {/*<FormInput
+                            <FormInput
                                 label="Descrição"
                                 id="descricao-form-input"
                                 value={values.descricao}
                                 onChange={handleChange("descricao")}
                                 type="text"
-                            />*/}
-                            <Textarea
+                                multiline={true}
                                 minRows={2}
-                                placeholder='Descrição'
-                                sx={TextareaStyle}
                             />
                             <FormInput
                                 label="Localização"

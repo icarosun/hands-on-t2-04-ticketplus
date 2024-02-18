@@ -14,6 +14,8 @@ interface FormInputProps {
         | "password"
         | "number"
         | "file";
+    multiline?: boolean;
+    minRows?: number;
 }
 
 const FormInput = (props: FormInputProps) => {
@@ -37,10 +39,7 @@ const FormInput = (props: FormInputProps) => {
                         label={props.label}
                         id={props.id}
                         type={props.type}
-                        sx={{
-                            marginBottom: 1.5,
-                          }}
-                        autoFocus
+                        sx={{ marginBottom: 1.5 }}
                     />
                 </FormControl>
             </>
@@ -57,6 +56,8 @@ const FormInput = (props: FormInputProps) => {
                         onChange={props.onChange}
                         type={props.type}
                         sx={{ marginBottom: 1.5 }}
+                        multiline={props.multiline}
+                        minRows={props.minRows}
                     />
                 </FormControl>
             </>
