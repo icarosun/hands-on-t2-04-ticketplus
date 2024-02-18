@@ -1,4 +1,5 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
     Modal,
     Card,
@@ -8,39 +9,48 @@ import {
 import FormInput from '../FormInput';
 import Button from '@mui/joy/Button';
 import { TiposCriaAlteraEventoModal } from '../../utils/tipoCriaAlteraEventoModal.constants';
+import {
+    setOpenModalCadastroState,
+    setOpenModalEdicaoState
+} from '../../redux/slices/modalCadastroEdicao.slice';
 
 interface State {
     titulo: string;
     descricao: string;
     localizacao: string;
-    preco: number | null;
+    preco: number | undefined;
 }
 
 interface ModalCriaAlteraEventoProps {
+    open: boolean;
+    setOpen: any;
     tipoModal: 
         TiposCriaAlteraEventoModal.CADASTRA
         | TiposCriaAlteraEventoModal.EDITA
 }
 
 export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
-    const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
+
     const [values, setValues] = useState<State>({
         titulo: "",
         descricao: "",
         localizacao: "",
-        preco: null
+        preco: undefined
     })
 
     const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
         setValues({ ...values, [prop]: event.target.value })
     }
 
-    const handleOpen = () => {
-        setOpen(true);
-    }
-
     const handleClose = () => {
-        setOpen(false);
+        dispatch(setOpenModalCadastroState({
+            openModalCadastro: false
+        }));
+        dispatch(setOpenModalEdicaoState({
+            openModalEdicao: false
+        }));
+        props.setOpen(false);
     }
 
     let titulo = "";
@@ -69,9 +79,8 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
 
     return (
         <>
-            <Button onClick={handleOpen}>Open modal</Button>
             <Modal
-                open={open}
+                open={props.open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
@@ -102,6 +111,7 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
                                 label="Imagem"
                                 id="imagem-form-input"
                                 type="file"
+                                key={`input-1`}
                             />
                             <FormInput
                                 label="Título"
@@ -109,6 +119,7 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
                                 value={values.titulo}
                                 onChange={handleChange("titulo")}
                                 type="text"
+                                key={`input-2`}
                             />
                             <FormInput
                                 label="Descrição"
@@ -118,6 +129,7 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
                                 type="text"
                                 multiline={true}
                                 minRows={2}
+                                key={`input-3`}
                             />
                             <FormInput
                                 label="Localização"
@@ -125,6 +137,7 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
                                 value={values.localizacao}
                                 onChange={handleChange("localizacao")}
                                 type="text"
+                                key={`input-4`}
                             />
                             <FormInput
                                 label="Preço"
@@ -132,6 +145,7 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
                                 value={values.preco}
                                 onChange={handleChange("preco")}
                                 type="number"
+                                key={`input-5`}
                             />
                             {[botaoModal]}
                         </form>

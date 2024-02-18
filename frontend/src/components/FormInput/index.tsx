@@ -32,6 +32,7 @@ const FormInput = (props: FormInputProps) => {
                             padding: '0px 5px',
                             backgroundColor: "#FFF"
                         }}
+                        key={`input-label`}
                     >
                         {props.label}
                     </InputLabel>
@@ -40,6 +41,7 @@ const FormInput = (props: FormInputProps) => {
                         id={props.id}
                         type={props.type}
                         sx={{ marginBottom: 1.5 }}
+                        key={`outlined-input`}
                     />
                 </FormControl>
             </>
@@ -48,7 +50,12 @@ const FormInput = (props: FormInputProps) => {
         return (
             <>
                 <FormControl fullWidth>
-                    <InputLabel htmlFor={props.id}>{props.label}</InputLabel>
+                    <InputLabel
+                        htmlFor={props.id}
+                        key={`input-label`}
+                    >
+                        {props.label}
+                    </InputLabel>
                     <OutlinedInput
                         label={props.label}
                         value={props.value}
@@ -58,6 +65,7 @@ const FormInput = (props: FormInputProps) => {
                         sx={{ marginBottom: 1.5 }}
                         multiline={props.multiline}
                         minRows={props.minRows}
+                        key={`outlined-input`}
                     />
                 </FormControl>
             </>
