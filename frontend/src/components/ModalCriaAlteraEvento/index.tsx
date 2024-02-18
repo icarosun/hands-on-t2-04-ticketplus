@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
     Modal,
@@ -23,7 +23,6 @@ interface State {
 
 interface ModalCriaAlteraEventoProps {
     open: boolean;
-    setOpen: any;
     tipoModal: 
         TiposCriaAlteraEventoModal.CADASTRA
         | TiposCriaAlteraEventoModal.EDITA
@@ -50,7 +49,6 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
         dispatch(setOpenModalEdicaoState({
             openModalEdicao: false
         }));
-        props.setOpen(false);
     }
 
     let titulo = "";
