@@ -28,7 +28,7 @@ interface ModalCriaAlteraEventoProps {
         | TiposCriaAlteraEventoModal.EDITA
 }
 
-export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
+const ModalCadastraEditaEvento = (props: ModalCriaAlteraEventoProps)  => {
     const dispatch = useDispatch();
 
     const [values, setValues] = useState<State>({
@@ -153,3 +153,5 @@ export const ModalCriaAlteraEvento = (props: ModalCriaAlteraEventoProps)  => {
         </>
     )
 }
+
+export default ModalCadastraEditaEvento;

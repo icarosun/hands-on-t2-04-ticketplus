@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from '@mui/material';
-import { ModalCriaAlteraEvento } from "../../components/ModalCriaAlteraEvento";
-import { TiposCriaAlteraEventoModal } from "../../utils/tipoCriaAlteraEventoModal.constants";
+import ModalCadastraEvento from '../../components/ModalCadastraEvento';
+import ModalEditaEvento from '../../components/ModalEditaEvento';
 import {
     setOpenModalCadastroState,
     setOpenModalEdicaoState
@@ -10,16 +9,6 @@ import {
 
 const PaginaOrganizador = () => {
     const dispatch = useDispatch();
-
-    const [openModalCadastro, setOpenModalCadastro] = useState<boolean>(false);
-    const [openModalEdicao, setOpenModalEdicao] = useState<boolean>(false);
-
-    const estadoModalCadastroEdicao = useSelector((state) => state.ModalCadastroEdicaoReducer);
-
-    useEffect(() => {
-        setOpenModalCadastro(estadoModalCadastroEdicao.openModalCadastro)
-        setOpenModalEdicao(estadoModalCadastroEdicao.openModalEdicao)
-    }, [estadoModalCadastroEdicao])
 
     const handleAbreModalCadastro = () => {
         dispatch(setOpenModalEdicaoState({
@@ -43,8 +32,8 @@ const PaginaOrganizador = () => {
         <>
             <Button onClick={handleAbreModalCadastro}>Cadastra</Button>
             <Button onClick={handleAbreModalEdicao}>Edita</Button>
-            <ModalCriaAlteraEvento open={openModalCadastro} tipoModal={TiposCriaAlteraEventoModal.CADASTRA}/>
-            <ModalCriaAlteraEvento open={openModalEdicao} tipoModal={TiposCriaAlteraEventoModal.EDITA}/>
+            <ModalCadastraEvento/>
+            <ModalEditaEvento/>
         </>
     )
 }
