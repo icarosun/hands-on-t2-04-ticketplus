@@ -1,122 +1,66 @@
-import PropTypes from "prop-types";
-import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useState, MouseEvent, ChangeEvent, useMemo } from "react";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Paper from "@mui/material/Paper";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import { visuallyHidden } from "@mui/utils";
+import { Money } from "../../utils/currency";
 
-// material-ui
-import {
-  Box,
-  Link,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-
-// third-party
-import { NumericFormat } from "react-number-format";
-
-// project import
-import Dot from "components/@extended/Dot";
+interface Data {
+  //id: number;
+  evento: string;
+  qt_tickets: number;
+  data: string;
+  status: string;
+  valor_total: number;
+}
 
 function createData(
-  compraId: string,
+  //id: number,
   evento: string,
-  qt_tickets: string,
+  qt_tickets: number,
   data: string,
-  status: string,
-  valor_total: string
-) {
-  return { compraId, evento, qt_tickets, data, status, valor_total };
+  status: "Pendente" | "Pago" | "Cancelado",
+  valor_total: number
+): Data {
+  return { evento, qt_tickets, data, status, valor_total };
 }
 
 const rows = [
-  createData(
-    "10f1aaac-8942-4c02-a604-560b7dbd4e56",
-    "Javascript Mental",
-    "40",
-    "14-01-2024",
-    "Pendente",
-    "142"
-  ),
-  createData(
-    "a8bc62f2-358f-4b11-89b5-df1c9145f9d3",
-    "Suá Sem Dó",
-    "5",
-    "14-01-2024",
-    "Pago",
-    "25"
-  ),
-  createData(
-    "10f1aaac-8942-4c02-a604-560b7dbd4e56",
-    "Amazon Games",
-    "120",
-    "14-01-2024",
-    "Pendente",
-    "450"
-  ),
-  createData(
-    "a8bc62f2-358f-4b11-89b5-df1c9145f9d3",
-    "Sua Sem Dó",
-    "50",
-    "14-01-2024",
-    "Cancelado",
-    "150"
-  ),
-  createData(
-    "10f1aaac-8942-4c02-a604-560b7dbd4e56",
-    "Amazon Games",
-    "36",
-    "14-01-2024",
-    "Pago",
-    "94"
-  ),
-  createData(
-    "b7bc1212-7a3d-4357-824e-9e1bbbf506d4",
-    "Amazon Games",
-    "10",
-    "14-01-2024",
-    "Cancelado",
-    "100"
-  ),
-  createData(
-    "a8bc62f2-358f-4b11-89b5-df1c9145f9d3",
-    "Javascript Mental",
-    "23",
-    "13-01-2024",
-    "Estornado",
-    "45"
-  ),
-  createData(
-    "a8bc62f2-358f-4b11-89b5-df1c9145f9d3",
-    "Chiado da Chinela",
-    "25",
-    "12-01-2024",
-    "Pago",
-    "50"
-  ),
-  createData(
-    "b7bc1212-7a3d-4357-824e-9e1bbbf506d4",
-    "Amazon Games",
-    "185",
-    "12-01-2024",
-    "Pago",
-    "967"
-  ),
-  createData(
-    "b7bc1212-7a3d-4357-824e-9e1bbbf506d4",
-    "Javascript Mental",
-    "100",
-    "12-01-2024",
-    "Cancelado",
-    "670"
-  ),
+  createData("Chiado da Chinela", 10, "2024-02-10", "Pendente", 100),
+  createData("Suá sem dó", 1, "2024-02-11", "Pago", 12.02),
+  createData("Chiado da Chinela", 2, "2024-02-13", "Cancelado", 10),
+  createData("Galinha Pindatinha - Ao Vivo", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
+  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25),
 ];
 
-function descendingComparator(a: string[], b: string[], orderBy: number) {
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -126,20 +70,25 @@ function descendingComparator(a: string[], b: string[], orderBy: number) {
   return 0;
 }
 
-function getComparator(
-  order: string | number,
-  orderBy: number
-): (a: string[], b: string[]) => number {
+type Order = "asc" | "desc";
+
+function getComparator<Key extends keyof any>(
+  order: Order,
+  orderBy: Key
+): (
+  a: { [key in Key]: number | string },
+  b: { [key in Key]: number | string }
+) => number {
   return order === "desc"
-    ? (a: string[], b: string[]) => descendingComparator(a, b, orderBy)
-    : (a: string[], b: string[]) => -descendingComparator(a, b, orderBy);
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function stableSort(
-  array: string[],
-  comparator: (a: string[], b: string[]) => number
+function stableSort<T>(
+  array: readonly T[],
+  comparator: (a: T, b: T) => number
 ) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {
@@ -150,15 +99,14 @@ function stableSort(
   return stabilizedThis.map((el) => el[0]);
 }
 
-// ==============================|| ORDER TABLE - HEADER CELL ||============================== //
+interface HeadCell {
+  disablePadding: boolean;
+  id: keyof Data;
+  label: string;
+  align: "center" | "right" | "left";
+}
 
-const headCells = [
-  {
-    id: "compraId",
-    align: "left",
-    disablePadding: false,
-    label: "ID da Compra",
-  },
+const headCells: readonly HeadCell[] = [
   {
     id: "evento",
     align: "left",
@@ -167,36 +115,47 @@ const headCells = [
   },
   {
     id: "qt_tickets",
-    align: "right",
+    align: "center",
     disablePadding: false,
     label: "Quantidade de Tickets",
   },
   {
     id: "data",
-    align: "left",
+    align: "center",
     disablePadding: false,
-    label: "Data de Compra",
+    label: "Data",
   },
   {
     id: "status",
-    align: "right",
+    align: "center",
     disablePadding: false,
-    label: "Status da Compra",
+    label: "Status",
   },
   {
     id: "valor_total",
-    align: "right",
+    align: "center",
     disablePadding: false,
     label: "Valor Total",
   },
 ];
 
-// ==============================|| ORDER TABLE - HEADER ||============================== //
+interface EnhancedTableProps {
+  onRequestSort: (event: MouseEvent<unknown>, property: keyof Data) => void;
+  order: Order;
+  orderBy: string;
+}
 
-function OrderTableHead({ order, orderBy }) {
+function EnhancedTableHead(props: EnhancedTableProps) {
+  const { order, orderBy, onRequestSort } = props;
+  const createSortHandler =
+    (property: keyof Data) => (event: MouseEvent<unknown>) => {
+      onRequestSort(event, property);
+    };
+
   return (
     <TableHead>
       <TableRow>
+        <TableCell>{"#"}</TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -204,7 +163,18 @@ function OrderTableHead({ order, orderBy }) {
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            {headCell.label}
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : "asc"}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                </Box>
+              ) : null}
+            </TableSortLabel>
           </TableCell>
         ))}
       </TableRow>
@@ -212,122 +182,105 @@ function OrderTableHead({ order, orderBy }) {
   );
 }
 
-OrderTableHead.propTypes = {
-  order: PropTypes.string,
-  orderBy: PropTypes.string,
-};
+export default function EnhancedTable() {
+  const [order, setOrder] = useState<Order>("asc");
+  const [orderBy, setOrderBy] = useState<keyof Data>("status");
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
-// ==============================|| ORDER TABLE - STATUS ||============================== //
+  const handleRequestSort = (
+    event: MouseEvent<unknown>,
+    property: keyof Data
+  ) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
 
-function OrderStatus(status: number) {
-  let color;
-  let title;
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
 
-  switch (status) {
-    case 0:
-      color = "warning";
-      title = "Pendente";
-      break;
-    case 1:
-      color = "success";
-      title = "Pago";
-      break;
-    case 2:
-      color = "error";
-      title = "Cancelado";
-      break;
-    default:
-      color = "primary";
-      title = "Estornado";
-  }
+  const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
-  return (
-    <Stack direction="row" spacing={1} alignItems="center">
-      <Dot color={color} />
-      <Typography>{title}</Typography>
-    </Stack>
+  const handleChangeDense = (event: ChangeEvent<HTMLInputElement>) => {
+    setDense(event.target.checked);
+  };
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  const visibleRows = useMemo(
+    () =>
+      stableSort(rows, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
+    [order, orderBy, page, rowsPerPage]
   );
-}
-
-// ==============================|| ORDER TABLE ||============================== //
-
-export default function OrderTable() {
-  const [order] = useState("asc");
-  const [orderBy] = useState("compraId");
-  const [selected] = useState([]);
-
-  const isSelected = (compraId: string) => selected.indexOf(compraId) !== -1;
 
   return (
-    <Box>
-      <TableContainer
-        sx={{
-          width: "100%",
-          overflowX: "auto",
-          position: "relative",
-          display: "block",
-          maxWidth: "100%",
-          "& td, & th": { whiteSpace: "nowrap" },
-        }}
-      >
-        <Table
-          aria-labelledby="tableTitle"
-          sx={{
-            "& .MuiTableCell-root:first-of-type": {
-              pl: 2,
-            },
-            "& .MuiTableCell-root:last-of-type": {
-              pr: 3,
-            },
-          }}
-        >
-          <OrderTableHead order={order} orderBy={orderBy} />
-          <TableBody>
-            {stableSort(rows, getComparator(order, orderBy)).map(
-              (row, index) => {
-                const isItemSelected = isSelected(row.compraId);
-                const labelId = `enhanced-table-checkbox-${index}`;
-
+    <Box sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%", mb: 2 }}>
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size={dense ? "small" : "medium"}
+          >
+            <EnhancedTableHead
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+            />
+            <TableBody>
+              {visibleRows.map((row, index) => {
                 return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.compraId}
-                    selected={isItemSelected}
-                  >
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      align="left"
-                    >
-                      <Link color="secondary" component={RouterLink} to="">
-                        {row.compraId}
-                      </Link>
+                  <TableRow key={index}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell component="th" scope="row" padding="none">
+                      {row.evento}
                     </TableCell>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="left">
-                      <OrderStatus status={row.carbs} />
-                    </TableCell>
-                    <TableCell align="right">
-                      <NumericFormat
-                        value={row.protein}
-                        displayType="text"
-                        thousandSeparator
-                        prefix="$"
-                      />
+                    <TableCell align="center">{row.qt_tickets}</TableCell>
+                    <TableCell align="center">{row.data}</TableCell>
+                    <TableCell align="center">{row.status}</TableCell>
+                    <TableCell align="center">
+                      {Money.format(row.valor_total)}
                     </TableCell>
                   </TableRow>
                 );
-              }
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
     </Box>
   );
 }

@@ -22,6 +22,7 @@ import {
 //import SalesColumnChart from "./SalesColumnChart";
 import CustomCard from "../../components/Cards";
 import GraficosVendasTotais from "./graficosVendasTotais";
+import TabelaVendasTotais from "./tabelaVendasTotais";
 //import AnalyticEcommerce from "../../components/Cards/AnaliseDadosTickets";
 
 /*assets
@@ -78,10 +79,7 @@ export default function DashboardDefault() {
     /* Valores gerais */
   }
   return (
-    <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-      <Grid item xs={12} sx={{ mb: -2.25 }}>
-        <Typography variant="h3">Dashboard</Typography>
-      </Grid>
+    <Grid container rowSpacing={1} columnSpacing={2}>
       <Grid item xs={12} sm={6} md={4} lg={3}>
         <CustomCard title="Total de Eventos Cadastrados" value={5} />
       </Grid>
@@ -97,10 +95,10 @@ export default function DashboardDefault() {
 
       <Grid item xs={12} md={1} lg={12}>
         <Grid item>
-          <Card sx={{ mt: 1.75 }}>
+          <Card sx={{ mt: 2, p: 2 }}>
             <Stack sx={{ pt: 1.5, pl: 1.5 }}>
               <Typography variant="h6" color="textPrimary">
-                Resumo de Vendas
+                Resumo das Vendas
               </Typography>
             </Stack>
             <GraficosVendasTotais
@@ -111,14 +109,17 @@ export default function DashboardDefault() {
         </Grid>
       </Grid>
 
-      <Grid item xs={12} md={7} lg={8}>
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h5">Compras Recentes</Typography>
-          </Grid>
-          <Grid item />
+      <Grid item xs={12} md={7} lg={12}>
+        <Grid item>
+          <Card sx={{ mt: 2, p: 2 }}>
+            <Stack sx={{ pt: 1.5, pl: 1.5 }}>
+              <Typography variant="h6" color="textPrimary">
+                Compras Recentes
+              </Typography>
+            </Stack>
+            <TabelaVendasTotais />
+          </Card>
         </Grid>
-        <Card sx={{ mt: 2 }}>{/*<OrdersTable />*/}</Card>
       </Grid>
     </Grid>
   );

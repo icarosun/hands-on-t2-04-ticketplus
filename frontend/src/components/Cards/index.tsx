@@ -1,4 +1,5 @@
 import { Card, CardContent, Grid, Stack, Typography } from "@mui/material";
+import { Money } from "../../utils/currency";
 
 export interface Card {
   isMoney?: boolean;
@@ -17,7 +18,7 @@ export default function CustomCard(props: Card) {
           <Grid container alignItems="center">
             <Grid item>
               <Typography variant="h4" color="inherit">
-                {props.isMoney ? "R$ " + props.value : props.value}
+                {props.isMoney ? Money.format(props.value) : props.value}
               </Typography>
             </Grid>
           </Grid>
