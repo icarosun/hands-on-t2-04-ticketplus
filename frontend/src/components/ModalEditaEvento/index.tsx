@@ -11,13 +11,18 @@ const ModalEditaEvento = () => {
 
     useEffect(() => {
         setOpen(estadoModalCadastroEdicao.openModalEdicao);
-    }, [estadoModalCadastroEdicao])
+    }, [estadoModalCadastroEdicao]);
+
+    const handleEditaEvento = () => {
+
+    }
 
 
     return (
         <ModalCadastraEditaEvento
             open={open}
             tipoModal={TiposCriaAlteraEventoModal.EDITA}
+            onClick={handleEditaEvento}
         />
     )
 }

@@ -21,14 +21,15 @@ interface State {
     preco: number | undefined;
 }
 
-interface ModalCriaAlteraEventoProps {
+interface ModalCadastraEditaEventoProps {
     open: boolean;
     tipoModal: 
         TiposCriaAlteraEventoModal.CADASTRA
         | TiposCriaAlteraEventoModal.EDITA
+    onClick: any;
 }
 
-const ModalCadastraEditaEvento = (props: ModalCriaAlteraEventoProps)  => {
+const ModalCadastraEditaEvento = (props: ModalCadastraEditaEventoProps)  => {
     const dispatch = useDispatch();
 
     const [values, setValues] = useState<State>({
@@ -52,27 +53,13 @@ const ModalCadastraEditaEvento = (props: ModalCriaAlteraEventoProps)  => {
     }
 
     let titulo = "";
-    const botaoModal:any[] = [];
+    let labelBotao = "";
     if (props.tipoModal === TiposCriaAlteraEventoModal.CADASTRA) {
         titulo = "Cadastro de Evento";
-        botaoModal.push(
-            <Button
-                fullWidth
-                variant='solid'
-            >
-                Cadastrar
-            </Button>
-        );
+        labelBotao = "Cadastrar";
     } else {
         titulo = "Edição de Evento";
-        botaoModal.push(
-            <Button
-                fullWidth
-                variant='solid'
-            >
-                Atualizar
-            </Button>
-        );
+        labelBotao = "Atualizar";
     }
 
     return (
@@ -145,7 +132,13 @@ const ModalCadastraEditaEvento = (props: ModalCriaAlteraEventoProps)  => {
                                 type="number"
                                 key={`input-5`}
                             />
-                            {[botaoModal]}
+                            <Button
+                                fullWidth
+                                variant='solid'
+                                onClick={props.onClick}
+                            >
+                                {labelBotao}
+                            </Button>
                         </form>
                     </CardContent>
                 </Card>

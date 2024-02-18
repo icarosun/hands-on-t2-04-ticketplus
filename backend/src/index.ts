@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import bodyParser from 'body-parser';
 import session from "express-session";
 import swaggerUi from "swagger-ui-express";
 import morgan from "morgan";
@@ -36,6 +37,7 @@ declare module "express-session" {
 
 app.use(morgan("combined"));
 app.use(cors({ credentials: true, origin: frontendUrl }));
+app.use(bodyParser.json({limit: "5mb"}));
 app.use(express.json());
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(cookieParser());

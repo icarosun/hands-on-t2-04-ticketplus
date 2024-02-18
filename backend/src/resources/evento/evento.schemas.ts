@@ -13,9 +13,7 @@ const eventoCamposSchema = {
   preco: Joi.number()
     .required(),
   imageBase64: Joi.string()
-    .required(),
-  categoriaEventoId: Joi.number()
-    .integer()
+    .regex(/;base64,/)
     .required()
 }
 
@@ -24,7 +22,11 @@ const schemaCreateEvento = Joi.object(
 );
 
 const schemaUpdateEvento = Joi.object(
-  eventoCamposSchema
+  {
+    ...eventoCamposSchema,
+    id: Joi.number()
+      .required()
+  }
 );
 
 export default { schemaCreateEvento, schemaUpdateEvento};

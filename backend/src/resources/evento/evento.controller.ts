@@ -91,12 +91,13 @@ async function create (req: Request, res: Response) {
     faixaEtaria: 10,
     preco: dadosEvento.preco as unknown as Decimal,
     organizadorId: organizadorId,
-    categoriaEventoId: dadosEvento.categoriaEventoId
+    categoriaEventoId: 1
   } as CreateEventoDto;
   try {
     const novoEvento = await createEvento(evento);
     const idEvento = novoEvento.id;
-    const imageBase64 = dadosEvento.imageBase64;
+    let imageBase64 = dadosEvento.imageBase64;
+    imageBase64 = imageBase64.split(";base64,")[1];
     salvaImagemEvento(idEvento, imageBase64);
     return res.status(201).json({ msg: "Evento criado com sucesso" });
   } catch (error) {
@@ -130,7 +131,7 @@ async function update (req: Request, res: Response) {
         faixaEtaria: 10,
         preco: dadosEvento.preco as unknown as Decimal,
         organizadorId: dadosEvento.organizadorId,
-        categoriaEventoId: dadosEvento.categoriaEventoId
+        categoriaEventoId: 1
       } as UpdateEventoDto;
       await updateEvento(idEvento, eventoAtualzado);
       return res.status(200).json({ msg: "Evento atualizado"})
