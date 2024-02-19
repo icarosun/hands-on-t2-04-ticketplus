@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Box, Container } from '@mui/material';
 import Button from '@mui/joy/Button';
@@ -13,6 +14,10 @@ import EventoOrganizador from '../../components/EventoOrganizador';
 
 const PaginaOrganizador = () => {
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        
+    }, [])
 
     const handleAbreModalCadastro = () => {
         dispatch(setOpenModalEdicaoState({

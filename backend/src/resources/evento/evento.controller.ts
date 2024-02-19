@@ -6,7 +6,8 @@ import {
   getEvento,
   updateEvento,
   removeEvento,
-  getCompraByEventoId
+  getCompraByEventoId,
+  getEventosByOrganizador
 } from "./evento.service";
 import {
     EventoDto,
@@ -51,7 +52,6 @@ async function read (req: Request, res: Response) {
         #swagger.responses[200] = {
             schema: { $ref: '#/definitions/Evento' }
   } */
-
   const idEvento = parseInt(req.params.idEvento);
   try {
     const evento = await getEvento(idEvento) as EventoDto;
@@ -66,6 +66,19 @@ async function read (req: Request, res: Response) {
       imageUrl: imageUrl
     }
     return res.status(200).json(dadosEvento);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+async function getAllEventosByOrganziador (req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  console.log("GET EVENTOS BY ORGANIZADOR");
+  try {
+    const eventosOrganizador = await getEventosByOrganizador(organizadorId);
+    if (!eventosOrganizador)
+      return res.status(404).json({ msg: "Nenhum evento cadastrado pelo organizador" });
+    return res.status(200).json(eventosOrganizador)
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -165,4 +178,4 @@ async function remove (req: Request, res: Response) {
   }
 }
 
-export default { index, read, create, update, remove };
+export default { index, read, getAllEventosByOrganziador, create, update, remove };
