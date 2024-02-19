@@ -13,8 +13,7 @@ async function evento() {
         localizacao: "Av. Torquato Tapajós, nº 207",
         faixaEtaria: 18,
         preco: 12.99,
-        vagas: 100,
-        // imageUrl: "../../../src/assets/imgs/chiado-da-chinela.jpg",
+        imageUrl: "../../../src/assets/imgs/chiado-da-chinela.jpg",
         organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
         categoriaEventoId: 1,
       },
@@ -26,8 +25,7 @@ async function evento() {
         localizacao: "Av. do Turismo, nº 1033",
         faixaEtaria: 23,
         preco: 15.89,
-        vagas: 1123,
-        // imageUrl: "../../../src/assets/imgs/sua-sem-do.jpg",
+        imageUrl: "../../../src/assets/imgs/sua-sem-do.jpg",
         organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
         categoriaEventoId: 1,
       },
@@ -39,8 +37,7 @@ async function evento() {
         descricao:
           "Ambiente fechado e climatizado, crianças de até 8 anos tem entrada franca.",
         preco: 21.99,
-        vagas: 50,
-        // imageUrl: "../../../src/assets/imgs/galinha-pintadinha.jpg",
+        imageUrl: "../../../src/assets/imgs/galinha-pintadinha.jpg",
         organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
         categoriaEventoId: 1,
       },
@@ -52,8 +49,7 @@ async function evento() {
         descricao:
           "Aprenda como otimizar o seu raciocínio quântico para a programação web.",
         preco: 199.99,
-        vagas: 60,
-        // imageUrl: "../../../src/assets/imgs/javascript-mental.jpg",
+        imageUrl: "../../../src/assets/imgs/javascript-mental.jpg",
         organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
         categoriaEventoId: 1,
       },
@@ -65,8 +61,7 @@ async function evento() {
         descricao:
           "Venha conhecer os diversos jogos e mercadorias do mundo gamer.",
         preco: 20.89,
-        vagas: 1500,
-        // imageUrl: "../../../src/assets/imgs/amazon-games.jpg",
+        imageUrl: "../../../src/assets/imgs/amazon-games.jpg",
         organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
         categoriaEventoId: 1,
       },
@@ -151,6 +146,15 @@ async function tipoTicket() {
   });
 }
 
+organizador()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
+
 evento()
   .catch((e) => {
     console.error(e);
@@ -161,15 +165,6 @@ evento()
   });
 
 comprador()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
-
-organizador()
   .catch((e) => {
     console.error(e);
     process.exit(1);
