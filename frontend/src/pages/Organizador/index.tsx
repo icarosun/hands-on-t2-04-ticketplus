@@ -9,7 +9,7 @@ import {
     setOpenModalCadastroState,
     setOpenModalEdicaoState
 } from '../../redux/slices/modalCadastroEdicao.slice';
-import Search from '@mui/icons-material/Search';
+import EventoOrganizador from '../../components/EventoOrganizador';
 
 const PaginaOrganizador = () => {
     const dispatch = useDispatch();
@@ -70,26 +70,8 @@ const PaginaOrganizador = () => {
                     alignItems: 'center'
                 }}
             >
-                <Box
-                    sx={{
-                        border: "1px solid rgba(0,0,0,0.05)",
-                        boxShadow: "0px 2px 10px rgba(0,0,0,0.1)",
-                        width: "80%",
-                        height: "100px",
-                        marginTop: "20px",
-                        borderRadius: "1rem"
-                    }}
-                />
-                <Box
-                    sx={{
-                        border: "1px solid rgba(0,0,0,0.05)",
-                        boxShadow: "0px 2px 10px rgba(0,0,0,0.1)",
-                        width: "80%",
-                        height: "100px",
-                        marginTop: "20px",
-                        borderRadius: "1rem"
-                    }}
-                />
+                <EventoOrganizador/>
+                <EventoOrganizador/>
             </Container>
             <ModalCadastraEvento/>
             <ModalEditaEvento/>
