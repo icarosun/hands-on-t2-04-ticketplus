@@ -17,30 +17,49 @@ import {
     NomeEventoStyle,
     ChipStyle
 } from "./styles";
+import { DetalhesEventoType } from "../../services/evento.service";
 
-const EventoOrganizador = () => {
+const EventoOrganizador = (props: DetalhesEventoType) => {
+
+    const handleEditaEvento = () => {
+        console.log("Edita Evento");
+    }
+
+    const handleDeletaEvento = () => {
+        console.log("Deleta Evento");
+    }
+
     return (
         <Container sx={EventoOrganizadorStyle}>
             <Box sx={BoxEventoImageInfoStyle}>
-                <Box sx={BoxImagemStyle}/>
+                <Box 
+                    sx={{
+                        ...BoxImagemStyle,
+                        backgroundImage: `url("${props.imageUrl}")`,
+                    }}
+                />
                 <Box sx={BoxEventoInfoStyle}>
                     <Typography
                         sx={NomeEventoStyle}
                     >
-                        Galinha Pintadinha - Ao Vivo
+                        {props.titulo}
                     </Typography>
                     <Chip sx={ChipStyle} 
                         size='small'
-                        label="Arena da Amazônia"
+                        label={props.localizacao}
                         icon={<PushPinIcon />}
                     />
                 </Box>
             </Box>
             <Box sx={BoxIconesStyle}>
-                <IconButton>
+                <IconButton
+                    onClick={handleEditaEvento}
+                >
                     <EditIcon/>
                 </IconButton>
-                <IconButton>
+                <IconButton
+                    onClick={handleDeletaEvento}
+                >
                     <DeleteIcon/>
                 </IconButton>
             </Box>

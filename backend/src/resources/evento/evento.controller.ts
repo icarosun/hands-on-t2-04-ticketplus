@@ -78,7 +78,14 @@ async function getAllEventosByOrganziador (req: Request, res: Response) {
     const eventosOrganizador = await getEventosByOrganizador(organizadorId);
     if (!eventosOrganizador)
       return res.status(404).json({ msg: "Nenhum evento cadastrado pelo organizador" });
-    return res.status(200).json(eventosOrganizador)
+    const eventosData: object[] = []
+    for (let i = 0; i < eventosOrganizador.length; i++) {
+      eventosData.push({
+        ...eventosOrganizador[i],
+        imageUrl: `http://localhost:${PORT}/v1/img/events/${eventosOrganizador[i].id}`
+      })
+    }
+    return res.status(200).json(eventosData);
   } catch (error) {
     return res.status(500).json(error);
   }

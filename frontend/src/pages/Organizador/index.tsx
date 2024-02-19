@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Box, Container } from '@mui/material';
 import Button from '@mui/joy/Button';
@@ -6,18 +6,31 @@ import AddIcon from '@mui/icons-material/Add';
 import ModalCadastraEvento from '../../components/ModalCadastraEvento';
 import ModalEditaEvento from '../../components/ModalEditaEvento';
 import SearchBar from '../../components/SearchBar';
+import MarginBottom from '../../components/MarginBottom.tsx';
 import {
     setOpenModalCadastroState,
     setOpenModalEdicaoState
 } from '../../redux/slices/modalCadastroEdicao.slice';
 import EventoOrganizador from '../../components/EventoOrganizador';
+import { getEventosByOrganizador } from '../../services/evento.service';
+import { DetalhesEventoType } from '../../services/evento.service';
 
 const PaginaOrganizador = () => {
     const dispatch = useDispatch();
 
+    const [dadosEventos, setDadosEventos] = useState([]);
+    const [labelEventos, setLabelEventos] = useState<string>("Carregando Eventos...");
+
     useEffect(() => {
-        
-    }, [])
+        const fetchData = async () => {
+            const res = await getEventosByOrganizador();
+            const dados = res?.data;
+            setDadosEventos(dados);
+            if (dados.length > 0) setLabelEventos("Eventos Cadastrados")
+            else setLabelEventos("Nenhum Evento Cadastrado")
+        }
+        fetchData();
+    }, []);
 
     const handleAbreModalCadastro = () => {
         dispatch(setOpenModalEdicaoState({
@@ -66,7 +79,7 @@ const PaginaOrganizador = () => {
                     textAlign: 'center'
                 }}
             >
-                <h5>Eventos Cadastrados</h5>
+                <h5>{labelEventos}</h5>
             </Box>
             <Container
                 sx={{
@@ -75,11 +88,21 @@ const PaginaOrganizador = () => {
                     alignItems: 'center'
                 }}
             >
-                <EventoOrganizador/>
-                <EventoOrganizador/>
+                {dadosEventos.map((dadosEvento: DetalhesEventoType) => {
+                    return (
+                        <EventoOrganizador
+                            titulo={dadosEvento.titulo}
+                            descricao={dadosEvento.descricao}
+                            localizacao={dadosEvento.localizacao}
+                            preco={dadosEvento.preco}
+                            imageUrl={dadosEvento.imageUrl}
+                        />
+                    )
+                })}
             </Container>
             <ModalCadastraEvento/>
             <ModalEditaEvento/>
+            <MarginBottom/>
         </Container>
     )
 }

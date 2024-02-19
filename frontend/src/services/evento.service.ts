@@ -5,7 +5,7 @@ export interface DetalhesEventoType {
     descricao: string;
     localizacao: string;
     preco: number;
-    data: object;
+    data?: object;
     imageUrl: string;
 }
 
@@ -14,5 +14,5 @@ export async function getDetalhesEvento (idEvento: number): Promise<DetalhesEven
 }
 
 export async function getEventosByOrganizador () {
-    return await HttpInstance.http.get("/eventosOrganizador");
+    return await HttpInstance.http.get("/evento/eventosOrganizador");
 }

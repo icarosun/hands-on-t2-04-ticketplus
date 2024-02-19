@@ -1,5 +1,3 @@
-import cartaz from "./cartaz.jpg";
-
 export const EventoOrganizadorStyle = {
     display: 'flex',
     flexDirection: 'row',
@@ -32,7 +30,6 @@ export const NomeEventoStyle = {
 export const BoxImagemStyle = {
     position: 'relative',
     left: -17,
-    backgroundImage: `url("${cartaz}")`,
     borderRadius: '1rem 0.5rem 0.5rem 1rem',
     height: '90px',
     width: '150px',
