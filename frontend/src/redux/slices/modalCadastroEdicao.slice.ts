@@ -7,7 +7,14 @@ const ModalCadastroEdicaoSlice = createSlice({
         openModalCadastro: false,
         openModalEdicao: false,
         mensagemErro: "",
-        mostraErroCadastro: ""
+        mostraErroCadastro: "",
+        valuesModal: {
+            titulo: "",
+            descricao: "",
+            localizacao: "",
+            preco: ""
+        },
+        idEdicaoEvento: "",
     },
     reducers: {
         setOpenModalCadastroState:  (state, { payload }) => {
@@ -26,6 +33,14 @@ const ModalCadastroEdicaoSlice = createSlice({
             state.mostraErroCadastro = payload.mostraErroCadastro;
             return state;
         },
+        setValuesModal: (state, { payload }) => {
+            state.valuesModal = payload.values;
+            return state;
+        },
+        setIdEdicaoEvento: (state, { payload }) => {
+            state.idEdicaoEvento = payload.idEdicaoEvento;
+            return state;
+        }
     }
 })
 
@@ -33,6 +48,8 @@ export const {
     setOpenModalCadastroState,
     setOpenModalEdicaoState,
     setMensagemErro,
-    setMostraErroCadastro
+    setMostraErroCadastro,
+    setValuesModal,
+    setIdEdicaoEvento
 } = ModalCadastroEdicaoSlice.actions;
 export default ModalCadastroEdicaoSlice.reducer;

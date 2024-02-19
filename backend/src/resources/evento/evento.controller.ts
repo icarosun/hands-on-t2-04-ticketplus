@@ -73,7 +73,6 @@ async function read (req: Request, res: Response) {
 
 async function getAllEventosByOrganziador (req: Request, res: Response) {
   const organizadorId = req.session.uid;
-  console.log("GET EVENTOS BY ORGANIZADOR");
   try {
     const eventosOrganizador = await getEventosByOrganizador(organizadorId);
     if (!eventosOrganizador)
@@ -138,11 +137,12 @@ async function update (req: Request, res: Response) {
   } */
   const dadosEvento = req.body as ReqEventoType;
   const idEvento = parseInt(req.params.idEvento);
-  const imageBase64 = dadosEvento.imageBase64;
   try {
     const evento = await getEvento(idEvento);
     if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
     if (evento.organizadorId === req.session.uid) {
+      let imageBase64 = dadosEvento.imageBase64;
+      imageBase64 = imageBase64.split(";base64,")[1];
       salvaImagemEvento(idEvento, imageBase64);
       const eventoAtualzado = {
         titulo: dadosEvento.titulo,

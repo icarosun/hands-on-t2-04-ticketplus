@@ -22,7 +22,7 @@ import {
     setOpenModalEdicaoState
 } from '../../redux/slices/modalCadastroEdicao.slice';
 
-interface State {
+export interface State {
     titulo: string;
     descricao: string;
     localizacao: string;
@@ -50,6 +50,10 @@ const ModalCadastraEditaEvento = (props: ModalCadastraEditaEventoProps)  => {
     })
 
     const estadoModalCadastroEdicao = useSelector((state: any) => state.ModalCadastroEdicaoReducer);
+
+    useEffect(() => {
+        setValues(estadoModalCadastroEdicao.valuesModal);
+    }, [estadoModalCadastroEdicao]);
 
     useEffect(() => {
         setMostraErroCadastro(estadoModalCadastroEdicao.mostraErroCadastro);

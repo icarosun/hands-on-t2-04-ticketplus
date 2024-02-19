@@ -23,11 +23,15 @@ const PaginaOrganizador = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getEventosByOrganizador();
-            const dados = res?.data;
-            setDadosEventos(dados);
-            if (dados.length > 0) setLabelEventos("Eventos Cadastrados")
-            else setLabelEventos("Nenhum Evento Cadastrado")
+            try {
+                const res = await getEventosByOrganizador();
+                const dados = res?.data;
+                setDadosEventos(dados);
+                if (dados.length > 0) setLabelEventos("Eventos Cadastrados")
+                else setLabelEventos("Nenhum Evento Cadastrado")
+            } catch (error) {
+                console.error(error);
+            }
         }
         fetchData();
     }, []);
@@ -38,15 +42,6 @@ const PaginaOrganizador = () => {
         }));
         dispatch(setOpenModalCadastroState({
             openModalCadastro: true
-        }));
-    }
-
-    const handleAbreModalEdicao = () => {
-        dispatch(setOpenModalCadastroState({
-            openModalCadastro: false
-        }));
-        dispatch(setOpenModalEdicaoState({
-            openModalEdicao: true
         }));
     }
 
@@ -88,14 +83,16 @@ const PaginaOrganizador = () => {
                     alignItems: 'center'
                 }}
             >
-                {dadosEventos.map((dadosEvento: DetalhesEventoType) => {
+                {dadosEventos.map((dadosEvento: DetalhesEventoType, index) => {
                     return (
                         <EventoOrganizador
+                            id={dadosEvento.id}
                             titulo={dadosEvento.titulo}
                             descricao={dadosEvento.descricao}
                             localizacao={dadosEvento.localizacao}
                             preco={dadosEvento.preco}
                             imageUrl={dadosEvento.imageUrl}
+                            key={`evento-organizador-${index}`}
                         />
                     )
                 })}

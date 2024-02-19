@@ -7,7 +7,13 @@ import {
     setMensagemErro,
     setMostraErroCadastro
 } from '../../redux/slices/modalCadastroEdicao.slice';
-import { Box, Card, CardContent, Modal, Typography } from '@mui/material';
+import {
+    Box,
+    Card,
+    CardContent,
+    Modal,
+    Typography
+} from '@mui/material';
 import { Controls, Player } from '@lottiefiles/react-lottie-player';
 
 const ModalCadastraEvento = () => {
@@ -25,11 +31,11 @@ const ModalCadastraEvento = () => {
     const handleOpenModalSuccessMessage = () => {
         setShowSuccessMessage(true);
         setOpen(false);
-    };
+    }
 
     const handleCloseModalSuccessMessage = () => {
         setShowSuccessMessage(false);
-    };
+    }
 
     const mostraMensagemErro = (mensagemErro: string = "Erro ao tentar cadastrar o evento. Tente novamente mais tarde.") => {
         dispatch(setMensagemErro({
@@ -80,13 +86,14 @@ const ModalCadastraEvento = () => {
                         preco
                     };
                     await cadastraEvento(dadosRequisicao);
+                    escondeMensagemErro();
                     handleOpenModalSuccessMessage();
                     setTimeout(() => {
                         handleCloseModalSuccessMessage();
                         location.reload();
                     }, 2500);
                 } catch (error) {
-                    mostraMensagemErro();
+                    mostraMensagemErro("Erro ao tentar cadastrar o evento. Tente novamente mais tarde.");
                 }
             }
         } catch (error) {
