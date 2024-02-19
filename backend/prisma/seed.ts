@@ -53,26 +53,6 @@ async function tipoTicket() {
         id: 1,
         descricao: "meia-entrada",
         eventoId: 1
-      },
-      {
-        id: 2,
-        descricao: "meia-entrada",
-        eventoId: 2
-      },    
-      {
-        id: 3,
-        descricao: "meia-entrada",
-        eventoId: 3
-      },  
-      {
-        id: 4,
-        descricao: "meia-entrada",
-        eventoId: 4
-      },
-      {
-        id: 5,
-        descricao: "meia-entrada",
-        eventoId: 5
       }
     ],
     skipDuplicates: true,

@@ -9,6 +9,7 @@ import { getEvento } from "../evento/evento.service";
 import { createTicketService } from "../ticket/ticket.service";
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { updateSaldoComprador } from "../comprador/comprador.service";
+import { createTipoTicket } from "../tipoTicket/tipoTicket.service";
 
 dotenv.config();
 
@@ -35,7 +36,6 @@ async function index  (req: Request, res: Response) {
         imageUrl: `http://localhost:${PORT}/v1/img/events/${eventosIds[i]}`
       });
     }
-    console.log(comprasData);
     return res.status(200).json({ comprasData });
   } catch (error) {
     return res.status(500).json({ error });
@@ -67,7 +67,8 @@ async function create (req: Request, res: Response) {
     if (parseFloat(String(saldoCompradorNumber)) < parseFloat(String(valorNumber))) {
       return res.status(401).json({ msg: "Saldo insuficiente" })
     }
-    const tipoTicketId = 1;
+    const novoTipoTicket = await createTipoTicket(eventoId, "meia-entrada");
+    const tipoTicketId = novoTipoTicket.id;
     const novoTicket = await createTicketService(eventoId, tipoTicketId);
     const ticketId = novoTicket.id;
     const compra = {
