@@ -5,13 +5,12 @@ import { Decimal } from "@prisma/client/runtime/library";
 import { getAllCompras } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { CreateCompraDto } from "./compra.types";
-import { getEvento } from "../evento/evento.service";
+import { getEvento, updateVagasEvento } from "../evento/evento.service";
 import { createTicketService } from "../ticket/ticket.service";
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { updateSaldoComprador } from "../comprador/comprador.service";
 
-
-async function index  (req: Request, res: Response) {
+async function index(req: Request, res: Response) {
   /* #swagger.summary = 'Exibe todas as compras.'
     #swagger.description = 'Exibe todos as compras existentes no banco de dados'
         #swagger.responses[200] = {
@@ -23,9 +22,9 @@ async function index  (req: Request, res: Response) {
   } catch (error) {
     return res.status(500).json({ error });
   }
-};
+}
 
-async function create (req: Request, res: Response) {
+async function create(req: Request, res: Response) {
   /* 
     #swagger.summary = 'Adiciona uma compra no banco.'
         #swagger.parameters['body'] = {
@@ -39,16 +38,19 @@ async function create (req: Request, res: Response) {
   const compradorId = req.session.uid;
   // const qtdeIngressos: number = dadosCompra.qtdeIngressos;
   try {
-    const comprador = await getCompradorByEmail(emailComprador) as Comprador;
+    const comprador = (await getCompradorByEmail(emailComprador)) as Comprador;
     const saldoComprador = comprador.saldo;
     const evento = await getEvento(eventoId);
-    if (!evento)
-      return res.status(404).json({ msg: "Evento nao encontrado" })
+    if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
+    if (evento.vagas === 0)
+      return res.status(401).json({ msg: "Evento sem vagas disponiveis" });
     const valor: Decimal = evento.preco as unknown as Decimal;
     const saldoCompradorNumber = saldoComprador as unknown as number;
     const valorNumber = valor as unknown as number;
-    if (parseFloat(String(saldoCompradorNumber)) < parseFloat(String(valorNumber))) {
-      return res.status(401).json({ msg: "Saldo insuficiente" })
+    if (
+      parseFloat(String(saldoCompradorNumber)) < parseFloat(String(valorNumber))
+    ) {
+      return res.status(401).json({ msg: "Saldo insuficiente" });
     }
     const tipoTicketId = 1;
     const novoTicket = await createTicketService(eventoId, tipoTicketId);
@@ -64,10 +66,11 @@ async function create (req: Request, res: Response) {
     const novoSaldoUsuario = saldoCompradorNumber - valorNumber;
     const novoSaldoCompradorDecimal = novoSaldoUsuario as unknown as Decimal;
     await updateSaldoComprador(compradorId, novoSaldoCompradorDecimal);
+    await updateVagasEvento(eventoId, 1); // 1 ticket por vez
     return res.status(201).json({ msg: "Compra realizada com sucesso" });
   } catch (error) {
     return res.status(500).json(error);
   }
-};
+}
 
 export default { index, create };
