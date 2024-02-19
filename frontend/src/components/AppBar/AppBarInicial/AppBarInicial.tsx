@@ -163,4 +163,4 @@ const AppBarContent = () => {
   );
 }
 
-export default AppBarContent
+export default AppBarContent;

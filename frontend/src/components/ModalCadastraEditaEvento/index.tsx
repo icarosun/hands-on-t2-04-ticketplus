@@ -1,10 +1,18 @@
-import { ChangeEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import {
+    ChangeEvent,
+    useState,
+    useEffect
+} from 'react';
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux';
 import {
     Modal,
     Card,
     CardHeader,
     CardContent,
+    Alert,
 } from '@mui/material';
 import FormInput from '../FormInput';
 import Button from '@mui/joy/Button';
@@ -18,7 +26,7 @@ interface State {
     titulo: string;
     descricao: string;
     localizacao: string;
-    preco: number | undefined;
+    preco: number | string;
 }
 
 interface ModalCadastraEditaEventoProps {
@@ -32,12 +40,21 @@ interface ModalCadastraEditaEventoProps {
 const ModalCadastraEditaEvento = (props: ModalCadastraEditaEventoProps)  => {
     const dispatch = useDispatch();
 
+    const [mostraErroCadastro, setMostraErroCadastro] = useState<boolean>(false);
+    const [mensagemErro, setMensagemErro] = useState<string>("");
     const [values, setValues] = useState<State>({
         titulo: "",
         descricao: "",
         localizacao: "",
-        preco: undefined
+        preco: ""
     })
+
+    const estadoModalCadastroEdicao = useSelector((state: any) => state.ModalCadastroEdicaoReducer);
+
+    useEffect(() => {
+        setMostraErroCadastro(estadoModalCadastroEdicao.mostraErroCadastro);
+        setMensagemErro(estadoModalCadastroEdicao.mensagemErro);
+    }, [estadoModalCadastroEdicao])
 
     const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
         setValues({ ...values, [prop]: event.target.value })
@@ -139,6 +156,16 @@ const ModalCadastraEditaEvento = (props: ModalCadastraEditaEventoProps)  => {
                             >
                                 {labelBotao}
                             </Button>
+                            {mostraErroCadastro
+                                &&
+                            <Alert
+                                severity="error"
+                                sx={{
+                                    marginTop: 1.5
+                                }}
+                            >
+                                {mensagemErro}
+                            </Alert>}
                         </form>
                     </CardContent>
                 </Card>
