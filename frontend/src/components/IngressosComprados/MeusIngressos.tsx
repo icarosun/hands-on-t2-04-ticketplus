@@ -90,7 +90,7 @@ const MeusIngressos: React.FC<IngressosCompradosProps> = ({ ingressos }) => {
                             <Grid container spacing={6} sx={{ margin: 2 }}>
                                 {ingressos.map((ingresso, index) => (
                                     <Card key={`ticket-card-${index}`} orientation="horizontal" variant="outlined" sx={{ width: 420, margin: 1, '&:hover': { boxShadow: 'md', borderColor: 'neutral.outlinedHoverBorder' } }}>
-                                        <CardOverflow>
+                                        <CardOverflow key={`card-overflow-1-${index}`}>
                                             <AspectRatio ratio="1" sx={{ width: 120 }}>
                                                 <img
                                                     src={ingresso.imageUrlEvento}
@@ -100,12 +100,12 @@ const MeusIngressos: React.FC<IngressosCompradosProps> = ({ ingressos }) => {
                                                 />
                                             </AspectRatio>
                                         </CardOverflow>
-                                        <CardContent>
-                                            <Typography fontWeight="md" textColor="success.plainColor">
+                                        <CardContent key={`card-content-1-${index}`}>
+                                            <Typography key={`typograpky-1-${index}`} fontWeight="md" textColor="success.plainColor">
                                                 {ingresso.nomeEvento}
                                             </Typography>
-                                            <Typography level="body-sm">{ingresso.localEvento}</Typography>
-                                            <Chip variant="soft" startDecorator={<ConfirmationNumberOutlinedIcon />}>
+                                            <Typography key={`typograpky-2-${index}`} level="body-sm">{ingresso.localEvento}</Typography>
+                                            <Chip key={`chip-${index}`} variant="soft" startDecorator={<ConfirmationNumberOutlinedIcon />}>
                                                 {ingresso.quantidadeIngressos + ' ' + "Ingressos Comprados"}
                                             </Chip>
                                         </CardContent>
@@ -123,6 +123,7 @@ const MeusIngressos: React.FC<IngressosCompradosProps> = ({ ingressos }) => {
                                                 borderLeft: '1px solid',
                                                 borderColor: 'divider',
                                             }}
+                                            key={`card-overflow-2-${index}`}
                                         >
                                             Ticket
                                         </CardOverflow>

@@ -18,7 +18,7 @@ import UserDropdownMenu from './UserDropdownMenu';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { defineSessaoUsuario } from '../../../utils/defineSessaoUsuario';
-import { CompraType, listaIngressos } from '../../../services/listaIngressos';
+import { CompraType, getIngressosByComprador } from '../../../services/listaIngressos';
 import SaldoComponente from '../../CarteiraUsuario/CarteiraItem';
 import MeusIngressos from '../../IngressosComprados/MeusIngressos';
 import { TiposUsuarios } from '../../../utils/tipoUsuario.constants';
@@ -92,10 +92,10 @@ const AppBarUsuario = (props: AppBarProps) => {
         try {
             const resSessao = await defineSessaoUsuario();
             if (props.tipoUsuario === TiposUsuarios.COMPRADOR) {
-              const resIngressos = await listaIngressos();
+              const resIngressos = await getIngressosByComprador();
               const saldo = resSessao.data.saldo;
               setSaldoAtual(saldo);
-              const compras = resIngressos?.data.compras;
+              const compras = resIngressos?.data.comprasData;
               let index = 1;
               const ingressosAux: InfoIngressoType[] = [];
               compras?.map((compra: CompraType) => {
@@ -103,7 +103,7 @@ const AppBarUsuario = (props: AppBarProps) => {
                   const comprador = compra.comprador;
                   const ingressoInfo = {
                       id: parseInt(`${ingresso.id}${index}`),
-                      imageUrlEvento: ingresso.imageUrl,
+                      imageUrlEvento: compra.imageUrl,
                       nomeEvento: ingresso.titulo,
                       localEvento: ingresso.localizacao,
                       quantidadeIngressos: 1,

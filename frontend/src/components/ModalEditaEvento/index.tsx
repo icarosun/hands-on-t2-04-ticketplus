@@ -25,14 +25,12 @@ const ModalEditaEvento = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [idEdicaoEvento, setIdEdicaoEvento] = useState<number>(0);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-    // const [valuesModal, setValuesModal] = useState<DetalhesEventoType>({});
 
     const estadoModalCadastroEdicao = useSelector((state: any) => state.ModalCadastroEdicaoReducer);
 
     useEffect(() => {
         setOpen(estadoModalCadastroEdicao.openModalEdicao);
         setIdEdicaoEvento(estadoModalCadastroEdicao.idEdicaoEvento);
-        // setValuesModal(estadoModalCadastroEdicao.valuesModal);
     }, [estadoModalCadastroEdicao]);
 
     const handleOpenModalSuccessMessage = () => {
