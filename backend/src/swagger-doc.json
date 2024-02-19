@@ -5,13 +5,13 @@
     "description": "Documentação da API - TicketPlus",
     "version": "1.0.0"
   },
-  "host": "localhost:5000",
+  "host": "localhost:3333",
   "basePath": "/",
   "schemes": [
     "http"
   ],
   "paths": {
-    "/v1/auth/": {
+    "/v1/auth/comprador": {
       "post": {
         "tags": [
           "Auth"
@@ -41,7 +41,41 @@
             "description": "Internal Server Error"
           }
         }
-      },
+      }
+    },
+    "/v1/auth/organizador": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Cadastra um usuário.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CadastraUsuario"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/v1/auth/": {
       "put": {
         "tags": [
           "Auth"
@@ -91,19 +125,62 @@
         }
       }
     },
-    "/v1/usuario/": {
+    "/v1/comprador/": {
       "get": {
         "tags": [
-          "Usuario"
+          "comprador"
         ],
-        "summary": "Exibe todos os usuários.",
+        "summary": "Exibe todos os compradores.",
         "description": "",
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Usuarios"
+              "$ref": "#/definitions/Compradores"
             }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/v1/organizador/": {
+      "get": {
+        "tags": [
+          "organizador"
+        ],
+        "summary": "Exibe todos os organizadores.",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Organizadores"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/v1/organizador/evento": {
+      "get": {
+        "tags": [
+          "organizador"
+        ],
+        "summary": "Exibe todos os eventos criados pelo organizador.",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ReturnReadAllEventos"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error"
@@ -124,6 +201,135 @@
             "schema": {
               "$ref": "#/definitions/ReturnReadAllEventos"
             }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Evento"
+        ],
+        "summary": "Criar um evento.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateEventoDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Evento"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/v1/evento/{idEvento}": {
+      "get": {
+        "tags": [
+          "Evento"
+        ],
+        "summary": "Recupera dados de um evento específico.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idEvento",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id do evento"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Evento"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Evento"
+        ],
+        "summary": "Edita dados de um evento específico.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idEvento",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id do evento"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/UpdateEventoDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Evento"
+        ],
+        "summary": "Remove um envento específico.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "idEvento",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id do evento"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -177,6 +383,25 @@
           },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/v1/sessao/": {
+      "get": {
+        "tags": [
+          "Sessao"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "308": {
+            "description": "Permanent Redirect"
           },
           "500": {
             "description": "Internal Server Error"
@@ -239,6 +464,146 @@
         }
       }
     },
+    "CreateEventoDto": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "example": "Chiado da Chinela"
+        },
+        "descricao": {
+          "type": "string",
+          "example": "Forró estilo pé de serra. Mulher não paga. Cerveja liberada a partir da 00:00"
+        },
+        "localizacao": {
+          "type": "string",
+          "example": "Av. Torquato Tapajós, nº 207"
+        },
+        "faixaEtaria": {
+          "type": "number",
+          "example": 18
+        },
+        "preco": {
+          "type": "number",
+          "example": 12.99
+        },
+        "imageUrl": {
+          "type": "string",
+          "example": "../../../src/assets/imgs/chiado-da-chinela.jpg"
+        },
+        "categoriaEventoId": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "UpdateEventoDto": {
+      "type": "object",
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "example": "Bloco do Javeiro"
+        },
+        "descricao": {
+          "type": "string",
+          "example": "Forró estilo pé de serra. Mulher não paga. Cerveja liberada a partir da 00:00"
+        },
+        "localizacao": {
+          "type": "string",
+          "example": "Av. Torquato Tapajós, nº 207"
+        },
+        "faixaEtaria": {
+          "type": "number",
+          "example": 18
+        },
+        "preco": {
+          "type": "number",
+          "example": 12.99
+        },
+        "imageUrl": {
+          "type": "string",
+          "example": "../../../src/assets/imgs/chiado-da-chinela.jpg"
+        },
+        "categoriaEventoId": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "ResponseEventoUpdated": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "1"
+        },
+        "titulo": {
+          "type": "string",
+          "example": "Bloco do Javeiro"
+        },
+        "localizacao": {
+          "type": "string",
+          "example": "Av. Torquato Tapajós, nº 207"
+        },
+        "faixaEtaria": {
+          "type": "number",
+          "example": 18
+        },
+        "preco": {
+          "type": "number",
+          "example": 12.99
+        },
+        "imageUrl": {
+          "type": "string",
+          "example": "../../../src/assets/imgs/chiado-da-chinela.jpg"
+        },
+        "categoriaEventoId": {
+          "type": "number",
+          "example": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2024-01-13T15:04:31.647Z"
+        }
+      }
+    },
+    "Evento": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "1"
+        },
+        "titulo": {
+          "type": "string",
+          "example": "Chiado da Chinela"
+        },
+        "localizacao": {
+          "type": "string",
+          "example": "Av. Torquato Tapajós, nº 207"
+        },
+        "faixaEtaria": {
+          "type": "number",
+          "example": 18
+        },
+        "preco": {
+          "type": "number",
+          "example": 12.99
+        },
+        "imageUrl": {
+          "type": "string",
+          "example": "../../../src/assets/imgs/chiado-da-chinela.jpg"
+        },
+        "categoriaEventoId": {
+          "type": "number",
+          "example": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2024-01-13T15:04:31.647Z"
+        }
+      }
+    },
     "ReturnReadAllEventos": {
       "type": "array",
       "items": {
@@ -260,9 +625,21 @@
             "type": "number",
             "example": 30
           },
-          "categoria": {
+          "preco": {
+            "type": "number",
+            "example": 199.99
+          },
+          "imageUrl": {
             "type": "string",
-            "example": "Workshop"
+            "example": "../../../src/assets/imgs/javascript-mental.jpg"
+          },
+          "organizadorId": {
+            "type": "string",
+            "example": "19454928-0f2b-44e6-ba87-8e65a1fff621"
+          },
+          "categoriaEventoId": {
+            "type": "number",
+            "example": 1
           },
           "createdAt": {
             "type": "string",
@@ -275,42 +652,78 @@
         }
       }
     },
-    "Usuarios": {
+    "Compradores": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
-            "example": "18b39e33-8aa5-4a6f-9f2c-c62eef849145"
+            "example": "0b2ea5ec-ba7d-4605-8b4a-d2752f4cab14"
           },
           "nome": {
             "type": "string",
-            "example": "Organizador"
-          },
-          "sobrenome": {
-            "type": "string",
-            "example": "Usuario"
+            "example": "Comprador2"
           },
           "email": {
             "type": "string",
-            "example": "organizadorusuario@usuario.com"
+            "example": "compradorusuario@usuario.com"
           },
           "senha": {
             "type": "string",
-            "example": "$2a$10$OM56.XNwB1g5hb3wwSt5lOZ4zduxZ8osQUODcFtrosfqL7oTizawO"
+            "example": "$2a$10$wspOMexHYHDxs9ewX99M5.4RYVDJuPppzpaoj/pnH7Sjedq1Vaja."
           },
-          "tipoUsuario": {
-            "type": "string",
-            "example": "60124bd9-8654-4717-ba11-deda3df4e0bb"
+          "saldo": {
+            "type": "number",
+            "example": 0.1
           },
           "createdAt": {
             "type": "string",
-            "example": "2024-01-13T15:22:34.130Z"
+            "example": "2024-01-13T06:12:38.916Z"
           },
           "updatedAt": {
             "type": "string",
-            "example": "2024-01-13T15:22:34.130Z"
+            "example": "2024-01-13T06:12:38.916Z"
+          }
+        }
+      }
+    },
+    "Organizadores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "0b2ea4ac-ba7d-4605-8b4a-d2752f4cab32"
+          },
+          "nome": {
+            "type": "string",
+            "example": "Organizador2"
+          },
+          "email": {
+            "type": "string",
+            "example": "organizador2@usuario.com"
+          },
+          "senha": {
+            "type": "string",
+            "example": "$2a$10$wspOMexHYHDxs9ewX99M5.4RYVDJuPppzpaoj/pnH7Sjedq1Vaja."
+          },
+          "conta": {
+            "type": "string",
+            "example": "002;48783-9"
+          },
+          "cnpj": {
+            "type": "string",
+            "example": "40363091000144"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2024-01-13T06:12:38.916Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-01-13T06:12:38.916Z"
           }
         }
       }
@@ -321,10 +734,6 @@
         "nome": {
           "type": "string",
           "example": "João"
-        },
-        "sobrenome": {
-          "type": "string",
-          "example": "Silva"
         },
         "email": {
           "type": "string",

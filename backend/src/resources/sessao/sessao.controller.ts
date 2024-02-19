@@ -18,13 +18,15 @@ export async function index (req: Request, res: Response) {
             const dadosSessaoUsuario = {
                 nome: nomeUsuario,
                 email: email,
-                saldo: saldo
+                saldo: saldo,
+                tipoUsuario: TiposUsuarios.COMPRADOR
             }
             return res.status(200).json(dadosSessaoUsuario);
         } else {
             const dadosSessaoUsuario = {
                 nome: nomeUsuario,
-                email: email
+                email: email,
+                tipoUsuario: TiposUsuarios.ORGANIZADOR
             }
             return res.status(200).json(dadosSessaoUsuario);
         }

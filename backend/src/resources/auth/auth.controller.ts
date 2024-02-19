@@ -71,11 +71,18 @@ async function login (req: Request, res: Response) {
 		req.session.nomeUsuario = usuario.nome;
 		req.session.email = usuario.email;
 		const isComprador = !Object.keys(usuario).includes('cnpj');
-		if (isComprador) req.session.tipoUsuarioId = TiposUsuarios.COMPRADOR_ID
-		else req.session.tipoUsuarioId = TiposUsuarios.ORGANIZADOR_ID
+		let tipoUsuario = ''
+		if (isComprador) {
+			req.session.tipoUsuarioId = TiposUsuarios.COMPRADOR_ID
+			tipoUsuario = TiposUsuarios.COMPRADOR
+		} else {
+			req.session.tipoUsuarioId = TiposUsuarios.ORGANIZADOR_ID
+			tipoUsuario = TiposUsuarios.ORGANIZADOR
+		}
 		return res.status(200).json({
 			nome: usuario.nome,
-			email: usuario.email
+			email: usuario.email,
+			tipoUsuario: tipoUsuario
 		});
 	} catch (error) {
 		return res.status(500).json(error);

@@ -12,9 +12,8 @@ cd frontend && npm install && cd ..
 
 cd backend && npm install && cd ..
 
-docker compose up  ou  docker-compose up -d   
+docker compose up ou docker-compose up -d
 
 docker exec -it ticketplus_backend npx prisma migrate dev
 
 docker exec -it ticketplus_backend npx prisma db seed
-

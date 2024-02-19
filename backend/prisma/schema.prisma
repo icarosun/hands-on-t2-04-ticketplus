@@ -49,7 +49,7 @@ model Evento {
   localizacao       String   @db.VarChar(100)
   faixaEtaria       Int      @db.Int
   preco             Decimal  @db.Decimal(9, 2)
-  imageUrl          String   @db.VarChar(100)
+  // imageUrl          String   @db.VarChar(100)
   organizadorId     String   @db.Char(36)
   categoriaEventoId Int      @db.Int()
 
@@ -103,7 +103,7 @@ model Compra {
 }
 
 model TipoTicket {
-  id        Int @id @default(autoincrement()) @db.Int()
+  id        Int    @id @default(autoincrement()) @db.Int()
   descricao String @db.VarChar(50)
 
   eventoId Int     @db.Int()

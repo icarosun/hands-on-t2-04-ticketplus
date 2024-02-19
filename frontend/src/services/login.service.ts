@@ -5,6 +5,7 @@ export interface Usuario {
   sobrenome: string;
   email: string;
   saldo: number;
+  tipoUsuario: "comprador" | "organizador";
 }
 
 export async function login (email: string, senha: string): Promise<Usuario | null> {
@@ -16,7 +17,8 @@ export async function login (email: string, senha: string): Promise<Usuario | nu
     nome: usuario.nome,
     sobrenome: usuario.sobrenome,
     email: usuario.email,
-    saldo: usuario.saldo
+    saldo: usuario.saldo,
+    tipoUsuario: usuario.tipoUsuario
   };
 
   return dadosUsuario;
