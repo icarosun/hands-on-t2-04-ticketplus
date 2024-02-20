@@ -9,6 +9,7 @@ const eventoCamposSchema = {
     .required(),
   localizacao: Joi.string()
     .required(),
+  vagas: Joi.number().required(),
   faixaEtaria: Joi.number(),
   preco: Joi.number()
     .required(),

@@ -5,7 +5,7 @@ import { Decimal } from "@prisma/client/runtime/library";
 import { getAllCompras } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { CreateCompraDto } from "./compra.types";
-import { getEvento } from "../evento/evento.service";
+import { getEvento, updateVagasEvento } from "../evento/evento.service";
 import { createTicketService } from "../ticket/ticket.service";
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { updateSaldoComprador } from "../comprador/comprador.service";
@@ -44,6 +44,8 @@ async function create (req: Request, res: Response) {
     const evento = await getEvento(eventoId);
     if (!evento)
       return res.status(404).json({ msg: "Evento nao encontrado" })
+    if (evento.vagas === 0)
+      return res.status(401).json({ msg: "Evento sem vagas disponiveis" });
     const valor: Decimal = evento.preco as unknown as Decimal;
     const saldoCompradorNumber = saldoComprador as unknown as number;
     const valorNumber = valor as unknown as number;
@@ -64,6 +66,7 @@ async function create (req: Request, res: Response) {
     const novoSaldoUsuario = saldoCompradorNumber - valorNumber;
     const novoSaldoCompradorDecimal = novoSaldoUsuario as unknown as Decimal;
     await updateSaldoComprador(compradorId, novoSaldoCompradorDecimal);
+    await updateVagasEvento(eventoId, 1); // 1 ticket por vez
     return res.status(201).json({ msg: "Compra realizada com sucesso" });
   } catch (error) {
     return res.status(500).json(error);

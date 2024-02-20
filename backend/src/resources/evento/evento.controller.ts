@@ -62,6 +62,7 @@ async function read (req: Request, res: Response) {
       titulo: evento.titulo,
       descricao: evento.descricao,
       localizacao: evento.localizacao,
+      vagas: evento.vagas,
       preco: evento.preco,
       imageUrl: imageUrl
     }
@@ -88,6 +89,7 @@ async function create (req: Request, res: Response) {
     titulo: dadosEvento.titulo,
     descricao: dadosEvento.descricao,
     localizacao: dadosEvento.localizacao,
+    vagas: dadosEvento.vagas,
     faixaEtaria: 10,
     preco: dadosEvento.preco as unknown as Decimal,
     organizadorId: organizadorId,
@@ -127,6 +129,7 @@ async function update (req: Request, res: Response) {
         titulo: dadosEvento.titulo,
         descricao: dadosEvento.descricao,
         localizacao: dadosEvento.localizacao,
+        vagas: dadosEvento.vagas,
         faixaEtaria: 10,
         preco: dadosEvento.preco as unknown as Decimal,
         organizadorId: dadosEvento.organizadorId,

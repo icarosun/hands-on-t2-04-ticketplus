@@ -4,6 +4,7 @@ export type EventoDto = Pick<Evento,
   | "titulo"
   | "descricao"
   | "localizacao"
+  | "vagas"
   | "faixaEtaria"
   | "preco"
 >;
@@ -12,6 +13,7 @@ export type CreateEventoDto = Pick<Evento,
   | "titulo" 
   | "descricao"
   | "localizacao"
+  | "vagas"
   | "faixaEtaria"
   | "preco"
   | "organizadorId"
@@ -22,6 +24,7 @@ export type UpdateEventoDto = Pick<Evento,
   | "titulo" 
   | "descricao"
   | "localizacao"
+  | "vagas"
   | "faixaEtaria"
   | "preco"
   | "categoriaEventoId"
@@ -32,6 +35,7 @@ export interface ReqEventoType {
   titulo: string;
   descricao: string;
   localizacao: string;
+  vagas: number;
   preco: number;
   imageBase64: string;
   organizadorId: string;

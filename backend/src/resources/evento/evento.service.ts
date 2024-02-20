@@ -61,3 +61,13 @@ export const removeEvento = async (
     where: { id: idEvento }
   })
 }
+
+export const updateVagasEvento = async (
+  idEvento: number,
+  ocupacao: number
+): Promise<Evento> => {
+  return await prisma.evento.update({
+    where: { id: idEvento },
+    data: { vagas: { decrement: ocupacao } },
+  });
+};
