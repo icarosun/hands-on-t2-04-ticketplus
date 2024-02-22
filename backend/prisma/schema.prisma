@@ -43,7 +43,6 @@ model Organizador {
 
 model Evento {
   id                Int     @id @default(autoincrement()) @db.Int()
-  // id                String  @id @default(uuid()) @db.Char(36)
   titulo            String  @db.VarChar(100)
   descricao         String  @db.Text()
   localizacao       String  @db.VarChar(100)
@@ -55,8 +54,8 @@ model Evento {
   categoriaEventoId Int     @db.Int()
 
   ticket     Ticket[]
-  tipoTicket TipoTicket[]
   compras    Compra[]
+  tiposTicketsEventos TiposTicketsEventos[]
 
   Organizador     Organizador     @relation(fields: [organizadorId], references: [id])
   CategoriaEvento CategoriaEvento @relation(fields: [categoriaEventoId], references: [id])
@@ -69,7 +68,6 @@ model Evento {
 
 model Ticket {
   id           String   @id @default(uuid()) @db.Char(36)
-  // eventoId     String @db.Char(36)
   eventoId     Int      @db.Int()
   tipoTicketId Int   @db.Int()
 
@@ -104,16 +102,24 @@ model Compra {
 }
 
 model TipoTicket {
-  id        Int    @id @default(autoincrement()) @db.Int()
-  descricao String @db.VarChar(50)
+  id         Int    @id @default(autoincrement()) @db.Int()
+  descricao  String @db.VarChar(50)
+  peso       Float  @db.Float()
 
-  eventoId Int     @db.Int()
-
-  ticket   Ticket[]
-  Evento   Evento   @relation(fields: [eventoId], references: [id])
-  // eventoId String   @db.Char(36)
+  ticket              Ticket[]
+  tiposTicketsEventos TiposTicketsEventos[]
 
   @@map("tipoTickets")
+}
+
+model TiposTicketsEventos {
+  id            Int @id @default(autoincrement()) @db.Int()
+  tipoTicketId  Int @db.Int()
+  eventoId      Int @db.Int()
+
+  tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
+  evento     Evento @relation(fields: [eventoId], references: [id])
+
 }
 
 model CategoriaEvento {

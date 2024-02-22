@@ -123,32 +123,22 @@ async function tipoTicket() {
     data: [
       {
         id: 1,
-        descricao: "meia-entrada",
-        eventoId: 1,
+        descricao: "inteira",
+        peso: 1.0
       },
       {
         id: 2,
         descricao: "meia-entrada",
-        eventoId: 2,
+        peso: 0.5
       },
       {
         id: 3,
-        descricao: "meia-entrada",
-        eventoId: 3,
-      },
-      {
-        id: 4,
-        descricao: "meia-entrada",
-        eventoId: 4,
-      },
-      {
-        id: 5,
-        descricao: "meia-entrada",
-        eventoId: 5,
-      },
+        descricao: "VIP",
+        peso: 0.5
+      }
     ],
     skipDuplicates: true,
-  });
+  })
 }
 
 tipoTicket()
