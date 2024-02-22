@@ -124,17 +124,14 @@ async function tipoTicket() {
       {
         id: 1,
         descricao: "inteira",
-        peso: 1.0
       },
       {
         id: 2,
         descricao: "meia-entrada",
-        peso: 0.5
       },
       {
         id: 3,
         descricao: "VIP",
-        peso: 0.5
       }
     ],
     skipDuplicates: true,

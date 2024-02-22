@@ -5,7 +5,7 @@ import {
   getAllEventos,
   getEvento,
   updateEvento,
-  removeEvento,
+  // removeEvento,
   getCompraByEventoId
 } from "./evento.service";
 import {
@@ -144,12 +144,12 @@ async function update (req: Request, res: Response) {
   }
 }
 
-async function remove (req: Request, res: Response) {
+/*async function remove (req: Request, res: Response) {
   /* #swagger.summary = 'Remove um envento específico.'
    #swagger.parameters['idEvento'] = { description: 'Id do evento'}
     
         #swagger.responses[200]
-   */
+   //
   const idEvento = parseInt(req.params.idEvento);
   excluiImagemEvento(idEvento);
   try {
@@ -165,6 +165,6 @@ async function remove (req: Request, res: Response) {
   } catch (error) {
     return res.status(500).json(error); 
   }
-}
+}*/
 
-export default { index, read, create, update, remove };
+export default { index, read, create, update/*, remove*/ };

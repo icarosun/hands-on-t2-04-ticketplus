@@ -45,7 +45,7 @@ export const updateEvento = async (
   })
 } 
 
-export const removeEvento = async (
+/*export const removeEvento = async (
   idEvento: number
 ): Promise<Evento> => {
   const tiposTicketsArray = await prisma.tipoTicket.findMany({
@@ -60,7 +60,7 @@ export const removeEvento = async (
   return await prisma.evento.delete({
     where: { id: idEvento }
   })
-}
+}*/
 
 export const updateVagasEvento = async (
   idEvento: number,

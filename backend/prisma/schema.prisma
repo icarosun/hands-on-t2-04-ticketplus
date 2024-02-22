@@ -104,7 +104,6 @@ model Compra {
 model TipoTicket {
   id         Int    @id @default(autoincrement()) @db.Int()
   descricao  String @db.VarChar(50)
-  peso       Float  @db.Float()
 
   ticket              Ticket[]
   tiposTicketsEventos TiposTicketsEventos[]
@@ -113,13 +112,16 @@ model TipoTicket {
 }
 
 model TiposTicketsEventos {
-  id            Int @id @default(autoincrement()) @db.Int()
-  tipoTicketId  Int @db.Int()
-  eventoId      Int @db.Int()
+  id             Int @id @default(autoincrement()) @db.Int()
+  tipoTicketId   Int @db.Int()
+  eventoId       Int @db.Int()
+  quantidade     Int @db.Int()
+  preco          Decimal  @db.Decimal(9, 2)
 
   tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
   evento     Evento @relation(fields: [eventoId], references: [id])
 
+  @@map("tipoTicketsEventos")
 }
 
 model CategoriaEvento {
