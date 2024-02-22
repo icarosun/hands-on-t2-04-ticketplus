@@ -47,7 +47,6 @@ model Evento {
   descricao         String  @db.Text()
   localizacao       String  @db.VarChar(100)
   faixaEtaria       Int     @db.Int
-  preco             Decimal @db.Decimal(9, 2)
   vagas             Int     @db.Int
   // imageUrl          String   @db.VarChar(100)
   organizadorId     String  @db.Char(36)
@@ -112,15 +111,15 @@ model TipoTicket {
 }
 
 model TiposTicketsEventos {
-  id             Int @id @default(autoincrement()) @db.Int()
-  tipoTicketId   Int @db.Int()
   eventoId       Int @db.Int()
+  tipoTicketId   Int @db.Int()
   quantidade     Int @db.Int()
   preco          Decimal  @db.Decimal(9, 2)
 
-  tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
   evento     Evento @relation(fields: [eventoId], references: [id])
+  tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
 
+  @@id([eventoId, tipoTicketId])
   @@map("tipoTicketsEventos")
 }
 
