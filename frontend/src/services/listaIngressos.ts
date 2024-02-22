@@ -15,10 +15,11 @@ export interface CompraType {
         nome: string;
     };
     data: {
-        compras: [];
+        comprasData: [];
     };
+    imageUrl: string;
 }
 
-export async function listaIngressos (): Promise<CompraType | null> {
+export async function getIngressosByComprador (): Promise<CompraType | null> {
     return HttpInstance.http.get("/compra");
 }

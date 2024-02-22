@@ -6,7 +6,8 @@ import {
   getEvento,
   updateEvento,
   removeEvento,
-  getCompraByEventoId
+  getCompraByEventoId,
+  getEventosByOrganizador
 } from "./evento.service";
 import {
     EventoDto,
@@ -51,7 +52,6 @@ async function read (req: Request, res: Response) {
         #swagger.responses[200] = {
             schema: { $ref: '#/definitions/Evento' }
   } */
-
   const idEvento = parseInt(req.params.idEvento);
   try {
     const evento = await getEvento(idEvento) as EventoDto;
@@ -66,6 +66,25 @@ async function read (req: Request, res: Response) {
       imageUrl: imageUrl
     }
     return res.status(200).json(dadosEvento);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+async function getAllEventosByOrganziador (req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  try {
+    const eventosOrganizador = await getEventosByOrganizador(organizadorId);
+    if (!eventosOrganizador)
+      return res.status(404).json({ msg: "Nenhum evento cadastrado pelo organizador" });
+    const eventosData: object[] = []
+    for (let i = 0; i < eventosOrganizador.length; i++) {
+      eventosData.push({
+        ...eventosOrganizador[i],
+        imageUrl: `http://localhost:${PORT}/v1/img/events/${eventosOrganizador[i].id}`
+      })
+    }
+    return res.status(200).json(eventosData);
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -91,12 +110,13 @@ async function create (req: Request, res: Response) {
     faixaEtaria: 10,
     preco: dadosEvento.preco as unknown as Decimal,
     organizadorId: organizadorId,
-    categoriaEventoId: dadosEvento.categoriaEventoId
+    categoriaEventoId: 1
   } as CreateEventoDto;
   try {
     const novoEvento = await createEvento(evento);
     const idEvento = novoEvento.id;
-    const imageBase64 = dadosEvento.imageBase64;
+    let imageBase64 = dadosEvento.imageBase64;
+    imageBase64 = imageBase64.split(";base64,")[1];
     salvaImagemEvento(idEvento, imageBase64);
     return res.status(201).json({ msg: "Evento criado com sucesso" });
   } catch (error) {
@@ -117,11 +137,12 @@ async function update (req: Request, res: Response) {
   } */
   const dadosEvento = req.body as ReqEventoType;
   const idEvento = parseInt(req.params.idEvento);
-  const imageBase64 = dadosEvento.imageBase64;
   try {
     const evento = await getEvento(idEvento);
     if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
     if (evento.organizadorId === req.session.uid) {
+      let imageBase64 = dadosEvento.imageBase64;
+      imageBase64 = imageBase64.split(";base64,")[1];
       salvaImagemEvento(idEvento, imageBase64);
       const eventoAtualzado = {
         titulo: dadosEvento.titulo,
@@ -130,7 +151,7 @@ async function update (req: Request, res: Response) {
         faixaEtaria: 10,
         preco: dadosEvento.preco as unknown as Decimal,
         organizadorId: dadosEvento.organizadorId,
-        categoriaEventoId: dadosEvento.categoriaEventoId
+        categoriaEventoId: 1
       } as UpdateEventoDto;
       await updateEvento(idEvento, eventoAtualzado);
       return res.status(200).json({ msg: "Evento atualizado"})
@@ -164,4 +185,4 @@ async function remove (req: Request, res: Response) {
   }
 }
 
-export default { index, read, create, update, remove };
+export default { index, read, getAllEventosByOrganziador, create, update, remove };

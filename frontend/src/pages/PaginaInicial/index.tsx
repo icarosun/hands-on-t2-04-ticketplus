@@ -1,17 +1,17 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
 import ListaEventos from '../../components/ListaGeralEventos/ListaEventos.tsx';
 import CategoriaEventosCard from '../../components/AppBar/Categorias.tsx';
 
 export default function PaginaInicial() {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (sessionStorage.email && sessionStorage.email !== "undefined" && sessionStorage.email !== "")
             navigate("/paginacomprador");
-    }, []);
+    }, []);*/
 
     return (
         <Box>
