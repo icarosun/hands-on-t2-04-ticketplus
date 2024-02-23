@@ -9,11 +9,13 @@ import {
   getCompraByEventoId
 } from "./evento.service";
 import { getTipoTickets } from "../tipoTicket/tipoTicket.service";
+import { createTiposTicketsEventos } from "../tiposTicketsEventos/tiposTicketsEventos.service";
 import {
     EventoDto,
     CreateEventoDto,
     UpdateEventoDto
 } from "./evento.types";
+import { TiposTicketsEventosDto } from "../tiposTicketsEventos/tiposTicketsEventos.types";
 import { Decimal } from "@prisma/client/runtime/library";
 import {
   EventoReqType,
@@ -23,7 +25,7 @@ import {
   salvaImagemEvento,
   excluiImagemEvento
 } from "./eventos.utils";
-import { verificaTiposIngressos } from "./eventos.utils";
+import { verificaTiposTickets } from "./eventos.utils";
 
 dotenv.config();
 
@@ -92,17 +94,31 @@ async function create (req: Request, res: Response) {
     const organizadorId = req.session.uid;
     const tiposTicketsEventosReq: TipoTicketEventoType[] = dadosEvento.tiposTicketsEventos;
     const tiposTickets = await getTipoTickets();
-    verificaTiposIngressos(tiposTickets, tiposTicketsEventosReq);
+    const tiposTicketsValidos = verificaTiposTickets(tiposTickets, tiposTicketsEventosReq);
+    if (!tiposTicketsValidos) return res.status(401).json({ msg: "Tipos de tickets inválidos" });
+    let vagas = 0;
+    for (let tipoTicketEventoReq of tiposTicketsEventosReq) {
+      vagas = vagas + tipoTicketEventoReq.quantidade;
+    }
     const evento = {
       titulo: dadosEvento.titulo,
       descricao: dadosEvento.descricao,
       localizacao: dadosEvento.localizacao,
       faixaEtaria: 10,
+      vagas: vagas,
       organizadorId: organizadorId,
       categoriaEventoId: 1
     } as CreateEventoDto;
     const novoEvento = await createEvento(evento);
     const idEvento = novoEvento.id;
+    for (let tipoTicketEventoReq of tiposTicketsEventosReq) {
+      const novoTipoTicketEvento = {
+        ...tipoTicketEventoReq,
+        eventoId: idEvento,
+        preco: tipoTicketEventoReq.preco as unknown as Decimal
+      } as TiposTicketsEventosDto;
+      await createTiposTicketsEventos(novoTipoTicketEvento);
+    }
     const imageBase64 = dadosEvento.imageBase64;
     salvaImagemEvento(idEvento, imageBase64);
     return res.status(201).json({ msg: "Evento criado com sucesso" });

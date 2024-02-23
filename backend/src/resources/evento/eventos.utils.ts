@@ -17,7 +17,7 @@ export function excluiImagemEvento (idEvento: number) {
     excluiImagem(`${pastaEvents}/${idEvento}`);
 }
 
-export function verificaTiposIngressos (
+export function verificaTiposTickets (
     tiposTickets: TipoTicket[], // tipoTickets[] do banco de dados
     tiposTicketsEventosReq: TipoTicketEventoType[] // tiposTicketsEventos da requisição
 ): boolean {
@@ -39,7 +39,7 @@ export function verificaTiposIngressos (
     const countReqIdsValues = Object.values(countReqIds);
     const uniqueReqIdsValues = _.uniq(countReqIdsValues);
     uniqueReqIdsValues.map((countId) => {
-        if (countId != 1) return false;
+        if (countId !== 1) return false;
     });
     return true;
 }
