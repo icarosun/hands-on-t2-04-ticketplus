@@ -8,17 +8,22 @@ import {
   // removeEvento,
   getCompraByEventoId
 } from "./evento.service";
+import { getTipoTickets } from "../tipoTicket/tipoTicket.service";
 import {
     EventoDto,
     CreateEventoDto,
     UpdateEventoDto
 } from "./evento.types";
 import { Decimal } from "@prisma/client/runtime/library";
-import { ReqEventoType } from "./evento.types";
+import {
+  EventoReqType,
+  TipoTicketEventoType
+} from "./evento.types";
 import {
   salvaImagemEvento,
   excluiImagemEvento
 } from "./eventos.utils";
+import { verificaTiposIngressos } from "./eventos.utils";
 
 dotenv.config();
 
@@ -63,7 +68,6 @@ async function read (req: Request, res: Response) {
       descricao: evento.descricao,
       localizacao: evento.localizacao,
       vagas: evento.vagas,
-      preco: evento.preco,
       imageUrl: imageUrl
     }
     return res.status(200).json(dadosEvento);
@@ -83,19 +87,20 @@ async function create (req: Request, res: Response) {
       schema: { $ref: '#/definitions/Evento'}
     }
   */
-  const dadosEvento = req.body as ReqEventoType;
-  const organizadorId = req.session.uid;
-  const evento = {
-    titulo: dadosEvento.titulo,
-    descricao: dadosEvento.descricao,
-    localizacao: dadosEvento.localizacao,
-    vagas: dadosEvento.vagas,
-    faixaEtaria: 10,
-    preco: dadosEvento.preco as unknown as Decimal,
-    organizadorId: organizadorId,
-    categoriaEventoId: dadosEvento.categoriaEventoId
-  } as CreateEventoDto;
   try {
+    const dadosEvento = req.body as EventoReqType;
+    const organizadorId = req.session.uid;
+    const tiposTicketsEventosReq: TipoTicketEventoType[] = dadosEvento.tiposTicketsEventos;
+    const tiposTickets = await getTipoTickets();
+    verificaTiposIngressos(tiposTickets, tiposTicketsEventosReq);
+    const evento = {
+      titulo: dadosEvento.titulo,
+      descricao: dadosEvento.descricao,
+      localizacao: dadosEvento.localizacao,
+      faixaEtaria: 10,
+      organizadorId: organizadorId,
+      categoriaEventoId: 1
+    } as CreateEventoDto;
     const novoEvento = await createEvento(evento);
     const idEvento = novoEvento.id;
     const imageBase64 = dadosEvento.imageBase64;
@@ -117,7 +122,7 @@ async function update (req: Request, res: Response) {
         #swagger.responses[200] 
           
   } */
-  const dadosEvento = req.body as ReqEventoType;
+  const dadosEvento = req.body as EventoReqType;
   const idEvento = parseInt(req.params.idEvento);
   const imageBase64 = dadosEvento.imageBase64;
   try {

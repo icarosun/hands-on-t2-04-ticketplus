@@ -6,8 +6,24 @@ export type EventoDto = Pick<Evento,
   | "localizacao"
   | "vagas"
   | "faixaEtaria"
-  | "preco"
 >;
+
+export interface TipoTicketEventoType {
+  tipoTicketId: number;
+  quantidade: number;
+  preco: number;
+}
+
+export interface EventoReqType {
+  titulo: string;
+  descricao: string;
+  localizacao: string;
+  vagas: number;
+  faixaEtaria: number;
+  imageBase64: string;
+  categoriaEventoId: number;
+  tiposTicketsEventos: TipoTicketEventoType[];
+}
 
 export type CreateEventoDto = Pick<Evento, 
   | "titulo" 
@@ -15,7 +31,6 @@ export type CreateEventoDto = Pick<Evento,
   | "localizacao"
   | "vagas"
   | "faixaEtaria"
-  | "preco"
   | "organizadorId"
   | "categoriaEventoId"
  >; 
@@ -26,18 +41,5 @@ export type UpdateEventoDto = Pick<Evento,
   | "localizacao"
   | "vagas"
   | "faixaEtaria"
-  | "preco"
   | "categoriaEventoId"
  >;
-
-export interface ReqEventoType {
-  id: number;
-  titulo: string;
-  descricao: string;
-  localizacao: string;
-  vagas: number;
-  preco: number;
-  imageBase64: string;
-  organizadorId: string;
-  categoriaEventoId: number;
-}
