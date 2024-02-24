@@ -20,6 +20,7 @@ const eventoCamposSchema = {
     .required(),
   faixaEtaria: Joi.number(),
   imageBase64: Joi.string()
+    .regex(/;base64,/)
     .required(),
   categoriaEventoId: Joi.number()
     .integer()

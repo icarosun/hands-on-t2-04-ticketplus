@@ -1,15 +1,22 @@
 import { Request, Response } from "express";
+import dotenv from "dotenv";
 import { Comprador } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 
 import { CreateCompraReqType } from "./compra.types";
 import { getAllCompras } from "./compra.service";
+import { getComprasByCompradorId } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { getEvento, updateVagasEvento } from "../evento/evento.service";
 import { getTipoTicketEvento } from "./compra.service";
 import { createTicketService } from "../ticket/ticket.service";
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { updateSaldoComprador } from "../comprador/comprador.service";
+import { createTipoTicket } from "../tipoTicket/tipoTicket.service";
+
+dotenv.config();
+
+const PORT = process.env.PORT ?? 3000;
 
 
 async function index  (req: Request, res: Response) {
@@ -18,9 +25,21 @@ async function index  (req: Request, res: Response) {
         #swagger.responses[200] = {
             schema: { $ref: '#/definitions/Compras' }
   } */
+  const compradorId = String(req.session.uid);
+  const eventosIds: number[] = [];
   try {
-    const compras = await getAllCompras();
-    return res.status(200).json({ compras });
+    const compras = await getComprasByCompradorId(compradorId) as unknown as CreateCompraDto[];
+    const comprasData: object[] = []
+    for (let compra of compras) {
+      eventosIds.push(compra.eventoId);
+    }
+    for (let i = 0; i < compras.length; i++) {
+      comprasData.push({
+        ...compras[i],
+        imageUrl: `http://localhost:${PORT}/v1/img/events/${eventosIds[i]}`
+      });
+    }
+    return res.status(200).json({ comprasData });
   } catch (error) {
     return res.status(500).json({ error });
   }
@@ -62,7 +81,7 @@ async function create (req: Request, res: Response) {
     if (parseFloat(String(saldoCompradorNumber)) < parseFloat(String(valorNumber))) {
       return res.status(401).json({ msg: "Saldo insuficiente" })
     }
-    
+
     const novoTicket = await createTicketService(eventoId, tipoTicketId);
     const ticketId = novoTicket.id;
     const compra = {

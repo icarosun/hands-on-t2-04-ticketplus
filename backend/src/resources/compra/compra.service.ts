@@ -8,12 +8,15 @@ import { CreateCompraDto } from "./compra.types";
 const prisma = new PrismaClient();
 
 
-export async function getAllCompras (): Promise<Compra[] | null> {
+export const getComprasByCompradorId = async (compradorId: string): Promise<Compra[] | null> => {
   return await prisma.compra.findMany({
     include: {
       evento: true,
       comprador: true
     },
+    where: {
+      compradorId
+    }
   });
 }
 

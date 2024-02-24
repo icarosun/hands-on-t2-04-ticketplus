@@ -8,6 +8,12 @@ import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
 
 const router = Router();
 
+router.get("/eventosOrganizador",
+  usuarioAutenticado,
+  isOrganizador,
+  eventoController.getAllEventosByOrganziador
+);
+
 router.get("/",
   eventoController.index
 );

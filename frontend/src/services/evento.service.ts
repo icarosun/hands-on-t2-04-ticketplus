@@ -1,14 +1,45 @@
 import { HttpInstance } from "../utils/http";
 
 export interface DetalhesEventoType {
+    id: number;
     titulo: string;
     descricao: string;
     localizacao: string;
     preco: number;
-    data: object;
+    data?: object;
     imageUrl: string;
 }
 
 export async function getDetalhesEvento (idEvento: number): Promise<DetalhesEventoType | null> {
     return await HttpInstance.http.get(`/evento/${idEvento}`);
+}
+
+export async function getEventosByOrganizador () {
+    return await HttpInstance.http.get("/evento/eventosOrganizador");
+}
+
+export async function updateEvento (
+    idEvento: number,
+    imageBase64: string,
+    titulo: string,
+    descricao: string,
+    localizacao: string,
+    preco: number
+) {
+    console.log({
+        id: idEvento,
+        imageBase64,
+        titulo,
+        descricao,
+        localizacao,
+        preco
+    });
+    return await HttpInstance.http.put(`/evento/${idEvento}`, {
+        id: idEvento,
+        imageBase64,
+        titulo,
+        descricao,
+        localizacao,
+        preco
+    });
 }

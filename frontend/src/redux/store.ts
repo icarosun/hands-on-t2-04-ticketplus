@@ -5,11 +5,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import SessionReducer from "./slices/session.slice";
 import AppReducer from "./slices/app.slice";
+import ModalCadastroEdicaoReducer from "./slices/modalCadastroEdicao.slice";
 
 export const store = configureStore({
     reducer: {
         SessionReducer,
-        AppReducer
+        AppReducer,
+        ModalCadastroEdicaoReducer
     }
 });
 

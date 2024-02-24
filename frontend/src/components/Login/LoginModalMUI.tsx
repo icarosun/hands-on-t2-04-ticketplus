@@ -28,9 +28,9 @@ import LockRoundedIcon from '@mui/icons-material/LockRounded';
 import { TiposUsuarios } from '../../utils/tipoUsuario.constants';
 
 interface State {
-    email: string
-    password: string
-    showPassword: boolean
+    email: string;
+    password: string;
+    showPassword: boolean;
 }
 
 const LoginPage = () => {

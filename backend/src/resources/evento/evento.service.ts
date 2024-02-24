@@ -16,8 +16,9 @@ export async function getEvento (idEvento: number): Promise<Evento | null> {
 }
 
 export const getEventosByOrganizador = async (
-  organizadorId: string 
-): Promise<Evento[]> => {
+  organizadorId: string | undefined
+): Promise<Evento[] | null> => {
+  if (organizadorId === undefined) return null;
   return await prisma.evento.findMany({
     where: { organizadorId }
   });
