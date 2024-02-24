@@ -36,11 +36,11 @@ router.put("/:idEvento",
   eventoController.update
 );
 
-router.delete("/:idEvento",
+/*router.delete("/:idEvento",
   usuarioAutenticado,
   isOrganizador,
   eventoController.remove
-);
+);*/
 
 
 export default router;

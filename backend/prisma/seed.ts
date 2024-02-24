@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 
-async function comprador () {
+async function comprador() {
   await prisma.comprador.createMany({
     data: [
       {
@@ -11,14 +11,14 @@ async function comprador () {
         nome: "Luiz",
         email: "joao@usuario.com",
         senha: "$2a$10$AlzsERbpGbrLig3.vPWGN.T.NzFxilZJqBIJ05vA00tJYommOYvRC", //Senha: 12345678
-        saldo: 100
+        saldo: 100,
       },
     ],
     skipDuplicates: true,
-  })
+  });
 }
 
-async function organizador () {
+async function organizador() {
   await prisma.organizador.createMany({
     data: [
       {
@@ -27,23 +27,23 @@ async function organizador () {
         email: "webacademy@email.com",
         senha: "$2a$10$KSQe4QRqp30agHrkr1rueOvRQHi8hobNZmeWyIGQENz678.haa7PO", //Senha: 12345678
         conta: "001;48783-9",
-        cnpj: "01234567891011"
+        cnpj: "01234567891011",
       },
     ],
     skipDuplicates: true,
   });
 }
 
-async function categoriaEvento () {
+async function categoriaEvento() {
   await prisma.categoriaEvento.createMany({
     data: [
       {
         id: 1,
-        descricao: "geral"
-      }
+        descricao: "geral",
+      },
     ],
     skipDuplicates: true,
-  })
+  });
 }
 
 async function tipoTicket() {
@@ -51,22 +51,29 @@ async function tipoTicket() {
     data: [
       {
         id: 1,
+        descricao: "inteira",
+      },
+      {
+        id: 2,
         descricao: "meia-entrada",
-        eventoId: 1
+      },
+      {
+        id: 3,
+        descricao: "VIP",
       }
     ],
     skipDuplicates: true,
   })
 }
 
-comprador()
+tipoTicket()
   .catch((e) => {
     console.error(e);
     process.exit(1);
   })
   .finally(async () => {
     await prisma.$disconnect();
-});
+  });
 
 organizador()
   .catch((e) => {
@@ -75,7 +82,7 @@ organizador()
   })
   .finally(async () => {
     await prisma.$disconnect();
-});
+  });
 
 categoriaEvento()
   .catch((e) => {
@@ -84,12 +91,22 @@ categoriaEvento()
   })
   .finally(async () => {
     await prisma.$disconnect();
-});
+  });
 
-tipoTicket().catch((e) => {
-  console.error(e);
-  process.exit(1);
-})
-.finally(async () => {
-  await prisma.$disconnect();
-});
+evento()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
+
+comprador()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
