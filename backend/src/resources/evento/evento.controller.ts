@@ -7,10 +7,9 @@ import {
   updateEvento,
   // removeEvento,
   getCompraByEventoId,
-  removeEvento,
   getEventosByOrganizador
 } from "./evento.service";
-import { getTipoTickets } from "../tipoTicket/tipoTicket.service";
+import { getTiposTickets } from "../tipoTicket/tipoTicket.service";
 import { createTiposTicketsEventos } from "../tiposTicketsEventos/tiposTicketsEventos.service";
 import {
     EventoDto,
@@ -114,13 +113,14 @@ async function create (req: Request, res: Response) {
     const dadosEvento = req.body as CreateEventoReqType;
     const organizadorId = req.session.uid;
     const tiposTicketsEventosReq: TipoTicketEventoType[] = dadosEvento.tiposTicketsEventos;
-    const tiposTickets = await getTipoTickets();
+    const tiposTickets = await getTiposTickets();
     const tiposTicketsValidos = verificaTiposTickets(tiposTickets, tiposTicketsEventosReq);
     if (!tiposTicketsValidos) return res.status(401).json({ msg: "Tipos de tickets inválidos" });
     let vagas = 0;
     for (let tipoTicketEventoReq of tiposTicketsEventosReq) {
       vagas = vagas + tipoTicketEventoReq.quantidade;
     }
+    console.log(vagas);
     const evento = {
       titulo: dadosEvento.titulo,
       descricao: dadosEvento.descricao,
@@ -165,12 +165,12 @@ async function update (req: Request, res: Response) {
   const idEvento = dadosEvento.id;
   const tiposTicketsEventosReq: TipoTicketEventoType[] = dadosEvento.tiposTicketsEventos;
   const organizadorId = req.session.uid;
-  const tiposTickets = await getTipoTickets();
+  const tiposTickets = await getTiposTickets();
   const tiposTicketsValidos = verificaTiposTickets(tiposTickets, tiposTicketsEventosReq);
   if (!tiposTicketsValidos) return res.status(401).json({ msg: "Tipos de tickets inválidos" });
   const imageBase64 = dadosEvento.imageBase64;*/
-  try {
-    /*const evento = await getEvento(idEvento);
+  /*try {
+    const evento = await getEvento(idEvento);
     if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
     if (evento.organizadorId !== organizadorId)
       return res.status(401).json({ msg: "Usuario nao autorizado" });
@@ -186,10 +186,10 @@ async function update (req: Request, res: Response) {
       categoriaEventoId: 1
     } as UpdateEventoDto;
     await updateEvento(idEvento, eventoAtualzado);
-    return res.status(200).json({ msg: "Evento atualizado" });*/
+    return res.status(200).json({ msg: "Evento atualizado" });
   } catch (error) {
     return res.status(500).json(error); 
-  }
+  }*/
 }
 
 /*async function remove (req: Request, res: Response) {

@@ -3,8 +3,7 @@ import dotenv from "dotenv";
 import { Comprador } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
 
-import { CreateCompraReqType } from "./compra.types";
-import { getAllCompras } from "./compra.service";
+import { CreateCompraDto, CreateCompraReqType } from "./compra.types";
 import { getComprasByCompradorId } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { getEvento, updateVagasEvento } from "../evento/evento.service";
@@ -12,7 +11,6 @@ import { getTipoTicketEvento } from "./compra.service";
 import { createTicketService } from "../ticket/ticket.service";
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { updateSaldoComprador } from "../comprador/comprador.service";
-import { createTipoTicket } from "../tipoTicket/tipoTicket.service";
 
 dotenv.config();
 
