@@ -18,7 +18,8 @@ import {
 import { TiposTicketsEventosDto } from "../tiposTicketsEventos/tiposTicketsEventos.types";
 import { Decimal } from "@prisma/client/runtime/library";
 import {
-  EventoReqType,
+  CreateEventoReqType,
+  UpdateEventoReqType,
   TipoTicketEventoType
 } from "./evento.types";
 import {
@@ -90,7 +91,7 @@ async function create (req: Request, res: Response) {
     }
   */
   try {
-    const dadosEvento = req.body as EventoReqType;
+    const dadosEvento = req.body as CreateEventoReqType;
     const organizadorId = req.session.uid;
     const tiposTicketsEventosReq: TipoTicketEventoType[] = dadosEvento.tiposTicketsEventos;
     const tiposTickets = await getTipoTickets();
@@ -138,28 +139,33 @@ async function update (req: Request, res: Response) {
         #swagger.responses[200] 
           
   } */
-  const dadosEvento = req.body as EventoReqType;
-  const idEvento = parseInt(req.params.idEvento);
-  const imageBase64 = dadosEvento.imageBase64;
+  return res.status(200).json({ msg: "OK" });
+  /*const dadosEvento = req.body as UpdateEventoReqType;
+  const idEvento = dadosEvento.id;
+  const tiposTicketsEventosReq: TipoTicketEventoType[] = dadosEvento.tiposTicketsEventos;
+  const organizadorId = req.session.uid;
+  const tiposTickets = await getTipoTickets();
+  const tiposTicketsValidos = verificaTiposTickets(tiposTickets, tiposTicketsEventosReq);
+  if (!tiposTicketsValidos) return res.status(401).json({ msg: "Tipos de tickets inválidos" });
+  const imageBase64 = dadosEvento.imageBase64;*/
   try {
-    const evento = await getEvento(idEvento);
+    /*const evento = await getEvento(idEvento);
     if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
-    if (evento.organizadorId === req.session.uid) {
-      salvaImagemEvento(idEvento, imageBase64);
-      const eventoAtualzado = {
-        titulo: dadosEvento.titulo,
-        descricao: dadosEvento.descricao,
-        localizacao: dadosEvento.localizacao,
-        vagas: dadosEvento.vagas,
-        faixaEtaria: 10,
-        preco: dadosEvento.preco as unknown as Decimal,
-        organizadorId: dadosEvento.organizadorId,
-        categoriaEventoId: dadosEvento.categoriaEventoId
-      } as UpdateEventoDto;
-      await updateEvento(idEvento, eventoAtualzado);
-      return res.status(200).json({ msg: "Evento atualizado"})
-    }
-    return res.status(401).json({ msg: "Usuario nao autorizado"});
+    if (evento.organizadorId !== organizadorId)
+      return res.status(401).json({ msg: "Usuario nao autorizado" });
+    
+    salvaImagemEvento(idEvento, imageBase64);
+    const eventoAtualzado = {
+      titulo: dadosEvento.titulo,
+      descricao: dadosEvento.descricao,
+      localizacao: dadosEvento.localizacao,
+      faixaEtaria: 10,
+      vagas: dadosEvento.vagas,
+      organizadorId: organizadorId,
+      categoriaEventoId: 1
+    } as UpdateEventoDto;
+    await updateEvento(idEvento, eventoAtualzado);
+    return res.status(200).json({ msg: "Evento atualizado" });*/
   } catch (error) {
     return res.status(500).json(error); 
   }

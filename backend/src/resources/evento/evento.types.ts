@@ -14,7 +14,19 @@ export interface TipoTicketEventoType {
   preco: number;
 }
 
-export interface EventoReqType {
+export interface CreateEventoReqType {
+  titulo: string;
+  descricao: string;
+  localizacao: string;
+  vagas: number;
+  faixaEtaria: number;
+  imageBase64: string;
+  categoriaEventoId: number;
+  tiposTicketsEventos: TipoTicketEventoType[];
+}
+
+export interface UpdateEventoReqType {
+  id: number;
   titulo: string;
   descricao: string;
   localizacao: string;

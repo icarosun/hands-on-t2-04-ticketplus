@@ -34,8 +34,10 @@ const schemaCreateEvento = Joi.object(
   eventoCamposSchema
 );
 
-const schemaUpdateEvento = Joi.object(
-  eventoCamposSchema
-);
+const schemaUpdateEvento = Joi.object({
+  ...eventoCamposSchema,
+  id: Joi.number()
+    .required()
+});
 
 export default { schemaCreateEvento, schemaUpdateEvento};
