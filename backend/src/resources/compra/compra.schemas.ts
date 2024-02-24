@@ -10,6 +10,6 @@ export const compraSchema: Schema = Joi.object({
       FormasPagamento.PIX
     )
     .required(),
-  tipoTicketId: Joi.string()
+  tipoTicketId: Joi.number()
     .required()
 });

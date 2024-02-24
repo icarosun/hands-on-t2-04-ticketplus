@@ -7,10 +7,11 @@ import { CreateCompraDto, CreateCompraReqType } from "./compra.types";
 import { getComprasByCompradorId } from "./compra.service";
 import { createCompra } from "./compra.service";
 import { getEvento, updateVagasEvento } from "../evento/evento.service";
-import { getTipoTicketEvento } from "./compra.service";
+import { getTipoTicketEvento } from "../tiposTicketsEventos/tiposTicketsEventos.service";
 import { createTicketService } from "../ticket/ticket.service";
 import { getCompradorByEmail } from "../comprador/comprador.service";
 import { updateSaldoComprador } from "../comprador/comprador.service";
+import { updateQuantidadeTiposTicketsEventos } from "../tiposTicketsEventos/tiposTicketsEventos.service";
 
 dotenv.config();
 
@@ -41,7 +42,7 @@ async function index  (req: Request, res: Response) {
   } catch (error) {
     return res.status(500).json({ error });
   }
-};
+}
 
 async function create (req: Request, res: Response) {
   /* 
@@ -72,8 +73,10 @@ async function create (req: Request, res: Response) {
     );
     if (!tipoTicketEvento)
       return res.status(404).json({ msg: "O tipo de ticket solicitado nao existe" });
-    const valor: Decimal = tipoTicketEvento?.preco as unknown as Decimal;
+    if (tipoTicketEvento.quantidade === 0)
+      return res.status(401).json({ msg: "O tipo de ticket requisitado nao possui vagas disponiveis" });
 
+    const valor: Decimal = tipoTicketEvento?.preco as unknown as Decimal;
     const saldoCompradorNumber = saldoComprador as unknown as number;
     const valorNumber = valor as unknown as number;
     if (parseFloat(String(saldoCompradorNumber)) < parseFloat(String(valorNumber))) {
@@ -94,11 +97,12 @@ async function create (req: Request, res: Response) {
     const novoSaldoUsuario = saldoCompradorNumber - valorNumber;
     const novoSaldoCompradorDecimal = novoSaldoUsuario as unknown as Decimal;
     await updateSaldoComprador(compradorId, novoSaldoCompradorDecimal);
+    await updateQuantidadeTiposTicketsEventos(eventoId, tipoTicketId, 1); // 1 ticket por vez
     await updateVagasEvento(eventoId, 1); // 1 ticket por vez
     return res.status(201).json({ msg: "Compra realizada com sucesso" });
   } catch (error) {
     return res.status(500).json(error);
   }
-};
+}
 
 export default { index, create };

@@ -25,15 +25,3 @@ export async function createCompra (
 ): Promise<Compra> {
   return await prisma.compra.create({ data: compra });
 };
-
-export async function getTipoTicketEvento (
-  eventoId: number,
-  tipoTicketId: number
-): Promise<TiposTicketsEventos | null> {
-  return await prisma.tiposTicketsEventos.findFirst({
-    where: {
-      eventoId,
-      tipoTicketId
-    }
-  });
-}
