@@ -1,8 +1,8 @@
 describe("Server.ts tests", () => {
-  test("Math test", () => {
+  test("Auth test", () => {
     expect(2 + 2).toBe(4);
   });
-  it("test of testing", () => {
+  it("Buy Ticket", () => {
     expect(1 + 1).toBe(2);
   });
 });
