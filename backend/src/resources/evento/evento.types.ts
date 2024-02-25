@@ -2,8 +2,37 @@ import { Evento } from "@prisma/client";
 
 export type EventoDto = Pick<
   Evento,
-  "titulo" | "descricao" | "localizacao" | "vagas" | "faixaEtaria" | "preco"
+  "titulo" | "descricao" | "localizacao" | "vagas" | "faixaEtaria"
 >;
+
+export interface TipoTicketEventoType {
+  tipoTicketId: number;
+  quantidade: number;
+  preco: number;
+}
+
+export interface CreateEventoReqType {
+  titulo: string;
+  descricao: string;
+  localizacao: string;
+  vagas: number;
+  faixaEtaria: number;
+  imageBase64: string;
+  categoriaEventoId: number;
+  tiposTicketsEventos: TipoTicketEventoType[];
+}
+
+export interface UpdateEventoReqType {
+  id: number;
+  titulo: string;
+  descricao: string;
+  localizacao: string;
+  vagas: number;
+  faixaEtaria: number;
+  imageBase64: string;
+  categoriaEventoId: number;
+  tiposTicketsEventos: TipoTicketEventoType[];
+}
 
 export type CreateEventoDto = Pick<
   Evento,
@@ -12,7 +41,6 @@ export type CreateEventoDto = Pick<
   | "localizacao"
   | "vagas"
   | "faixaEtaria"
-  | "preco"
   | "organizadorId"
   | "categoriaEventoId"
 >;
@@ -24,20 +52,5 @@ export type UpdateEventoDto = Pick<
   | "localizacao"
   | "vagas"
   | "faixaEtaria"
-  | "preco"
   | "categoriaEventoId"
 >;
-
-export type UpdateVagasEventoDto = Pick<Evento, "vagas">;
-
-export interface ReqEventoType {
-  id: number;
-  titulo: string;
-  descricao: string;
-  localizacao: string;
-  vagas: number;
-  preco: number;
-  imageBase64: string;
-  organizadorId: string;
-  categoriaEventoId: number;
-}

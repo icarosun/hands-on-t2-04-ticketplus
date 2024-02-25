@@ -1,5 +1,5 @@
 .env
 node_modules
 coverage
-./src/assets/img/events/*
-./src/assets/img/users/*
+src/assets/img/events
+src/assets/img/users

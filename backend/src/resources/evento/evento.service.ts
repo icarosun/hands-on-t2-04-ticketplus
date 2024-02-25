@@ -16,8 +16,9 @@ export async function getEvento(idEvento: number): Promise<Evento | null> {
 }
 
 export const getEventosByOrganizador = async (
-  organizadorId: string
-): Promise<Evento[]> => {
+  organizadorId: string | undefined
+): Promise<Evento[] | null> => {
+  if (organizadorId === undefined) return null;
   return await prisma.evento.findMany({
     where: { organizadorId },
   });
@@ -44,21 +45,6 @@ export const updateEvento = async (
   return await prisma.evento.update({
     where: { id: idEvento },
     data: evento,
-  });
-};
-
-export const removeEvento = async (idEvento: number): Promise<Evento> => {
-  const tiposTicketsArray = await prisma.tipoTicket.findMany({
-    where: { eventoId: idEvento },
-  });
-  for (let tipoTicket of tiposTicketsArray) {
-    const tipoTicketId = tipoTicket.id;
-    await prisma.tipoTicket.delete({
-      where: { id: tipoTicketId },
-    });
-  }
-  return await prisma.evento.delete({
-    where: { id: idEvento },
   });
 };
 

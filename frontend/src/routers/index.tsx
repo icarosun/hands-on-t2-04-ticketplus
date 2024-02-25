@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import NavBarLayout from "../layout/Navbar/Main/index.tsx";
 import PaginaComprador from "../pages/Comprador/index.tsx";
-import PaginaOrganizador from "../pages/Organizador/index.tsx";
+import PaginaOrganizador from "../pages/Organizador";
 import CompradorNavBarLayout from "../layout/Navbar/Comprador/index.tsx";
 import PaginaInicial from "../pages/PaginaInicial/index.tsx";
 import { TiposUsuarios } from "../utils/tipoUsuario.constants.ts";

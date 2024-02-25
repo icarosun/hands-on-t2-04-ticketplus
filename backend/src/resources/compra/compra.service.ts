@@ -1,20 +1,27 @@
-import { PrismaClient, Compra, Comprador } from "@prisma/client";
+import {
+  PrismaClient,
+  Compra,
+  TiposTicketsEventos
+} from "@prisma/client";
 import { CreateCompraDto } from "./compra.types";
 
 const prisma = new PrismaClient();
 
 
-export const getAllCompras = async (): Promise<Compra[] | null> => {
+export const getComprasByCompradorId = async (compradorId: string): Promise<Compra[] | null> => {
   return await prisma.compra.findMany({
     include: {
       evento: true,
       comprador: true
     },
+    where: {
+      compradorId
+    }
   });
 }
 
-export const createCompra = async (
+export async function createCompra (
   compra: CreateCompraDto
-): Promise<Compra> => {
+): Promise<Compra> {
   return await prisma.compra.create({ data: compra });
 };
