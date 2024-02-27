@@ -6,7 +6,8 @@ import organizadorRouter from "../resources/organizador/organizador.router";
 import eventoRouter from "../resources/evento/evento.router";
 import compraRouter from "../resources/compra/compra.router";
 import sessaoRouter from "../resources/sessao/sessao.router";
-import imagemRouter from '../resources/imagem/imagem.router'
+import imagemRouter from '../resources/imagem/imagem.router';
+import tipoTicketRouter from "../resources/tipoTicket/tipoTicket.router";
 
 const router = Router();
 
@@ -52,5 +53,10 @@ router.use(
   // #swagger.tags = ['Sessao']
   sessaoRouter
 )
+
+router.use(
+  "/tipoTicket",
+  tipoTicketRouter
+);
 
 export default router;
