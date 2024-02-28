@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -9,7 +10,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import SellRoundedIcon from '@mui/icons-material/SellRounded';
-import { Avatar, CardActions, CardHeader, CardMedia, Chip, IconButton } from '@mui/material'
+import {
+    Avatar,
+    CardActions,
+    CardHeader,
+    CardMedia,
+    Chip,
+    IconButton,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem
+} from '@mui/material'
 
 interface EventDetailsContainerProps {
     show: boolean;
@@ -28,6 +40,7 @@ interface EventDetailsContainerProps {
 
 
 const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose, detailsEvent }) => {
+
     return (
         <Modal
             open={show}
@@ -63,6 +76,18 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                     title={detailsEvent && detailsEvent.title}
                     subheader={detailsEvent.place}
                 />
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Tipo de Ingresso</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Tipo de Ingresso"
+                    >
+                        <MenuItem value={10}>Ten</MenuItem>
+                        <MenuItem value={20}>Twenty</MenuItem>
+                        <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
+                </FormControl>
                 <CardContent sx={{ marginTop:0.5}}>
                     <Typography variant="h6" color="text.secondary" sx={{ fontSize: '0.75rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                         {detailsEvent.description}

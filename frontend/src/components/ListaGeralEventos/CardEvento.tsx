@@ -7,6 +7,8 @@ import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
 import { Button, Card, CardContent, CardMedia, Typography, useTheme, Chip, Snackbar, Alert } from '@mui/material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import EventDetails from '../EventDetailsContaner/EventDetailsMUI';
+import { getTiposTicketsService } from '../../services/getTiposTickets';
+import { TipoTicketsEventosType } from '../../services/cadatraEvento.service';
 
 interface EventoDataType {
     titulo: string;
@@ -28,12 +30,15 @@ export default function CardEvento(props: { id: number; url: string | undefined;
         preco: NaN,
         imageUrl: ""
     });
+    const [tiposTicketsEventos, setTiposTicketsEventos] = useState<TipoTicketsEventosType[]>([]);
 
     const handleCardClick = async () => {
         try {
             const idEvento = props.id;
-            const res = await getDetalhesEvento(idEvento);
-            setEventoData(res?.data as DetalhesEventoType);
+            const resDetalhesEventos = await getDetalhesEvento(idEvento);
+            // const tiposTicketsEventosData = await getTiposTicketsService() as unknown as TipoTicketsEventosType[];
+            setEventoData(resDetalhesEventos?.data as DetalhesEventoType);
+            // console.log(tiposTicketsEventosData);
         } catch (error) {
             console.error(error);
         }
@@ -93,7 +98,7 @@ export default function CardEvento(props: { id: number; url: string | undefined;
     };
     return (
         <>
-            <Card sx={{ maxWidth: 320, maxHeight: 400, borderRadius: 5, boxShadow: 10 }}>
+            <Card sx={{ height: 390, width: 390, borderRadius: 5, boxShadow: 10 }}>
                 <CardMedia sx={{ height: 200 }} image={props.url}></CardMedia>
                 <CardContent sx={{ padding: `${theme.spacing(3)} ${theme.spacing(5.25)} ${theme.spacing(4)} !important`, margin: 'auto' }}>
                     <Typography variant='h6' sx={{ marginBottom: theme.spacing(2), fontSize: '0.9rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>

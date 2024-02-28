@@ -1,6 +1,6 @@
 import { HttpInstance } from "../utils/http";
 
-export interface TipoTicketType {
+export interface TipoTicketsEventosType {
     tipoTicketId: number;
     quantidade: number;
     preco: number;
@@ -11,7 +11,7 @@ export interface cadastraEventoType {
     descricao: string;
     localizacao: string;
     imageBase64: string;
-    tiposTicketsEventos: TipoTicketType[];
+    tiposTicketsEventos: TipoTicketsEventosType[];
 }
 
 export async function cadastraEvento (dadosRequisicao: cadastraEventoType) {

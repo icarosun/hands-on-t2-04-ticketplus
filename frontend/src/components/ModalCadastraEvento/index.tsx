@@ -15,12 +15,12 @@ import {
     Typography
 } from '@mui/material';
 import { Controls, Player } from '@lottiefiles/react-lottie-player';
-import { TipoTicketType } from '../../services/cadatraEvento.service';
+import { TipoTicketsEventosType } from '../../services/cadatraEvento.service';
 
 const ModalCadastraEvento = () => {
     const dispatch = useDispatch();
 
-    const quantidadeTipoTickets = 2;
+    const quantidadeTipoTickets = 3;
 
     const [open, setOpen] = useState<boolean>(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -75,7 +75,7 @@ const ModalCadastraEvento = () => {
                     const descricao: string = descricaoElement.value;
                     const localizacao: string = localizacaoElement.value;
 
-                    const tiposTicketsEventos: TipoTicketType[] = [];
+                    const tiposTicketsEventos: TipoTicketsEventosType[] = [];
                     for (let i = 1; i <= quantidadeTipoTickets; i++) {
                         const quantidadeTicketsElement = document.querySelector(`#quantidade-tickets-${i}`) as HTMLInputElement;
                         const precoTicketsElement = document.querySelector(`#preco-tickets-${i}`) as HTMLInputElement;

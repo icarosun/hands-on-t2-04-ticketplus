@@ -8,6 +8,7 @@ import compraRouter from "../resources/compra/compra.router";
 import sessaoRouter from "../resources/sessao/sessao.router";
 import imagemRouter from '../resources/imagem/imagem.router';
 import tipoTicketRouter from "../resources/tipoTicket/tipoTicket.router";
+import tiposTicketsEventosRouter from "../resources/tiposTicketsEventos/tiposTicketsEventos.router"
 
 const router = Router();
 
@@ -57,6 +58,11 @@ router.use(
 router.use(
   "/tipoTicket",
   tipoTicketRouter
+);
+
+router.use(
+  "/tiposTicketsEventos",
+  tiposTicketsEventosRouter
 );
 
 export default router;
