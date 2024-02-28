@@ -1,5 +1,4 @@
 import {
-    Container,
     Box,
     Typography,
     InputLabel
@@ -24,7 +23,7 @@ const containerTiposTicketsStyle = {
 const boxTiposTicketsStyle = {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: 0.6,
+    gap: 1,
     alignItems: 'center',
     padding: '0px 20px'
 }
@@ -40,7 +39,6 @@ const BoxInputsTiposEventos = () => {
         try {
             const tipoTicketsData = await getTiposTicketsService();
             setTiposTickets(tipoTicketsData);
-            console.log(`Tipos Tickets: ${tipoTicketsData}`);
         } catch (error) {
             console.error(error);
         }
@@ -82,15 +80,26 @@ const BoxInputsTiposEventos = () => {
                             {primeiraLetraMaiuscula(tipoTicket.descricao)}
                         </Typography>
                         <FormInput
-                            id={`quantidade-tickets-${index}`}
+                            id={`quantidade-tickets-${index + 1}`}
                             label="Quantidade"
                             type="number"
                         />
-                        <FormInput
-                            id={`preco-tickets-${index}`}
+                        {tipoTicket.id !== 2 && <FormInput
+                            id={`preco-tickets-${index + 1}`}
                             label="Preço"
                             type="number"
-                        />
+                        />}
+                        {tipoTicket.id === 2 && <FormInput
+                            id={`preco-tickets-${index + 1}`}
+                            label="Preço"
+                            type="number"
+                            shrink={true}
+                            readOnly={true}
+                            style={{
+                                padding: '0px 5px',
+                                backgroundColor: "#FFF"
+                            }}
+                        />}
                     </Box>
                 )
             })}

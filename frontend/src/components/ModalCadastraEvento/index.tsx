@@ -16,8 +16,16 @@ import {
 } from '@mui/material';
 import { Controls, Player } from '@lottiefiles/react-lottie-player';
 
+interface TipoTicketType {
+    tipoTicketId: number;
+    quantidade: number;
+    preco: number;
+}
+
 const ModalCadastraEvento = () => {
     const dispatch = useDispatch();
+
+    const quantidadeTipoTickets = 2;
 
     const [open, setOpen] = useState<boolean>(false);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -68,22 +76,42 @@ const ModalCadastraEvento = () => {
                     const tituloElement = document.querySelector("#titulo-form-input") as HTMLInputElement;
                     const descricaoElement = document.querySelector("#descricao-form-input") as HTMLInputElement;
                     const localizacaoElement = document.querySelector("#localizacao-form-input") as HTMLInputElement;
-                    const precoElement = document.querySelector("#preco-form-input") as HTMLInputElement;
                     const titulo: string = tituloElement.value;
                     const descricao: string = descricaoElement.value;
                     const localizacao: string = localizacaoElement.value;
-                    const precoString: string = precoElement.value;
-                    if (titulo === "" || descricao === "" || localizacao === "" || precoString === "") {
+
+                    const tiposTicketsEventos: TipoTicketType[] = [];
+                    for (let i = 1; i <= quantidadeTipoTickets; i++) {
+                        const quantidadeTicketsElement = document.querySelector(`#quantidade-tickets-${i}`) as HTMLInputElement;
+                        const precoTicketsElement = document.querySelector(`#preco-tickets-${i}`) as HTMLInputElement;
+                        const quantidadeTicketsValue = quantidadeTicketsElement.value;
+                        const precoTicketsValue = precoTicketsElement.value;
+                        if (quantidadeTicketsValue !== "" && precoTicketsValue !== "") {
+                            tiposTicketsEventos.push({
+                                tipoTicketId: i,
+                                quantidade: parseInt(quantidadeTicketsValue),
+                                preco: parseFloat(precoTicketsValue)
+                            })
+                        }
+                    }
+                    
+                    console.log(tiposTicketsEventos);
+
+                    const tituloVazio = titulo === "";
+                    const descricaoVazia = descricao === "";
+                    const localizacaoVazia = localizacao === "";
+                    const tiposTicketsInvalidos = tiposTicketsEventos.length === 0;
+
+                    if ( tituloVazio || descricaoVazia || localizacaoVazia || tiposTicketsInvalidos) {
                         mostraMensagemErro("Preencha todos os campos.");
                         return;
                     }
-                    const preco: number = parseFloat(precoString);
                     const dadosRequisicao = {
                         imageBase64,
                         titulo,
                         descricao,
                         localizacao,
-                        preco
+                        tiposTicketsEventos
                     };
                     await cadastraEvento(dadosRequisicao);
                     escondeMensagemErro();

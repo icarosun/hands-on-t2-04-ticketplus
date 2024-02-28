@@ -27,7 +27,6 @@ export interface State {
     titulo: string;
     descricao: string;
     localizacao: string;
-    preco: number | string;
 }
 
 interface ModalCadastraEditaEventoProps {
@@ -47,7 +46,6 @@ const ModalCadastraEditaEvento = (props: ModalCadastraEditaEventoProps)  => {
         titulo: "",
         descricao: "",
         localizacao: "",
-        preco: ""
     })
 
     const estadoModalCadastroEdicao = useSelector((state: any) => state.ModalCadastroEdicaoReducer);
@@ -145,14 +143,6 @@ const ModalCadastraEditaEvento = (props: ModalCadastraEditaEventoProps)  => {
                                 onChange={handleChange("localizacao")}
                                 type="text"
                                 key={`input-4`}
-                            />
-                            <FormInput
-                                label="Preço"
-                                id="preco-form-input"
-                                value={values.preco}
-                                onChange={handleChange("preco")}
-                                type="number"
-                                key={`input-5`}
                             />
                             <BoxInputsTiposEventos/>
                             <Button

@@ -4,7 +4,6 @@ export interface cadastraEventoType {
     titulo: string;
     descricao: string;
     localizacao: string;
-    preco: number;
     imageBase64: string;
 }
 
@@ -14,7 +13,6 @@ export async function cadastraEvento (dadosRequisicao: cadastraEventoType) {
             titulo: dadosRequisicao.titulo,
             descricao: dadosRequisicao.descricao,
             localizacao: dadosRequisicao.localizacao,
-            preco: dadosRequisicao.preco,
             imageBase64: dadosRequisicao.imageBase64
         }
     );

@@ -17,6 +17,9 @@ interface FormInputProps {
         | "file";
     multiline?: boolean;
     minRows?: number;
+    readOnly?: boolean;
+    shrink?: boolean;
+    style?: object;
 }
 
 const FormInput = (props: FormInputProps) => {
@@ -72,6 +75,8 @@ const FormInput = (props: FormInputProps) => {
                     <InputLabel
                         htmlFor={props.id}
                         key={`input-label`}
+                        shrink={props.shrink}
+                        style={props.style}
                     >
                         {props.label}
                     </InputLabel>
@@ -85,6 +90,7 @@ const FormInput = (props: FormInputProps) => {
                         multiline={props.multiline}
                         minRows={props.minRows}
                         key={`outlined-input`}
+                        readOnly={props.readOnly}
                     />
                 </FormControl>
             </>
