@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
     FormControl,
     InputLabel,
@@ -19,6 +20,14 @@ interface FormInputProps {
 }
 
 const FormInput = (props: FormInputProps) => {
+    const [inputValue, setInputValue] = useState<number | string>("");
+
+    const handleOnChange = () => {
+        const inputElement = document.querySelector(`#${props.id}`) as HTMLInputElement;
+        const inputElementValue = inputElement.value;
+        setInputValue(inputElementValue);
+    }
+
     if (props.type === "file") {
         return (
             <>
@@ -36,13 +45,23 @@ const FormInput = (props: FormInputProps) => {
                     >
                         {props.label}
                     </InputLabel>
-                    <OutlinedInput
+                    {props.onChange &&  <OutlinedInput
                         label={props.label}
                         id={props.id}
                         type={props.type}
                         sx={{ marginBottom: 1.5 }}
                         key={`outlined-input`}
-                    />
+                        value={inputValue}
+                    />}
+                    {!props.onChange &&  <OutlinedInput
+                        label={props.label}
+                        id={props.id}
+                        type={props.type}
+                        sx={{ marginBottom: 1.5 }}
+                        key={`outlined-input`}
+                        value={inputValue}
+                        onChange={handleOnChange}
+                    />}
                 </FormControl>
             </>
         )
