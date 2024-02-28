@@ -15,12 +15,7 @@ import {
     Typography
 } from '@mui/material';
 import { Controls, Player } from '@lottiefiles/react-lottie-player';
-
-interface TipoTicketType {
-    tipoTicketId: number;
-    quantidade: number;
-    preco: number;
-}
+import { TipoTicketType } from '../../services/cadatraEvento.service';
 
 const ModalCadastraEvento = () => {
     const dispatch = useDispatch();
@@ -107,10 +102,10 @@ const ModalCadastraEvento = () => {
                         return;
                     }
                     const dadosRequisicao = {
-                        imageBase64,
                         titulo,
                         descricao,
                         localizacao,
+                        imageBase64,
                         tiposTicketsEventos
                     };
                     await cadastraEvento(dadosRequisicao);

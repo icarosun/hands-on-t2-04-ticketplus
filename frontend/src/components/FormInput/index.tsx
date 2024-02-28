@@ -54,23 +54,13 @@ const FormInput = (props: FormInputProps) => {
                     >
                         {props.label}
                     </InputLabel>
-                    {props.onChange &&  <OutlinedInput
+                    <OutlinedInput
                         label={props.label}
                         id={props.id}
                         type={props.type}
                         sx={{ marginBottom: 1.5 }}
                         key={`outlined-input`}
-                        value={inputValue}
-                    />}
-                    {!props.onChange &&  <OutlinedInput
-                        label={props.label}
-                        id={props.id}
-                        type={props.type}
-                        sx={{ marginBottom: 1.5 }}
-                        key={`outlined-input`}
-                        value={inputValue}
-                        onChange={handleOnChange}
-                    />}
+                    />
                 </FormControl>
             </>
         )
