@@ -84,12 +84,21 @@ const BoxInputsTiposEventos = () => {
                             label="Quantidade"
                             type="number"
                         />
-                        {tipoTicket.id !== 2 && <FormInput
+                        {tipoTicket.id === 1 &&
+                        <FormInput
+                            id={`preco-tickets-${index + 1}`}
+                            label="Preço"
+                            type="number"
+                            inteiraInput={true}
+                        />}
+                        {(tipoTicket.id !== 2 && tipoTicket.id !== 1) &&
+                        <FormInput
                             id={`preco-tickets-${index + 1}`}
                             label="Preço"
                             type="number"
                         />}
-                        {tipoTicket.id === 2 && <FormInput
+                        {tipoTicket.id === 2 && 
+                        <FormInput
                             id={`preco-tickets-${index + 1}`}
                             label="Preço"
                             type="number"

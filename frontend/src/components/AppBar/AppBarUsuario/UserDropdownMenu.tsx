@@ -125,4 +125,4 @@ const UserDropdownMenu = (props: UserDropdownMenuProps) => {
   )
 }
 
-export default UserDropdownMenu
+export default UserDropdownMenu;
