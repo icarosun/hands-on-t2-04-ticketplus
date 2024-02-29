@@ -78,7 +78,7 @@ export default function ModalDashboardEvento() {
           sx={{
             position: "absolute",
             minWidth: 950, // Largura relativa ao modal
-            maxHeight: 600, // Altura relativa ao modal
+            maxHeight: 900, // Altura relativa ao modal
             bgcolor: "#fff",
             top: "50%",
             left: "50%",
@@ -86,7 +86,6 @@ export default function ModalDashboardEvento() {
             borderRadius: 3,
             boxShadow: 20,
             padding: "0px 0px 30px",
-            overflow: "scroll",
           }}
         >
           <CardHeader
@@ -94,6 +93,7 @@ export default function ModalDashboardEvento() {
             sx={{
               textAlign: "center",
               paddingBottom: 0,
+              marginTop: 1
             }}
           />
 

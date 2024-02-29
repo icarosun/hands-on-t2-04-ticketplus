@@ -125,7 +125,7 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                     subheader={detailsEvent.place}
                 />
                 <CardContent sx={{ marginTop: 0, marginLeft: 0.5 }}>
-                    <Typography variant="h6" color="text.secondary" sx={{ fontSize: '0.9rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                    <Typography variant="h6" color="text.secondary" sx={{ wordWrap: 'break-word', fontSize: '0.9rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                         {detailsEvent.description}
                     </Typography>
                     <Box sx={{
