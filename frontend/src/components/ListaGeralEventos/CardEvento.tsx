@@ -7,6 +7,10 @@ import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
 import { Button, Card, CardContent, CardMedia, Typography, useTheme, Chip, Snackbar, Alert } from '@mui/material';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import EventDetails from '../EventDetailsContaner/EventDetailsMUI';
+import { getTiposTicketsService } from '../../services/getTiposTickets';
+import { getTiposTicketsEventosByEventoId } from '../../services/getTiposTicketsEventos.service';
+import { TipoTicketsEventosType } from '../../services/cadastraEvento.service';
+import { tipoTicketsType } from '../../services/getTiposTickets';
 
 interface EventoDataType {
     titulo: string;
@@ -28,12 +32,18 @@ export default function CardEvento(props: { id: number; url: string | undefined;
         preco: NaN,
         imageUrl: ""
     });
+    const [tiposTickets, setTiposTickets] = useState<tipoTicketsType[] | null>([]);
+    const [tiposTicketsEvento, setTiposTicketsEvento] = useState<TipoTicketsEventosType[]>([]);
 
     const handleCardClick = async () => {
         try {
             const idEvento = props.id;
-            const res = await getDetalhesEvento(idEvento);
-            setEventoData(res?.data as DetalhesEventoType);
+            const resDetalhesEventos = await getDetalhesEvento(idEvento);
+            const tiposTicketsEventoData = await getTiposTicketsEventosByEventoId(idEvento) as unknown as TipoTicketsEventosType[];
+            const resTiposTickets = await getTiposTicketsService();
+            setEventoData(resDetalhesEventos?.data as DetalhesEventoType);
+            setTiposTicketsEvento(tiposTicketsEventoData);
+            setTiposTickets(resTiposTickets);
         } catch (error) {
             console.error(error);
         }
@@ -47,6 +57,8 @@ export default function CardEvento(props: { id: number; url: string | undefined;
     const handleCheckout = async () => {
         try {
             const eventoId = props.id;
+            const selectTipoTicketElement = document.querySelector("[name='tiposEventosSelect']") as HTMLInputElement;
+            const tipoTicketId = parseInt(selectTipoTicketElement.value);
             // const qtdeIngressos = parseInt(storeState.AppReducer.qtdeIngressos);
             const resSessao = await defineSessaoUsuario();
             const sessaoData = resSessao.data;
@@ -55,7 +67,7 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                 setSnackbarOpen(true);
                 return
             }
-            const resCompra = await compraTicket(eventoId);
+            const resCompra = await compraTicket(eventoId, tipoTicketId);
             if (resCompra.status === 201) {
                 setSnackbarMessage("Compra realizada com sucesso");
                 setSnackbarOpen(true);
@@ -86,14 +98,14 @@ export default function CardEvento(props: { id: number; url: string | undefined;
             && String(eventoData.preco) !== "NaN"
         )
             setShowEventDetails(true);
-    }, [eventoData])
+    }, [tiposTicketsEvento])
 
     const handleCloseEventDetails = () => {
         setShowEventDetails(false);
     };
     return (
         <>
-            <Card sx={{ maxWidth: 320, maxHeight: 400, borderRadius: 5, boxShadow: 10 }}>
+            <Card sx={{ height: 390, width: 390, borderRadius: 5, boxShadow: 10 }}>
                 <CardMedia sx={{ height: 200 }} image={props.url}></CardMedia>
                 <CardContent sx={{ padding: `${theme.spacing(3)} ${theme.spacing(5.25)} ${theme.spacing(4)} !important`, margin: 'auto' }}>
                     <Typography variant='h6' sx={{ marginBottom: theme.spacing(2), fontSize: '0.9rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
@@ -118,6 +130,8 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                     description: eventoData.descricao,
                     price: eventoData.preco,
                     place: eventoData.localizacao,
+                    tiposTickets: tiposTickets,
+                    tiposTicketsEvento: tiposTicketsEvento,
                     handleAddToCart: () => { },
                     handleCheckout: handleCheckout,
                 }}

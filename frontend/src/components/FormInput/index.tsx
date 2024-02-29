@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
     FormControl,
     InputLabel,
@@ -16,9 +17,26 @@ interface FormInputProps {
         | "file";
     multiline?: boolean;
     minRows?: number;
+    readOnly?: boolean;
+    shrink?: boolean;
+    style?: object;
+    inteiraInput?: boolean;
 }
 
 const FormInput = (props: FormInputProps) => {
+    const [inputValue, setInputValue] = useState<number | string>("");
+
+    const handleOnChange = () => {
+        const inputElement = document.querySelector(`#${props.id}`) as HTMLInputElement;
+        const inputElementValue = parseFloat(inputElement.value);
+        if (props.inteiraInput) {
+            const precoTicketsMeiaElement = document.querySelector("#preco-tickets-2") as HTMLInputElement;
+            const precoTicketsMeia = inputElementValue/2;
+            precoTicketsMeiaElement.value = precoTicketsMeia.toFixed(2);
+        }
+        setInputValue(inputElementValue);
+    }
+
     if (props.type === "file") {
         return (
             <>
@@ -53,20 +71,39 @@ const FormInput = (props: FormInputProps) => {
                     <InputLabel
                         htmlFor={props.id}
                         key={`input-label`}
+                        shrink={props.shrink}
+                        style={props.style}
                     >
                         {props.label}
                     </InputLabel>
-                    <OutlinedInput
-                        label={props.label}
-                        value={props.value}
-                        id={props.id}
-                        onChange={props.onChange}
-                        type={props.type}
-                        sx={{ marginBottom: 1.5 }}
-                        multiline={props.multiline}
-                        minRows={props.minRows}
-                        key={`outlined-input`}
-                    />
+                    {props.onChange && 
+                        <OutlinedInput
+                            label={props.label}
+                            value={props.value}
+                            id={props.id}
+                            onChange={props.onChange}
+                            type={props.type}
+                            sx={{ marginBottom: 1.5 }}
+                            multiline={props.multiline}
+                            minRows={props.minRows}
+                            key={`outlined-input`}
+                            readOnly={props.readOnly}
+                        />
+                    }
+                    {!props.onChange && 
+                        <OutlinedInput
+                            label={props.label}
+                            value={props.value}
+                            id={props.id}
+                            type={props.type}
+                            sx={{ marginBottom: 1.5 }}
+                            multiline={props.multiline}
+                            minRows={props.minRows}
+                            key={`outlined-input`}
+                            readOnly={props.readOnly}
+                            onChange={handleOnChange}
+                        />
+                    }
                 </FormControl>
             </>
         )

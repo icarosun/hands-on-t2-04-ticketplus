@@ -14,9 +14,14 @@ const eventoCamposSchema = {
   imageBase64: Joi.string()
     .regex(/;base64,/)
     .required(),
-  categoriaEventoId: Joi.number().integer().required(),
-  tiposTicketsEventos: Joi.array().items(tiposTicketsEventosObj).min(1).max(3),
-};
+  categoriaEventoId: Joi.number()
+    .integer(),
+  tiposTicketsEventos: Joi.array()
+    .items(tiposTicketsEventosObj)
+    .min(1)
+    .max(3)
+}
+
 
 const schemaCreateEvento = Joi.object(eventoCamposSchema);
 
