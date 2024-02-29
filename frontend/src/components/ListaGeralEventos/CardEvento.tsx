@@ -8,7 +8,9 @@ import { Button, Card, CardContent, CardMedia, Typography, useTheme, Chip, Snack
 import PushPinIcon from '@mui/icons-material/PushPin';
 import EventDetails from '../EventDetailsContaner/EventDetailsMUI';
 import { getTiposTicketsService } from '../../services/getTiposTickets';
-import { TipoTicketsEventosType } from '../../services/cadatraEvento.service';
+import { getTiposTicketsEventosByEventoId } from '../../services/getTiposTicketsEventos.service';
+import { TipoTicketsEventosType } from '../../services/cadastraEvento.service';
+import { tipoTicketsType } from '../../services/getTiposTickets';
 
 interface EventoDataType {
     titulo: string;
@@ -30,15 +32,18 @@ export default function CardEvento(props: { id: number; url: string | undefined;
         preco: NaN,
         imageUrl: ""
     });
-    const [tiposTicketsEventos, setTiposTicketsEventos] = useState<TipoTicketsEventosType[]>([]);
+    const [tiposTickets, setTiposTickets] = useState<tipoTicketsType[] | null>([]);
+    const [tiposTicketsEvento, setTiposTicketsEvento] = useState<TipoTicketsEventosType[]>([]);
 
     const handleCardClick = async () => {
         try {
             const idEvento = props.id;
             const resDetalhesEventos = await getDetalhesEvento(idEvento);
-            // const tiposTicketsEventosData = await getTiposTicketsService() as unknown as TipoTicketsEventosType[];
+            const tiposTicketsEventoData = await getTiposTicketsEventosByEventoId(idEvento) as unknown as TipoTicketsEventosType[];
+            const resTiposTickets = await getTiposTicketsService();
             setEventoData(resDetalhesEventos?.data as DetalhesEventoType);
-            // console.log(tiposTicketsEventosData);
+            setTiposTicketsEvento(tiposTicketsEventoData);
+            setTiposTickets(resTiposTickets);
         } catch (error) {
             console.error(error);
         }
@@ -91,7 +96,7 @@ export default function CardEvento(props: { id: number; url: string | undefined;
             && String(eventoData.preco) !== "NaN"
         )
             setShowEventDetails(true);
-    }, [eventoData])
+    }, [tiposTicketsEvento])
 
     const handleCloseEventDetails = () => {
         setShowEventDetails(false);
@@ -123,6 +128,8 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                     description: eventoData.descricao,
                     price: eventoData.preco,
                     place: eventoData.localizacao,
+                    tiposTickets: tiposTickets,
+                    tiposTicketsEvento: tiposTicketsEvento,
                     handleAddToCart: () => { },
                     handleCheckout: handleCheckout,
                 }}

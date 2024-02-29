@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ModalCadastraEditaEvento from "../ModalCadastraEditaEvento"
 import { TiposCriaAlteraEventoModal } from "../../utils/tipoCriaAlteraEventoModal.constants";
-import { cadastraEvento } from '../../services/cadatraEvento.service';
+import { cadastraEvento } from '../../services/cadastraEvento.service';
 import {
     setMensagemErro,
     setMostraErroCadastro
@@ -15,7 +15,7 @@ import {
     Typography
 } from '@mui/material';
 import { Controls, Player } from '@lottiefiles/react-lottie-player';
-import { TipoTicketsEventosType } from '../../services/cadatraEvento.service';
+import { TipoTicketsEventosType } from '../../services/cadastraEvento.service';
 
 const ModalCadastraEvento = () => {
     const dispatch = useDispatch();
@@ -90,7 +90,7 @@ const ModalCadastraEvento = () => {
                         }
                     }
                     
-                    console.log(tiposTicketsEventos);
+                    // console.log(tiposTicketsEventos);
 
                     const tituloVazio = titulo === "";
                     const descricaoVazia = descricao === "";

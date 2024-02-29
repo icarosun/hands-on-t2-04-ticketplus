@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -22,6 +22,9 @@ import {
     Select,
     MenuItem
 } from '@mui/material'
+import { TipoTicketsEventosType } from '../../services/cadastraEvento.service';
+import { tipoTicketsType } from '../../services/getTiposTickets';
+import { primeiraLetraMaiuscula } from '../../utils/primeiraLetraMaiuscula';
 
 interface EventDetailsContainerProps {
     show: boolean;
@@ -32,6 +35,8 @@ interface EventDetailsContainerProps {
         title: string;
         price: number;
         description: string;
+        tiposTickets: tipoTicketsType[] | null;
+        tiposTicketsEvento: TipoTicketsEventosType[];
         place: string,
         handleAddToCart: () => void;
         handleCheckout: () => void;
@@ -40,6 +45,37 @@ interface EventDetailsContainerProps {
 
 
 const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose, detailsEvent }) => {
+    const tiposTicketsDescricoes: string[] = [];
+    const tiposTickets = detailsEvent.tiposTickets as tipoTicketsType[];
+    const tiposTicketsEventos = detailsEvent.tiposTicketsEvento as TipoTicketsEventosType[];
+
+    for (let tipoTocketDescricao of tiposTickets) {
+        tiposTicketsDescricoes.push(
+            tipoTocketDescricao.descricao
+        );
+    }
+
+    const [preco, setPreco] = useState<String>("");
+
+    useEffect(() => {
+        if (tiposTicketsEventos.length > 0) setPreco(formataPreco(tiposTicketsEventos, 1));
+    }, [tiposTicketsEventos])
+
+
+    const handleTipoIngressoChange = (event: any) => {
+        const tipoTicketEventoId = event.target.value;
+        const preco = formataPreco(tiposTicketsEventos, tipoTicketEventoId);
+        setPreco(preco);
+    }
+    
+
+    function formataPreco (tiposTicketsEventos: TipoTicketsEventosType[], tipoTicketEventoId: number) {
+        let preco = String(tiposTicketsEventos[tipoTicketEventoId - 1].preco);
+        preco = preco.replace(".",",");
+        if (!preco.includes(",")) preco = preco + ",00";
+        return preco;
+    }
+
 
     return (
         <Modal
@@ -65,7 +101,7 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                     image={detailsEvent.imageUrl}
                     alt="Event Image"
                 />
-                <Chip sx={{ marginTop:-55, marginLeft:1.5, fontSize: '0.9rem', bgcolor:'#fff', color:'#252525'}} size='small' label={String(detailsEvent.price).replace(".",",")} icon={<SellRoundedIcon />} />
+                <Chip sx={{ marginTop:-55, marginLeft:1.5, fontSize: '0.9rem', bgcolor:'#fff', color:'#252525'}} size='small' label={preco} icon={<SellRoundedIcon />} />
                 <CardHeader
                     sx={{ marginTop:-2, marginBottom:0, display: 'flex' }}
                     avatar={
@@ -82,10 +118,17 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         label="Tipo de Ingresso"
+                        onChange={handleTipoIngressoChange}
+                        name={`tiposEventosSelect`}
+                        defaultValue={1}
                     >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {detailsEvent.tiposTicketsEvento.map((tipoTicketEvento: TipoTicketsEventosType) => {
+                            return (
+                                <MenuItem value={tipoTicketEvento.tipoTicketId} selected={tipoTicketEvento.tipoTicketId === 1}>
+                                    {primeiraLetraMaiuscula(tiposTicketsDescricoes[tipoTicketEvento.tipoTicketId - 1])}
+                                </MenuItem>
+                            )
+                        })}
                     </Select>
                 </FormControl>
                 <CardContent sx={{ marginTop:0.5}}>
