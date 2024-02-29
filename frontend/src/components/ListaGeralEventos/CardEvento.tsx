@@ -57,6 +57,8 @@ export default function CardEvento(props: { id: number; url: string | undefined;
     const handleCheckout = async () => {
         try {
             const eventoId = props.id;
+            const selectTipoTicketElement = document.querySelector("[name='tiposEventosSelect']") as HTMLInputElement;
+            const tipoTicketId = parseInt(selectTipoTicketElement.value);
             // const qtdeIngressos = parseInt(storeState.AppReducer.qtdeIngressos);
             const resSessao = await defineSessaoUsuario();
             const sessaoData = resSessao.data;
@@ -65,7 +67,7 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                 setSnackbarOpen(true);
                 return
             }
-            const resCompra = await compraTicket(eventoId);
+            const resCompra = await compraTicket(eventoId, tipoTicketId);
             if (resCompra.status === 201) {
                 setSnackbarMessage("Compra realizada com sucesso");
                 setSnackbarOpen(true);
