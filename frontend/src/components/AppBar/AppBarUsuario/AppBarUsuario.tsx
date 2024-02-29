@@ -1,7 +1,6 @@
 // ** MUI Imports
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
-import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -9,10 +8,7 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/joy/Button";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -21,7 +17,6 @@ import ListItemText from "@mui/material/ListItemText";
 import UserDropdownMenu from "./UserDropdownMenu";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setDashboard } from "../../../redux/slices/dashboard.slice";
 import { defineSessaoUsuario } from "../../../utils/defineSessaoUsuario";
 import {
   CompraType,
@@ -88,9 +83,6 @@ interface AppBarProps {
 }
 
 const AppBarUsuario = (props: AppBarProps) => {
-  const dispatch = useDispatch();
-  const dashOrPage = useSelector((state: any) => state.DashboardReducer);
-  const [btn, setBtn] = useState<boolean>(dashOrPage.dashboard);
   const [saldoAtual, setSaldoAtual] = useState<number | undefined>(undefined);
   const [ingressos, setIngressos] = useState<InfoIngressoType[]>([]);
   const [mostraSpinner, setMostraSpinner] = useState(true);
@@ -127,21 +119,16 @@ const AppBarUsuario = (props: AppBarProps) => {
           });
           setIngressos(ingressosAux);
         }
-        setBtn(dashOrPage.dashboard);
       } catch (error) {
         navigate("/");
         console.error(error);
       }
     })();
-  }, [dashOrPage]);
+  }, []);
 
   useEffect(() => {
     if (saldoAtual !== undefined) setMostraSpinner(false);
   }, [saldoAtual]);
-
-  const handleInitialPage = () => {
-    dispatch(setDashboard());
-  };
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -206,14 +193,6 @@ const AppBarUsuario = (props: AppBarProps) => {
           >
             TicketPlus
           </Typography>
-
-          <Button
-            onClick={handleInitialPage}
-            startDecorator={btn ? <BarChartIcon /> : <LocalActivityIcon />}
-            sx={{ my: 1.5, color: "white", marginRight: 2 }}
-          >
-            {btn ? "Dashboard" : "Meus Eventos"}
-          </Button>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
