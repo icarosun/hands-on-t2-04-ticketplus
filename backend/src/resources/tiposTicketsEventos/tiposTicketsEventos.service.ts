@@ -15,7 +15,17 @@ export async function getTipoTicketEvento (
         tipoTicketId
       }
     });
-  }
+}
+
+export async function getTiposTicketsEventosByEventoIdService (
+    eventoId: number
+): Promise<TiposTicketsEventos[] | null> {
+    return await prisma.tiposTicketsEventos.findMany({
+        where: {
+            eventoId
+        }
+    })
+}
 
 export async function createTiposTicketsEventos (tipoTicketEvento: TiposTicketsEventos) {
     return await prisma.tiposTicketsEventos.createMany({

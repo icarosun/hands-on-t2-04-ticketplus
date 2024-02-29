@@ -1,11 +1,17 @@
 import { HttpInstance } from "../utils/http";
 
+export interface TipoTicketsEventosType {
+    tipoTicketId: number;
+    quantidade: number;
+    preco: number;
+}
+
 export interface cadastraEventoType {
     titulo: string;
     descricao: string;
     localizacao: string;
-    preco: number;
     imageBase64: string;
+    tiposTicketsEventos: TipoTicketsEventosType[];
 }
 
 export async function cadastraEvento (dadosRequisicao: cadastraEventoType) {
@@ -14,8 +20,8 @@ export async function cadastraEvento (dadosRequisicao: cadastraEventoType) {
             titulo: dadosRequisicao.titulo,
             descricao: dadosRequisicao.descricao,
             localizacao: dadosRequisicao.localizacao,
-            preco: dadosRequisicao.preco,
-            imageBase64: dadosRequisicao.imageBase64
+            imageBase64: dadosRequisicao.imageBase64,
+            tiposTicketsEventos: dadosRequisicao.tiposTicketsEventos
         }
     );
 }

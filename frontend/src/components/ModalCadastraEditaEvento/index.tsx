@@ -21,12 +21,12 @@ import {
     setOpenModalCadastroState,
     setOpenModalEdicaoState
 } from '../../redux/slices/modalCadastroEdicao.slice';
+import BoxInputsTiposEventos from '../BoxInputsTiposEventos';
 
 export interface State {
     titulo: string;
     descricao: string;
     localizacao: string;
-    preco: number | string;
 }
 
 interface ModalCadastraEditaEventoProps {
@@ -46,7 +46,6 @@ const ModalCadastraEditaEvento = (props: ModalCadastraEditaEventoProps)  => {
         titulo: "",
         descricao: "",
         localizacao: "",
-        preco: ""
     })
 
     const estadoModalCadastroEdicao = useSelector((state: any) => state.ModalCadastroEdicaoReducer);
@@ -93,8 +92,8 @@ const ModalCadastraEditaEvento = (props: ModalCadastraEditaEventoProps)  => {
             >
                 <Card sx={{
                     position: 'absolute',
-                    maxWidth: 450, // Largura relativa ao modal
-                    maxHeight: 650, // Altura relativa ao modal
+                    maxWidth: 600, // Largura relativa ao modal
+                    maxHeight: 800, // Altura relativa ao modal
                     bgcolor: '#fff',
                     top: '50%',
                     left: '50%',
@@ -145,14 +144,7 @@ const ModalCadastraEditaEvento = (props: ModalCadastraEditaEventoProps)  => {
                                 type="text"
                                 key={`input-4`}
                             />
-                            <FormInput
-                                label="Preço"
-                                id="preco-form-input"
-                                value={values.preco}
-                                onChange={handleChange("preco")}
-                                type="number"
-                                key={`input-5`}
-                            />
+                            <BoxInputsTiposEventos/>
                             <Button
                                 fullWidth
                                 variant='solid'

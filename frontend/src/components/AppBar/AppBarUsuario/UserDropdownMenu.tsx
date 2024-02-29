@@ -21,6 +21,7 @@ import Person from '@mui/icons-material/Person';
 import Settings from '@mui/icons-material/Settings';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { TiposUsuarios } from "../../../utils/tipoUsuario.constants";
+import { primeiraLetraMaiuscula } from "../../../utils/primeiraLetraMaiuscula";
 
 
 interface UserDropdownMenuProps {
@@ -47,10 +48,6 @@ const UserDropdownMenu = (props: UserDropdownMenuProps) => {
       alert("Erro ao tentar realizar o logout");
       console.error(error.response?.data?.msg); // acessando os dados de resposta se estiverem disponíveis
     }
-  }
-
-  const primeiraLetraMaiuscula = (palavra: string): string => {
-    return palavra.charAt(0).toUpperCase() + palavra.slice(1)
   }
 
   return (
@@ -128,4 +125,4 @@ const UserDropdownMenu = (props: UserDropdownMenuProps) => {
   )
 }
 
-export default UserDropdownMenu
+export default UserDropdownMenu;

@@ -23,8 +23,7 @@ const eventoCamposSchema = {
     .regex(/;base64,/)
     .required(),
   categoriaEventoId: Joi.number()
-    .integer()
-    .required(),
+    .integer(),
   tiposTicketsEventos: Joi.array()
     .items(tiposTicketsEventosObj)
     .min(1)

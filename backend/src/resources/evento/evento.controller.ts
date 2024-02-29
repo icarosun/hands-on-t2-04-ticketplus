@@ -33,6 +33,7 @@ dotenv.config();
 
 const PORT = process.env.PORT ?? 3000;
 
+
 async function index (req: Request, res: Response) {
   /* #swagger.summary = 'Exibe todos os eventos.'
     #swagger.description = 'Exibe todos os eventos existentes no banco de dados'
@@ -111,6 +112,7 @@ async function create (req: Request, res: Response) {
   */
   try {
     const dadosEvento = req.body as CreateEventoReqType;
+    console.log(Object.keys(dadosEvento));
     const organizadorId = req.session.uid;
     const tiposTicketsEventosReq: TipoTicketEventoType[] = dadosEvento.tiposTicketsEventos;
     const tiposTickets = await getTiposTickets();
@@ -126,7 +128,7 @@ async function create (req: Request, res: Response) {
       descricao: dadosEvento.descricao,
       localizacao: dadosEvento.localizacao,
       faixaEtaria: 10,
-      vagas: vagas,
+      vagas: vagas, 
       organizadorId: organizadorId,
       categoriaEventoId: 1
     } as CreateEventoDto;
