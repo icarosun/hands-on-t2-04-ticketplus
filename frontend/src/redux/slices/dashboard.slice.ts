@@ -4,10 +4,12 @@ const DashboardSlice = createSlice({
   name: "dashboardSlice",
   initialState: {
     dashboard: true,
+    navigate: "/dashboard",
   },
   reducers: {
-    setDashboard: (state) => {
+    setDashboard: (state, { payload }) => {
       state.dashboard = !state.dashboard;
+      state.navigate = payload.navigate;
       return state;
     },
   },
