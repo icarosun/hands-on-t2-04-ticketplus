@@ -98,6 +98,8 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                 position: 'absolute',
                 minWidth: 450, // Largura relativa ao modal
                 minHeight: 530, // Altura relativa ao modal
+                maxWidth: 450, // Largura relativa ao modal
+                maxHeight: 730, // Altura relativa ao modal
                 bgcolor: '#fff',
                 top: '50%',
                 left: '50%',

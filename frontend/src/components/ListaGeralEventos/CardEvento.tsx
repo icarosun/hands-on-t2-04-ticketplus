@@ -105,9 +105,16 @@ export default function CardEvento(props: { id: number; url: string | undefined;
     };
     return (
         <>
-            <Card sx={{ height: 390, width: 390, borderRadius: 5, boxShadow: 10 }}>
+            <Card sx={{
+                height: 400,
+                width: 390,
+                borderRadius: 5,
+                boxShadow: 10,
+                display: 'flex',
+                flexDirection: 'column'
+            }}>
                 <CardMedia sx={{ height: 200 }} image={props.url}></CardMedia>
-                <CardContent sx={{ padding: `${theme.spacing(3)} ${theme.spacing(5.25)} ${theme.spacing(4)} !important`, margin: 'auto' }}>
+                <CardContent sx={{ padding: `${theme.spacing(3)} ${theme.spacing(5.25)} ${theme.spacing(4)} !important`, margin: 'auto', width: "100%" }}>
                     <Typography variant='h6' sx={{ marginBottom: theme.spacing(2), fontSize: '0.9rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                         {props.name}
                     </Typography>
