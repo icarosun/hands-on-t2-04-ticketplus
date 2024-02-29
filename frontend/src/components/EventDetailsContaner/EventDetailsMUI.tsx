@@ -78,7 +78,11 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
     function formataPreco (tiposTicketsEventos: TipoTicketsEventosType[], tipoTicketEventoId: number) {
         let preco = String(tiposTicketsEventos[tipoTicketEventoId - 1].preco);
         preco = preco.replace(".",",");
-        if (!preco.includes(",")) preco = preco + ",00";
+        if (!preco.includes(",")) {
+            preco = preco + ",00";
+        } else {
+            if (preco.split(",")[1].length === 1) preco = preco + "0";
+        }
         return preco;
     }
 
