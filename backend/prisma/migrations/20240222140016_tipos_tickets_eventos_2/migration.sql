@@ -9,7 +9,7 @@
 ALTER TABLE `tipoTickets` DROP FOREIGN KEY `tipoTickets_eventoId_fkey`;
 
 -- AlterTable
-ALTER TABLE `eventos` ADD COLUMN `vagas` INTEGER NOT NULL;
+ALTER TABLE `eventos` MODIFY COLUMN `vagas` INTEGER NOT NULL;
 
 -- AlterTable
 ALTER TABLE `tipoTickets` DROP COLUMN `eventoId`;

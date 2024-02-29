@@ -40,6 +40,7 @@ export type CreateEventoDto = Pick<
   | "descricao"
   | "localizacao"
   | "vagas"
+  | "preco"
   | "faixaEtaria"
   | "organizadorId"
   | "categoriaEventoId"
