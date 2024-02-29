@@ -1,11 +1,8 @@
 import { Evento } from "@prisma/client";
 
-export type EventoDto = Pick<Evento,
-  | "titulo"
-  | "descricao"
-  | "localizacao"
-  | "vagas"
-  | "faixaEtaria"
+export type EventoDto = Pick<
+  Evento,
+  "titulo" | "descricao" | "localizacao" | "vagas" | "faixaEtaria"
 >;
 
 export interface TipoTicketEventoType {
@@ -37,21 +34,23 @@ export interface UpdateEventoReqType {
   tiposTicketsEventos: TipoTicketEventoType[];
 }
 
-export type CreateEventoDto = Pick<Evento, 
-  | "titulo" 
+export type CreateEventoDto = Pick<
+  Evento,
+  | "titulo"
   | "descricao"
   | "localizacao"
   | "vagas"
   | "faixaEtaria"
   | "organizadorId"
   | "categoriaEventoId"
- >; 
+>;
 
-export type UpdateEventoDto = Pick<Evento, 
-  | "titulo" 
+export type UpdateEventoDto = Pick<
+  Evento,
+  | "titulo"
   | "descricao"
   | "localizacao"
   | "vagas"
   | "faixaEtaria"
   | "categoriaEventoId"
- >;
+>;

@@ -6,17 +6,18 @@ import organizadorRouter from "../resources/organizador/organizador.router";
 import eventoRouter from "../resources/evento/evento.router";
 import compraRouter from "../resources/compra/compra.router";
 import sessaoRouter from "../resources/sessao/sessao.router";
+import dashboardRouter from "../resources/dashboard/dashbord.router";
 import imagemRouter from '../resources/imagem/imagem.router';
 import tipoTicketRouter from "../resources/tipoTicket/tipoTicket.router";
 import tiposTicketsEventosRouter from "../resources/tiposTicketsEventos/tiposTicketsEventos.router"
 
+
 const router = Router();
 
-
 router.use(
-	"/auth",
+  "/auth",
   // #swagger.tags = ['Auth']
-	authRouter
+  authRouter
 );
 
 router.use(
@@ -47,13 +48,19 @@ router.use(
   "/img",
   // #swagger.tags = ['img']
   imagemRouter
-)
+);
 
 router.use(
   "/sessao",
   // #swagger.tags = ['Sessao']
   sessaoRouter
-)
+);
+
+router.use(
+  "/dashboard",
+  // #swagger.tags = ['Dashboard']
+  dashboardRouter
+);
 
 router.use(
   "/tipoTicket",

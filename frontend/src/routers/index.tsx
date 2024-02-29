@@ -12,28 +12,28 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <PaginaInicial/>,
+        element: <PaginaInicial />,
       },
     ],
   },
   {
-    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.COMPRADOR}/>,
+    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.COMPRADOR} />,
     children: [
       {
         path: "/paginacomprador",
-        element: <PaginaComprador/>,
+        element: <PaginaComprador />,
       },
     ],
   },
   {
-    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.ORGANIZADOR}/>,
+    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
     children: [
       {
         path: "/paginaorganizador",
-        element: <PaginaOrganizador/>,
+        element: <PaginaOrganizador />,
       },
     ],
-  }
+  },
 ]);
 
 export default router;

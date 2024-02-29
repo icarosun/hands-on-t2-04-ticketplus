@@ -2,7 +2,6 @@ import { PrismaClient } from "@prisma/client";
 //import { TiposUsuarios } from "../src/resources/tipoUsuario/tipoUsuario.constants";
 const prisma = new PrismaClient();
 
-
 async function comprador() {
   await prisma.comprador.createMany({
     data: [
@@ -60,10 +59,10 @@ async function tipoTicket() {
       {
         id: 3,
         descricao: "VIP",
-      }
+      },
     ],
     skipDuplicates: true,
-  })
+  });
 }
 
 tipoTicket()

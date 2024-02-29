@@ -1,23 +1,15 @@
 import Joi from "joi";
 
 const tiposTicketsEventosObj = Joi.object({
-  tipoTicketId: Joi.number()
-    .required(),
-  quantidade: Joi.number()
-    .required(),
-  preco: Joi.number()
-    .required()
+  tipoTicketId: Joi.number().required(),
+  quantidade: Joi.number().required(),
+  preco: Joi.number().required(),
 });
 
 const eventoCamposSchema = {
-  titulo: Joi.string()
-    .min(3)
-    .max(100)
-    .required(),
-  descricao: Joi.string()
-    .required(),
-  localizacao: Joi.string()
-    .required(),
+  titulo: Joi.string().min(3).max(100).required(),
+  descricao: Joi.string().required(),
+  localizacao: Joi.string().required(),
   faixaEtaria: Joi.number(),
   imageBase64: Joi.string()
     .regex(/;base64,/)
@@ -30,14 +22,12 @@ const eventoCamposSchema = {
     .max(3)
 }
 
-const schemaCreateEvento = Joi.object(
-  eventoCamposSchema
-);
+
+const schemaCreateEvento = Joi.object(eventoCamposSchema);
 
 const schemaUpdateEvento = Joi.object({
   ...eventoCamposSchema,
-  id: Joi.number()
-    .required()
+  id: Joi.number().required(),
 });
 
-export default { schemaCreateEvento, schemaUpdateEvento};
+export default { schemaCreateEvento, schemaUpdateEvento };
