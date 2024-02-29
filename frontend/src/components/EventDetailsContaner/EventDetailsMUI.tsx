@@ -20,7 +20,8 @@ import {
     FormControl,
     InputLabel,
     Select,
-    MenuItem
+    MenuItem,
+    Box
 } from '@mui/material'
 import { TipoTicketsEventosType } from '../../services/cadastraEvento.service';
 import { tipoTicketsType } from '../../services/getTiposTickets';
@@ -56,15 +57,20 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
     }
 
     const [preco, setPreco] = useState<String>("");
+    const [quantidade, setQuantidade] = useState<number>(0);
 
     useEffect(() => {
-        if (tiposTicketsEventos.length > 0) setPreco(formataPreco(tiposTicketsEventos, 1));
+        if (tiposTicketsEventos.length > 0) {
+            setPreco(formataPreco(tiposTicketsEventos, 1));
+            setQuantidade(tiposTicketsEventos[0].quantidade);
+        }
     }, [tiposTicketsEventos])
 
 
     const handleTipoIngressoChange = (event: any) => {
         const tipoTicketEventoId = event.target.value;
         const preco = formataPreco(tiposTicketsEventos, tipoTicketEventoId);
+        setQuantidade(tiposTicketsEventos[tipoTicketEventoId - 1].quantidade);
         setPreco(preco);
     }
     
@@ -86,8 +92,8 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
         >
             <Card sx={{
                 position: 'absolute',
-                maxWidth: 450, // Largura relativa ao modal
-                maxHeight: 530, // Altura relativa ao modal
+                minWidth: 450, // Largura relativa ao modal
+                minHeight: 530, // Altura relativa ao modal
                 bgcolor: '#fff',
                 top: '50%',
                 left: '50%',
@@ -112,11 +118,24 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                     title={detailsEvent && detailsEvent.title}
                     subheader={detailsEvent.place}
                 />
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Tipo de Ingresso</InputLabel>
+                <CardContent sx={{ marginTop: 0, marginLeft: 0.5 }}>
+                    <Typography variant="h6" color="text.secondary" sx={{ fontSize: '0.9rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                        {detailsEvent.description}
+                    </Typography>
+                    <Box sx={{
+                        marginTop: 3.5,
+                        marginLeft: 0.5
+                    }}>
+                        {`Ingressos disponíveis: ${quantidade}`}
+                    </Box>
+                    <FormControl 
+                        fullWidth
+                        sx={{marginTop: 3}}
+                    >
+                    <InputLabel id="select-tipo-ingresso-label">Tipo de Ingresso</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
+                        labelId="select-tipo-ingresso-label"
+                        id="select-tipo-ingresso"
                         label="Tipo de Ingresso"
                         onChange={handleTipoIngressoChange}
                         name={`tiposEventosSelect`}
@@ -131,10 +150,6 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                         })}
                     </Select>
                 </FormControl>
-                <CardContent sx={{ marginTop:0.5}}>
-                    <Typography variant="h6" color="text.secondary" sx={{ fontSize: '0.75rem', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                        {detailsEvent.description}
-                    </Typography>
                 </CardContent>
                 <CardActions disableSpacing  sx={{ marginBottom: 'auto'}}>
                     <IconButton aria-label="add to favorites">
