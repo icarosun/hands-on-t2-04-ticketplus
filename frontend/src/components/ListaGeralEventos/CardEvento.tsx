@@ -111,7 +111,7 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                 borderRadius: 5,
                 boxShadow: 10,
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
             }}>
                 <CardMedia sx={{ height: 200 }} image={props.url}></CardMedia>
                 <CardContent sx={{ padding: `${theme.spacing(3)} ${theme.spacing(5.25)} ${theme.spacing(4)} !important`, margin: 'auto', width: "100%" }}>

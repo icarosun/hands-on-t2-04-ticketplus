@@ -14,7 +14,10 @@ const ListaEventos = () => {
     const renderCardEvent = () => {
         return productData.map((eventCard, index) => {
             return (
-                <Grid item key={index}>
+                <Grid key={index}
+                    sx={{
+                    }}
+                >
                     <CardEvento
                         id={eventCard.id}
                         name={eventCard.titulo}
@@ -66,8 +69,12 @@ const ListaEventos = () => {
                     </Chip>
                 </CardContent>
             </Card>
-            <Grid item xs={12} sx={{ marginBottom: 4 }}>
-                <Grid container spacing={6}>
+            <Grid xs={0} sx={{ margin: '100px auto'}}>
+                <Grid container spacing={6} sx={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: 5,
+                }}>
                     {renderCardEvent()}
                 </Grid>
             </Grid>
