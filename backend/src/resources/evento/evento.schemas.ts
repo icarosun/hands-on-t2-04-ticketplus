@@ -10,12 +10,15 @@ const eventoCamposSchema = {
   titulo: Joi.string().min(3).max(100).required(),
   descricao: Joi.string().required(),
   localizacao: Joi.string().required(),
-  faixaEtaria: Joi.number(),
+  faixaEtaria: Joi.number()
+    .integer()
+    .required(),
   imageBase64: Joi.string()
     .regex(/;base64,/)
     .required(),
   categoriaEventoId: Joi.number()
-    .integer(),
+    .integer()
+    .required(),
   tiposTicketsEventos: Joi.array()
     .items(tiposTicketsEventosObj)
     .min(1)
