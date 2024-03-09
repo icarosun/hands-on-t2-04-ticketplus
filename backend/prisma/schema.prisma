@@ -51,6 +51,7 @@ model Evento {
   // imageUrl          String   @db.VarChar(100)
   organizadorId     String  @db.Char(36)
   categoriaEventoId Int     @db.Int()
+  enderecoEventoId  Int     @db.Int()
 
   ticket     Ticket[]
   compras    Compra[]
@@ -58,11 +59,23 @@ model Evento {
 
   Organizador     Organizador     @relation(fields: [organizadorId], references: [id])
   CategoriaEvento CategoriaEvento @relation(fields: [categoriaEventoId], references: [id])
+  EnderecoEvento  EnderecosEventos  @relation(fields: [enderecoEventoId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("eventos")
+}
+
+model EnderecosEventos {
+  id      Int     @id @default(autoincrement()) @db.Int()
+  cep     String  @db.Char(8)
+  numero  Int     @db.Int()
+  cidade  String  @db.VarChar(100)
+
+  eventos Evento[]
+
+  @@map("enderecosEventos")
 }
 
 model Ticket {
