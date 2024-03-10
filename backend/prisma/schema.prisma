@@ -18,7 +18,6 @@ model Comprador {
   senha     String   @db.VarChar(100)
   //tipocomprador    String   @db.Char(36)
   saldo          Decimal  @db.Decimal(9, 2)
-  compras   Compra[]
   pedidos    Pedido[]
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -55,7 +54,6 @@ model Evento {
   enderecoEventoId  Int     @db.Int()
 
   ticket     Ticket[]
-  compras    Compra[]
   pedidos    Pedido[]
   tiposTicketsEventos TiposTicketsEventos[]
 
@@ -72,10 +70,13 @@ model Evento {
 model EnderecosEventos {
   id      Int     @id @default(autoincrement()) @db.Int()
   cep     String  @db.Char(8)
-  numero  Int     @db.Int()
+  numero  Int?     @db.Int()
   cidade  String  @db.VarChar(100)
 
   eventos Evento[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("enderecosEventos")
 }
@@ -100,6 +101,7 @@ model Pedido {
   formaPagamento  String   @db.VarChar(50)
   valor           Decimal  @db.Decimal(9, 2)
   status          String   @db.VarChar(50)
+  // quantidade     Int     @db.Int()
 
   compradorId String       @db.Char(36)
   eventoId    Int          @db.Int()
@@ -114,22 +116,15 @@ model Pedido {
 }
 
 model Compra {
-  id             String  @id @default(uuid()) @db.Char(36)
-  formaPagamento String  @db.VarChar(50)
-  valor          Decimal  @db.Decimal(9, 2)
-  status         String  @db.VarChar(50)
-  // quantidade     Int     @db.Int()
+  id             String   @id @default(uuid()) @db.Char(36)
 
-  compradorId String     @db.Char(36)
-  ticketId    String      @db.Char(36)
-  eventoId    Int          @db.Int()
+  pedidoId       String   @db.Char(36)
+  ticketId       String   @db.Char(36)
 
-  comprador Comprador    @relation(fields: [compradorId], references: [id])
-  ticket  Ticket         @relation(fields: [ticketId], references: [id])
-  evento  Evento         @relation(fields: [eventoId], references: [id])
+  ticket  Ticket          @relation(fields: [ticketId], references: [id])
 
-  createdAt DateTime     @default(now()) @map("created_at")
-  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at")
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @default(now()) @updatedAt @map("updated_at")
 
   @@map("compras")
 }
@@ -140,6 +135,9 @@ model TipoTicket {
 
   ticket              Ticket[]
   tiposTicketsEventos TiposTicketsEventos[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("tipoTickets")
 }
@@ -153,6 +151,9 @@ model TiposTicketsEventos {
   evento     Evento @relation(fields: [eventoId], references: [id])
   tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
 
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
   @@id([eventoId, tipoTicketId])
   @@map("tipoTicketsEventos")
 }
@@ -162,6 +163,9 @@ model CategoriaEvento {
   descricao String @unique @db.VarChar(50)
 
   evento Evento[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("categoriaEvento")
 }

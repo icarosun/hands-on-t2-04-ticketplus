@@ -4,12 +4,8 @@ import { Decimal } from "@prisma/client/runtime/library";
 
 export type CreateCompraDto = Pick<
   Compra,
-  | "compradorId"
-  | "eventoId"
+  | "pedidoId"
   | "ticketId"
-  | "formaPagamento"
-  | "valor"
-  | "status"
 >;
 
 export interface CreateCompraType {
@@ -32,8 +28,3 @@ export interface CreateCompraReqType {
 
   intent: string;
 }
-
-export type UpdateCompraDto = Pick<
-  Compra,
-  | "status"
->;

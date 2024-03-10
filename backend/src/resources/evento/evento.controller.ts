@@ -6,7 +6,7 @@ import {
   getEvento,
   updateEvento,
   // removeEvento,
-  getCompraByEventoId,
+  getPedidoByEventoId,
   getEventosByOrganizador,
 } from "./evento.service";
 import { getTiposTickets } from "../tipoTicket/tipoTicket.service";

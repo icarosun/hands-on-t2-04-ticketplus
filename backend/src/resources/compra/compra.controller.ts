@@ -30,7 +30,7 @@ async function index(req: Request, res: Response) {
         #swagger.responses[200] = {
             schema: { $ref: '#/definitions/Compras' }
   } */
-  const compradorId = String(req.session.uid);
+  /*const compradorId = String(req.session.uid);
   const eventosIds: number[] = [];
   try {
     const compras = (await getComprasByCompradorId(
@@ -38,7 +38,7 @@ async function index(req: Request, res: Response) {
     )) as unknown as CreateCompraDto[];
     const comprasData: object[] = [];
     for (let compra of compras) {
-      eventosIds.push(compra.eventoId);
+      eventosIds.push(compra.eventoId as number); // here
     }
     for (let i = 0; i < compras.length; i++) {
       comprasData.push({
@@ -49,7 +49,7 @@ async function index(req: Request, res: Response) {
     return res.status(200).json({ comprasData });
   } catch (error) {
     return res.status(500).json({ error });
-  }
+  }*/
 }
 
 async function create(req: Request, res: Response) {
