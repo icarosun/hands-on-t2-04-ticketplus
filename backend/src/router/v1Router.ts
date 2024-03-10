@@ -10,6 +10,7 @@ import dashboardRouter from "../resources/dashboard/dashbord.router";
 import imagemRouter from '../resources/imagem/imagem.router';
 import tipoTicketRouter from "../resources/tipoTicket/tipoTicket.router";
 import tiposTicketsEventosRouter from "../resources/tiposTicketsEventos/tiposTicketsEventos.router"
+import localizaoRouter from "../resources/localizacao/localizacao.router";
 
 
 const router = Router();
@@ -70,6 +71,11 @@ router.use(
 router.use(
   "/tiposTicketsEventos",
   tiposTicketsEventosRouter
+);
+
+router.use(
+  "/localizacao",
+  localizaoRouter
 );
 
 export default router;
