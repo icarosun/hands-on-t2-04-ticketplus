@@ -11,6 +11,7 @@ import imagemRouter from '../resources/imagem/imagem.router';
 import tipoTicketRouter from "../resources/tipoTicket/tipoTicket.router";
 import tiposTicketsEventosRouter from "../resources/tiposTicketsEventos/tiposTicketsEventos.router"
 import localizaoRouter from "../resources/localizacao/localizacao.router";
+import pagamentoRouter from "../resources/pagamento/pagamento.router";
 
 
 const router = Router();
@@ -76,6 +77,11 @@ router.use(
 router.use(
   "/localizacao",
   localizaoRouter
+);
+
+router.use(
+  "/pagamento",
+  pagamentoRouter
 );
 
 export default router;
