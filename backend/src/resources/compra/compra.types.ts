@@ -12,6 +12,15 @@ export type CreateCompraDto = Pick<
   | "status"
 >;
 
+export interface CreateCompraType {
+  eventoId: number,
+  formaPagamento: string,
+  compradorId: string,
+  ticketId?: string,
+  valor: number,
+  status: "Pago" | "Aguardando pagamento" | "Cancelada",
+}
+
 export interface CreateCompraReqType {
   eventoId: number;
   ticketId: string;
@@ -20,6 +29,8 @@ export interface CreateCompraReqType {
     | FormasPagamento.CARTAO_CREDITO
     | FormasPagamento.PIX;
   tipoTicketId: number;
+
+  intent: string;
 }
 
 export type UpdateCompraDto = Pick<

@@ -22,7 +22,9 @@ const eventoCamposSchema = {
   tiposTicketsEventos: Joi.array()
     .items(tiposTicketsEventosObj)
     .min(1)
-    .max(3)
+    .max(3),
+  enderecoEventoId: Joi.number()
+    .required()
 }
 
 

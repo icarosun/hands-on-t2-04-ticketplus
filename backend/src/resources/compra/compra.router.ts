@@ -8,9 +8,9 @@ import { isComprador } from "../../middlewares/isComprador";
 const router = Router();
 
 router.post("/",
-    isComprador,
-    usuarioAutenticado,
-    validarSchema(compraSchema),
+    // isComprador,
+    // usuarioAutenticado,
+    // validarSchema(compraSchema),
     compraController.create
 );
 

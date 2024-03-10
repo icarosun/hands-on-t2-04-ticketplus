@@ -6,7 +6,7 @@ import { isComprador } from "../../middlewares/isComprador";
 
 const router = Router();
 
-router.post("/getPayPalToken",
+router.post("/createOrder",
     usuarioAutenticado,
     isComprador,
     pagamentoController.getPayPalToken

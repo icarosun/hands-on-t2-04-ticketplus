@@ -133,6 +133,7 @@ async function create(req: Request, res: Response) {
       vagas: vagas, 
       organizadorId: organizadorId,
       categoriaEventoId: categoriaEventoId,
+      enderecoEventoId: dadosEvento.enderecoEventoId
     } as CreateEventoDto;
     const novoEvento = await createEvento(evento);
     const idEvento = novoEvento.id;

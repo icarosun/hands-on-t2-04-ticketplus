@@ -19,6 +19,7 @@ model Comprador {
   //tipocomprador    String   @db.Char(36)
   saldo          Decimal  @db.Decimal(9, 2)
   compras   Compra[]
+  pedidos    Pedido[]
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -55,6 +56,7 @@ model Evento {
 
   ticket     Ticket[]
   compras    Compra[]
+  pedidos    Pedido[]
   tiposTicketsEventos TiposTicketsEventos[]
 
   Organizador     Organizador     @relation(fields: [organizadorId], references: [id])
@@ -93,15 +95,34 @@ model Ticket {
   @@map("tickets")
 }
 
+model Pedido {
+  id              String   @id @default(uuid()) @db.Char(36)
+  formaPagamento  String   @db.VarChar(50)
+  valor           Decimal  @db.Decimal(9, 2)
+  status          String   @db.VarChar(50)
+
+  compradorId String       @db.Char(36)
+  eventoId    Int          @db.Int()
+
+  comprador Comprador      @relation(fields: [compradorId], references: [id])
+  evento  Evento           @relation(fields: [eventoId], references: [id])
+
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @default(now()) @updatedAt @map("updated_at")
+
+  @@map("pedidos")
+}
+
 model Compra {
   id             String  @id @default(uuid()) @db.Char(36)
   formaPagamento String  @db.VarChar(50)
   valor          Decimal  @db.Decimal(9, 2)
   status         String  @db.VarChar(50)
+  // quantidade     Int     @db.Int()
 
   compradorId String     @db.Char(36)
-  ticketId  String       @unique @db.Char(36)
-  eventoId  Int          @db.Int()
+  ticketId    String      @db.Char(36)
+  eventoId    Int          @db.Int()
 
   comprador Comprador    @relation(fields: [compradorId], references: [id])
   ticket  Ticket         @relation(fields: [ticketId], references: [id])
