@@ -103,11 +103,13 @@ model Pedido {
   status          String   @db.VarChar(50)
   // quantidade     Int     @db.Int()
 
-  compradorId String       @db.Char(36)
-  eventoId    Int          @db.Int()
+  compradorId     String   @db.Char(36)
+  eventoId        Int      @db.Int()
+  tipoTicketId    Int      @db.Int()
 
-  comprador Comprador      @relation(fields: [compradorId], references: [id])
-  evento  Evento           @relation(fields: [eventoId], references: [id])
+  comprador       Comprador      @relation(fields: [compradorId], references: [id])
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+  tipoTicket      TipoTicket     @relation(fields: [tipoTicketId], references: [id])
 
   createdAt DateTime       @default(now()) @map("created_at")
   updatedAt DateTime       @default(now()) @updatedAt @map("updated_at")
@@ -135,6 +137,7 @@ model TipoTicket {
 
   ticket              Ticket[]
   tiposTicketsEventos TiposTicketsEventos[]
+  pedido              Pedido[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")

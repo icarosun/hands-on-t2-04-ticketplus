@@ -12,6 +12,7 @@ import tipoTicketRouter from "../resources/tipoTicket/tipoTicket.router";
 import tiposTicketsEventosRouter from "../resources/tiposTicketsEventos/tiposTicketsEventos.router"
 import localizaoRouter from "../resources/localizacao/localizacao.router";
 import pagamentoRouter from "../resources/pagamento/pagamento.router";
+import pedidoRouter from "../resources/pedido/pedido.router";
 
 
 const router = Router();
@@ -82,6 +83,11 @@ router.use(
 router.use(
   "/pagamento",
   pagamentoRouter
+);
+
+router.use(
+  "/pedido",
+  pedidoRouter
 );
 
 export default router;

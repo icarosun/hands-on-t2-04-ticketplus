@@ -6,10 +6,10 @@ import {
     PayPalScriptProvider,
     PayPalButtons
 } from "@paypal/react-paypal-js";
-import { HttpInstance } from "../../utils/http";
 
-import { getPayPalToken } from "../../services/getPayPalToken.service";
+// import { getPayPalToken } from "../../services/getPayPalToken.service";
 import { GetPayPalTokenType } from "../../services/getPayPalToken.service";
+import { compraTicket } from "../../services/compra.service";
 
 const PayPalButton = () => {
     const [dadosAuthPagamento, setDadosAuthPagamento] = useState<GetPayPalTokenType | null>({
@@ -36,7 +36,7 @@ const PayPalButton = () => {
 
     const createOrder = async () =>  {
         try {
-            return fetch(`http://localhost:${import.meta.env.VITE_PORT_BACK}/v1/compra`,
+            return fetch(`http://localhost:${import.meta.env.VITE_PORT_BACK}/v1/pedido`,
             {
                 method: "POST",
                 headers: {
@@ -57,11 +57,16 @@ const PayPalButton = () => {
             });
         } catch (err) {
             console.error(err);
-        } 
+        }
     }
 
-    const onApprove = async (): Promise<void> =>  {
-        
+    const onApprove = async () =>  {
+        try {
+            await compraTicket();
+            console.log("Compra realizada com sucesso");
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 
@@ -75,7 +80,7 @@ const PayPalButton = () => {
             >
                 <PayPalButtons
                     createOrder={createOrder}
-                    // onApprove={onApprove}
+                    onApprove={onApprove}
                 />
             </PayPalScriptProvider>
         )
