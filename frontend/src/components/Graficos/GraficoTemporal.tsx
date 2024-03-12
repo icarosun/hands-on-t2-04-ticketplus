@@ -5,7 +5,6 @@ import { ApexOptions } from "apexcharts";
 
 const columnChartOptions: ApexOptions = {
   chart: {
-    stacked: true,
     toolbar: {
       show: true,
     },
@@ -21,7 +20,7 @@ const columnChartOptions: ApexOptions = {
     },
   },
   dataLabels: {
-    enabled: true,
+    enabled: false,
   },
   stroke: {
     show: true,
@@ -90,12 +89,11 @@ export default function CustomGrafico(props: Graficos) {
   const { primary, secondary } = theme.palette.text;
   const line = theme.palette.divider;
 
-  const inteira = theme.palette.success.dark;
-  const inteira_disponivel = theme.palette.success.light;
-  const meia_entrada = theme.palette.info.dark;
-  const meia_entrada_disponivel = theme.palette.info.light;
-  const vip = theme.palette.error.dark;
-  const vip_disponivel = theme.palette.error.light;
+  const warning = theme.palette.warning.main;
+  const primaryMain = theme.palette.primary.main;
+  const successDark = theme.palette.success.dark;
+  const info = theme.palette.info.dark;
+  const meia_entrada = theme.palette.error.main;
 
   const [series, setSeries] = useState<DadosGrafico[]>([]);
 
@@ -104,14 +102,7 @@ export default function CustomGrafico(props: Graficos) {
   useEffect(() => {
     setOptions((prev) => ({
       ...prev,
-      colors: [
-        inteira,
-        inteira_disponivel,
-        meia_entrada,
-        meia_entrada_disponivel,
-        vip,
-        vip_disponivel,
-      ],
+      colors: [warning, successDark, info, meia_entrada],
       xaxis: {
         categories: props.eventos,
         labels: {
@@ -155,14 +146,13 @@ export default function CustomGrafico(props: Graficos) {
     setSeries(props.dadosGrafico);
   }, [
     meia_entrada,
-    meia_entrada_disponivel,
-    vip_disponivel,
-    vip,
-    inteira,
-    inteira_disponivel,
+    info,
     primary,
     secondary,
     line,
+    warning,
+    primaryMain,
+    successDark,
     props.dadosGrafico,
     props.eventos,
   ]);
