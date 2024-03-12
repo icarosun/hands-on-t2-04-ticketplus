@@ -6,7 +6,7 @@ import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Typography from '@mui/joy/Typography';
 import { productData } from "./listaDados.tsx";
-import CardEvento from './CardEvento.tsx'
+import CardEvento from '../CardEvento/index.tsx';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import Chip from '@mui/joy/Chip';
 
@@ -15,13 +15,11 @@ const ListaEventos = () => {
         return productData.map((eventCard, index) => {
             return (
                 <Grid key={index}
-                    sx={{
-                    }}
                 >
                     <CardEvento
                         id={eventCard.id}
-                        name={eventCard.titulo}
-                        url={eventCard.imageUrl}
+                        title={eventCard.titulo}
+                        imageUrl={eventCard.imageUrl}
                         place={eventCard.localizacao}
                         description={eventCard.descricao}
                     />
