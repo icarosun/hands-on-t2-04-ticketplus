@@ -67,7 +67,8 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                 setSnackbarOpen(true);
                 return
             }
-            const resCompra = await compraTicket(eventoId, tipoTicketId);
+            // const resCompra = await compraTicket(eventoId, tipoTicketId);
+            const resCompra = await compraTicket();
             if (resCompra.status === 201) {
                 setSnackbarMessage("Compra realizada com sucesso");
                 setSnackbarOpen(true);
@@ -131,7 +132,7 @@ export default function CardEvento(props: { id: number; url: string | undefined;
             <EventDetails
                 show={showEventDetails}
                 detailsEvent={{
-                    id: 0,
+                    id: props.id,
                     imageUrl: eventoData.imageUrl,
                     title: eventoData.titulo,
                     description: eventoData.descricao,

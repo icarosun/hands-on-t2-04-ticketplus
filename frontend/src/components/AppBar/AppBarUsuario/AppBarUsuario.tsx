@@ -90,6 +90,8 @@ const AppBarUsuario = (props: AppBarProps) => {
     null
   );
 
+  const usuarioComprador = props.tipoUsuario === TiposUsuarios.COMPRADOR;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -151,21 +153,6 @@ const AppBarUsuario = (props: AppBarProps) => {
     flexDirection: "row",
     justifyContent: "space-between",
   };
-
-  const SearchBarStyle = {
-    display: "block",
-  };
-
-  if (props.tipoUsuario === TiposUsuarios.COMPRADOR) {
-    componentesComprador = [
-      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-        <SaldoComponente saldo={saldoAtual} spinner={mostraSpinner} />
-        <MeusIngressos ingressos={ingressos}></MeusIngressos>
-      </Box>,
-    ];
-  } else {
-    SearchBarStyle.display = "none";
-  }
 
   return (
     <AppBar position="static" style={AppBarStyle}>
@@ -255,15 +242,20 @@ const AppBarUsuario = (props: AppBarProps) => {
         <Box
           sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         >
-          <Search sx={SearchBarStyle}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Pesquisar Evento"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          {usuarioComprador &&
+            <>
+              <MeusIngressos ingressos={ingressos}></MeusIngressos>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Pesquisar Evento"
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </Search>
+            </>
+          }
           <UserDropdownMenu tipoUsuario={props.tipoUsuario} />
         </Box>
       </Toolbar>

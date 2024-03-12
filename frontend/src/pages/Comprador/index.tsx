@@ -1,7 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import ListaEventos from '../../components/ListaGeralEventos/ListaEventos.tsx';
 import CategoriaEventosCard from '../../components/AppBar/Categorias.tsx';
-import PayPalButton from '../../components/PayPalButton/index.tsx';
 
 export default function PaginaComprador() {
     return (
@@ -14,7 +13,6 @@ export default function PaginaComprador() {
                     <ListaEventos />
                 </Grid>
             </Grid>
-            <PayPalButton/>
         </Box>
     );
 }

@@ -10,8 +10,10 @@ import {
 // import { getPayPalToken } from "../../services/getPayPalToken.service";
 import { GetPayPalTokenType } from "../../services/getPayPalToken.service";
 import { compraTicket } from "../../services/compra.service";
+import { PayPalButtonProps } from "../../interfaces/PayPalButtonProps";
 
-const PayPalButton = () => {
+const PayPalButton = (props: PayPalButtonProps) => {
+    console.log(`id do pagamento: ${props.ticketId}`)
     const [dadosAuthPagamento, setDadosAuthPagamento] = useState<GetPayPalTokenType | null>({
         clientId: "",
         dataClientToken: ""
@@ -44,7 +46,7 @@ const PayPalButton = () => {
                 },
                 credentials: 'include',
                 body: JSON.stringify({
-                    id: 1,
+                    id: props.ticketId,
                     quantity: 1,
                     intent: "capture",
                     eventoId: 1,

@@ -26,6 +26,7 @@ import {
 import { TipoTicketsEventosType } from '../../services/cadastraEvento.service';
 import { tipoTicketsType } from '../../services/getTiposTickets';
 import { primeiraLetraMaiuscula } from '../../utils/primeiraLetraMaiuscula';
+import PayPalButton from '../PayPalButton';
 
 interface EventDetailsContainerProps {
     show: boolean;
@@ -46,6 +47,7 @@ interface EventDetailsContainerProps {
 
 
 const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose, detailsEvent }) => {
+    console.log(detailsEvent);
     const tiposTicketsDescricoes: string[] = [];
     const tiposTickets = detailsEvent.tiposTickets as tipoTicketsType[];
     const tiposTicketsEventos = detailsEvent.tiposTicketsEvento as TipoTicketsEventosType[];
@@ -167,6 +169,7 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                     <Button variant="contained" sx={{ marginLeft: 'auto'}} onClick={detailsEvent.handleCheckout} endIcon={<ShoppingBasketIcon />}>
                         Comprar
                     </Button>
+                    <PayPalButton eventoId={detailsEvent.id}/>
                 </CardActions>
             </Card>
         </Modal>
