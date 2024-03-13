@@ -4,8 +4,8 @@ import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Trophy from "../../../assets/images/trophy.png";
-import TriangleLight from "../../../assets/images/triangle-light.png";
+import Trophy from "../../assets/images/trophy.png";
+import TriangleLight from "../../assets/images/triangle-light.png";
 
 const TriangleImg = styled("img")({
   right: 0,
