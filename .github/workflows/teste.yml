@@ -2,7 +2,7 @@ name: Build and Test
 
 on: 
   repository_dispatch:
-    types: [manual-trigger]
+    types: [test_result]
 
 jobs:
   frontend:
@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with: 
-      node-version: '18'
+        node-version: '18'
 
     - name: Install dependencies
       run: cd frontend && npm install
