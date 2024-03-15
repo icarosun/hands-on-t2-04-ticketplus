@@ -23,6 +23,10 @@ interface DataType {
   icon: ReactElement;
 }
 
+interface Time {
+  title?: string;
+}
+
 const salesData: DataType[] = [
   {
     stats: "300",
@@ -76,11 +80,15 @@ const renderStats = () => {
   ));
 };
 
-export default function EstatisticasVendas() {
+export default function EstatisticasVendas(props: Time) {
+  const title: string = props.title
+    ? `Resumo Geral de Vendas - ${props.title}`
+    : "Resumo Geral de Vendas";
+
   return (
     <Card>
       <CardHeader
-        title="Resumo Geral de Vendas"
+        title={title}
         subheader={
           <Typography variant="body2">
             <Box

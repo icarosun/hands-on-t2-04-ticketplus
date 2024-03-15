@@ -2,89 +2,19 @@ import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { GraficoGeralOptions } from "./configs/Geral";
 
-const columnChartOptions: ApexOptions = {
-  chart: {
-    stacked: true,
-    toolbar: {
-      show: true,
-    },
-  },
-  noData: {
-    text: "Carregando...",
-  },
-  plotOptions: {
-    bar: {
-      horizontal: false,
-      columnWidth: "30%",
-      borderRadius: 4,
-    },
-  },
-  dataLabels: {
-    enabled: true,
-  },
-  stroke: {
-    show: true,
-    width: 2,
-    colors: ["transparent"],
-  },
-  fill: {
-    opacity: 1,
-  },
-  title: {
-    text: "Resumo (Tickets)",
-  },
-  tooltip: {
-    y: {
-      formatter(val: number) {
-        return `${val} tickets`;
-      },
-    },
-  },
-  legend: {
-    show: true,
-    fontFamily: `'Public Sans', sans-serif`,
-    offsetX: 10,
-    offsetY: 10,
-    labels: {
-      useSeriesColors: false,
-      colors: "grey.500",
-    },
-    markers: {
-      width: 16,
-      height: 16,
-      radius: 50,
-      //offsexX: 2,
-      //offsexY: 2,
-    },
-    itemMargin: {
-      horizontal: 15,
-      vertical: 50,
-    },
-  },
-  responsive: [
-    {
-      breakpoint: 600,
-      options: {
-        yaxis: {
-          show: false,
-        },
-      },
-    },
-  ],
-};
-
-interface DadosGrafico {
+export interface DadosGrafico {
   name: string;
   data: number[];
 }
 
 interface Graficos {
-  eventos: string[];
+  categorias: string[]; // aqui são eventos
   dadosGrafico: DadosGrafico[];
 }
 
-export default function CustomGrafico(props: Graficos) {
+export default function GraficoTicketsGeral(props: Graficos) {
   const theme = useTheme();
 
   const { primary, secondary } = theme.palette.text;
@@ -98,12 +28,21 @@ export default function CustomGrafico(props: Graficos) {
   const vip_disponivel = theme.palette.error.light;
 
   const [series, setSeries] = useState<DadosGrafico[]>([]);
-
-  const [options, setOptions] = useState<ApexOptions>(columnChartOptions);
+  const [title, setTitle] = useState<string>("");
+  const [categories, setCategories] = useState<string[]>([]);
+  const [options, setOptions] = useState<ApexOptions>(GraficoGeralOptions);
 
   useEffect(() => {
+    setSeries(props.dadosGrafico);
+    setCategories(props.categorias);
+    setOptions(GraficoGeralOptions);
+    setTitle(`Resumo - Tickets Vendidos/Disponíveis`);
+
     setOptions((prev) => ({
       ...prev,
+      title: {
+        text: title,
+      },
       colors: [
         inteira,
         inteira_disponivel,
@@ -113,7 +52,7 @@ export default function CustomGrafico(props: Graficos) {
         vip_disponivel,
       ],
       xaxis: {
-        categories: props.eventos,
+        categories: categories,
         labels: {
           style: {
             colors: [
@@ -137,8 +76,13 @@ export default function CustomGrafico(props: Graficos) {
           },
         },
       },
+
       grid: {
         borderColor: line,
+        row: {
+          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.5,
+        },
       },
       tooltip: {
         theme: "light",
@@ -151,9 +95,10 @@ export default function CustomGrafico(props: Graficos) {
         },
       },
     }));
-
-    setSeries(props.dadosGrafico);
   }, [
+    categories,
+    props.categorias,
+    title,
     meia_entrada,
     meia_entrada_disponivel,
     vip_disponivel,
@@ -164,7 +109,6 @@ export default function CustomGrafico(props: Graficos) {
     secondary,
     line,
     props.dadosGrafico,
-    props.eventos,
   ]);
 
   return (

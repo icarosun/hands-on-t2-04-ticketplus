@@ -7,6 +7,10 @@ import { styled } from "@mui/material/styles";
 import Trophy from "../../assets/images/trophy.png";
 import TriangleLight from "../../assets/images/triangle-light.png";
 
+interface Card {
+  title?: string;
+}
+
 const TriangleImg = styled("img")({
   right: 0,
   bottom: 0,
@@ -21,13 +25,13 @@ const TrophyImg = styled("img")({
   position: "absolute",
 });
 
-export default function MelhorVendaEvento() {
+export default function MelhorVendaEvento(props: Card) {
   return (
     <Card sx={{ position: "relative" }}>
       <CardContent>
         <Typography variant="h5">Chiado da Chinela</Typography>
         <Typography variant="body2" sx={{ letterSpacing: "0.25px" }}>
-          Evento com a maior venda
+          Evento com a maior venda {props.title ? `- ${props.title}` : ""}
         </Typography>
         <Typography variant="h6" sx={{ my: 4, color: "primary.main" }}>
           300 tickets vendidos

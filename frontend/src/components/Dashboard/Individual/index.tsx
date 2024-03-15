@@ -1,60 +1,125 @@
-import { Card, Grid, Typography, Stack } from "@mui/material";
-//import CustomTable from "../TabelaVendas";
+import { useState, useEffect } from "react";
+import {
+  Card,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
+import GraficoFinanceiroGeral from "../../Graficos/GraficoFinanceiro";
+import { graficoFinanceiroSeries } from "../Data/graficoGeralFinanceiroData";
+import GraficoTicketsPorPeriodo from "../../Graficos/GraficoTicketsPorPeriodo";
+import { graficoIndGeral } from "../Data/graficoIndGeralData";
 import CustomCard from "../../Cards";
-import CustomGrafico from "../../Graficos";
+import EnhancedTable from "../Tabela";
+import {
+  categoriasSemana,
+  categoriasMes,
+  ultSemana,
+  UltMes,
+} from "../Data/graficoGeralPorPeriodoData";
+import { eventoInd } from "../Data/graficoIndGeralData";
+import { DadosGrafico } from "../../Graficos/GraficoIndividual";
+import { categoriasGeraisEventos } from "../Data/graficoGeralData";
+import GraficoIndividualGeral from "../../Graficos/GraficoIndividual";
 
 export default function DashboardIndividual() {
-  const graficoSeries = [
-    {
-      name: "Disponibilizados",
-      data: [10, 12, 13], // Disponibilizados por tipo de ticket
-    },
-    {
-      name: "Vendidos",
-      data: [11, 2, 60], // Vendidos por tipo de ticket
-    },
-  ];
+  const [titleTemp, setTitleTemp] = useState<string>("");
+  const [periodo, setPeriodo] = useState<"1" | "7" | "30">("1");
+  const [evento, setEvento] = useState<string>("");
+  const [categorias, setCategorias] = useState<string[]>([]);
+  const [series, setSeries] = useState<DadosGrafico[]>([]);
 
-  const eventos = ["Titela Caída", "Jumbo de Marte", "Show da Anitta"];
+  const handleChange = (event: SelectChangeEvent | "1" | "7" | "30") => {
+    setPeriodo(event.target.value);
+  };
+
+  useEffect(() => {
+    setEvento(eventoInd);
+    if (periodo === "7") {
+      setTitleTemp("Última Semana");
+      setCategorias(categoriasSemana);
+      setSeries(ultSemana);
+      console.log("chegou na semana");
+    } else if (periodo === "30") {
+      setTitleTemp("Último mês");
+      setCategorias(categoriasMes);
+      setSeries(UltMes);
+    } else {
+      setSeries(graficoIndGeral);
+      setTitleTemp("");
+    }
+  }, [periodo]);
 
   return (
-    <>
-      <Grid item xs={12} md={1} lg={12}>
-        <Grid container rowSpacing={1} columnSpacing={2} p={2}>
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <CustomCard title="Tickets Disponibilizados" value={1000} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <CustomCard title="Tickets Vendidos" value={500} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <CustomCard title="Receita Total" value={250} isMoney />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={12}>
-            <Card sx={{ mt: 2, p: 2 }}>
-              <Stack sx={{ pt: 1.5, pl: 1.5 }}>
-                <Typography variant="h6" color="textPrimary">
-                  Resumo das Vendas
-                </Typography>
-              </Stack>
-              <CustomGrafico dadosGrafico={graficoSeries} eventos={eventos} />
-            </Card>
-          </Grid>
-        </Grid>
-
-        {/*<Grid item xs={12} md={7} lg={12}>
-              <Grid item>
-                <Card sx={{ mt: 2, p: 2 }}>
-                  <Stack sx={{ pt: 1.5, pl: 1.5 }}>
-                    <Typography variant="h6" color="textPrimary">
-                      Compras Recentes
-                    </Typography>
-                  </Stack>
-                  <CustomTable />
-                </Card>
-              </Grid>
-            </Grid>*/}
+    <Grid container spacing={6} p={3}>
+      <Grid item xs={12} md={12}>
+        <h1>Chiado da Chinela</h1>
+        <FormControl sx={{ m: 1, minWidth: 80 }}>
+          <InputLabel id="periodo">Período</InputLabel>
+          <Select
+            labelId="periodo"
+            id="periodo"
+            value={periodo}
+            onChange={handleChange}
+            autoWidth
+            label="Período"
+            displayEmpty
+          >
+            <MenuItem value={"1"}>Geral</MenuItem>
+            <MenuItem value={"7"}>Última Semana</MenuItem>
+            <MenuItem value={"30"}>Últimos 30 dias</MenuItem>
+          </Select>
+        </FormControl>
       </Grid>
-    </>
+
+      <Grid item xs={6} md={3}>
+        <CustomCard title="Tickets Disponibilizados" value={300} />
+        <CustomCard title="Tickets Vendidos" value={150} />
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomCard title="Inteira" value={100} />
+        <CustomCard title="Vendidos" value={50} />
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomCard title="Meia-Entrada" value={100} />
+        <CustomCard title="Vendidos" value={50} />
+      </Grid>
+      <Grid item xs={6} md={3}>
+        <CustomCard title="VIP" value={100} />
+        <CustomCard title="Vendidos" value={50} />
+      </Grid>
+
+      <Grid item xs={12}>
+        <Card sx={{ mt: 2, p: 2 }}>
+          {titleTemp ? (
+            <GraficoTicketsPorPeriodo
+              evento={evento}
+              periodo={periodo}
+              categorias={categorias}
+              dadosGrafico={series}
+            />
+          ) : (
+            <GraficoIndividualGeral
+              evento={evento}
+              categoria={["Chiado da Chinela"]}
+              dadosGrafico={series}
+            />
+          )}
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <GraficoFinanceiroGeral
+          dadosGrafico={graficoFinanceiroSeries}
+          eventos={categoriasGeraisEventos}
+          title={titleTemp}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <EnhancedTable title={titleTemp} />
+      </Grid>
+    </Grid>
   );
 }

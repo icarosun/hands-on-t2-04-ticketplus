@@ -1,4 +1,4 @@
-import { useState, MouseEvent, ChangeEvent, useMemo } from "react";
+import { useState, MouseEvent, ChangeEvent, useMemo, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -11,10 +11,13 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Paper from "@mui/material/Paper";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { Chip } from "@mui/material";
+import { Chip, Typography } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { Money } from "../../utils/currency";
 
+interface Time {
+  title: string;
+}
 interface Data {
   //id: number;
   evento: string;
@@ -317,12 +320,14 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-export default function EnhancedTable() {
+export default function EnhancedTable(props: Time) {
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof Data>("status");
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const [title, setTitle] = useState("");
 
   const handleRequestSort = (
     event: MouseEvent<unknown>,
@@ -359,9 +364,25 @@ export default function EnhancedTable() {
     [order, orderBy, page, rowsPerPage]
   );
 
+  useEffect(() => {
+    if (props.title !== "") {
+      setTitle(`Últimas Vendas - ${props.title}`);
+    } else {
+      setTitle(`Últimas Vendas`);
+    }
+  }, [props.title]);
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          {title}
+        </Typography>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

@@ -5,7 +5,8 @@ import PaginaOrganizador from "../pages/Organizador";
 import CompradorNavBarLayout from "../layout/Navbar/Comprador/index.tsx";
 import PaginaInicial from "../pages/PaginaInicial/index.tsx";
 import { TiposUsuarios } from "../utils/tipoUsuario.constants.ts";
-import Dashboard from "../components/Dashboard/Geral/";
+import DashboardGeral from "../components/Dashboard/Geral/";
+import DashboardIndividual from "../components/Dashboard/Individual/";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,16 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: <DashboardGeral />,
+      },
+    ],
+  },
+  {
+    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
+    children: [
+      {
+        path: "/dashboardIndividual",
+        element: <DashboardIndividual />,
       },
     ],
   },

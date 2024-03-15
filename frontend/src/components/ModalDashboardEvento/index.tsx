@@ -11,7 +11,7 @@ import {
 //import CustomTable from "../TabelaVendas";
 import CustomCard from "../Cards";
 import { xAxis } from "../../services/dashboard.service";
-import CustomGrafico from "../Graficos";
+import CustomGrafico from "../Graficos/GraficoGeralPorPeriodo";
 import {
   setOpenModalState,
   eraseModalState,
@@ -93,7 +93,7 @@ export default function ModalDashboardEvento() {
             sx={{
               textAlign: "center",
               paddingBottom: 0,
-              marginTop: 1
+              marginTop: 1,
             }}
           />
 
