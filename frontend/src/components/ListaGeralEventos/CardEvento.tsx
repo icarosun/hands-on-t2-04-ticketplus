@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react'
 import { getDetalhesEvento } from "../../services/evento.service";
 import { DetalhesEventoType } from "../../services/evento.service";
-import { compraTicket } from "../../services/compra.service";
 import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
 import { Button, Card, CardContent, CardMedia, Typography, useTheme, Chip, Snackbar, Alert } from '@mui/material';
 import PushPinIcon from '@mui/icons-material/PushPin';
@@ -66,13 +65,6 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                 setSnackbarMessage("Realize o login para fazer a compra");
                 setSnackbarOpen(true);
                 return
-            }
-            // const resCompra = await compraTicket(eventoId, tipoTicketId);
-            const resCompra = await compraTicket();
-            if (resCompra.status === 201) {
-                setSnackbarMessage("Compra realizada com sucesso");
-                setSnackbarOpen(true);
-                location.reload();
             }
         } catch (error: any) {
             const errorStatus = error.response.status;
@@ -145,7 +137,7 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                 }}
                 handleClose={handleCloseEventDetails}
             />
-
+            
             <Snackbar
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 open={snackbarOpen}
