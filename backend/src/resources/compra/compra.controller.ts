@@ -7,6 +7,8 @@ import { updateQuantidadeTiposTicketsEventos } from "../tiposTicketsEventos/tipo
 import { updateVagasEvento } from "../evento/evento.service";
 import { CreateCompraDto } from "./compra.types";
 import { createTicketService } from "../ticket/ticket.service";
+import { updateStatusPedido } from "../pedido/pedido.service";
+import { StatusPedido } from "../pedido/pedido.constants";
 
 dotenv.config();
 
@@ -68,6 +70,11 @@ async function create(req: Request, res: Response) {
       ticketId
     } as CreateCompraDto;
     await createCompra(novaCompraDados);
+
+    await updateStatusPedido(
+      String(pedidoId),
+      StatusPedido.PAGO
+    );
     
     req.session.pedidoId = undefined;
     

@@ -4,7 +4,8 @@ import { FormasPagamento } from "../compra/compra.constants";
 
 
 const pedidoSchema = Joi.object({
-    eventoID: Joi.string()
+    eventoId: Joi.number()
+        .integer()
         .required(),
     quantity: Joi.number()
         .integer()
@@ -14,8 +15,7 @@ const pedidoSchema = Joi.object({
             FormasPagamento.BOLETO,
             FormasPagamento.CARTAO_CREDITO,
             FormasPagamento.PIX
-        ).
-        required(),
+        ),
     tipoTicketId: Joi.number()
         .integer()
         .required()
