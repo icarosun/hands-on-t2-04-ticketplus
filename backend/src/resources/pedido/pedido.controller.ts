@@ -29,8 +29,7 @@ async function create(req: Request, res: Response) {
     const tipoTicketId = dadosPedido.tipoTicketId;
     const emailComprador = req.session.email;
     const compradorId = req.session.uid;
-    let intent = dadosPedido.intent;
-    intent = intent.toUpperCase();
+    let intent = "CAPTURE";
     
     try {
       const comprador = (await getCompradorByEmail(emailComprador)) as Comprador;

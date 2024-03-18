@@ -5,7 +5,6 @@ export async function realizaPedido (
     quantity: number,
     tipoTicketId: number
 ): Promise<any> {
-    const intent = "capture";
     const formaPagamento = "Cartão de Crédito";
 
     return await httpFetch(
@@ -14,7 +13,6 @@ export async function realizaPedido (
         {
             eventoId: eventoId,
             quantity: quantity,
-            intent: intent,
             formaPagamento: formaPagamento,
             tipoTicketId: tipoTicketId
         }

@@ -1,6 +1,11 @@
 export async function httpFetch (
     endpoint: string,
-    method: string,
+    method: 
+        | "GET" 
+        | "POST"
+        | "PUT"
+        | "DELETE"
+    ,
     body: object
 ) {
     const PORT_BACK = import.meta.env.VITE_PORT_BACK;
