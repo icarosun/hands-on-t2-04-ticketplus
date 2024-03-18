@@ -11,7 +11,6 @@ import {
 //import CustomTable from "../TabelaVendas";
 import CustomCard from "../Cards";
 import { xAxis } from "../../services/dashboard.service";
-import CustomGrafico from "../Graficos/GraficoGeralPorPeriodo";
 import {
   setOpenModalState,
   eraseModalState,
@@ -118,7 +117,7 @@ export default function ModalDashboardEvento() {
                       Resumo das Vendas
                     </Typography>
                   </Stack>
-                  <CustomGrafico dadosGrafico={graficoSeries} eventos={xDesc} />
+                  {/*<CustomGrafico dadosGrafico={graficoSeries} eventos={xDesc} />*/}
                 </Card>
               </Grid>
             </Grid>

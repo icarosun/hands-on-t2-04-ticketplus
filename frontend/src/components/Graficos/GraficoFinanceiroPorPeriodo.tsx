@@ -2,76 +2,21 @@ import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { GraficoFinanceiroPeriodoOptions } from "./configs/FinanceiroPorPeriodo";
 
-const columnChartOptions: ApexOptions = {
-  chart: {
-    height: 350,
-    stacked: false,
-    redrawOnParentResize: true,
-    zoom: {
-      enabled: true,
-    },
-  },
-  grid: {
-    padding: {
-      left: 30,
-      right: 30,
-    },
-  },
-  noData: {
-    align: "center",
-    text: "Sem dados disponível no momento",
-    verticalAlign: "middle",
-  },
-  plotOptions: {
-    bar: {
-      horizontal: false,
-      columnWidth: "30%",
-      borderRadius: 4,
-    },
-  },
-  dataLabels: {
-    enabled: true,
-  },
-  stroke: {
-    show: true,
-    width: [1, 1, 1, 3],
-  },
-  yaxis: [
-    {
-      title: {
-        text: "Valores em R$",
-      },
-    },
-  ],
-  tooltip: {
-    y: {
-      formatter(val: number) {
-        return `R$ ${val}`;
-      },
-    },
-  },
-  legend: {
-    position: "top",
-    horizontalAlign: "right",
-    labels: {
-      colors: "grey.500",
-    },
-  },
-};
-
-interface DadosGrafico {
+export interface DadosGrafico {
   name: string;
   data: number[];
 }
 
 interface Graficos {
-  title: string;
-  eventos: string[];
+  periodo: "1" | "7" | "30";
+  categorias: string[];
+  evento: string;
   dadosGrafico: DadosGrafico[];
 }
 
-export default function CustomGrafico(props: Graficos) {
+export default function GraficoFinanceiroPorPeriodo(props: Graficos) {
   const theme = useTheme();
 
   const { primary, secondary } = theme.palette.text;
@@ -80,41 +25,84 @@ export default function CustomGrafico(props: Graficos) {
   const inteira = theme.palette.success.dark;
   const meia_entrada = theme.palette.info.dark;
   const vip = theme.palette.error.dark;
-  const total = theme.palette.secondary.dark;
+  const receita_total = theme.palette.secondary.dark;
+  const receita = theme.palette.secondary.light;
 
   const [series, setSeries] = useState<DadosGrafico[]>([]);
   const [title, setTitle] = useState<string>("");
-  const [options, setOptions] = useState<ApexOptions>(columnChartOptions);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [options, setOptions] = useState<ApexOptions>(
+    GraficoFinanceiroPeriodoOptions
+  );
 
   useEffect(() => {
-    if (props.title !== "") {
-      setTitle(`Resumo Financeiro por Evento - ${props.title}`);
-    } else {
-      setTitle(`Resumo Financeiro por Evento`);
-    }
+    setSeries(props.dadosGrafico);
+    setCategories(props.categorias);
+    setOptions(GraficoFinanceiroPeriodoOptions);
+    setTitle(props.evento);
+
     setOptions((prev) => ({
       ...prev,
       title: {
         text: title,
       },
+      colors: [inteira, meia_entrada, vip, receita],
       xaxis: {
-        categories: props.eventos,
+        categories: categories,
+        labels: {
+          style: {
+            colors: [
+              secondary,
+              secondary,
+              secondary,
+              secondary,
+              secondary,
+              secondary,
+            ],
+          },
+        },
       },
-      colors: [inteira, meia_entrada, vip, total],
+      yaxis: {
+        title: {
+          text: "Tickets",
+        },
+        labels: {
+          style: {
+            colors: [secondary],
+          },
+        },
+      },
+
+      grid: {
+        borderColor: line,
+        row: {
+          colors: ["#f3f3f3", "transparent"],
+          opacity: 0.5,
+        },
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "right",
+        labels: {
+          colors: "grey.500",
+        },
+      },
     }));
-    setSeries(props.dadosGrafico);
   }, [
+    receita,
+    receita_total,
+    categories,
+    props.categorias,
     title,
-    props.title,
+    props.evento,
+    props.periodo,
     meia_entrada,
     vip,
     inteira,
     primary,
     secondary,
-    total,
     line,
     props.dadosGrafico,
-    props.eventos,
   ]);
 
   return (
@@ -122,8 +110,8 @@ export default function CustomGrafico(props: Graficos) {
       <ReactApexChart
         options={options}
         series={series}
-        height="400"
         type="line"
+        height="400"
       />
     </div>
   );

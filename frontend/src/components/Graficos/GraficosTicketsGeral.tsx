@@ -28,7 +28,6 @@ export default function GraficoTicketsGeral(props: Graficos) {
   const vip_disponivel = theme.palette.error.light;
 
   const [series, setSeries] = useState<DadosGrafico[]>([]);
-  const [title, setTitle] = useState<string>("");
   const [categories, setCategories] = useState<string[]>([]);
   const [options, setOptions] = useState<ApexOptions>(GraficoGeralOptions);
 
@@ -36,13 +35,9 @@ export default function GraficoTicketsGeral(props: Graficos) {
     setSeries(props.dadosGrafico);
     setCategories(props.categorias);
     setOptions(GraficoGeralOptions);
-    setTitle(`Resumo - Tickets Vendidos/Disponíveis`);
 
     setOptions((prev) => ({
       ...prev,
-      title: {
-        text: title,
-      },
       colors: [
         inteira,
         inteira_disponivel,
@@ -98,7 +93,6 @@ export default function GraficoTicketsGeral(props: Graficos) {
   }, [
     categories,
     props.categorias,
-    title,
     meia_entrada,
     meia_entrada_disponivel,
     vip_disponivel,

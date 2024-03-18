@@ -6,9 +6,11 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Typography,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material";
 import GraficoFinanceiroGeral from "../../Graficos/GraficoFinanceiro";
+import GraficoFinanceiroPorPeriodo from "../../Graficos/GraficoFinanceiroPorPeriodo";
 import MelhorVendaEvento from "../../Cards/MelhorVendaEvento";
 import EstatisticasVendas from "../Estatistica";
 import EnhancedTable from "../Tabela";
@@ -24,6 +26,10 @@ import {
 } from "../Data/graficoGeralPorPeriodoData";
 import { graficoFinanceiroSeries } from "../Data/graficoGeralFinanceiroData";
 import { DadosGrafico } from "../../Graficos/GraficoTicketsPorPeriodo";
+import {
+  ultSemanaFinanceiro,
+  UltMesFinanceiro,
+} from "../Data/graficoGeralFinaceiroPorPeriodo";
 import GraficoTicketsGeral from "../../Graficos/GraficosTicketsGeral";
 import GraficoTicketsPorPeriodo from "../../Graficos/GraficoTicketsPorPeriodo";
 
@@ -33,6 +39,9 @@ export default function DashboardGeral() {
   const [eventos, setEventos] = useState<string[]>(categoriasGeraisEventos);
   const [categorias, setCategorias] = useState<string[]>([]);
   const [series, setSeries] = useState<DadosGrafico[]>([]);
+  const [seriesFin, setSeriesFin] = useState<DadosGrafico[]>([]);
+  const [textTickets, setTextTickets] = useState<string>("");
+  const [textFinanceiro, setTextFinanceiro] = useState<string>("");
 
   const handleChange = (event: SelectChangeEvent | "1" | "7" | "30") => {
     setPeriodo(event.target.value);
@@ -44,16 +53,23 @@ export default function DashboardGeral() {
       setTitleTemp("Última Semana");
       setCategorias(categoriasSemana);
       setSeries(ultSemana);
-      console.log("chegou na semana");
+      setSeriesFin(ultSemanaFinanceiro);
+      setTextTickets(`Resumo - Tickets Vendidos/Disponíveis - ${titleTemp}`);
+      setTextFinanceiro(`Resumo - Financeiro por Evento - ${titleTemp}`);
     } else if (periodo === "30") {
       setTitleTemp("Último mês");
       setCategorias(categoriasMes);
       setSeries(UltMes);
+      setSeriesFin(UltMesFinanceiro);
+      setTextTickets(`Resumo - Tickets Vendidos/Disponíveis - ${titleTemp}`);
+      setTextFinanceiro(`Resumo - Financeiro por Evento - ${titleTemp}`);
     } else {
       setSeries(graficoGeralSeries);
       setTitleTemp("");
+      setTextTickets(`Resumo - Tickets Vendidos/Disponíveis`);
+      setTextFinanceiro(`Resumo - Financeiro por Evento`);
     }
-  }, [periodo]);
+  }, [periodo, titleTemp]);
 
   return (
     <Grid container spacing={5} p={3}>
@@ -87,6 +103,7 @@ export default function DashboardGeral() {
         <Grid container rowSpacing={1} columnSpacing={2} p={2}>
           <Grid item xs={12}>
             <Card sx={{ mt: 2, p: 2 }}>
+              <Typography variant="h6">{textTickets}</Typography>
               {titleTemp ? (
                 eventos.map((evento, index) => (
                   <GraficoTicketsPorPeriodo
@@ -109,11 +126,24 @@ export default function DashboardGeral() {
         <Grid container rowSpacing={1} columnSpacing={2} p={2}>
           <Grid item xs={12}>
             <Card sx={{ mt: 2, p: 2 }}>
-              <GraficoFinanceiroGeral
-                dadosGrafico={graficoFinanceiroSeries}
-                eventos={categoriasGeraisEventos}
-                title={titleTemp}
-              />
+              <Typography variant="h6">{textFinanceiro}</Typography>
+              {titleTemp ? (
+                eventos.map((evento, index) => (
+                  <GraficoFinanceiroPorPeriodo
+                    key={index}
+                    evento={evento}
+                    periodo={periodo}
+                    categorias={categorias}
+                    dadosGrafico={seriesFin}
+                  />
+                ))
+              ) : (
+                <GraficoFinanceiroGeral
+                  dadosGrafico={graficoFinanceiroSeries}
+                  eventos={categoriasGeraisEventos}
+                  title={titleTemp}
+                />
+              )}
             </Card>
           </Grid>
         </Grid>

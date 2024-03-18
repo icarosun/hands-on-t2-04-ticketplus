@@ -36,6 +36,7 @@ const columnChartOptions: ApexOptions = {
   stroke: {
     show: true,
     width: [1, 1, 1, 3],
+    curve: "smooth",
   },
   yaxis: [
     {
@@ -66,12 +67,11 @@ interface DadosGrafico {
 }
 
 interface Graficos {
-  title: string;
   eventos: string[];
   dadosGrafico: DadosGrafico[];
 }
 
-export default function CustomGrafico(props: Graficos) {
+export default function GraficoFinanceiro(props: Graficos) {
   const theme = useTheme();
 
   const { primary, secondary } = theme.palette.text;
@@ -83,20 +83,11 @@ export default function CustomGrafico(props: Graficos) {
   const total = theme.palette.secondary.dark;
 
   const [series, setSeries] = useState<DadosGrafico[]>([]);
-  const [title, setTitle] = useState<string>("");
   const [options, setOptions] = useState<ApexOptions>(columnChartOptions);
 
   useEffect(() => {
-    if (props.title !== "") {
-      setTitle(`Resumo Financeiro por Evento - ${props.title}`);
-    } else {
-      setTitle(`Resumo Financeiro por Evento`);
-    }
     setOptions((prev) => ({
       ...prev,
-      title: {
-        text: title,
-      },
       xaxis: {
         categories: props.eventos,
       },
@@ -104,8 +95,6 @@ export default function CustomGrafico(props: Graficos) {
     }));
     setSeries(props.dadosGrafico);
   }, [
-    title,
-    props.title,
     meia_entrada,
     vip,
     inteira,

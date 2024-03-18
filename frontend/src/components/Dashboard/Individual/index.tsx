@@ -11,7 +11,7 @@ import { SelectChangeEvent } from "@mui/material";
 import GraficoFinanceiroGeral from "../../Graficos/GraficoFinanceiro";
 import { graficoFinanceiroSeries } from "../Data/graficoGeralFinanceiroData";
 import GraficoTicketsPorPeriodo from "../../Graficos/GraficoTicketsPorPeriodo";
-import { graficoIndGeral } from "../Data/graficoIndGeralData";
+import { graficoIndGeral, eventoInd } from "../Data/graficoIndGeralData";
 import CustomCard from "../../Cards";
 import EnhancedTable from "../Tabela";
 import {
@@ -20,10 +20,14 @@ import {
   ultSemana,
   UltMes,
 } from "../Data/graficoGeralPorPeriodoData";
-import { eventoInd } from "../Data/graficoIndGeralData";
 import { DadosGrafico } from "../../Graficos/GraficoIndividual";
 import { categoriasGeraisEventos } from "../Data/graficoGeralData";
 import GraficoIndividualGeral from "../../Graficos/GraficoIndividual";
+import GraficoFinanceiroPorPeriodo from "../../Graficos/GraficoFinanceiroPorPeriodo";
+import {
+  ultSemanaFinanceiro,
+  UltMesFinanceiro,
+} from "../Data/graficoGeralFinaceiroPorPeriodo";
 
 export default function DashboardIndividual() {
   const [titleTemp, setTitleTemp] = useState<string>("");
@@ -31,6 +35,7 @@ export default function DashboardIndividual() {
   const [evento, setEvento] = useState<string>("");
   const [categorias, setCategorias] = useState<string[]>([]);
   const [series, setSeries] = useState<DadosGrafico[]>([]);
+  const [seriesFin, setSeriesFin] = useState<DadosGrafico[]>([]);
 
   const handleChange = (event: SelectChangeEvent | "1" | "7" | "30") => {
     setPeriodo(event.target.value);
@@ -42,11 +47,12 @@ export default function DashboardIndividual() {
       setTitleTemp("Última Semana");
       setCategorias(categoriasSemana);
       setSeries(ultSemana);
-      console.log("chegou na semana");
+      setSeriesFin(ultSemanaFinanceiro);
     } else if (periodo === "30") {
       setTitleTemp("Último mês");
       setCategorias(categoriasMes);
       setSeries(UltMes);
+      setSeriesFin(UltMesFinanceiro);
     } else {
       setSeries(graficoIndGeral);
       setTitleTemp("");
@@ -111,11 +117,19 @@ export default function DashboardIndividual() {
         </Card>
       </Grid>
       <Grid item xs={12}>
-        <GraficoFinanceiroGeral
-          dadosGrafico={graficoFinanceiroSeries}
-          eventos={categoriasGeraisEventos}
-          title={titleTemp}
-        />
+        {titleTemp ? (
+          <GraficoFinanceiroPorPeriodo
+            evento={evento}
+            periodo={periodo}
+            categorias={categorias}
+            dadosGrafico={seriesFin}
+          />
+        ) : (
+          <GraficoFinanceiroGeral
+            dadosGrafico={graficoFinanceiroSeries}
+            eventos={categoriasGeraisEventos}
+          />
+        )}
       </Grid>
       <Grid item xs={12}>
         <EnhancedTable title={titleTemp} />
