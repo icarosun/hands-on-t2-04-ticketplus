@@ -6,7 +6,7 @@ import {
   getEvento,
   updateEvento,
   // removeEvento,
-  getCompraByEventoId,
+  getPedidoByEventoId,
   getEventosByOrganizador,
 } from "./evento.service";
 import { getTiposTickets } from "../tipoTicket/tipoTicket.service";
@@ -16,9 +16,10 @@ import { TiposTicketsEventosDto } from "../tiposTicketsEventos/tiposTicketsEvent
 import { Decimal } from "@prisma/client/runtime/library";
 import {
   CreateEventoReqType,
-  UpdateEventoReqType,
+  // UpdateEventoReqType,
   TipoTicketEventoType,
 } from "./evento.types";
+import { getCategoriaEventoById } from "../categoriaEvento/categoriaEvento.service";
 import { salvaImagemEvento, excluiImagemEvento } from "./eventos.utils";
 import { verificaTiposTickets } from "./eventos.utils";
 
@@ -106,7 +107,7 @@ async function create(req: Request, res: Response) {
   */
   try {
     const dadosEvento = req.body as CreateEventoReqType;
-    console.log(Object.keys(dadosEvento));
+    const categoriaEventoId = dadosEvento.categoriaEventoId;
     const organizadorId = req.session.uid;
     const tiposTicketsEventosReq: TipoTicketEventoType[] =
       dadosEvento.tiposTicketsEventos;
@@ -115,21 +116,24 @@ async function create(req: Request, res: Response) {
       tiposTickets,
       tiposTicketsEventosReq
     );
+    const categoriaEvento = await getCategoriaEventoById(categoriaEventoId);
+    if (!categoriaEvento)
+      return res.status(404).json({ msg: "Categoria de eventos não cadastrada" });
     if (!tiposTicketsValidos)
       return res.status(401).json({ msg: "Tipos de tickets inválidos" });
     let vagas = 0;
     for (let tipoTicketEventoReq of tiposTicketsEventosReq) {
       vagas = vagas + tipoTicketEventoReq.quantidade;
     }
-    console.log(vagas);
     const evento = {
       titulo: dadosEvento.titulo,
       descricao: dadosEvento.descricao,
       localizacao: dadosEvento.localizacao,
-      faixaEtaria: 10,
+      faixaEtaria: dadosEvento.faixaEtaria,
       vagas: vagas, 
       organizadorId: organizadorId,
-      categoriaEventoId: 1,
+      categoriaEventoId: categoriaEventoId,
+      enderecoEventoId: dadosEvento.enderecoEventoId
     } as CreateEventoDto;
     const novoEvento = await createEvento(evento);
     const idEvento = novoEvento.id;

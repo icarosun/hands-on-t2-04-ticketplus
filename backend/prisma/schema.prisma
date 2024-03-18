@@ -18,7 +18,7 @@ model Comprador {
   senha     String   @db.VarChar(100)
   //tipocomprador    String   @db.Char(36)
   saldo          Decimal  @db.Decimal(9, 2)
-  compras   Compra[]
+  pedidos    Pedido[]
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -51,18 +51,34 @@ model Evento {
   // imageUrl          String   @db.VarChar(100)
   organizadorId     String  @db.Char(36)
   categoriaEventoId Int     @db.Int()
+  enderecoEventoId  Int     @db.Int()
 
   ticket     Ticket[]
-  compras    Compra[]
+  pedidos    Pedido[]
   tiposTicketsEventos TiposTicketsEventos[]
 
   Organizador     Organizador     @relation(fields: [organizadorId], references: [id])
   CategoriaEvento CategoriaEvento @relation(fields: [categoriaEventoId], references: [id])
+  EnderecoEvento  EnderecosEventos  @relation(fields: [enderecoEventoId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("eventos")
+}
+
+model EnderecosEventos {
+  id      Int     @id @default(autoincrement()) @db.Int()
+  cep     String  @db.Char(8)
+  numero  Int?     @db.Int()
+  cidade  String  @db.VarChar(100)
+
+  eventos Evento[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("enderecosEventos")
 }
 
 model Ticket {
@@ -80,22 +96,37 @@ model Ticket {
   @@map("tickets")
 }
 
+model Pedido {
+  id              String   @id @default(uuid()) @db.Char(36)
+  formaPagamento  String   @db.VarChar(50)
+  valor           Decimal  @db.Decimal(9, 2)
+  status          String   @db.VarChar(50)
+  // quantidade     Int     @db.Int()
+
+  compradorId     String   @db.Char(36)
+  eventoId        Int      @db.Int()
+  tipoTicketId    Int      @db.Int()
+
+  comprador       Comprador      @relation(fields: [compradorId], references: [id])
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+  tipoTicket      TipoTicket     @relation(fields: [tipoTicketId], references: [id])
+
+  createdAt DateTime       @default(now()) @map("created_at")
+  updatedAt DateTime       @default(now()) @updatedAt @map("updated_at")
+
+  @@map("pedidos")
+}
+
 model Compra {
-  id             String  @id @default(uuid()) @db.Char(36)
-  formaPagamento String  @db.VarChar(50)
-  valor          Decimal  @db.Decimal(9, 2)
-  status         String  @db.VarChar(50)
+  id             String   @id @default(uuid()) @db.Char(36)
 
-  compradorId String     @db.Char(36)
-  ticketId  String       @unique @db.Char(36)
-  eventoId  Int          @db.Int()
+  pedidoId       String   @db.Char(36)
+  ticketId       String   @db.Char(36)
 
-  comprador Comprador    @relation(fields: [compradorId], references: [id])
-  ticket  Ticket         @relation(fields: [ticketId], references: [id])
-  evento  Evento         @relation(fields: [eventoId], references: [id])
+  ticket  Ticket          @relation(fields: [ticketId], references: [id])
 
-  createdAt DateTime     @default(now()) @map("created_at")
-  updatedAt DateTime     @default(now()) @updatedAt @map("updated_at")
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @default(now()) @updatedAt @map("updated_at")
 
   @@map("compras")
 }
@@ -106,6 +137,10 @@ model TipoTicket {
 
   ticket              Ticket[]
   tiposTicketsEventos TiposTicketsEventos[]
+  pedido              Pedido[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("tipoTickets")
 }
@@ -119,15 +154,21 @@ model TiposTicketsEventos {
   evento     Evento @relation(fields: [eventoId], references: [id])
   tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
 
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
   @@id([eventoId, tipoTicketId])
   @@map("tipoTicketsEventos")
 }
 
 model CategoriaEvento {
   id        Int    @id @default(autoincrement()) @db.Int()
-  descricao String @db.VarChar(50)
+  descricao String @unique @db.VarChar(50)
 
   evento Evento[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("categoriaEvento")
 }

@@ -1,6 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import ListaEventos from '../../components/ListaGeralEventos/ListaEventos.tsx';
 import CategoriaEventosCard from '../../components/AppBar/Categorias.tsx';
+
 export default function PaginaComprador() {
     return (
         <Box>

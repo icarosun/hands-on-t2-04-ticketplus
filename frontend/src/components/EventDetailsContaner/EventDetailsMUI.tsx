@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { CircularProgress } from '@mui/material';
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -26,6 +28,7 @@ import {
 import { TipoTicketsEventosType } from '../../services/cadastraEvento.service';
 import { tipoTicketsType } from '../../services/getTiposTickets';
 import { primeiraLetraMaiuscula } from '../../utils/primeiraLetraMaiuscula';
+import PayPalButton from '../PayPalButton';
 
 interface EventDetailsContainerProps {
     show: boolean;
@@ -49,6 +52,15 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
     const tiposTicketsDescricoes: string[] = [];
     const tiposTickets = detailsEvent.tiposTickets as tipoTicketsType[];
     const tiposTicketsEventos = detailsEvent.tiposTicketsEvento as TipoTicketsEventosType[];
+    const [mostraBotaoComprar, setMostraBotaoComprar] = useState<boolean>(false);
+
+    const estadoBotaoComprar = useSelector((state: any) => state.AppReducer);
+
+    useEffect(() => {
+        setMostraBotaoComprar(estadoBotaoComprar.mostraBotaoComprar);
+    }, [estadoBotaoComprar]);
+
+    const paginaComprador = window.location.href.includes("paginacomprador");
 
     for (let tipoTocketDescricao of tiposTickets) {
         tiposTicketsDescricoes.push(
@@ -164,9 +176,16 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                     <IconButton aria-label="share">
                         <ShareIcon />
                     </IconButton>
-                    <Button variant="contained" sx={{ marginLeft: 'auto'}} onClick={detailsEvent.handleCheckout} endIcon={<ShoppingBasketIcon />}>
-                        Comprar
-                    </Button>
+                    {
+                        !paginaComprador &&
+                        <Button variant="contained" sx={{ marginLeft: 'auto'}} onClick={detailsEvent.handleCheckout} endIcon={<ShoppingBasketIcon />}>
+                            Comprar
+                        </Button>
+                    }
+                    {
+                        paginaComprador &&
+                        <PayPalButton eventoId={detailsEvent.id}/>
+                    }
                 </CardActions>
             </Card>
         </Modal>

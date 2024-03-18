@@ -21,5 +21,5 @@ export interface CompraType {
 }
 
 export async function getIngressosByComprador (): Promise<CompraType | null> {
-    return HttpInstance.http.get("/compra");
+    return await HttpInstance.http.get("/compra");
 }

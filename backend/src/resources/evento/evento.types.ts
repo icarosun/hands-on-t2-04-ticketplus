@@ -20,6 +20,7 @@ export interface CreateEventoReqType {
   imageBase64: string;
   categoriaEventoId: number;
   tiposTicketsEventos: TipoTicketEventoType[];
+  enderecoEventoId: number;
 }
 
 export interface UpdateEventoReqType {
@@ -39,11 +40,11 @@ export type CreateEventoDto = Pick<
   | "titulo"
   | "descricao"
   | "localizacao"
-  | "vagas"
-  | "preco"
   | "faixaEtaria"
+  | "vagas"
   | "organizadorId"
   | "categoriaEventoId"
+  | "enderecoEventoId"
 >;
 
 export type UpdateEventoDto = Pick<

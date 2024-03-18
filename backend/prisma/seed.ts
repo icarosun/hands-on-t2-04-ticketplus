@@ -39,35 +39,35 @@ async function categoriaEvento() {
     data: [
       {
         id: 1,
-        descricao: "Festas e Festivais",
-      },
-      {
-        id: 2,
         descricao: "Teatros e Espetáculos",
       },
       {
-        id: 3,
+        id: 2,
         descricao: "Eventos Geeks",
       },
       {
-        id: 4,
+        id: 3,
         descricao: "Congressos e Palestras",
       },
       {
-        id: 5,
+        id: 4,
         descricao: "Infantil",
       },
       {
-        id: 6,
+        id: 5,
         descricao: "Passeios e Tour",
       },
       {
-        id: 7,
+        id: 6,
         descricao: "Cursos e Workshops"
       },
       {
-        id: 8,
+        id: 7,
         descricao: "Gastronomia"
+      },
+      {
+        id: 8,
+        descricao: "Outros"
       }
     ],
     skipDuplicates: true,
