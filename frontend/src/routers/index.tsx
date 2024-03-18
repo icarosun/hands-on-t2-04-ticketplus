@@ -6,12 +6,15 @@ import CompradorNavBarLayout from "../layout/Navbar/Comprador/index.tsx";
 import PaginaInicial from "../pages/PaginaInicial/index.tsx";
 import PaginaEvento from "../pages/Evento/index.tsx";
 import { TiposUsuarios } from "../utils/tipoUsuario.constants.ts";
+import DashboardGeral from "../components/Dashboard/Geral/";
+import DashboardIndividual from "../components/Dashboard/Individual/";
 import CheckoutNavBarLayout from "../layout/Navbar/Comprador/CheckoutNavBar.tsx";
 import CheckoutStepper from "../pages/CheckoutPage/CheckPage.tsx";
 import EventDetailsV1 from "../components/EventDetailsContaner/EventDetailsV1.tsx";
 import EventDetailsV2 from "../components/EventDetailsContaner/EventDetailsV2.tsx";
 import LoginNavBar from "../layout/Navbar/Main/LoginNavBar.tsx";
 import LoginClientPage from "../components/Login/LoginPage.tsx";
+
 
 const router = createBrowserRouter([
   {
@@ -46,6 +49,24 @@ const router = createBrowserRouter([
       {
         path: "/paginaorganizador",
         element: <PaginaOrganizador />,
+      },
+    ],
+  },
+  {
+    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <DashboardGeral />,
+      },
+    ],
+  },
+  {
+    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
+    children: [
+      {
+        path: "/dashboardIndividual",
+        element: <DashboardIndividual />,
       },
     ],
   },
