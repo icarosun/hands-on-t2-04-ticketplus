@@ -1,10 +1,10 @@
 import { Router } from "express";
-import localizacaoController from "./localizacao.controller";
+import enderecoController from "./endereco.controller";
 
 const router = Router();
 
 router.get("/:CEP",
-    localizacaoController.read
+    enderecoController.read
 );
 
 export default router;

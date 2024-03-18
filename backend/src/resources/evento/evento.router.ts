@@ -11,7 +11,7 @@ router.get(
   "/eventosOrganizador",
   usuarioAutenticado,
   isOrganizador,
-  eventoController.getAllEventosByOrganziador
+  eventoController.getEventosByOrganziador
 );
 
 router.get("/", eventoController.index);
