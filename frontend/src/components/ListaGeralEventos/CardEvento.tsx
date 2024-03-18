@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react'
 import { getDetalhesEvento } from "../../services/evento.service";
 import { DetalhesEventoType } from "../../services/evento.service";
-import { compraTicket } from "../../services/compra.service";
 import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
 import { Button, CardMedia, Typography, useTheme, Chip, } from '@mui/material';
 import { AspectRatio, CardContent, Card } from "@mui/joy";
@@ -49,12 +48,6 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                 setSnackbarMessage("Realize o login para fazer a compra");
                 setSnackbarOpen(true);
                 return
-            }
-            const resCompra = await compraTicket(eventoId, tipoTicketId);
-            if (resCompra.status === 201) {
-                setSnackbarMessage("Compra realizada com sucesso");
-                setSnackbarOpen(true);
-                location.reload();
             }
         } catch (error: any) {
             const errorStatus = error.response.status;
@@ -140,6 +133,37 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                     </Typography>
                 </CardContent>
             </Card>
+<<<<<<< HEAD
+=======
+
+            <EventDetails
+                show={showEventDetails}
+                detailsEvent={{
+                    id: props.id,
+                    imageUrl: eventoData.imageUrl,
+                    title: eventoData.titulo,
+                    description: eventoData.descricao,
+                    price: eventoData.preco,
+                    place: eventoData.localizacao,
+                    tiposTickets: tiposTickets,
+                    tiposTicketsEvento: tiposTicketsEvento,
+                    handleAddToCart: () => { },
+                    handleCheckout: handleCheckout,
+                }}
+                handleClose={handleCloseEventDetails}
+            />
+            
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={handleCloseSnackbar}
+            >
+                <Alert variant="filled" severity="info">
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
+>>>>>>> main
         </>
     )
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
@@ -24,6 +25,12 @@ const CarrouselProps = [
         image: 'https://www.ingressomix.com/images/banners/65ecba48e7cfd.jpg',
     }
 ];
+=======
+import { Box, Grid } from '@mui/material';
+import ListaEventos from '../../components/ListaGeralEventos/ListaEventos.tsx';
+import CategoriaEventosCard from '../../components/AppBar/Categorias.tsx';
+
+>>>>>>> main
 export default function PaginaComprador() {
     const [index, setIndex] = useState(0);
     const content = CarrouselProps[index];

@@ -1,6 +1,5 @@
 import { Router } from "express";
 import compraController from "./compra.controller";
-import { compraSchema } from "./compra.schemas";
 import { validarSchema } from "../../middlewares/validarSchema";
 import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
 import { isComprador } from "../../middlewares/isComprador";
@@ -10,7 +9,6 @@ const router = Router();
 router.post("/",
     isComprador,
     usuarioAutenticado,
-    validarSchema(compraSchema),
     compraController.create
 );
 

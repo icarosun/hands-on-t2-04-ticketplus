@@ -31,6 +31,7 @@ declare module "express-session" {
     sobrenomeUsuario: string;
     email: string;
     tipoUsuarioId: string;
+    pedidoId: string;
     // carrinho: CompraIngresso[];
   }
 }
