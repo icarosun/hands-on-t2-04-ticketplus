@@ -86,7 +86,6 @@ const AppBarUsuario = (props: AppBarProps) => {
 
   let componentesComprador: any[] = [];
 
-<<<<<<< HEAD
   if (props.tipoUsuario === TiposUsuarios.COMPRADOR) {
     componentesComprador = [
       <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -106,19 +105,6 @@ const AppBarUsuario = (props: AppBarProps) => {
     { title: 'Esporte', url: '#' },
     { title: 'Cursos', url: '#' },
   ];
-=======
-  const AppBarStyle: object = {
-    backgroundColor: "primary",
-  };
-
-  const ToolbarStyle: object = {
-    marginLeft: "20px",
-    marginRight: "20px",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  };
->>>>>>> main
 
   return (
     <Box>
@@ -144,7 +130,6 @@ const AppBarUsuario = (props: AppBarProps) => {
             <div
               style={{ flex: 1, textAlign: 'center' }}
             >
-<<<<<<< HEAD
               <img width="150" height="80" src={LogoTicketPlus} />
             </div>
             <Input
@@ -191,65 +176,6 @@ const AppBarUsuario = (props: AppBarProps) => {
         </>
       )}
     </Box>
-=======
-              <MenuList>
-                <MenuItem>
-                  <ListItemText>Cut</ListItemText>
-                </MenuItem>
-                <MenuItem>
-                  <ListItemText>Copy</ListItemText>
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </Box>
-          <ConfirmationNumberIcon
-            sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-          />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 3,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".2rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-            key={`tp-2`}
-          >
-            TicketPlus
-          </Typography>
-
-          {componentesComprador}
-        </Box>
-
-        <Box
-          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
-        >
-          {usuarioComprador &&
-            <>
-              <MeusIngressos ingressos={ingressos}></MeusIngressos>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Pesquisar Evento"
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </Search>
-            </>
-          }
-          <UserDropdownMenu tipoUsuario={props.tipoUsuario} />
-        </Box>
-      </Toolbar>
-    </AppBar>
->>>>>>> main
   );
 };
 

@@ -133,37 +133,6 @@ export default function CardEvento(props: { id: number; url: string | undefined;
                     </Typography>
                 </CardContent>
             </Card>
-<<<<<<< HEAD
-=======
-
-            <EventDetails
-                show={showEventDetails}
-                detailsEvent={{
-                    id: props.id,
-                    imageUrl: eventoData.imageUrl,
-                    title: eventoData.titulo,
-                    description: eventoData.descricao,
-                    price: eventoData.preco,
-                    place: eventoData.localizacao,
-                    tiposTickets: tiposTickets,
-                    tiposTicketsEvento: tiposTicketsEvento,
-                    handleAddToCart: () => { },
-                    handleCheckout: handleCheckout,
-                }}
-                handleClose={handleCloseEventDetails}
-            />
-            
-            <Snackbar
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-                open={snackbarOpen}
-                autoHideDuration={3000}
-                onClose={handleCloseSnackbar}
-            >
-                <Alert variant="filled" severity="info">
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar>
->>>>>>> main
         </>
     )
 }

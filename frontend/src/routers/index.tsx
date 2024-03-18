@@ -50,7 +50,6 @@ const router = createBrowserRouter([
     ],
   },
   {
-<<<<<<< HEAD
     element: <CheckoutNavBarLayout tipoUsuario={TiposUsuarios.COMPRADOR} />,
     children: [
       {
@@ -67,12 +66,7 @@ const router = createBrowserRouter([
         element: <LoginClientPage />,
       }
     ],
-  },
-=======
-    path: "/evento/:id",
-    element: <PaginaEvento />
   }
->>>>>>> main
 ]);
 
 export default router;
