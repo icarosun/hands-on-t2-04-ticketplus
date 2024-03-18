@@ -10,7 +10,7 @@ import dashboardRouter from "../resources/dashboard/dashbord.router";
 import imagemRouter from '../resources/imagem/imagem.router';
 import tipoTicketRouter from "../resources/tipoTicket/tipoTicket.router";
 import tiposTicketsEventosRouter from "../resources/tiposTicketsEventos/tiposTicketsEventos.router"
-import localizaoRouter from "../resources/localizacao/localizacao.router";
+import enderecoRouter from "../resources/endereco/endereco.router";
 import pagamentoRouter from "../resources/pagamento/pagamento.router";
 import pedidoRouter from "../resources/pedido/pedido.router";
 
@@ -76,8 +76,8 @@ router.use(
 );
 
 router.use(
-  "/localizacao",
-  localizaoRouter
+  "/endereco",
+  enderecoRouter
 );
 
 router.use(

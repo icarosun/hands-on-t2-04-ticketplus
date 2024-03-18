@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { getLocalizacaoByCEP } from "./localizacao.service";
+import { getDadosEnderecoByCEP } from "./endereco.service";
 
 async function read (req: Request, res: Response) {
     const CEP = req.params.CEP;
     try {
-        const localizacao = await getLocalizacaoByCEP(CEP);
+        const localizacao = await getDadosEnderecoByCEP(CEP);
         console.log(localizacao);
         if (!localizacao)
             return res.status(404).json({ msg: "CEP inválido" });
