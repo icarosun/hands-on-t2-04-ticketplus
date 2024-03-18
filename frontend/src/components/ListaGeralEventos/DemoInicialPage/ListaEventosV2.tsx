@@ -1,38 +1,13 @@
 // ** MUI Imports
-import { productData } from "./listaDados.tsx";
-<<<<<<< HEAD
-import CardEvento from './CardEvento.tsx'
 import Box from '@mui/joy/Box';
 import Grid from '@mui/joy/Grid';
+import { productDataV2 } from "./listaDadosV2.tsx";
+import CardEvento from './CardEventoV2.tsx'
 import Alert from "@mui/joy/Alert";
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
-import { Typography } from "@mui/joy";
+import Typography from '@mui/joy/Typography';
 
-const ListaEventos = () => {
-=======
-import CardEvento from '../CardEvento/index.tsx';
-import { Player, Controls } from '@lottiefiles/react-lottie-player';
-import Chip from '@mui/joy/Chip';
-
-const ListaEventos = () => {
-    const renderCardEvent = () => {
-        return productData.map((eventCard, index) => {
-            return (
-                <Grid key={index}
-                >
-                    <CardEvento
-                        id={eventCard.id}
-                        title={eventCard.titulo}
-                        imageUrl={eventCard.imageUrl}
-                        place={eventCard.localizacao}
-                        description={eventCard.descricao}
-                    />
-                </Grid>
-            )
-        })
-    }
-
->>>>>>> main
+const ListaEventosV2 = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Alert variant="plain" startDecorator={<EmojiEventsOutlinedIcon />}>
@@ -46,7 +21,7 @@ const ListaEventos = () => {
                 container
                 spacing={2}
             >
-                {productData.map((eventCard, index) => (
+                {productDataV2.map((eventCard, index) => (
                     <Grid
                         key={index}
                         xs={12}
@@ -71,4 +46,4 @@ const ListaEventos = () => {
     )
 }
 
-export default ListaEventos
+export default ListaEventosV2

@@ -20,12 +20,14 @@ const MeusIngressos: React.FC<IngressosCompradosProps> = ({ ingressos }) => {
     return (
         <React.Fragment>
             <Button
+            color="neutral"
+            variant='outlined'
                 onClick={() => setOpen(true)}
                 startDecorator={<ConfirmationNumberOutlinedIcon />}
                 sx={{
                     "--Button-gap": "10px", marginLeft: 2
                 }}
-            >Meus Tickets</Button>
+            >Tickets Comprados</Button>
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}

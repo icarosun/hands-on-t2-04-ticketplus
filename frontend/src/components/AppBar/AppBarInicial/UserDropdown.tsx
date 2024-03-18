@@ -32,7 +32,7 @@ const UserDropdown = () => {
 
   return (
     <React.Fragment>
-      <Button onClick={handleDropdownOpen} variant="outlined" sx={{color:'#fff'}} size='md'>Crie seu Evento</Button>
+      <Button onClick={handleDropdownOpen} variant="outlined" color='neutral' size='md' sx={{marginRight:1}}>Crie seu Evento</Button>
       <Menu
         anchorEl={anchorEl}
         open={open}
