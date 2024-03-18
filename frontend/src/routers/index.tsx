@@ -5,6 +5,12 @@ import PaginaOrganizador from "../pages/Organizador";
 import CompradorNavBarLayout from "../layout/Navbar/Comprador/index.tsx";
 import PaginaInicial from "../pages/PaginaInicial/index.tsx";
 import { TiposUsuarios } from "../utils/tipoUsuario.constants.ts";
+import CheckoutNavBarLayout from "../layout/Navbar/Comprador/CheckoutNavBar.tsx";
+import CheckoutStepper from "../pages/CheckoutPage/CheckPage.tsx";
+import EventDetailsV1 from "../components/EventDetailsContaner/EventDetailsV1.tsx";
+import EventDetailsV2 from "../components/EventDetailsContaner/EventDetailsV2.tsx";
+import LoginNavBar from "../layout/Navbar/Main/LoginNavBar.tsx";
+import LoginClientPage from "../components/Login/LoginPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +20,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <PaginaInicial />,
       },
+      {
+        path: "/detalhes-do-evento-v2/:id",
+        element: <EventDetailsV2 />,
+      }
     ],
   },
   {
@@ -23,6 +33,10 @@ const router = createBrowserRouter([
         path: "/paginacomprador",
         element: <PaginaComprador />,
       },
+      {
+        path: "/detalhes-do-evento-v1/:id",
+        element: <EventDetailsV1 />,
+      }
     ],
   },
   {
@@ -32,6 +46,24 @@ const router = createBrowserRouter([
         path: "/paginaorganizador",
         element: <PaginaOrganizador />,
       },
+    ],
+  },
+  {
+    element: <CheckoutNavBarLayout tipoUsuario={TiposUsuarios.COMPRADOR} />,
+    children: [
+      {
+        path: "/checkout",
+        element: <CheckoutStepper></CheckoutStepper>,
+      },
+    ],
+  },
+  {
+    element: <LoginNavBar  />,
+    children: [
+      {
+        path: "/login_cliente",
+        element: <LoginClientPage />,
+      }
     ],
   },
 ]);
