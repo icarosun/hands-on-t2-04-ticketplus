@@ -1,26 +1,33 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
+
 import {
   createEvento,
   getAllEventos,
   getEvento,
   updateEvento,
   // removeEvento,
-  getCompraByEventoId,
+  getPedidoByEventoId,
   getEventosByOrganizador,
 } from "./evento.service";
+import { EnderecosEventos } from "@prisma/client";
 import { getTiposTickets } from "../tipoTicket/tipoTicket.service";
 import { createTiposTicketsEventos } from "../tiposTicketsEventos/tiposTicketsEventos.service";
 import { EventoDto, CreateEventoDto, UpdateEventoDto } from "./evento.types";
+import { CreateEnderecoEventoDto } from "../endereco/endereco.types";
+import { DadosEnderecoType } from "../endereco/endereco.types";
 import { TiposTicketsEventosDto } from "../tiposTicketsEventos/tiposTicketsEventos.types";
 import { Decimal } from "@prisma/client/runtime/library";
 import {
   CreateEventoReqType,
-  UpdateEventoReqType,
+  // UpdateEventoReqType,
   TipoTicketEventoType,
 } from "./evento.types";
+import { getCategoriaEventoById } from "../categoriaEvento/categoriaEvento.service";
 import { salvaImagemEvento, excluiImagemEvento } from "./eventos.utils";
 import { verificaTiposTickets } from "./eventos.utils";
+import { createEnderecoEvento, getEnderecoEvento } from "../endereco/endereco.service";
+import { getDadosEnderecoByCEP } from "../endereco/endereco.service";
 
 dotenv.config();
 
@@ -62,7 +69,6 @@ async function read(req: Request, res: Response) {
     const dadosEvento = {
       titulo: evento.titulo,
       descricao: evento.descricao,
-      localizacao: evento.localizacao,
       vagas: evento.vagas,
       imageUrl: imageUrl,
     };
@@ -72,7 +78,7 @@ async function read(req: Request, res: Response) {
   }
 }
 
-async function getAllEventosByOrganziador(req: Request, res: Response) {
+async function getEventosByOrganziador(req: Request, res: Response) {
   const organizadorId = req.session.uid;
   try {
     const eventosOrganizador = await getEventosByOrganizador(organizadorId);
@@ -106,7 +112,16 @@ async function create(req: Request, res: Response) {
   */
   try {
     const dadosEvento = req.body as CreateEventoReqType;
-    console.log(Object.keys(dadosEvento));
+    
+    const categoriaEventoId = dadosEvento.categoriaEventoId;
+    const titulo = dadosEvento.titulo;
+    const descricao = dadosEvento.descricao;
+    const localizacao = dadosEvento.localizacao;
+    const faixaEtaria = dadosEvento.faixaEtaria;
+    const cep = dadosEvento.cep;
+    const numero = dadosEvento.numero;
+    
+
     const organizadorId = req.session.uid;
     const tiposTicketsEventosReq: TipoTicketEventoType[] =
       dadosEvento.tiposTicketsEventos;
@@ -115,24 +130,47 @@ async function create(req: Request, res: Response) {
       tiposTickets,
       tiposTicketsEventosReq
     );
+    const categoriaEvento = await getCategoriaEventoById(categoriaEventoId);
+    if (!categoriaEvento)
+      return res.status(404).json({ msg: "Categoria de eventos não cadastrada" });
     if (!tiposTicketsValidos)
       return res.status(401).json({ msg: "Tipos de tickets inválidos" });
     let vagas = 0;
     for (let tipoTicketEventoReq of tiposTicketsEventosReq) {
       vagas = vagas + tipoTicketEventoReq.quantidade;
     }
-    console.log(vagas);
+
+    const enderecoCadastrado = await getEnderecoEvento(cep, numero) as EnderecosEventos;
+    let enderecoEventoId: number | null = null;
+    let cidade: string | null = null;
+    if (!!enderecoCadastrado) {
+      enderecoEventoId = enderecoCadastrado.id;
+      cidade = enderecoCadastrado.cidade;
+    } else {
+      const cidade = (await getDadosEnderecoByCEP(dadosEvento.cep) as DadosEnderecoType).localidade;
+      const dadosNovoEndereco = {
+        cep: dadosEvento.cep,
+        numero: dadosEvento.numero,
+        cidade: cidade
+      } as CreateEnderecoEventoDto;
+      const novoEndereco = await createEnderecoEvento(dadosNovoEndereco);
+      enderecoEventoId = novoEndereco.id;
+    }
+    
     const evento = {
-      titulo: dadosEvento.titulo,
-      descricao: dadosEvento.descricao,
-      localizacao: dadosEvento.localizacao,
-      faixaEtaria: 10,
+      titulo: titulo,
+      descricao: descricao,
+      localizacao: localizacao,
+      faixaEtaria: faixaEtaria,
       vagas: vagas, 
       organizadorId: organizadorId,
-      categoriaEventoId: 1,
+      categoriaEventoId: categoriaEventoId,
+      enderecoEventoId: enderecoEventoId
     } as CreateEventoDto;
     const novoEvento = await createEvento(evento);
     const idEvento = novoEvento.id;
+
+
     for (let tipoTicketEventoReq of tiposTicketsEventosReq) {
       const novoTipoTicketEvento = {
         ...tipoTicketEventoReq,
@@ -141,6 +179,7 @@ async function create(req: Request, res: Response) {
       } as TiposTicketsEventosDto;
       await createTiposTicketsEventos(novoTipoTicketEvento);
     }
+
     let imageBase64 = dadosEvento.imageBase64;
     imageBase64 = imageBase64.split(";base64,")[1];
     salvaImagemEvento(idEvento, imageBase64);
@@ -222,7 +261,7 @@ async function update(req: Request, res: Response) {
 export default {
   index,
   read,
-  getAllEventosByOrganziador,
+  getEventosByOrganziador,
   create,
   update /*, remove*/,
 };

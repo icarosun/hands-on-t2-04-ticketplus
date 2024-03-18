@@ -2,7 +2,7 @@ import { Evento } from "@prisma/client";
 
 export type EventoDto = Pick<
   Evento,
-  "titulo" | "descricao" | "localizacao" | "vagas" | "faixaEtaria"
+  "titulo" | "descricao" | "vagas" | "faixaEtaria"
 >;
 
 export interface TipoTicketEventoType {
@@ -20,13 +20,14 @@ export interface CreateEventoReqType {
   imageBase64: string;
   categoriaEventoId: number;
   tiposTicketsEventos: TipoTicketEventoType[];
+  cep: string;
+  numero: number;
 }
 
 export interface UpdateEventoReqType {
   id: number;
   titulo: string;
   descricao: string;
-  localizacao: string;
   vagas: number;
   faixaEtaria: number;
   imageBase64: string;
@@ -39,11 +40,11 @@ export type CreateEventoDto = Pick<
   | "titulo"
   | "descricao"
   | "localizacao"
-  | "vagas"
-  | "preco"
   | "faixaEtaria"
+  | "vagas"
   | "organizadorId"
   | "categoriaEventoId"
+  | "enderecoEventoId"
 >;
 
 export type UpdateEventoDto = Pick<

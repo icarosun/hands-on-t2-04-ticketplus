@@ -5,4 +5,6 @@ export type TiposTicketsEventosDto = Pick<TiposTicketsEventos,
     | "tipoTicketId"
     | "quantidade"
     | "preco"
+    | "createdAt"
+    | "updatedAt"
 >;

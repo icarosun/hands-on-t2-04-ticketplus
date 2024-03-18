@@ -10,6 +10,9 @@ import dashboardRouter from "../resources/dashboard/dashbord.router";
 import imagemRouter from '../resources/imagem/imagem.router';
 import tipoTicketRouter from "../resources/tipoTicket/tipoTicket.router";
 import tiposTicketsEventosRouter from "../resources/tiposTicketsEventos/tiposTicketsEventos.router"
+import enderecoRouter from "../resources/endereco/endereco.router";
+import pagamentoRouter from "../resources/pagamento/pagamento.router";
+import pedidoRouter from "../resources/pedido/pedido.router";
 
 
 const router = Router();
@@ -70,6 +73,21 @@ router.use(
 router.use(
   "/tiposTicketsEventos",
   tiposTicketsEventosRouter
+);
+
+router.use(
+  "/endereco",
+  enderecoRouter
+);
+
+router.use(
+  "/pagamento",
+  pagamentoRouter
+);
+
+router.use(
+  "/pedido",
+  pedidoRouter
 );
 
 export default router;
