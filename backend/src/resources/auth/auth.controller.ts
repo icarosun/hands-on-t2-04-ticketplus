@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { getCompradorByEmail } from "../comprador/comprador.service";
+import { getCompradorByCPF, getCompradorByEmail } from "../comprador/comprador.service";
 import { getOrganizadorByEmail } from "../organizador/organizador.service";
 import { autenticar } from "./auth.service";
 import {
@@ -24,8 +24,11 @@ async function cadastrarComprador (req: Request, res: Response) {
 	try {
 		const compradorEncontrado = await getCompradorByEmail(usuario.email);
 		const organizadorEncontrado = await getOrganizadorByEmail(usuario.email);
+		const cpfEncontrado = await getCompradorByCPF(usuario.cpf);
 		if (compradorEncontrado || organizadorEncontrado)
-			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" })
+			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o email informado" });
+		if (cpfEncontrado)
+			return res.status(409).json({ msg: "Ja existe um usuario cadastrado com o CPF informado" });
 		await cadastrarCompradorService(req.body);
 		return res.status(201).json({ msg: "Usuario cadastrado com sucesso" });
 	} catch (error) {

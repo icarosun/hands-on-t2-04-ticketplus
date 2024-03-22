@@ -11,6 +11,7 @@ export type CompradorDto = Pick<Comprador,
 export type CreateCompradorDto = Pick<Comprador,
     | "nome"
     | "email"
+    | "cpf"
     | "senha"
 >;
 
