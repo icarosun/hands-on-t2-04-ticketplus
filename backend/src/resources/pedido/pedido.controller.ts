@@ -36,9 +36,6 @@ async function create(req: Request, res: Response) {
     let intent = "CAPTURE";
     
     try {
-      // Restrição de quantidade máxima de tickets que podem ser comprados está implementada no schema do Joi. É equivalente a:
-      // if (quantity < 1 || quantity > 5) res.status(401).json({ msg: "Podem ser comprados no máximo 5 tickets por vez" });
-
       const comprador = (await getCompradorByEmail(emailComprador)) as Comprador;
       const evento = await getEvento(eventoId);
       if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
