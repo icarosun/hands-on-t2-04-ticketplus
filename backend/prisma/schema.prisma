@@ -17,7 +17,10 @@ model Comprador {
   email     String   @unique @db.VarChar(100)
   cpf       String   @unique @db.Char(11)
   senha     String   @db.VarChar(100)
+
   pedidos    Pedido[]
+  totalTicketsComprados TotalTicketsComprados[]
+  
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -55,6 +58,7 @@ model Evento {
   ticket     Ticket[]
   pedidos    Pedido[]
   tiposTicketsEventos TiposTicketsEventos[]
+  totalTicketsComprados TotalTicketsComprados[]
 
   Organizador     Organizador     @relation(fields: [organizadorId], references: [id])
   CategoriaEvento CategoriaEvento @relation(fields: [categoriaEventoId], references: [id])
@@ -165,6 +169,9 @@ model TotalTicketsComprados {
   cpfComprador          String  @db.Char(11)
   eventoId              Int     @db.Int()
   totalTicketsComprados Int     @db.Int()
+
+  comprador     Comprador    @relation(fields: [cpfComprador], references: [cpf])
+  evento        Evento    @relation(fields: [eventoId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")

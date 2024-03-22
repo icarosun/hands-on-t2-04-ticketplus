@@ -41,6 +41,7 @@ async function create(req: Request, res: Response) {
       if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
       if (evento.vagas === 0)
         return res.status(401).json({ msg: "Evento sem vagas disponiveis" });
+
   
       const tipoTicketEvento = await getTipoTicketEvento(eventoId, tipoTicketId);
       if (!tipoTicketEvento)
