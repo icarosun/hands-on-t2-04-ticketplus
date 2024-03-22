@@ -59,7 +59,6 @@ async function create(req: Request, res: Response) {
       const valorTotalNumber = valorNumber * quantity;
       const valorTotalDecimal = valorTotalNumber as unknown as Decimal;
   
-  
       if (PAYPAL_CLIENT_ID === "undefined" || PAYPAL_CLIENT_SECRET === "undefined")
         return res.status(401).json({ msg: "Informe todas as credenciais" });
       

@@ -164,7 +164,7 @@ model TotalTicketsComprados {
   id                    Int     @id @unique() @default(autoincrement()) @db.Int()
   cpfComprador          String  @db.Char(11)
   eventoId              Int     @db.Int()
-  totalTicketsComprados Int @db.Int()
+  totalTicketsComprados Int     @db.Int()
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")

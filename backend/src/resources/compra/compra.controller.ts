@@ -77,9 +77,11 @@ async function create(req: Request, res: Response) {
     );
     
     req.session.pedidoId = undefined;
+
+    const quantidade = pedido?.quantidade as number;
     
-    await updateQuantidadeTiposTicketsEventos(eventoId, tipoTicketId, 1); // 1 ticket por vez
-    await updateVagasEvento(eventoId, 1); // 1 ticket por vez
+    await updateQuantidadeTiposTicketsEventos(eventoId, tipoTicketId, quantidade);
+    await updateVagasEvento(eventoId, quantidade);
     return res.status(201).json({ msg: "Compra realizada com sucesso" }); 
     
   } catch (error) {
