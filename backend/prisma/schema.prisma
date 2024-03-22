@@ -99,9 +99,9 @@ model Ticket {
 model Pedido {
   id              String   @id @default(uuid()) @db.Char(36)
   formaPagamento  String   @db.VarChar(50)
-  status          String   @db.VarChar(50)
   quantidade      Int      @db.Int()
   valor           Decimal  @db.Decimal(9, 2)
+  status          String   @db.VarChar(50)
 
   compradorId     String   @db.Char(36)
   eventoId        Int      @db.Int()
