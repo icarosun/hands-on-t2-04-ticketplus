@@ -11,6 +11,7 @@ import { LoginDto } from "./auth.types";
 import { CreateCompradorDto } from "../comprador/comprador.types";
 import { CreateOrganizadorDto } from "../organizador/organizador.types";
 import { TiposUsuarios } from "../tipoUsuario/tipoUsuario.constants";
+import { Comprador } from "@prisma/client";
 
 async function cadastrarComprador (req: Request, res: Response) {
 	/*
@@ -67,7 +68,7 @@ async function login (req: Request, res: Response) {
    */
 	const credenciais = req.body as LoginDto;
 	try {
-		const usuario = await autenticar(credenciais);
+		let usuario = await autenticar(credenciais);
 		if (!usuario)
 			return res.status(401).json({ msg: "Email e/ou senha invalidos" });
 		req.session.uid = usuario.id;
@@ -76,6 +77,8 @@ async function login (req: Request, res: Response) {
 		const isComprador = !Object.keys(usuario).includes('cnpj');
 		let tipoUsuario = ''
 		if (isComprador) {
+			usuario = usuario as Comprador;
+			req.session.cpf = usuario.cpf;
 			req.session.tipoUsuarioId = TiposUsuarios.COMPRADOR_ID
 			tipoUsuario = TiposUsuarios.COMPRADOR
 		} else {

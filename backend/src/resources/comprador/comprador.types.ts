@@ -4,8 +4,8 @@ import { Comprador } from "@prisma/client";
 export type CompradorDto = Pick<Comprador,
     | "nome"
     | "email"
+    | "cpf"
     | "senha"
-    | "saldo"
 >;
 
 export type CreateCompradorDto = Pick<Comprador,

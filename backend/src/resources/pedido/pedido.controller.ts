@@ -7,6 +7,7 @@ import { getTipoTicketEvento } from "../tiposTicketsEventos/tiposTicketsEventos.
 import { Decimal } from "@prisma/client/runtime/library";
 import { createPedido } from "./pedido.service";
 import { createOrder, getPayPalTokenService } from "../pagamento/pagamento.service";
+import { getTotalTicketsComprados } from "../totalTicketsComprados/totalTicketsComprados.service";
 import { Comprador, Pedido } from "@prisma/client";
 import { PedidoRes } from "./pedido.types";
 
@@ -32,7 +33,8 @@ async function create(req: Request, res: Response) {
     const tipoTicketId = dadosPedido.tipoTicketId;
 
     const emailComprador = req.session.email;
-    const compradorId = req.session.uid;            
+    const compradorId = req.session.uid;
+    const cpfComprador = req.session.cpf;
     let intent = "CAPTURE";
     
     try {
@@ -41,18 +43,30 @@ async function create(req: Request, res: Response) {
       if (!evento) return res.status(404).json({ msg: "Evento nao encontrado" });
       if (evento.vagas === 0)
         return res.status(401).json({ msg: "Evento sem vagas disponiveis" });
+      
+      const totalTicketsComprados = (await getTotalTicketsComprados(cpfComprador, eventoId))?.totalTicketsComprados;
+      if (totalTicketsComprados) {
+        const totalTicketsCompradosNumber = parseInt(String(totalTicketsComprados));
+        if (totalTicketsCompradosNumber === 5)
+          return res.status(401).json({ msg: "Não é possível realizar o pedido. Cinco tickets já foram comprados para esse evento" });
+        if (Math.abs(totalTicketsCompradosNumber + quantity) > 5) {
+          const quantidadeMaxima = 5 - totalTicketsCompradosNumber;
+          let s = "";
+          if (quantidadeMaxima > 1) s = "s";
+          return res.status(401).json({ msg: `Você pode comprar no máximo mais ${quantidadeMaxima} ticket${s} para este evento`});
+        }
+      }
 
-  
       const tipoTicketEvento = await getTipoTicketEvento(eventoId, tipoTicketId);
       if (!tipoTicketEvento)
         return res
           .status(404)
-          .json({ msg: "O tipo de ticket solicitado nao existe" });
+          .json({ msg: "O tipo de ticket solicitado não existe" });
       if (tipoTicketEvento.quantidade === 0)
         return res
           .status(401)
           .json({
-            msg: "O tipo de ticket requisitado nao possui vagas disponiveis",
+            msg: "O tipo de ticket requisitado não possui vagas disponiveis",
           });
 
       const valor: Decimal = tipoTicketEvento?.preco as unknown as Decimal;
@@ -81,11 +95,10 @@ async function create(req: Request, res: Response) {
             } as CreatePedidoDto;
             const novoPedido = await createPedido(novoPedidoDados);
 
-            req.session.pedidoId = novoPedido.id;
-
             return res.status(201).send({
               "id": dadosPedidoPaypal.id,
-              "status": dadosPedidoPaypal.status
+              "status": dadosPedidoPaypal.status,
+              "pedidoId": novoPedido.id
             });
         });
     } catch (error) {

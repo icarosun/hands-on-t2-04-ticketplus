@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/detalhes-do-evento-v2/:id",
-        element: <EventDetailsV1 />,
+        element: <EventDetailsV2 />,
       }
     ],
   },
