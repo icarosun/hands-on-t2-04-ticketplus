@@ -51,10 +51,13 @@ model Evento {
   faixaEtaria       Int     @db.Int
   vagas             Int     @db.Int
   // imageUrl          String   @db.VarChar(100)
+  dataInicio        DateTime @db.DateTime()
+  dataFim           DateTime @db.DateTime()
+
   organizadorId     String  @db.Char(36)
   categoriaEventoId Int     @db.Int()
   enderecoEventoId  Int     @db.Int()
-
+  
   ticket     Ticket[]
   pedidos    Pedido[]
   tiposTicketsEventos TiposTicketsEventos[]

@@ -66,7 +66,7 @@ async function create(req: Request, res: Response) {
         return res
           .status(401)
           .json({
-            msg: "O tipo de ticket requisitado não possui vagas disponiveis",
+            msg: "O tipo de ticket solicitado não possui vagas disponiveis",
           });
 
       const valor: Decimal = tipoTicketEvento?.preco as unknown as Decimal;

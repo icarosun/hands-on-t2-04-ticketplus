@@ -4,7 +4,7 @@ import PaginaComprador from "../pages/Comprador/index.tsx";
 import PaginaOrganizador from "../pages/Organizador";
 import CompradorNavBarLayout from "../layout/Navbar/Comprador/index.tsx";
 import PaginaInicial from "../pages/PaginaInicial/index.tsx";
-import PaginaEvento from "../pages/Evento/index.tsx";
+// import PaginaEvento from "../pages/Evento/index.tsx";
 import { TiposUsuarios } from "../utils/tipoUsuario.constants.ts";
 import CheckoutNavBarLayout from "../layout/Navbar/Comprador/CheckoutNavBar.tsx";
 import CheckoutStepper from "../pages/CheckoutPage/CheckPage.tsx";

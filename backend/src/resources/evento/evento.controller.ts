@@ -5,9 +5,9 @@ import {
   createEvento,
   getAllEventos,
   getEvento,
-  updateEvento,
+  // updateEvento,
   // removeEvento,
-  getPedidoByEventoId,
+  // getPedidoByEventoId,
   getEventosByOrganizador,
 } from "./evento.service";
 import { EnderecosEventos } from "@prisma/client";
@@ -120,7 +120,13 @@ async function create(req: Request, res: Response) {
     const faixaEtaria = dadosEvento.faixaEtaria;
     const cep = dadosEvento.cep;
     const numero = dadosEvento.numero;
+    const dataInicio = dadosEvento.dataInicio;
+    const dataFim = dadosEvento.dataFim;
     
+    const dataInicioDate = new Date(dataInicio);
+    const dataFimDate = new Date(dataFim);
+    if (dataInicioDate >= dataFimDate)
+      return res.status(401).json({ msg: "O fim do evento deve acontecer a após seu início" });
 
     const organizadorId = req.session.uid;
     const tiposTicketsEventosReq: TipoTicketEventoType[] =
@@ -162,10 +168,12 @@ async function create(req: Request, res: Response) {
       descricao: descricao,
       localizacao: localizacao,
       faixaEtaria: faixaEtaria,
-      vagas: vagas, 
+      vagas: vagas,
+      dataInicio: dataInicio,
+      dataFim: dataFim,
       organizadorId: organizadorId,
       categoriaEventoId: categoriaEventoId,
-      enderecoEventoId: enderecoEventoId
+      enderecoEventoId: enderecoEventoId,
     } as CreateEventoDto;
     const novoEvento = await createEvento(evento);
     const idEvento = novoEvento.id;
@@ -203,6 +211,8 @@ async function update(req: Request, res: Response) {
   return res.status(200).json({ msg: "OK" });
   /*const dadosEvento = req.body as UpdateEventoReqType;
   const idEvento = dadosEvento.id;
+  const dataInicio = dadosEvento.dataInicio;
+    const dataFim = dadosEvento.dataFim;
   const tiposTicketsEventosReq: TipoTicketEventoType[] = dadosEvento.tiposTicketsEventos;
   const organizadorId = req.session.uid;
   const tiposTickets = await getTiposTickets();
@@ -222,6 +232,8 @@ async function update(req: Request, res: Response) {
       localizacao: dadosEvento.localizacao,
       faixaEtaria: 10,
       vagas: dadosEvento.vagas,
+      dataInicio: dataInicio,
+      dataFim: dataFim,
       organizadorId: organizadorId,
       categoriaEventoId: 1
     } as UpdateEventoDto;
