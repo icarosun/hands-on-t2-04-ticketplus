@@ -5,6 +5,7 @@ import {
   createEvento,
   getAllEventos,
   getEvento,
+  getEventoByCategoriaId,
   // updateEvento,
   // removeEvento,
   // getPedidoByEventoId,
@@ -94,6 +95,16 @@ async function getEventosByOrganziador(req: Request, res: Response) {
       });
     }
     return res.status(200).json(eventosData);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+async function readCategoria (req: Request, res: Response) {
+  const categoriaEventoId = parseInt(req.params.categoriaEventoId);
+  try {
+    const eventos = await getEventoByCategoriaId(categoriaEventoId);
+    return res.status(200).json({ eventos });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -273,6 +284,7 @@ async function update(req: Request, res: Response) {
 export default {
   index,
   read,
+  readCategoria,
   getEventosByOrganziador,
   create,
   update /*, remove*/,

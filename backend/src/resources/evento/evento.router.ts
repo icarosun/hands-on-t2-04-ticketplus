@@ -18,6 +18,11 @@ router.get("/", eventoController.index);
 
 router.get("/:idEvento", eventoController.read);
 
+router.get(
+  "/categoria/:categoriaEventoId",
+  eventoController.readCategoria
+);
+
 router.put(
   "/:idEvento",
   usuarioAutenticado,
