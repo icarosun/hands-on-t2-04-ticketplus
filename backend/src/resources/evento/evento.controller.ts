@@ -9,6 +9,7 @@ import {
   // removeEvento,
   getPedidoByEventoId,
   getEventosByOrganizador,
+  findEventoByTitle
 } from "./evento.service";
 import { EnderecosEventos } from "@prisma/client";
 import { getTiposTickets } from "../tipoTicket/tipoTicket.service";
@@ -110,6 +111,7 @@ async function create(req: Request, res: Response) {
       schema: { $ref: '#/definitions/Evento'}
     }
   */
+
   try {
     const dadosEvento = req.body as CreateEventoReqType;
     
@@ -121,7 +123,6 @@ async function create(req: Request, res: Response) {
     const cep = dadosEvento.cep;
     const numero = dadosEvento.numero;
     
-
     const organizadorId = req.session.uid;
     const tiposTicketsEventosReq: TipoTicketEventoType[] =
       dadosEvento.tiposTicketsEventos;
@@ -130,6 +131,7 @@ async function create(req: Request, res: Response) {
       tiposTickets,
       tiposTicketsEventosReq
     );
+
     const categoriaEvento = await getCategoriaEventoById(categoriaEventoId);
     if (!categoriaEvento)
       return res.status(404).json({ msg: "Categoria de eventos não cadastrada" });
@@ -180,9 +182,9 @@ async function create(req: Request, res: Response) {
       await createTiposTicketsEventos(novoTipoTicketEvento);
     }
 
-    let imageBase64 = dadosEvento.imageBase64;
-    imageBase64 = imageBase64.split(";base64,")[1];
-    salvaImagemEvento(idEvento, imageBase64);
+    //let imageBase64 = dadosEvento.imageBase64;
+    //imageBase64 = imageBase64.split(";base64,")[1];
+    //salvaImagemEvento(idEvento, imageBase64);
     return res.status(201).json({ msg: "Evento criado com sucesso" });
   } catch (error) {
     return res.status(500).json(error);
@@ -258,10 +260,35 @@ async function update(req: Request, res: Response) {
   }
 }*/
 
+async function searchByTitulo (req: Request, res: Response) {
+  /* #swagger.summary = 'Pesquisar evento por nome'.
+     #swagger.query['titulo'] = {
+        in: 'query',
+        type: 'string',
+     }
+     #swagger.response[200]
+  */
+
+  try {
+    const titulo = req.query.titulo as string;
+
+    console.log(titulo);
+
+    if (!titulo) return res.status(400).json({ msg: "Error parâmetro inválido ou vazio"})
+
+    const eventos = await findEventoByTitle(titulo);
+
+    return res.status(200).json(eventos);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 export default {
   index,
   read,
   getEventosByOrganziador,
   create,
   update /*, remove*/,
+  searchByTitulo
 };
