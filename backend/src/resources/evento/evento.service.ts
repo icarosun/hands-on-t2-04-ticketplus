@@ -57,3 +57,15 @@ export const updateVagasEvento = async (
     data: { vagas: { decrement: ocupacao } },
   });
 };
+
+export const findEventoByTitle = async (
+  titulo: string
+): Promise<Evento[]> => {
+  return await prisma.evento.findMany({
+    where: {
+      titulo: {
+        search: titulo,
+      }
+    }
+  })
+}
