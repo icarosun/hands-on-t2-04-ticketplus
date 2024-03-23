@@ -182,9 +182,9 @@ async function create(req: Request, res: Response) {
       await createTiposTicketsEventos(novoTipoTicketEvento);
     }
 
-    //let imageBase64 = dadosEvento.imageBase64;
-    //imageBase64 = imageBase64.split(";base64,")[1];
-    //salvaImagemEvento(idEvento, imageBase64);
+    let imageBase64 = dadosEvento.imageBase64;
+    imageBase64 = imageBase64.split(";base64,")[1];
+    salvaImagemEvento(idEvento, imageBase64);
     return res.status(201).json({ msg: "Evento criado com sucesso" });
   } catch (error) {
     return res.status(500).json(error);
