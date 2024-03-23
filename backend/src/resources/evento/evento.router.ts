@@ -16,6 +16,8 @@ router.get(
 
 router.get("/", eventoController.index);
 
+router.get("/search", eventoController.searchByTitulo);
+
 router.get("/:idEvento", eventoController.read);
 
 router.put(
