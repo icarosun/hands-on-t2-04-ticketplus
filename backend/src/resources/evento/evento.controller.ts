@@ -10,6 +10,7 @@ import {
   // removeEvento,
   // getPedidoByEventoId,
   getEventosByOrganizador,
+  searchEventosOrganizadorByTitulo,
 } from "./evento.service";
 import { EnderecosEventos } from "@prisma/client";
 import { getTiposTickets } from "../tipoTicket/tipoTicket.service";
@@ -105,6 +106,20 @@ async function readCategoria (req: Request, res: Response) {
   try {
     const eventos = await getEventoByCategoriaId(categoriaEventoId);
     return res.status(200).json({ eventos });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+async function searchEventosOrganizador (req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  const titulo = req.body.titulo;
+  try {
+    const eventos = await searchEventosOrganizadorByTitulo(
+      organizadorId,
+      titulo
+    );
+    return res.status(200).json(eventos);
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -286,6 +301,7 @@ export default {
   read,
   readCategoria,
   getEventosByOrganziador,
+  searchEventosOrganizador,
   create,
   update /*, remove*/,
 };

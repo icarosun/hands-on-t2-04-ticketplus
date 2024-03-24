@@ -24,6 +24,20 @@ export async function getEventosByOrganizador (
   });
 };
 
+export async function searchEventosOrganizadorByTitulo (
+  organizadorId: string | undefined,
+  titulo: string
+): Promise<Evento[]> {
+  return await prisma.evento.findMany({
+    where: {
+      organizadorId,
+      titulo: {
+        search: titulo,
+      },
+    },
+  })
+}
+
 export async function getEventoByCategoriaId (
   categoriaEventoId: number
 ): Promise<Evento[] | null> {

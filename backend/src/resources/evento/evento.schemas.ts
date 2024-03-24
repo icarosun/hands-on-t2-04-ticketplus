@@ -45,4 +45,8 @@ const schemaUpdateEvento = Joi.object({
   id: Joi.number().required(),
 });
 
-export default { schemaCreateEvento, schemaUpdateEvento };
+const schemaSearchEventosOrganizador = Joi.object({
+  titulo: Joi.string()
+});
+
+export default { schemaCreateEvento, schemaUpdateEvento, schemaSearchEventosOrganizador };

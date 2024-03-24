@@ -4,6 +4,7 @@
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -45,7 +46,7 @@ model Organizador {
 
 model Evento {
   id                Int     @id @default(autoincrement()) @db.Int()
-  titulo            String  @db.VarChar(100)
+  titulo            String  
   descricao         String  @db.Text()
   localizacao       String  @db.VarChar(100)
   faixaEtaria       Int     @db.Int
@@ -69,6 +70,8 @@ model Evento {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@fulltext([titulo])
 
   @@map("eventos")
 }
