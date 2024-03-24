@@ -44,6 +44,8 @@ router.get(
   eventoController.readCategoria
 );
 
+router.get("/search", eventoController.searchByTitulo);
+
 router.put(
   "/:idEvento",
   usuarioAutenticado,

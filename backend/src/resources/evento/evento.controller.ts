@@ -11,6 +11,7 @@ import {
   // getPedidoByEventoId,
   getEventosByOrganizador,
   searchEventosOrganizadorByTitulo,
+  findEventoByTitle
 } from "./evento.service";
 import { EnderecosEventos } from "@prisma/client";
 import { getTiposTickets } from "../tipoTicket/tipoTicket.service";
@@ -136,6 +137,7 @@ async function create(req: Request, res: Response) {
       schema: { $ref: '#/definitions/Evento'}
     }
   */
+
   try {
     const dadosEvento = req.body as CreateEventoReqType;
     
@@ -162,6 +164,7 @@ async function create(req: Request, res: Response) {
       tiposTickets,
       tiposTicketsEventosReq
     );
+
     const categoriaEvento = await getCategoriaEventoById(categoriaEventoId);
     if (!categoriaEvento)
       return res.status(404).json({ msg: "Categoria de eventos não cadastrada" });
@@ -296,6 +299,30 @@ async function update(req: Request, res: Response) {
   }
 }*/
 
+async function searchByTitulo (req: Request, res: Response) {
+  /* #swagger.summary = 'Pesquisar evento por nome'.
+     #swagger.query['titulo'] = {
+        in: 'query',
+        type: 'string',
+     }
+     #swagger.response[200]
+  */
+
+  try {
+    const titulo = req.query.titulo as string;
+
+    console.log(titulo);
+
+    if (!titulo) return res.status(400).json({ msg: "Error parâmetro inválido ou vazio"})
+
+    const eventos = await findEventoByTitle(titulo);
+
+    return res.status(200).json(eventos);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 export default {
   index,
   read,
@@ -304,4 +331,5 @@ export default {
   searchEventosOrganizador,
   create,
   update /*, remove*/,
+  searchByTitulo
 };

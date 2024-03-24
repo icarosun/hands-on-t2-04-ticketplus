@@ -40,7 +40,7 @@ const AppBarContent = () => {
               level="body-sm"
               startDecorator={<AccountCircleOutlinedIcon />}
               endDecorator={<KeyboardArrowDownRoundedIcon />}
-              sx={{ alignItems: 'flex-center', width: 220, wordBreak: 'break-all' }}
+              sx={{ alignItems: 'flex-center', width: 220, wordBreak: 'break-word' }}
             >
               Olá, faça seu login ou cadastre-se.
             </Typography></MenuButton>

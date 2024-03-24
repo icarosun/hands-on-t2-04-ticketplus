@@ -74,6 +74,8 @@ model Evento {
   @@fulltext([titulo])
 
   @@map("eventos")
+
+  @@fulltext([titulo])
 }
 
 model EnderecosEventos {
