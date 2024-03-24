@@ -1,10 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
-  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex", "views"]
 }
 
 datasource db {
@@ -24,22 +21,21 @@ model Comprador {
   
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  pedidos   Pedido[]
 
   @@map("compradores")
 }
 
 model Organizador {
-  id    String @id @default(uuid()) @db.Char(36)
-  nome  String @db.VarChar(100)
-  email String @unique @db.VarChar(100)
-  senha String @db.VarChar(100)
-  conta String @db.VarChar(30)
-  cnpj  String @db.Char(18)
-
-  eventos Evento[]
-
+  id        String   @id @default(uuid()) @db.Char(36)
+  nome      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(100)
+  senha     String   @db.VarChar(100)
+  conta     String   @db.VarChar(30)
+  cnpj      String   @db.Char(18)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  eventos   Evento[]
 
   @@map("organizadores")
 }
@@ -61,6 +57,7 @@ model Evento {
   
   ticket     Ticket[]
   pedidos    Pedido[]
+
   tiposTicketsEventos TiposTicketsEventos[]
   totalTicketsComprados TotalTicketsComprados[]
 
@@ -72,36 +69,33 @@ model Evento {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@fulltext([titulo])
-
   @@map("eventos")
 }
 
 model EnderecosEventos {
-  id      Int     @id @default(autoincrement()) @db.Int()
-  cep     String  @db.Char(8)
-  numero  Int?     @db.Int()
-  cidade  String  @db.VarChar(100)
-
-  eventos Evento[]
-
+  id        Int      @id @default(autoincrement())
+  cep       String   @db.Char(8)
+  numero    Int?
+  cidade    String   @db.VarChar(100)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  eventos   Evento[]
 
   @@map("enderecosEventos")
 }
 
 model Ticket {
-  id           String   @id @default(uuid()) @db.Char(36)
-  eventoId     Int      @db.Int()
-  tipoTicketId Int   @db.Int()
+  id           String     @id @default(uuid()) @db.Char(36)
+  eventoId     Int
+  tipoTicketId Int
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @default(now()) @updatedAt @map("updated_at")
+  compra       Compra?
+  evento       Evento     @relation(fields: [eventoId], references: [id])
+  tipoTicket   TipoTicket @relation(fields: [tipoTicketId], references: [id])
 
-  tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
-  evento     Evento     @relation(fields: [eventoId], references: [id])
-  compra     Compra[]
-
-  createdAt DateTime    @default(now()) @map("created_at")
-  updatedAt DateTime    @default(now()) @updatedAt @map("updated_at")
-
+  @@index([eventoId], map: "tickets_eventoId_fkey")
+  @@index([tipoTicketId], map: "tickets_tipoTicketId_fkey")
   @@map("tickets")
 }
 
@@ -127,6 +121,7 @@ model Pedido {
 }
 
 model Compra {
+
   id             String   @id @default(uuid()) @db.Char(36)
 
   pedidoId       String   @unique @db.Char(36)
@@ -141,32 +136,29 @@ model Compra {
 }
 
 model TipoTicket {
-  id         Int    @id @default(autoincrement()) @db.Int()
-  descricao  String @db.VarChar(50)
-
+  id                  Int                   @id @default(autoincrement())
+  descricao           String                @db.VarChar(50)
+  createdAt           DateTime              @default(now()) @map("created_at")
+  updatedAt           DateTime              @default(now()) @updatedAt @map("updated_at")
+  pedido              Pedido[]
   ticket              Ticket[]
   tiposTicketsEventos TiposTicketsEventos[]
-  pedido              Pedido[]
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("tipoTickets")
 }
 
 model TiposTicketsEventos {
-  eventoId       Int @db.Int()
-  tipoTicketId   Int @db.Int()
-  quantidade     Int @db.Int()
-  preco          Decimal  @db.Decimal(9, 2)
-
-  evento     Evento @relation(fields: [eventoId], references: [id])
-  tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  tipoTicketId Int
+  eventoId     Int
+  quantidade   Int
+  preco        Decimal    @db.Decimal(9, 2)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @default(now()) @updatedAt @map("updated_at")
+  evento       Evento     @relation(fields: [eventoId], references: [id])
+  tipoTicket   TipoTicket @relation(fields: [tipoTicketId], references: [id])
 
   @@id([eventoId, tipoTicketId])
+  @@index([tipoTicketId], map: "tipoTicketsEventos_tipoTicketId_fkey")
   @@map("tipoTicketsEventos")
 }
 
@@ -186,13 +178,37 @@ model TotalTicketsComprados {
 }
 
 model CategoriaEvento {
-  id        Int    @id @default(autoincrement()) @db.Int()
-  descricao String @unique @db.VarChar(50)
-
-  evento Evento[]
-
+  id        Int      @id @default(autoincrement())
+  descricao String   @unique @db.VarChar(50)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  evento    Evento[]
 
   @@map("categoriaEvento")
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view resumoGraficoGeral {
+  id          Int    @default(0)
+  evento      String @db.VarChar(100)
+  organizador String @db.Char(36)
+  disponivel  Int
+  tipo_ticket String @db.VarChar(50)
+  vendidos    BigInt @default(0)
+  restante    BigInt @default(0)
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view resumoGraficoFinanceiroGeral {
+  id          Int     @default(0)
+  evento      String  @db.VarChar(100)
+  organizador String  @db.Char(36)
+  tipo_ticket String  @db.VarChar(50)
+  vendidos    BigInt  @default(0)
+  preco       Decimal @db.Decimal(9, 2)
+  total       Decimal @default(0.00) @db.Decimal(29, 2)
+
+  @@ignore
 }

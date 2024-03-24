@@ -34,10 +34,17 @@ export default function GraficoTicketsGeral(props: Graficos) {
   useEffect(() => {
     setSeries(props.dadosGrafico);
     setCategories(props.categorias);
+
     setOptions(GraficoGeralOptions);
 
     setOptions((prev) => ({
       ...prev,
+      chart: {
+        stacked: true,
+        toolbar: {
+          show: true,
+        },
+      },
       colors: [
         inteira,
         inteira_disponivel,
@@ -81,6 +88,11 @@ export default function GraficoTicketsGeral(props: Graficos) {
       },
       tooltip: {
         theme: "light",
+        y: {
+          formatter(val: number) {
+            return `${val} tickets`;
+          },
+        },
       },
       legend: {
         position: "top",
