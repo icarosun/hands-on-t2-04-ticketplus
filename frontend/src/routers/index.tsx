@@ -4,7 +4,7 @@ import PaginaComprador from "../pages/Comprador/index.tsx";
 import PaginaOrganizador from "../pages/Organizador";
 import CompradorNavBarLayout from "../layout/Navbar/Comprador/index.tsx";
 import PaginaInicial from "../pages/PaginaInicial/index.tsx";
-import PaginaEvento from "../pages/Evento/index.tsx";
+// import PaginaEvento from "../pages/Evento/index.tsx";
 import { TiposUsuarios } from "../utils/tipoUsuario.constants.ts";
 import DashboardGeral from "../components/Dashboard/Geral/";
 import DashboardIndividual from "../components/Dashboard/Individual/";
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/detalhes-do-evento-v2/:id",
-        element: <EventDetailsV1 />,
+        element: <EventDetailsV2 />,
       }
     ],
   },

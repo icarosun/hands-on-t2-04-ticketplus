@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 const regexNomeSobrenome = "^[a-zA-Z\s]*$";
+const regexCpf = "^[0-9]*$";
 // const regexSenha = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]).*$";
 
 const schemaCadastroComprador = Joi.object({
@@ -16,6 +17,10 @@ const schemaCadastroComprador = Joi.object({
 		.required(),*/
 	email: Joi.string()
 		.email()
+		.required(),
+	cpf: Joi.string()
+		.length(11)
+		.pattern(new RegExp(regexCpf))
 		.required(),
 	senha: Joi.string()
 		.min(8)

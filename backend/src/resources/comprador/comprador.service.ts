@@ -14,13 +14,9 @@ export async function getCompradorByEmail (email: string | undefined): Promise<C
 	});
 }
 
-export async function updateSaldoComprador (compradorId: string | undefined, saldo: Decimal): Promise<Comprador | null> {
-	return await prisma.comprador.update({
-		where: {
-			id: compradorId
-		},
-		data: {
-			saldo
-		}
-	})
+export async function getCompradorByCPF (cpf: string) {
+	if (cpf === undefined) return null;
+	return await prisma.comprador.findUnique({
+		where: { cpf }
+	});
 }

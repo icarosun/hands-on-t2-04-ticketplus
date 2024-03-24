@@ -14,11 +14,9 @@ export async function index (req: Request, res: Response) {
         const isComprador = tipoUsuarioId === TiposUsuarios.COMPRADOR_ID;
         if (isComprador) {
             const comprador = await getCompradorByEmail(email);
-            const saldo = comprador?.saldo;
             const dadosSessaoUsuario = {
                 nome: nomeUsuario,
                 email: email,
-                saldo: saldo,
                 tipoUsuario: TiposUsuarios.COMPRADOR
             }
             return res.status(200).json(dadosSessaoUsuario);

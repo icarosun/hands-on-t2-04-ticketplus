@@ -13,6 +13,7 @@ const prisma = new PrismaClient();
 export async function cadastrarCompradorService (comprador: CreateCompradorDto): Promise<Comprador> {
 	const nome = comprador.nome;
 	const email = comprador.email;
+	const cpf = comprador.cpf;
 	const rounds = parseInt(process.env.SALT_ROUNDS!);
 	const salt = await genSalt(rounds);
 	const senha = await hash(comprador.senha, salt);
@@ -20,8 +21,8 @@ export async function cadastrarCompradorService (comprador: CreateCompradorDto):
 		data: {
 			nome: nome,
 			email: email,
+			cpf: cpf,
 			senha: senha,
-			saldo: 0
 		}
 	});
 }

@@ -5,19 +5,24 @@ export type CreatePedidoDto = Pick<
   Pedido,
   | "compradorId"
   | "eventoId"
+  | "tipoTicketId"
   | "formaPagamento"
+  | "quantidade"
   | "valor"
   | "status"
-  | "tipoTicketId"
 >;
+
+export interface PedidoRes {
+  id: string;
+  status: string;
+}
 
 export interface CreatePedidoReqType {
   eventoId: number;
-  ticketId: string;
-  formaPagamento: 
+  quantity: number;
+  formaPagamento:
     FormasPagamento.BOLETO
     | FormasPagamento.CARTAO_CREDITO
     | FormasPagamento.PIX;
   tipoTicketId: number;
-  intent: string;
 }

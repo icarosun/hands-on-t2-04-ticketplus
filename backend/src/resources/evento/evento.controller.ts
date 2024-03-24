@@ -5,10 +5,13 @@ import {
   createEvento,
   getAllEventos,
   getEvento,
-  updateEvento,
+  getEventoByCategoriaId,
+  // updateEvento,
   // removeEvento,
-  getPedidoByEventoId,
+  // getPedidoByEventoId,
   getEventosByOrganizador,
+  searchEventosOrganizadorByTitulo,
+  findEventoByTitle
 } from "./evento.service";
 import { EnderecosEventos } from "@prisma/client";
 import { getTiposTickets } from "../tipoTicket/tipoTicket.service";
@@ -99,6 +102,30 @@ async function getEventosByOrganziador(req: Request, res: Response) {
   }
 }
 
+async function readCategoria (req: Request, res: Response) {
+  const categoriaEventoId = parseInt(req.params.categoriaEventoId);
+  try {
+    const eventos = await getEventoByCategoriaId(categoriaEventoId);
+    return res.status(200).json({ eventos });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+async function searchEventosOrganizador (req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  const titulo = req.body.titulo;
+  try {
+    const eventos = await searchEventosOrganizadorByTitulo(
+      organizadorId,
+      titulo
+    );
+    return res.status(200).json(eventos);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 async function create(req: Request, res: Response) {
   /*
     #swagger.summary = 'Criar um evento.'
@@ -110,6 +137,7 @@ async function create(req: Request, res: Response) {
       schema: { $ref: '#/definitions/Evento'}
     }
   */
+
   try {
     const dadosEvento = req.body as CreateEventoReqType;
     
@@ -120,7 +148,13 @@ async function create(req: Request, res: Response) {
     const faixaEtaria = dadosEvento.faixaEtaria;
     const cep = dadosEvento.cep;
     const numero = dadosEvento.numero;
+    const dataInicio = dadosEvento.dataInicio;
+    const dataFim = dadosEvento.dataFim;
     
+    const dataInicioDate = new Date(dataInicio);
+    const dataFimDate = new Date(dataFim);
+    if (dataInicioDate >= dataFimDate)
+      return res.status(401).json({ msg: "O fim do evento deve acontecer a após seu início" });
 
     const organizadorId = req.session.uid;
     const tiposTicketsEventosReq: TipoTicketEventoType[] =
@@ -130,6 +164,7 @@ async function create(req: Request, res: Response) {
       tiposTickets,
       tiposTicketsEventosReq
     );
+
     const categoriaEvento = await getCategoriaEventoById(categoriaEventoId);
     if (!categoriaEvento)
       return res.status(404).json({ msg: "Categoria de eventos não cadastrada" });
@@ -162,10 +197,12 @@ async function create(req: Request, res: Response) {
       descricao: descricao,
       localizacao: localizacao,
       faixaEtaria: faixaEtaria,
-      vagas: vagas, 
+      vagas: vagas,
+      dataInicio: dataInicio,
+      dataFim: dataFim,
       organizadorId: organizadorId,
       categoriaEventoId: categoriaEventoId,
-      enderecoEventoId: enderecoEventoId
+      enderecoEventoId: enderecoEventoId,
     } as CreateEventoDto;
     const novoEvento = await createEvento(evento);
     const idEvento = novoEvento.id;
@@ -203,6 +240,8 @@ async function update(req: Request, res: Response) {
   return res.status(200).json({ msg: "OK" });
   /*const dadosEvento = req.body as UpdateEventoReqType;
   const idEvento = dadosEvento.id;
+  const dataInicio = dadosEvento.dataInicio;
+    const dataFim = dadosEvento.dataFim;
   const tiposTicketsEventosReq: TipoTicketEventoType[] = dadosEvento.tiposTicketsEventos;
   const organizadorId = req.session.uid;
   const tiposTickets = await getTiposTickets();
@@ -222,6 +261,8 @@ async function update(req: Request, res: Response) {
       localizacao: dadosEvento.localizacao,
       faixaEtaria: 10,
       vagas: dadosEvento.vagas,
+      dataInicio: dataInicio,
+      dataFim: dataFim,
       organizadorId: organizadorId,
       categoriaEventoId: 1
     } as UpdateEventoDto;
@@ -258,10 +299,37 @@ async function update(req: Request, res: Response) {
   }
 }*/
 
+async function searchByTitulo (req: Request, res: Response) {
+  /* #swagger.summary = 'Pesquisar evento por nome'.
+     #swagger.query['titulo'] = {
+        in: 'query',
+        type: 'string',
+     }
+     #swagger.response[200]
+  */
+
+  try {
+    const titulo = req.query.titulo as string;
+
+    console.log(titulo);
+
+    if (!titulo) return res.status(400).json({ msg: "Error parâmetro inválido ou vazio"})
+
+    const eventos = await findEventoByTitle(titulo);
+
+    return res.status(200).json(eventos);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 export default {
   index,
   read,
+  readCategoria,
   getEventosByOrganziador,
+  searchEventosOrganizador,
   create,
   update /*, remove*/,
+  searchByTitulo
 };

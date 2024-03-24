@@ -1,10 +1,10 @@
 import {
   PrismaClient,
   Compra,
-  TiposTicketsEventos
+//   TiposTicketsEventos
 } from "@prisma/client";
 import { CreateCompraDto } from "./compra.types";
-import { CreateCompraType } from "./compra.types";
+// import { CreateCompraType } from "./compra.types";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +19,16 @@ const prisma = new PrismaClient();
     }
   });
 }*/
+
+export async function getCompraByPedidoId (
+  pedidoId: string
+): Promise<Compra| null> {
+  return await prisma.compra.findFirst({
+    where: {
+      pedidoId
+    }
+  });
+}
 
 export async function createCompra (
   compra: CreateCompraDto
