@@ -8,6 +8,19 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
+import {
+  BestSeller,
+  getCardReceitaTotal,
+  getMelhorEvento,
+  getVagas,
+  getTicketsVendidos,
+  getPorcentagemTotal,
+  Resumo,
+  getTabelaGeral,
+  TabelaGeral,
+  getXGraficoGeral,
+  XGraficoGeral,
+} from "../../../services/dashboard.service";
 import { SelectChangeEvent } from "@mui/material";
 import GraficoFinanceiroGeral from "../../Graficos/GraficoFinanceiro";
 import GraficoFinanceiroPorPeriodo from "../../Graficos/GraficoFinanceiroPorPeriodo";
@@ -36,19 +49,56 @@ import GraficoTicketsPorPeriodo from "../../Graficos/GraficoTicketsPorPeriodo";
 export default function DashboardGeral() {
   const [titleTemp, setTitleTemp] = useState<string>("");
   const [periodo, setPeriodo] = useState<"1" | "7" | "30">("1");
-  const [eventos, setEventos] = useState<string[]>(categoriasGeraisEventos);
+  const [eventos, setEventos] = useState<string[]>([]);
   const [categorias, setCategorias] = useState<string[]>([]);
   const [series, setSeries] = useState<DadosGrafico[]>([]);
   const [seriesFin, setSeriesFin] = useState<DadosGrafico[]>([]);
   const [textTickets, setTextTickets] = useState<string>("");
   const [textFinanceiro, setTextFinanceiro] = useState<string>("");
+  const [bestTitulo, setBestTitulo] = useState<string>("");
+  const [bestTickets, setBestTickets] = useState<number>(0);
+  const [resumoCards, setResumoCards] = useState<number[]>([0, 0, 0, 0]);
+  const [tabela, setTabela] = useState<TabelaGeral[]>([]);
 
   const handleChange = (event: SelectChangeEvent | "1" | "7" | "30") => {
     setPeriodo(event.target.value);
   };
 
   useEffect(() => {
-    setEventos(categoriasGeraisEventos);
+    const fetchDataGeral = async () => {
+      try {
+        // Card de melhor evento
+        const best = await getMelhorEvento();
+        const bestCard = best?.data as BestSeller;
+        setBestTitulo(bestCard.titulo);
+        setBestTickets(bestCard.tickets);
+        // Cards com resumos
+        const resumoVagas = (await getVagas()) as Resumo;
+        const resumoVendidos = (await getTicketsVendidos()) as Resumo;
+        const resumoPorcen = (await getPorcentagemTotal()) as Resumo;
+        const resumoReceita = (await getCardReceitaTotal()) as Resumo;
+        setResumoCards([
+          resumoVagas.data,
+          resumoVendidos.data,
+          resumoPorcen.data,
+          resumoReceita.data,
+        ]);
+        // Tabela
+        const tabelaGeral = await getTabelaGeral();
+        const table = tabelaGeral?.data as TabelaGeral[];
+        setTabela(table);
+        // Grafico Tickets Geral
+        // Categorias (x)
+        const xGraficoGeral = await getXGraficoGeral();
+        const xGeral = (xGraficoGeral?.data as XGraficoGeral[]).map(
+          (item) => item.titulo
+        );
+        setEventos(xGeral);
+        // Series (y)
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (periodo === "7") {
       setTitleTemp("Última Semana");
       setCategorias(categoriasSemana);
@@ -64,6 +114,7 @@ export default function DashboardGeral() {
       setTextTickets(`Resumo - Tickets Vendidos/Disponíveis - ${titleTemp}`);
       setTextFinanceiro(`Resumo - Financeiro por Evento - ${titleTemp}`);
     } else {
+      fetchDataGeral();
       setSeries(graficoGeralSeries);
       setTitleTemp("");
       setTextTickets(`Resumo - Tickets Vendidos/Disponíveis`);
@@ -94,10 +145,14 @@ export default function DashboardGeral() {
       <Grid item xs={12} md={1} lg={12}>
         <Grid container rowSpacing={1} columnSpacing={2} p={2}>
           <Grid item xs={4} sm={6} md={4} lg={4}>
-            <MelhorVendaEvento title={titleTemp} />
+            <MelhorVendaEvento
+              title={titleTemp}
+              titulo={bestTitulo}
+              tickets={bestTickets}
+            />
           </Grid>
           <Grid item xs={8} sm={6} md={4} lg={8}>
-            <EstatisticasVendas title={titleTemp} />
+            <EstatisticasVendas title={titleTemp} valores={resumoCards} />
           </Grid>
         </Grid>
         <Grid container rowSpacing={1} columnSpacing={2} p={2}>
@@ -141,7 +196,7 @@ export default function DashboardGeral() {
                 <GraficoFinanceiroGeral
                   dadosGrafico={graficoFinanceiroSeries}
                   eventos={categoriasGeraisEventos}
-                  title={titleTemp}
+                  //title={titleTemp}
                 />
               )}
             </Card>
@@ -151,7 +206,7 @@ export default function DashboardGeral() {
         <Grid item xs={12} md={7} lg={12}>
           <Grid item>
             <Card sx={{ mt: 2, p: 2 }}>
-              <EnhancedTable title={titleTemp} />
+              <EnhancedTable title={titleTemp} rows={tabela} />
             </Card>
           </Grid>
         </Grid>

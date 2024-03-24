@@ -1,6 +1,16 @@
-import { PrismaClient, Evento, Compra, TipoTicket } from "@prisma/client";
+import {
+  PrismaClient,
+  Prisma,
+  Evento,
+  Compra,
+  TipoTicket,
+} from "@prisma/client";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: ["error"],
+});
+
+// SELECT b.titulo, COUNT(a.id) quant, SUM(a.valor) valor_total FROM pedidos a join eventos b on b.id = a.eventoId WHERE status = ${status} and b.organizadorId = ${organizadorId} GROUP BY a.eventoId ORDER BY quant DESC LIMIT 1;
 
 export const getDashboardEventoData = async (
   organizadorId: string | undefined,
@@ -115,6 +125,117 @@ export async function getTicketTypeOfEvento(
     },
     where: {
       eventoId,
+    },
+  });
+}
+
+// Receita Total
+export async function getTotalReceitaEventos(
+  organizadorId: string | undefined
+): Promise<object | null> {
+  return await prisma.$queryRaw`SELECT SUM(a.valor) valor FROM pedidos a join eventos b on b.id = a.eventoId and b.organizadorId = ${organizadorId} WHERE a.status = "Pago"`;
+}
+
+// Quantidade de Tickets Disponibilizados
+export async function getTotalVagasEventos(
+  organizadorId: string | undefined
+): Promise<object | null> {
+  return await prisma.evento.groupBy({
+    by: ["organizadorId"],
+    where: {
+      organizadorId,
+    },
+    _sum: {
+      vagas: true,
+    },
+  });
+}
+
+// Quantidade de Tickets Vendidos
+export async function getTotalTicketsVendidos(
+  organizadorId: string | undefined
+): Promise<object | null> {
+  return await prisma.evento.findMany({
+    select: {
+      _count: {
+        select: {
+          pedidos: {
+            where: {
+              status: "Pago",
+            },
+          },
+        },
+      },
+    },
+    where: {
+      organizadorId,
+    },
+  });
+}
+
+export async function getMelhorEvento(
+  organizadorId: string | undefined
+): Promise<object | null> {
+  if (organizadorId === undefined) return null;
+  return await prisma.evento.findMany({
+    select: {
+      titulo: true,
+      _count: {
+        select: {
+          pedidos: {
+            where: {
+              status: "Pago",
+            },
+          },
+        },
+      },
+    },
+    where: {
+      organizadorId,
+    },
+  });
+}
+
+export async function getTabelaGeralEventos(
+  organizadorId: string | undefined
+): Promise<object | null> {
+  if (organizadorId === undefined) return null;
+  return await prisma.$queryRaw`select a.titulo, b.created_at, b.formaPagamento, c.descricao, b.status, b.valor from eventos a join pedidos b on a.id = b.eventoId join tipoTickets c on b.tipoTicketId = c.id where organizadorId = ${organizadorId}`;
+}
+
+// Individual
+export async function getTabelaGeralIndividual(
+  organizadorId: string | undefined,
+  eventoId: number
+): Promise<object | null> {
+  if (organizadorId === undefined) return null;
+  return await prisma.evento.findMany({
+    select: {
+      pedidos: {
+        select: {
+          createdAt: true,
+          formaPagamento: true,
+          status: true,
+          valor: true,
+        },
+      },
+    },
+    where: {
+      organizadorId,
+      id: eventoId,
+    },
+  });
+}
+
+export async function getEventosXGrafico(
+  organizadorId: string | undefined
+): Promise<object | null> {
+  return await prisma.evento.findMany({
+    select: {
+      titulo: true,
+    },
+    where: {
+      organizadorId,
     },
   });
 }

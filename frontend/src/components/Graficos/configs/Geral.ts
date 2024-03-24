@@ -50,8 +50,6 @@ export const GraficoGeralOptions: ApexOptions = {
       width: 16,
       height: 16,
       radius: 50,
-      //offsexX: 2,
-      //offsexY: 2,
     },
     itemMargin: {
       horizontal: 15,

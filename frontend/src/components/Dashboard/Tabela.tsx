@@ -14,173 +14,19 @@ import Switch from "@mui/material/Switch";
 import { Chip, Typography } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import { Money } from "../../utils/currency";
-
-interface Time {
+import { TabelaGeral } from "../../services/dashboard.service";
+interface Table {
   title: string;
+  rows: TabelaGeral[];
 }
 interface Data {
-  //id: number;
-  evento: string;
-  qt_tickets: number;
-  data: string;
+  titulo: string;
+  created_at: string;
+  formaPagamento: string;
+  descricao: string;
   status: string;
-  valor_total: number;
-  tipo_pagamento: string;
+  valor: string;
 }
-
-function createData(
-  //id: number,
-  evento: string,
-  qt_tickets: number,
-  data: string,
-  status: "Aguardando Pagamento" | "Pago" | "Cancelado",
-  valor_total: number,
-  tipo_pagamento:
-    | "Cartão de Crédito"
-    | "Cartão de Débito"
-    | "PaylPal"
-    | "Carteira"
-): Data {
-  return { evento, qt_tickets, data, status, valor_total, tipo_pagamento };
-}
-
-const rows = [
-  createData(
-    "Chiado da Chinela",
-    10,
-    "2024-02-10",
-    "Aguardando Pagamento",
-    100,
-    "Cartão de Crédito"
-  ),
-  createData("Suá sem dó", 1, "2024-02-11", "Pago", 12.02, "Carteira"),
-  createData("Chiado da Chinela", 2, "2024-02-13", "Cancelado", 10, "PaylPal"),
-  createData(
-    "Galinha Pindatinha - Ao Vivo",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Crédito"
-  ),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Crédito"
-  ),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Aguardando Pagamento",
-    25,
-    "Cartão de Débito"
-  ),
-  createData("Javascript Mental", 5, "2024-02-15", "Cancelado", 25, "PaylPal"),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Débito"
-  ),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Aguardando Pagamento",
-    25,
-    "Carteira"
-  ),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Crédito"
-  ),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Crédito"
-  ),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Aguardando Pagamento",
-    25,
-    "Cartão de Crédito"
-  ),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Crédito"
-  ),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Crédito"
-  ),
-  createData("Javascript Mental", 5, "2024-02-15", "Cancelado", 25, "PaylPal"),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Crédito"
-  ),
-  createData("Javascript Mental", 5, "2024-02-15", "Pago", 25, "PaylPal"),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Aguardando Pagamento",
-    5,
-    "Carteira"
-  ),
-  createData("Chiado da Chinela", 5, "2024-02-15", "Pago", 25, "Carteira"),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Aguardando Pagamento",
-    25,
-    "Cartão de Débito"
-  ),
-  createData("Javascript Mental", 5, "2024-02-15", "Cancelado", 25, "PaylPal"),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Crédito"
-  ),
-  createData(
-    "Javascript Mental",
-    5,
-    "2024-02-15",
-    "Pago",
-    25,
-    "Cartão de Débito"
-  ),
-];
 
 function chipColor(status: string) {
   if (status === "Pago") {
@@ -240,28 +86,28 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id: "evento",
+    id: "titulo",
     align: "left",
     disablePadding: true,
     label: "Evento",
-  } /*
-  {
-    id: "qt_tickets",
-    align: "center",
-    disablePadding: false,
-    label: "Quantidade de Tickets",
-  },*/,
-  {
-    id: "data",
-    align: "center",
-    disablePadding: false,
-    label: "Data",
   },
   {
-    id: "tipo_pagamento",
+    id: "created_at",
+    align: "center",
+    disablePadding: false,
+    label: "Data/Hora",
+  },
+  {
+    id: "formaPagamento",
     align: "center",
     disablePadding: false,
     label: "Tipo de Pagamento",
+  },
+  {
+    id: "descricao",
+    align: "center",
+    disablePadding: false,
+    label: "Ticket",
   },
   {
     id: "status",
@@ -270,7 +116,7 @@ const headCells: readonly HeadCell[] = [
     label: "Status",
   },
   {
-    id: "valor_total",
+    id: "valor",
     align: "center",
     disablePadding: false,
     label: "Valor Total",
@@ -320,7 +166,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-export default function EnhancedTable(props: Time) {
+export default function EnhancedTable(props: Table) {
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof Data>("status");
   const [page, setPage] = useState(0);
@@ -351,18 +197,22 @@ export default function EnhancedTable(props: Time) {
     setDense(event.target.checked);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.rows.length) : 0;
 
   const visibleRows = useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(props.rows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage]
+    [order, orderBy, page, rowsPerPage, props.rows]
   );
+
+  function convertData(data: string) {
+    const newData = new Date(data).toLocaleString();
+    return newData;
+  }
 
   useEffect(() => {
     if (props.title !== "") {
@@ -400,10 +250,13 @@ export default function EnhancedTable(props: Time) {
                   <TableRow key={index}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell component="th" scope="row" padding="none">
-                      {row.evento}
+                      {row.titulo}
                     </TableCell>
-                    <TableCell align="center">{row.data}</TableCell>
-                    <TableCell align="center">{row.tipo_pagamento}</TableCell>
+                    <TableCell align="center">
+                      {convertData(row.created_at)}
+                    </TableCell>
+                    <TableCell align="center">{row.formaPagamento}</TableCell>
+                    <TableCell align="center">{row.descricao}</TableCell>
                     <TableCell align="center">
                       <Chip
                         label={row.status}
@@ -417,7 +270,7 @@ export default function EnhancedTable(props: Time) {
                       />
                     </TableCell>
                     <TableCell align="center">
-                      {Money.format(row.valor_total)}
+                      {Money.format(parseInt(row.valor))}
                     </TableCell>
                   </TableRow>
                 );
@@ -437,7 +290,7 @@ export default function EnhancedTable(props: Time) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={props.rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

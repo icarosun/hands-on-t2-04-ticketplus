@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { GraficoGeralOptions } from "./configs/Geral";
+import { XGraficoGeral } from "../../services/dashboard.service";
 
 export interface DadosGrafico {
   name: string;
@@ -34,6 +35,7 @@ export default function GraficoTicketsGeral(props: Graficos) {
   useEffect(() => {
     setSeries(props.dadosGrafico);
     setCategories(props.categorias);
+
     setOptions(GraficoGeralOptions);
 
     setOptions((prev) => ({

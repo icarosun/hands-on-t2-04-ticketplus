@@ -8,7 +8,9 @@ import Trophy from "../../assets/images/trophy.png";
 import TriangleLight from "../../assets/images/triangle-light.png";
 
 interface Card {
+  titulo: string;
   title?: string;
+  tickets: number;
 }
 
 const TriangleImg = styled("img")({
@@ -29,12 +31,12 @@ export default function MelhorVendaEvento(props: Card) {
   return (
     <Card sx={{ position: "relative" }}>
       <CardContent>
-        <Typography variant="h5">Chiado da Chinela</Typography>
+        <Typography variant="h5">{props.titulo}</Typography>
         <Typography variant="body2" sx={{ letterSpacing: "0.25px" }}>
           Evento com a maior venda {props.title ? `- ${props.title}` : ""}
         </Typography>
         <Typography variant="h6" sx={{ my: 4, color: "primary.main" }}>
-          300 tickets vendidos
+          {props.tickets} tickets vendidos
         </Typography>
         <Button size="small" variant="contained">
           Visualizar Evento
