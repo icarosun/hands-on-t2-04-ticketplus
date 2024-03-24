@@ -239,3 +239,18 @@ export async function getEventosXGrafico(
     },
   });
 }
+
+/*
+
+SELECT c.descricao, count(a.id) FROM pedidos a join eventos b on a.eventoId = b.id join tipoTickets c on c.id = a.tipoTicketId WHERE a.status = "Pago" and c.descricao = "inteira" GROUP by b.id, c.descricao order by b.id;
+
+export async function getDadosYGrafico(
+  organizadorId: string | undefined
+): Promise<object | null> {
+  //return await prisma.$queryRaw`select COUNT(a.id), b.titulo from pedidos a join eventos b on a.eventoId = b.id join tipoTickets c on c.id = a.tipoTicketId where status = "Pago" and b.organizadorId = ${organizadorId} and c.descricao = 'VIP' GROUP by eventoId order by b.titulo`;
+  return await prisma.resumoGraficoGeral.findMany({
+    where: {
+      organizadorId,
+    },
+  });
+}*/

@@ -6,6 +6,20 @@ import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
 const router = Router();
 
 router.get(
+  "/graficoGeralYFinanceiro/",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.graficoYGeralFinanceiro
+);
+
+router.get(
+  "/graficoGeralY/",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.graficoYGeral
+);
+
+router.get(
   "/graficoGeralX",
   usuarioAutenticado,
   isOrganizador,

@@ -17,6 +17,11 @@ import {
   getEventosXGrafico,
 } from "./dashboard.service";
 
+import {
+  getDadosYGrafico,
+  getDadosYGraficoFinanceiro,
+} from "./dashboard.service2";
+
 interface CardBestSeller {
   titulo: string;
   totalTickets: number;
@@ -81,6 +86,22 @@ interface MelhorEvento {
 
 interface cardValor {
   valor: number;
+}
+
+interface GraficoY {
+  evento: string;
+  vendidos: number;
+  restante: number;
+  tipo_ticket: string;
+}
+
+interface GraficoX {
+  titulo: string;
+}
+
+interface GraficoGeral {
+  titulo: string;
+  data: GraficoY[];
 }
 
 async function modalTitle(req: Request, res: Response) {
@@ -305,7 +326,6 @@ async function cardPorcentagemTotal(req: Request, res: Response) {
     return res.status(500).json(error);
   }
 }
-
 // Evento com mais tickets vendidos (desempata por receita)
 async function cardMelhorEvento(req: Request, res: Response) {
   const organizadorId = req.session.uid;
@@ -377,7 +397,42 @@ async function graficoXGeral(req: Request, res: Response) {
   }
 }
 
+async function graficoYGeral(req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  try {
+    const inteiras = await getDadosYGrafico(organizadorId, "inteira");
+    const meia = await getDadosYGrafico(organizadorId, "meia-entrada");
+    const vip = await getDadosYGrafico(organizadorId, "VIP");
+    if (!inteiras || !meia || !vip)
+      return res.status(404).json({ msg: "Nenhum dado encontrado." });
+    const data = { inteiras, meia, vip };
+    return res.status(200).json(data);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+async function graficoYGeralFinanceiro(req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  try {
+    const inteiras = await getDadosYGraficoFinanceiro(organizadorId, "inteira");
+    const meia = await getDadosYGraficoFinanceiro(
+      organizadorId,
+      "meia-entrada"
+    );
+    const vip = await getDadosYGraficoFinanceiro(organizadorId, "VIP");
+    if (!inteiras || !meia || !vip)
+      return res.status(404).json({ msg: "Nenhum dado encontrado." });
+    const data = { inteiras, meia, vip };
+    return res.status(200).json(data);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 export default {
+  graficoYGeralFinanceiro,
+  graficoYGeral,
   graficoXGeral,
   tabelaIndividual,
   tabelaGeral,
