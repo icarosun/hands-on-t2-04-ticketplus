@@ -50,8 +50,44 @@ export interface XGraficoGeral {
   titulo: string;
 }
 
-interface Grafico {
+export interface YGraficoGeral {
+  evento: string;
+  vendidos: number;
+  restante: number;
+  tipo_ticket: string;
+}
+
+interface GraficoX {
   data?: XGraficoGeral[];
+}
+
+interface GraficoAux2 {
+  restante: number;
+  vendidos: number;
+}
+
+interface GraficoAux3 {
+  total: number;
+}
+
+interface GraficoYFinancas {
+  data?: GraficoYAux;
+}
+
+interface GraficoYAux {
+  inteiras: GraficoAux3[];
+  meia: GraficoAux3[];
+  vip: GraficoAux3[];
+}
+
+interface GraficoAux {
+  inteiras: GraficoAux2[];
+  meia: GraficoAux2[];
+  vip: GraficoAux2[];
+}
+
+interface GraficoY {
+  data?: GraficoAux;
 }
 
 // ========================= Dashboard Geral - Sem período ====================== //
@@ -85,13 +121,20 @@ export async function getCardReceitaTotal(): Promise<Resumo | null> {
 
 // ================== Gráficos ================== //
 
-// De Tickets
-// X (Categorias)
-export async function getXGraficoGeral(): Promise<Grafico | null> {
+// X (Categorias) de Tickets e Finanças
+export async function getXGraficoGeral(): Promise<GraficoX | null> {
   return await HttpInstance.http.get(`/dashboard/graficoGeralX`);
 }
 
-// De Finanças
+// Y (series) de Tickets
+export async function getYGraficoGeral(): Promise<GraficoY> {
+  return await HttpInstance.http.get(`/dashboard/graficoGeralY/`);
+}
+
+// Y (Series) de Finanças
+export async function getYGraficoGeralFinanceiro(): Promise<GraficoYFinancas> {
+  return await HttpInstance.http.get(`/dashboard/graficoGeralYFinanceiro/`);
+}
 
 // ================== Tabela de Compras ================== //
 
