@@ -3,17 +3,31 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login, Usuario } from "../../services/login.service";
 import { setSession } from "../../redux/slices/session.slice";
-import Modal from '@mui/material/Modal'
-import Box from '@mui/material/Box'
-import Button from '@mui/joy/Button'
+import { CssVarsProvider, useColorScheme } from '@mui/joy/styles';
+import GlobalStyles from '@mui/joy/GlobalStyles';
+import CssBaseline from '@mui/joy/CssBaseline';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Checkbox from '@mui/joy/Checkbox';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import IconButton, { IconButtonProps } from '@mui/joy/IconButton';
+import Link from '@mui/joy/Link';
+import Input from '@mui/joy/Input';
+import Typography from '@mui/joy/Typography';
+import Stack from '@mui/joy/Stack';
+import Alert from '@mui/joy/Alert';
+import Check from '@mui/icons-material/Check';
+import Modal from '@mui/joy/Modal';
+import AspectRatio from '@mui/joy/AspectRatio';
+import LinearProgress from '@mui/joy/LinearProgress';
+import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+
+import BannerLight from "../../assets/3.png";
 import Divider from '@mui/material/Divider'
-import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
-import Typography from '@mui/material/Typography'
-import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
-import FormControl from '@mui/material/FormControl'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import InputAdornment from '@mui/material/InputAdornment'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -22,7 +36,6 @@ import Facebook from 'mdi-material-ui/Facebook'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import Card from '@mui/material/Card'
-import Alert from '@mui/material/Alert';
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded';
 
@@ -42,6 +55,7 @@ const SignUpComprador = () => {
     })
     const [signUpError] = useState<string | null>(null);
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+    const [loginError, setLoginError] = useState<string | null>(null);
 
     const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
         setValues({ ...values, [prop]: event.target.value })
@@ -75,146 +89,195 @@ const SignUpComprador = () => {
     };
 
     return (
-        <>
-            <Button startDecorator={<PersonAddAlt1RoundedIcon />} onClick={handleOpenModal} color="primary" sx={{ my: 1.5, color: 'white', marginRight:2}}>Cadastra-se</Button>
-            <Modal
-                open={openModal}
-                onClose={handleCloseModal}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Card sx={{
-                    position: 'absolute',
-                    maxWidth: 450, // Largura relativa ao modal
-                    maxHeight: 650, // Altura relativa ao modal
-                    bgcolor: '#fff',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    borderRadius: 3,
-                    boxShadow: 20
-                }}>
-                    <CardContent sx={{ marginTop: 2.5, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography
-                                variant='h6'
-                                sx={{
-                                    ml: 1,
-                                    lineHeight: 1,
-                                    fontWeight: 600,
-                                    textTransform: 'uppercase',
-                                    fontSize: '1.5rem !important'
-                                }}
-                            >
-                                TicketPlus
-                            </Typography>
-                        </Box>
-                        <Box sx={{ mb: 1 }}>
-                            <Typography variant='h6' sx={{ fontWeight: 600, marginBottom: 1 }}>
+      <CssVarsProvider defaultMode="dark" disableTransitionOnChange>
+          <CssBaseline />
+          <GlobalStyles
+              styles={{
+                  ':root': {
+                      '--Form-maxWidth': '800px',
+                      '--Transition-duration': '0.4s', // set to `none` to disable transition
+                  },
+              }}
+          />
+          <Box
+              sx={(theme) => ({
+                  width: { xs: '100%' },
+                  transition: 'width var(--Transition-duration)',
+                  transitionDelay: 'calc(var(--Transition-duration) + 0.1s)',
+                  position: 'relative',
+                  zIndex: 1,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  backdropFilter: 'blur(12px)',
+                  backgroundColor: 'rgba(255 255 255 / 0.2)',
+                  [theme.getColorSchemeSelector('dark')]: {
+                      backgroundColor: 'rgba(19 19 24 / 0.4)',
+                  },
+              })}
+          >
+              <Box
+                  sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      minHeight: '100dvh',
+                      width: '100%',
+                      px: 2,
+                  }}
+              >
+                  <Box
+                      component="header"
+                      sx={{
+                          py: 3,
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                      }}
+                  >
+                      <Box sx={{ gap: 2, display: 'flex', alignItems: 'center' , backgroundColor:'#fff'}}>
+                          <IconButton variant="plain" color="primary" size="sm">
+                              <LocalActivityIcon />
+                          </IconButton>
+                          <Typography level="title-lg">TicketPlus</Typography>
+                      </Box>
+                      {/*<ColorSchemeToggle />*/}
+                  </Box>
+                  <Box
+                      component="main"
+                      sx={{
+                          my: 'auto',
+                          py: 2,
+                          pb: 5,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 2,
+                          width: 400,
+                          maxWidth: '100%',
+                          mx: 'auto',
+                          borderRadius: 'sm',
+                          '& form': {
+                              display: 'flex',
+                              flexDirection: 'column',
+                              gap: 2,
+                          },
+                          [`& .MuiFormLabel-asterisk`]: {
+                              visibility: 'hidden',
+                          },
+                      }}
+                  >
+                      <Stack gap={4} sx={{ mb: 2 }}>
+                              <Typography component="h1" level="h3">
                                 Bem Vindo ao TicketPlus! 👋🏻
-                            </Typography>
-                            <Typography variant='body2'>Registro de Usuário</Typography>
-                        </Box>
-                        <Player
-                            autoplay
-                            loop
-                            src="https://lottie.host/7f819f41-e896-4e47-9090-41cb12ff6993/YEyhbRu0W7.json"
-                            style={{ height: '100px', width: '100px', marginTop: 5 }}
-                        >
-                            <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
-                        </Player>
-                        <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()} style={{ marginLeft: 70, marginRight: 70 }}>
-                            <TextField
-                                autoFocus
-                                fullWidth
-                                id='email'
-                                label='Email'
-                                sx={{ marginBottom: 1.5 }}
-                                value={values.email} // Adicionando o valor do estado
-                                onChange={handleChange('email')} // Chamando a função handleChange para atualizar o estado quando o valor do TextField mudar
-                            />
-
-                            <FormControl fullWidth>
-                                <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
-                                <OutlinedInput
-                                    label='Password'
-                                    value={values.password}
-                                    id='auth-login-password'
-                                    onChange={handleChange('password')}
-                                    type={values.showPassword ? 'text' : 'password'}
-                                    endAdornment={
-                                        <InputAdornment position='end'>
-                                            <IconButton
-                                                edge='end'
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                aria-label='toggle password visibility'
-                                            >
-                                                {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    }
-                                />
-                            </FormControl>
-
-                            {signUpError && <Alert severity="error">{signUpError}</Alert>}
-
-                            <Button
-                                fullWidth
-                                variant='solid'
-                                sx={{ marginBottom: 1, marginTop: 1 }}
-                            >
-                                Realizar Cadastro
-                            </Button>
-
-                            <Divider sx={{ my: 0 }}>ou</Divider>
-
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <IconButton component='a' onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault()}>
-                                    <Facebook sx={{ color: '#497ce2' }} />
-                                </IconButton>
-                                <IconButton component='a' onClick={(e: MouseEvent<HTMLElement>) => e.preventDefault()}>
-                                    <Google sx={{ color: '#db4437' }} />
-                                </IconButton>
-                            </Box>
-                        </form>
-                    </CardContent>
-                </Card>
-            </Modal>
-            <Modal
-                open={showSuccessMessage}
-                onClose={handleCloseModalSuccessMessage}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Card sx={{
-                    position: 'absolute',
-                    maxWidth: 450, // Largura relativa ao modal
-                    maxHeight: 650, // Altura relativa ao modal
-                    bgcolor: '#fff',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    borderRadius: 3,
-                    boxShadow: 20
-                }}>
-                    <CardContent sx={{ marginTop: 2.5, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <Box sx={{ mb: 1 }}>
-                            <Player
-                                autoplay
-                                loop
-                                src="https://lottie.host/48c51d08-deb3-4480-a646-7d60b13642d7/8IhnHCZ5IN.json"
-                                style={{ height: '80px', width: '80px', marginTop: 5 }}
-                            >
-                                <Controls visible={false} buttons={['play', 'repeat', 'frame', 'debug']} />
-                            </Player>
-                            <Typography variant='body1' sx={{ marginTop: 4 }}> Cadastro realizado com sucesso!</Typography>
-                        </Box>
-                    </CardContent>
-                </Card>
-            </Modal>
-        </>
-    )
+                              </Typography>
+                      </Stack>
+                      <Stack gap={4} sx={{ mt: 2 }}>
+                          <form
+                              noValidate
+                              autoComplete='off'
+                              onSubmit={e => e.preventDefault()}
+                          >
+                              <FormControl required>
+                                  <FormLabel>Email</FormLabel>
+                                  <Input id='email' value={values.email} type="email" name="email" onChange={handleChange('email')} />
+                              </FormControl>
+                              <FormControl required>
+                                  <FormLabel>Senha</FormLabel>
+                                  <Input
+                                      name="password"
+                                      value={values.password}
+                                      id='auth-login-password'
+                                      onChange={handleChange('password')}
+                                      type={values.showPassword ? 'text' : 'password'}
+                                  />
+                              </FormControl>
+                              <Stack gap={4} sx={{ mt: 2 }}>
+                                  <Box
+                                      sx={{
+                                          display: 'flex',
+                                          justifyContent: 'space-between',
+                                          alignItems: 'center',
+                                      }}
+                                  >
+                                      <Checkbox size="sm" label="Remember me" name="persistent" />
+                                      <Link level="title-sm" href="#replace-with-a-link">
+                                          Esqueci minha senha
+                                      </Link>
+                                  </Box>
+                                  <Button onClick={() => console.log("ola")} fullWidth>
+                                      Entrar
+                                  </Button>
+                              </Stack>
+                              {loginError && <Alert sx={{ alignItems: 'flex-start' }} variant="soft" color='danger'>{loginError}</Alert>}
+                          </form>
+                      </Stack>
+                  </Box>
+                  <Box component="footer" sx={{ py: 3 }}>
+                      <Typography level="body-xs" textAlign="center">
+                          © TicketPlus {new Date().getFullYear()}
+                      </Typography>
+                  </Box>
+              </Box>
+          </Box>
+         <Modal
+              open={showSuccessMessage}
+              onClose={handleCloseModalSuccessMessage}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+          >
+              <Stack spacing={2} sx={{ maxWidth: 400 }}>
+                  <Alert
+                      size="lg"
+                      variant="soft"
+                      startDecorator={
+                          <AspectRatio
+                              variant="solid"
+                              color='primary'
+                              ratio="1"
+                              sx={{
+                                  minWidth: 40,
+                                  color:'#4377ff',
+                                  borderRadius: '50%'
+                              }}
+                          >
+                              <div>
+                                  <Check />
+                              </div>
+                          </AspectRatio>
+                      }
+                      sx={{
+                          alignItems: 'flex-start',
+                          overflow: 'hidden',
+                          position: 'absolute' as 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          width: 400,
+                          bgcolor: 'background.paper',
+                          boxShadow: 24,
+                          p: 4,
+                      }}
+                  >
+                      <div>
+                          <Typography level="title-lg">Sucesso</Typography>
+                          <Typography level="body-xs">
+                              Login efetuado com sucesso, aguarde ...
+                          </Typography>
+                      </div>
+                      <LinearProgress
+                          variant="solid"
+                          value={40}
+                          sx={{
+                              color: '#4377ff',
+                              position: 'absolute',
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              borderRadius: 0,
+                          }}
+                      />
+                  </Alert>
+              </Stack>
+          </Modal>
+      </CssVarsProvider>
+  );
 }
 
 export default SignUpComprador
