@@ -13,6 +13,7 @@ import tiposTicketsEventosRouter from "../resources/tiposTicketsEventos/tiposTic
 import enderecoRouter from "../resources/endereco/endereco.router";
 import pagamentoRouter from "../resources/pagamento/pagamento.router";
 import pedidoRouter from "../resources/pedido/pedido.router";
+import enderecosEventosRouter from "../resources/enderecosEventos/enderecosEventos.router";
 
 
 const router = Router();
@@ -88,6 +89,11 @@ router.use(
 router.use(
   "/pedido",
   pedidoRouter
+);
+
+router.use(
+  "/enderecosEventos",
+  enderecosEventosRouter
 );
 
 export default router;

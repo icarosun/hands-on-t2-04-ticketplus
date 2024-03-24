@@ -1,5 +1,7 @@
 import { PrismaClient, Evento, Compra, TipoTicket, Pedido } from "@prisma/client";
 import { CreateEventoDto, UpdateEventoDto } from "./evento.types";
+import { getDadosEnderecoByCEP } from "../endereco/endereco.service";
+import { DadosEnderecoType } from "../endereco/endereco.types";
 
 const prisma = new PrismaClient();
 
