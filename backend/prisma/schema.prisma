@@ -16,10 +16,12 @@ model Comprador {
   id        String   @id @default(uuid()) @db.Char(36)
   nome      String   @db.VarChar(100)
   email     String   @unique @db.VarChar(100)
+  cpf       String   @unique @db.Char(11)
   senha     String   @db.VarChar(100)
-  //tipocomprador    String   @db.Char(36)
-  saldo          Decimal  @db.Decimal(9, 2)
+
   pedidos    Pedido[]
+  totalTicketsComprados TotalTicketsComprados[]
+  
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
@@ -50,13 +52,17 @@ model Evento {
   faixaEtaria       Int     @db.Int
   vagas             Int     @db.Int
   // imageUrl          String   @db.VarChar(100)
+  dataInicio        DateTime @db.DateTime()
+  dataFim           DateTime @db.DateTime()
+
   organizadorId     String  @db.Char(36)
   categoriaEventoId Int     @db.Int()
   enderecoEventoId  Int     @db.Int()
-
+  
   ticket     Ticket[]
   pedidos    Pedido[]
   tiposTicketsEventos TiposTicketsEventos[]
+  totalTicketsComprados TotalTicketsComprados[]
 
   Organizador     Organizador     @relation(fields: [organizadorId], references: [id])
   CategoriaEvento CategoriaEvento @relation(fields: [categoriaEventoId], references: [id])
@@ -64,6 +70,8 @@ model Evento {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@fulltext([titulo])
 
   @@map("eventos")
 
@@ -102,9 +110,9 @@ model Ticket {
 model Pedido {
   id              String   @id @default(uuid()) @db.Char(36)
   formaPagamento  String   @db.VarChar(50)
+  quantidade      Int      @db.Int()
   valor           Decimal  @db.Decimal(9, 2)
   status          String   @db.VarChar(50)
-  // quantidade     Int     @db.Int()
 
   compradorId     String   @db.Char(36)
   eventoId        Int      @db.Int()
@@ -123,8 +131,8 @@ model Pedido {
 model Compra {
   id             String   @id @default(uuid()) @db.Char(36)
 
-  pedidoId       String   @db.Char(36)
-  ticketId       String   @db.Char(36)
+  pedidoId       String   @unique @db.Char(36)
+  ticketId       String   @unique @db.Char(36)
 
   ticket  Ticket          @relation(fields: [ticketId], references: [id])
 
@@ -162,6 +170,21 @@ model TiposTicketsEventos {
 
   @@id([eventoId, tipoTicketId])
   @@map("tipoTicketsEventos")
+}
+
+model TotalTicketsComprados {
+  cpfComprador          String  @db.Char(11)
+  eventoId              Int     @db.Int()
+  totalTicketsComprados Int     @db.Int()
+
+  comprador     Comprador    @relation(fields: [cpfComprador], references: [cpf])
+  evento        Evento    @relation(fields: [eventoId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@id([cpfComprador, eventoId])
+  @@map("totalTicketsComprados")
 }
 
 model CategoriaEvento {

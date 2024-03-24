@@ -9,13 +9,16 @@ const pedidoSchema = Joi.object({
         .required(),
     quantity: Joi.number()
         .integer()
+        .min(1)
+        .max(5)
         .required(),
     formaPagamento: Joi.string().
         valid(
             FormasPagamento.BOLETO,
             FormasPagamento.CARTAO_CREDITO,
             FormasPagamento.PIX
-        ),
+        )
+        .required(),
     tipoTicketId: Joi.number()
         .integer()
         .required()

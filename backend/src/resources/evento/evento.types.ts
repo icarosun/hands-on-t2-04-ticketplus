@@ -16,6 +16,8 @@ export interface CreateEventoReqType {
   descricao: string;
   localizacao: string;
   vagas: number;
+  dataInicio: Date;
+  dataFim: Date;
   faixaEtaria: number;
   imageBase64: string;
   categoriaEventoId: number;
@@ -42,6 +44,8 @@ export type CreateEventoDto = Pick<
   | "localizacao"
   | "faixaEtaria"
   | "vagas"
+  | "dataInicio"
+  | "dataFim"
   | "organizadorId"
   | "categoriaEventoId"
   | "enderecoEventoId"
@@ -52,7 +56,9 @@ export type UpdateEventoDto = Pick<
   | "titulo"
   | "descricao"
   | "localizacao"
-  | "vagas"
   | "faixaEtaria"
+  | "vagas"
+  | "dataInicio"
+  | "dataFim"
   | "categoriaEventoId"
 >;
