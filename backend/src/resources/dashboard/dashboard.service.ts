@@ -155,52 +155,21 @@ export async function getTotalVagasEventos(
 export async function getTotalTicketsVendidos(
   organizadorId: string | undefined
 ): Promise<object | null> {
-  return await prisma.evento.findMany({
-    select: {
-      _count: {
-        select: {
-          pedidos: {
-            where: {
-              status: "Pago",
-            },
-          },
-        },
-      },
-    },
-    where: {
-      organizadorId,
-    },
-  });
+  return await prisma.$queryRaw`select IFNULL(SUM(b.quantidade),0) as vendidos from eventos a join pedidos b on a.id = b.eventoId where b.status = "Pago" and a.organizadorId = ${organizadorId};`;
 }
 
 export async function getMelhorEvento(
   organizadorId: string | undefined
 ): Promise<object | null> {
   if (organizadorId === undefined) return null;
-  return await prisma.evento.findMany({
-    select: {
-      titulo: true,
-      _count: {
-        select: {
-          pedidos: {
-            where: {
-              status: "Pago",
-            },
-          },
-        },
-      },
-    },
-    where: {
-      organizadorId,
-    },
-  });
+  return await prisma.$queryRaw`select a.titulo, IFNULL(SUM(b.quantidade),0) as vendidos from eventos a join pedidos b on a.id = b.eventoId where b.status = "Pago" and a.organizadorId = ${organizadorId} GROUP BY a.titulo ORDER BY vendidos DESC LIMIT 1;`;
 }
 
 export async function getTabelaGeralEventos(
   organizadorId: string | undefined
 ): Promise<object | null> {
   if (organizadorId === undefined) return null;
-  return await prisma.$queryRaw`select a.titulo, b.created_at, b.formaPagamento, c.descricao, b.status, b.valor from eventos a join pedidos b on a.id = b.eventoId join tipoTickets c on b.tipoTicketId = c.id where organizadorId = ${organizadorId}`;
+  return await prisma.$queryRaw`select a.titulo, b.created_at, b.formaPagamento, c.descricao, b.status, b.valor, b.quantidade from eventos a join pedidos b on a.id = b.eventoId join tipoTickets c on b.tipoTicketId = c.id where organizadorId = ${organizadorId}`;
 }
 
 // Individual

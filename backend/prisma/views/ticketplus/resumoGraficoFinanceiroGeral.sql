@@ -3,9 +3,9 @@ SELECT
   `b`.`titulo` AS `evento`,
   `b`.`organizadorId` AS `organizador`,
   `c`.`descricao` AS `tipo_ticket`,
-  count(`d`.`id`) AS `vendidos`,
+  IFNULL(sum(`d`.`quantidade`), 0) AS `vendidos`,
   `a`.`preco` AS `preco`,
-(count(`d`.`id`) * `a`.`preco`) AS `total`
+(IFNULL(sum(`d`.`quantidade`), 0) * `a`.`preco`) AS `total`
 FROM
   (
     (

@@ -22,10 +22,8 @@ import {
   getDadosYGraficoFinanceiro,
 } from "./dashboard.service2";
 
-interface CardBestSeller {
-  titulo: string;
-  totalTickets: number;
-  totalValor: number;
+interface CardTotalVendidos {
+  vendidos: number;
 }
 
 interface xDesc {
@@ -80,8 +78,7 @@ interface cardComprados {
 
 interface MelhorEvento {
   titulo: string;
-  _count: SumAux;
-  tickets: number;
+  vendidos: string;
 }
 
 interface cardValor {
@@ -271,23 +268,20 @@ async function cardTicketsVendidosTotal(req: Request, res: Response) {
   try {
     const totalTicketsVendidos = (await getTotalTicketsVendidos(
       organizadorId
-    )) as PrismaCount[];
+    )) as CardTotalVendidos[];
     if (!totalTicketsVendidos)
       return res
         .status(404)
         .json({ msg: "Organizador possui eventos sem tickets cadastrados!" });
-    const cardData: PrismaCount[] = totalTicketsVendidos;
+    const cardData: CardTotalVendidos[] = totalTicketsVendidos;
 
     if (cardData === null) {
       return res.status(200).json(0);
     }
 
-    // soma dos resultados
-    const total: number = cardData.reduce((card, arr) => {
-      return card + arr._count.pedidos;
-    }, 0);
+    const vendidos = cardData[0].vendidos;
 
-    return res.status(200).json(total);
+    return res.status(200).json(vendidos);
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -298,7 +292,7 @@ async function cardPorcentagemTotal(req: Request, res: Response) {
   try {
     const totalTicketsVendidos = (await getTotalTicketsVendidos(
       organizadorId
-    )) as PrismaCount[];
+    )) as CardTotalVendidos[];
     const totalDisponivel = (await getTotalVagasEventos(
       organizadorId
     )) as PrismaSum[];
@@ -306,20 +300,15 @@ async function cardPorcentagemTotal(req: Request, res: Response) {
       return res
         .status(404)
         .json({ msg: "Organizador possui eventos sem tickets cadastrados!" });
-    const cardData: PrismaCount[] = totalTicketsVendidos;
+    const cardData: CardTotalVendidos[] = totalTicketsVendidos;
     const cardData2: number = totalDisponivel[0]._sum.vagas;
 
     if (cardData === null || cardData2 === null) {
       return res.status(200).json(0);
     }
 
-    // soma dos resultados
-    const totalVendido: number = cardData.reduce((card, arr) => {
-      return card + arr._count.pedidos;
-    }, 0);
-
     // Porcentagem
-    const total: number = (totalVendido * 100) / cardData2;
+    const total: number = (cardData[0].vendidos * 100) / cardData2;
 
     return res.status(200).json(total);
   } catch (error) {
@@ -333,23 +322,16 @@ async function cardMelhorEvento(req: Request, res: Response) {
     const evento = (await getMelhorEvento(organizadorId)) as MelhorEvento[];
     if (!evento)
       return res.status(404).json({ msg: "Nenhum evento encontrado." });
-    const eventoData: MelhorEvento[] = evento;
+    const melhorEventoData: MelhorEvento[] = evento;
 
-    if (eventoData.length === 0) {
+    if (!melhorEventoData) {
       return res.status(404).json({ msg: "Nenhum evento encontrado." });
     }
 
-    let value: number = 0;
-    let indexAux: number = 0;
-
-    eventoData.map((e, index) => {
-      if (e._count.pedidos >= value) {
-        value = e._count.pedidos;
-        indexAux = index;
-      }
-    });
-
-    const best = { titulo: evento[indexAux].titulo, tickets: value };
+    const best = {
+      titulo: melhorEventoData[0].titulo,
+      tickets: melhorEventoData[0].vendidos,
+    };
 
     return res.status(200).json(best);
   } catch (error) {

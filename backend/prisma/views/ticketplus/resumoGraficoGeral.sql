@@ -4,8 +4,10 @@ SELECT
   `b`.`organizadorId` AS `organizador`,
   `a`.`quantidade` AS `disponivel`,
   `c`.`descricao` AS `tipo_ticket`,
-  count(`d`.`id`) AS `vendidos`,
-(`a`.`quantidade` - count(`d`.`id`)) AS `restante`
+  IFNULL(sum(`d`.`quantidade`), 0) AS `vendidos`,
+(
+    `a`.`quantidade` - IFNULL(sum(`d`.`quantidade`), 0)
+  ) AS `restante`
 FROM
   (
     (
@@ -30,6 +32,5 @@ GROUP BY
   `a`.`quantidade`,
   `c`.`descricao`
 ORDER BY
-  `b`.`id`,
   `b`.`titulo`,
   `c`.`descricao`

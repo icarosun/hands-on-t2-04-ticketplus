@@ -26,6 +26,7 @@ interface Data {
   descricao: string;
   status: string;
   valor: string;
+  quantidade: number;
 }
 
 function chipColor(status: string) {
@@ -110,6 +111,12 @@ const headCells: readonly HeadCell[] = [
     label: "Ticket",
   },
   {
+    id: "quantidade",
+    align: "center",
+    disablePadding: false,
+    label: "Quantidade",
+  },
+  {
     id: "status",
     align: "center",
     disablePadding: false,
@@ -168,7 +175,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 export default function EnhancedTable(props: Table) {
   const [order, setOrder] = useState<Order>("asc");
-  const [orderBy, setOrderBy] = useState<keyof Data>("status");
+  const [orderBy, setOrderBy] = useState<keyof Data>("created_at");
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -257,6 +264,7 @@ export default function EnhancedTable(props: Table) {
                     </TableCell>
                     <TableCell align="center">{row.formaPagamento}</TableCell>
                     <TableCell align="center">{row.descricao}</TableCell>
+                    <TableCell align="center">{row.quantidade}</TableCell>
                     <TableCell align="center">
                       <Chip
                         label={row.status}
@@ -299,7 +307,7 @@ export default function EnhancedTable(props: Table) {
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Reduzir Espaço?"
+        label="Reduzir espaço da tabela?"
       />
     </Box>
   );

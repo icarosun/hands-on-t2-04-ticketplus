@@ -40,6 +40,7 @@ export interface TabelaGeral {
   descricao: string;
   status: string;
   valor: string;
+  quantidade: number;
 }
 
 interface Tabela {
@@ -137,9 +138,16 @@ export async function getYGraficoGeralFinanceiro(): Promise<GraficoYFinancas> {
 }
 
 // ================== Tabela de Compras ================== //
-
+// Geral
 export async function getTabelaGeral(): Promise<Tabela | null> {
   return await HttpInstance.http.get(`/dashboard/tabela`);
+}
+
+// Por período
+export async function getTabelaPeriodo(
+  periodo: number
+): Promise<Tabela | null> {
+  return await HttpInstance.http.get(`/dashboard/tabela/${periodo}`);
 }
 
 // ========================= Dashboard Específico ====================== //
