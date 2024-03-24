@@ -216,9 +216,9 @@ export default function EnhancedTable(props: Table) {
 
   useEffect(() => {
     if (props.title !== "") {
-      setTitle(`Últimas Vendas - ${props.title}`);
+      setTitle(`Últimas Movimentações - ${props.title}`);
     } else {
-      setTitle(`Últimas Vendas`);
+      setTitle(`Últimas Movimentações`);
     }
   }, [props.title]);
 

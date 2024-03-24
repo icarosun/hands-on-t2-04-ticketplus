@@ -20,6 +20,8 @@ import {
   TabelaGeral,
   getXGraficoGeral,
   XGraficoGeral,
+  getYGraficoGeral,
+  getYGraficoGeralFinanceiro,
 } from "../../../services/dashboard.service";
 import { SelectChangeEvent } from "@mui/material";
 import GraficoFinanceiroGeral from "../../Graficos/GraficoFinanceiro";
@@ -27,17 +29,14 @@ import GraficoFinanceiroPorPeriodo from "../../Graficos/GraficoFinanceiroPorPeri
 import MelhorVendaEvento from "../../Cards/MelhorVendaEvento";
 import EstatisticasVendas from "../Estatistica";
 import EnhancedTable from "../Tabela";
-import {
-  graficoGeralSeries,
-  categoriasGeraisEventos,
-} from "../Data/graficoGeralData";
+import { setDataGrafico } from "../Data/graficoGeralData";
 import {
   categoriasSemana,
   categoriasMes,
   ultSemana,
   UltMes,
 } from "../Data/graficoGeralPorPeriodoData";
-import { graficoFinanceiroSeries } from "../Data/graficoGeralFinanceiroData";
+import { setDataGraficoFinanceiro } from "../Data/graficoGeralFinanceiroData";
 import { DadosGrafico } from "../../Graficos/GraficoTicketsPorPeriodo";
 import {
   ultSemanaFinanceiro,
@@ -88,13 +87,43 @@ export default function DashboardGeral() {
         const table = tabelaGeral?.data as TabelaGeral[];
         setTabela(table);
         // Grafico Tickets Geral
-        // Categorias (x)
+        // Categorias (x) - é o mesmo para o Financeiro
         const xGraficoGeral = await getXGraficoGeral();
         const xGeral = (xGraficoGeral?.data as XGraficoGeral[]).map(
           (item) => item.titulo
         );
         setEventos(xGeral);
         // Series (y)
+        const dadosTicketsY = await getYGraficoGeral();
+        const dados = dadosTicketsY?.data;
+        const intPaga = dados!.inteiras.map((a) => a.vendidos);
+        const intRest = dados!.inteiras.map((a) => a.restante);
+        const meiaPaga = dados!.meia.map((a) => a.vendidos);
+        const meiaRest = dados!.meia.map((a) => a.restante);
+        const vipPaga = dados!.vip.map((a) => a.vendidos);
+        const vipRest = dados!.vip.map((a) => a.restante);
+        const dataGrafico = setDataGrafico(
+          intPaga,
+          intRest,
+          meiaPaga,
+          meiaRest,
+          vipPaga,
+          vipRest
+        );
+        setSeries(dataGrafico);
+        // Grafico Financeiro
+        // Series (y)
+        const dadosFinancasY = await getYGraficoGeralFinanceiro();
+        const dadosFin = dadosFinancasY?.data;
+        const intValor = dadosFin!.inteiras.map((a) => a.total);
+        const meiaValor = dadosFin!.meia.map((a) => a.total);
+        const vipValor = dadosFin!.vip.map((a) => a.total);
+        const dataGraficoFin = setDataGraficoFinanceiro(
+          intValor,
+          meiaValor,
+          vipValor
+        );
+        setSeriesFin(dataGraficoFin);
       } catch (error) {
         console.error(error);
       }
@@ -115,7 +144,6 @@ export default function DashboardGeral() {
       setTextFinanceiro(`Resumo - Financeiro por Evento - ${titleTemp}`);
     } else {
       fetchDataGeral();
-      setSeries(graficoGeralSeries);
       setTitleTemp("");
       setTextTickets(`Resumo - Tickets Vendidos/Disponíveis`);
       setTextFinanceiro(`Resumo - Financeiro por Evento`);
@@ -194,8 +222,8 @@ export default function DashboardGeral() {
                 ))
               ) : (
                 <GraficoFinanceiroGeral
-                  dadosGrafico={graficoFinanceiroSeries}
-                  eventos={categoriasGeraisEventos}
+                  dadosGrafico={seriesFin}
+                  eventos={eventos}
                   //title={titleTemp}
                 />
               )}

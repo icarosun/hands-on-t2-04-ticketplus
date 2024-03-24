@@ -3,7 +3,6 @@ import { useTheme } from "@mui/material/styles";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { GraficoGeralOptions } from "./configs/Geral";
-import { XGraficoGeral } from "../../services/dashboard.service";
 
 export interface DadosGrafico {
   name: string;
@@ -40,6 +39,12 @@ export default function GraficoTicketsGeral(props: Graficos) {
 
     setOptions((prev) => ({
       ...prev,
+      chart: {
+        stacked: true,
+        toolbar: {
+          show: true,
+        },
+      },
       colors: [
         inteira,
         inteira_disponivel,
@@ -83,6 +88,11 @@ export default function GraficoTicketsGeral(props: Graficos) {
       },
       tooltip: {
         theme: "light",
+        y: {
+          formatter(val: number) {
+            return `${val} tickets`;
+          },
+        },
       },
       legend: {
         position: "top",

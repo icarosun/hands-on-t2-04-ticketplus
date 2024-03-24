@@ -67,7 +67,7 @@ export default function EstatisticasVendas(props: Estatistica) {
       icon: <ShoppingCartIcon sx={{ fontSize: "1.75rem" }} />,
     },
     {
-      valor: `${props.valores[2]}%`,
+      valor: `${props.valores[2].toFixed(2)}%`,
       color: "warning",
       title: "Margem",
       icon: <TrendingUp sx={{ fontSize: "1.75rem" }} />,
