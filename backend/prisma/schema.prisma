@@ -1,6 +1,6 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "linux-musl-openssl-3.0.x"]
   previewFeatures = ["fullTextSearch", "fullTextIndex", "views"]
 }
 
@@ -10,18 +10,17 @@ datasource db {
 }
 
 model Comprador {
-  id        String   @id @default(uuid()) @db.Char(36)
-  nome      String   @db.VarChar(100)
-  email     String   @unique @db.VarChar(100)
-  cpf       String   @unique @db.Char(11)
-  senha     String   @db.VarChar(100)
+  id    String @id @default(uuid()) @db.Char(36)
+  nome  String @db.VarChar(100)
+  email String @unique @db.VarChar(100)
+  cpf   String @unique @db.Char(11)
+  senha String @db.VarChar(100)
 
-  pedidos    Pedido[]
+  pedidos               Pedido[]
   totalTicketsComprados TotalTicketsComprados[]
-  
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-  pedidos   Pedido[]
 
   @@map("compradores")
 }
@@ -41,29 +40,29 @@ model Organizador {
 }
 
 model Evento {
-  id                Int     @id @default(autoincrement()) @db.Int()
-  titulo            String  
-  descricao         String  @db.Text()
-  localizacao       String  @db.VarChar(100)
-  faixaEtaria       Int     @db.Int
-  vagas             Int     @db.Int
+  id          Int      @id @default(autoincrement()) @db.Int()
+  titulo      String
+  descricao   String   @db.Text()
+  localizacao String   @db.VarChar(100)
+  faixaEtaria Int      @db.Int
+  vagas       Int      @db.Int
   // imageUrl          String   @db.VarChar(100)
-  dataInicio        DateTime @db.DateTime()
-  dataFim           DateTime @db.DateTime()
+  dataInicio  DateTime @db.DateTime()
+  dataFim     DateTime @db.DateTime()
 
-  organizadorId     String  @db.Char(36)
-  categoriaEventoId Int     @db.Int()
-  enderecoEventoId  Int     @db.Int()
-  
-  ticket     Ticket[]
-  pedidos    Pedido[]
+  organizadorId     String @db.Char(36)
+  categoriaEventoId Int    @db.Int()
+  enderecoEventoId  Int    @db.Int()
 
-  tiposTicketsEventos TiposTicketsEventos[]
+  ticket  Ticket[]
+  pedidos Pedido[]
+
+  tiposTicketsEventos   TiposTicketsEventos[]
   totalTicketsComprados TotalTicketsComprados[]
 
-  Organizador     Organizador     @relation(fields: [organizadorId], references: [id])
-  CategoriaEvento CategoriaEvento @relation(fields: [categoriaEventoId], references: [id])
-  EnderecoEvento  EnderecosEventos  @relation(fields: [enderecoEventoId], references: [id])
+  Organizador     Organizador      @relation(fields: [organizadorId], references: [id])
+  CategoriaEvento CategoriaEvento  @relation(fields: [categoriaEventoId], references: [id])
+  EnderecoEvento  EnderecosEventos @relation(fields: [enderecoEventoId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
@@ -100,37 +99,36 @@ model Ticket {
 }
 
 model Pedido {
-  id              String   @id @default(uuid()) @db.Char(36)
-  formaPagamento  String   @db.VarChar(50)
-  quantidade      Int      @db.Int()
-  valor           Decimal  @db.Decimal(9, 2)
-  status          String   @db.VarChar(50)
+  id             String  @id @default(uuid()) @db.Char(36)
+  formaPagamento String  @db.VarChar(50)
+  quantidade     Int     @db.Int()
+  valor          Decimal @db.Decimal(9, 2)
+  status         String  @db.VarChar(50)
 
-  compradorId     String   @db.Char(36)
-  eventoId        Int      @db.Int()
-  tipoTicketId    Int      @db.Int()
+  compradorId  String @db.Char(36)
+  eventoId     Int    @db.Int()
+  tipoTicketId Int    @db.Int()
 
-  comprador       Comprador      @relation(fields: [compradorId], references: [id])
-  evento          Evento         @relation(fields: [eventoId], references: [id])
-  tipoTicket      TipoTicket     @relation(fields: [tipoTicketId], references: [id])
+  comprador  Comprador  @relation(fields: [compradorId], references: [id])
+  evento     Evento     @relation(fields: [eventoId], references: [id])
+  tipoTicket TipoTicket @relation(fields: [tipoTicketId], references: [id])
 
-  createdAt DateTime       @default(now()) @map("created_at")
-  updatedAt DateTime       @default(now()) @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("pedidos")
 }
 
 model Compra {
+  id String @id @default(uuid()) @db.Char(36)
 
-  id             String   @id @default(uuid()) @db.Char(36)
+  pedidoId String @unique @db.Char(36)
+  ticketId String @unique @db.Char(36)
 
-  pedidoId       String   @unique @db.Char(36)
-  ticketId       String   @unique @db.Char(36)
+  ticket Ticket @relation(fields: [ticketId], references: [id])
 
-  ticket  Ticket          @relation(fields: [ticketId], references: [id])
-
-  createdAt DateTime      @default(now()) @map("created_at")
-  updatedAt DateTime      @default(now()) @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("compras")
 }
@@ -163,12 +161,12 @@ model TiposTicketsEventos {
 }
 
 model TotalTicketsComprados {
-  cpfComprador          String  @db.Char(11)
-  eventoId              Int     @db.Int()
-  totalTicketsComprados Int     @db.Int()
+  cpfComprador          String @db.Char(11)
+  eventoId              Int    @db.Int()
+  totalTicketsComprados Int    @db.Int()
 
-  comprador     Comprador    @relation(fields: [cpfComprador], references: [cpf])
-  evento        Evento    @relation(fields: [eventoId], references: [id])
+  comprador Comprador @relation(fields: [cpfComprador], references: [cpf])
+  evento    Evento    @relation(fields: [eventoId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
