@@ -73,7 +73,7 @@ function ToggleCustomTheme({
   );
 }
 
-const steps = ['Pagamento', 'Finalização', /*'Revise sua compra'*/];
+const steps = ["Revise sua compra", "Pagamento", "Finalização"];
 
 const logoStyle = {
   width: '140px',
@@ -85,11 +85,11 @@ const logoStyle = {
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return <PaymentForm />;
+        return <Review />;
     case 1:
+      return <PaymentForm />;
+    case 2:
       return <AddressForm />;
-    /*case 2:
-        return <Review />;*/
     default:
       throw new Error('Unknown step');
   }
