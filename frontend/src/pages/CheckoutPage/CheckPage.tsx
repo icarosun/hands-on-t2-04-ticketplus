@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { PaletteMode } from '@mui/material';
 
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+// import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
@@ -28,7 +28,7 @@ import Info from './Info.tsx';
 import InfoMobile from './InforMobile.tsx';
 import PaymentForm from './PaymentForm.tsx';
 import Review from './Review.tsx';
-import ToggleColorMode from './ToggleColorMode.tsx';
+// import ToggleColorMode from './ToggleColorMode.tsx';
 
 interface ToggleCustomThemeProps {
   showCustomTheme: Boolean;
@@ -73,7 +73,7 @@ function ToggleCustomTheme({
   );
 }
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Pagamento', 'Finalização', /*'Revise sua compra'*/];
 
 const logoStyle = {
   width: '140px',
@@ -85,11 +85,11 @@ const logoStyle = {
 function getStepContent(step: number) {
   switch (step) {
     case 0:
-      return <AddressForm />;
-    case 1:
       return <PaymentForm />;
-    case 2:
-      return <Review />;
+    case 1:
+      return <AddressForm />;
+    /*case 2:
+        return <Review />;*/
     default:
       throw new Error('Unknown step');
   }
@@ -101,6 +101,7 @@ export default function CheckoutStepper() {
   const checkoutTheme = createTheme(getCheckoutTheme(mode));
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);
+
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
