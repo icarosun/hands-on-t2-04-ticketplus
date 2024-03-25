@@ -16,7 +16,7 @@ import {
 import { EnderecosEventos } from "@prisma/client";
 import { getTiposTickets } from "../tipoTicket/tipoTicket.service";
 import { createTiposTicketsEventos } from "../tiposTicketsEventos/tiposTicketsEventos.service";
-import { EventoDto, CreateEventoDto, UpdateEventoDto } from "./evento.types";
+import { EventoDto, CreateEventoDto, UpdateEventoDto, GetEventosType } from "./evento.types";
 import { CreateEnderecoEventoDto } from "../endereco/endereco.types";
 import { DadosEnderecoType } from "../endereco/endereco.types";
 import { TiposTicketsEventosDto } from "../tiposTicketsEventos/tiposTicketsEventos.types";
@@ -44,11 +44,19 @@ async function index (req: Request, res: Response) {
             schema: { $ref: '#/definitions/ReturnReadAllEventos' }
   } */
   try {
-    const eventos = await getAllEventos();
+    const eventos = await getAllEventos() as unknown as GetEventosType[];
     const eventosData: object[] = [];
     for (let i = 0; i < eventos.length; i++) {
+      const evento = eventos[i];
       eventosData.push({
-        ...eventos[i],
+        id: evento.id,
+        titulo: evento.titulo,
+        localizacao: evento.localizacao,
+        faixaEtaria: evento.faixaEtaria,
+        vagas: evento.vagas,
+        dataInicio: evento.dataInicio,
+        dataFim: evento.dataFim,
+        categoria: evento.CategoriaEvento.descricao,
         imageUrl: `http://localhost:${PORT}/v1/img/events/${eventos[i].id}`,
       });
     }
