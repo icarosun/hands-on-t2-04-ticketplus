@@ -14,6 +14,7 @@ import EventDetailsV1 from "../components/EventDetailsContaner/EventDetailsV1.ts
 import EventDetailsV2 from "../components/EventDetailsContaner/EventDetailsV2.tsx";
 import LoginNavBar from "../layout/Navbar/Main/LoginNavBar.tsx";
 import LoginClientPage from "../components/Login/LoginPage.tsx";
+import SignUpComprador from "../components/SignUp/SignUpComprador.tsx";
 
 
 const router = createBrowserRouter([
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
       {
         path: "/login_cliente",
         element: <LoginClientPage />,
+      },
+      {
+        path: "/signup",
+        element: <SignUpComprador />
       }
     ],
   }

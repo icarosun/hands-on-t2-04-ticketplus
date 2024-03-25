@@ -311,8 +311,6 @@ async function searchByTitulo (req: Request, res: Response) {
   try {
     const titulo = req.query.titulo as string;
 
-    console.log(titulo);
-
     if (!titulo) return res.status(400).json({ msg: "Error parâmetro inválido ou vazio"})
 
     const eventos = await findEventoByTitle(titulo);
