@@ -57,14 +57,12 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
         const dadosEvento = res?.data as DetalhesEventoType;
         const titulo = dadosEvento.titulo;
         const descricao = dadosEvento.descricao;
-        const localizacao = dadosEvento.localizacao;
         const preco = dadosEvento.preco;
         dispatch(
           setValuesModal({
             values: {
               titulo,
               descricao,
-              localizacao,
               preco,
             },
           })
@@ -187,7 +185,7 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
           <Chip
             sx={ChipStyle}
             size="small"
-            label={props.localizacao}
+            label={props.cep}
             icon={<PushPinIcon />}
           />
         </Box>

@@ -4,7 +4,6 @@ import PaginaComprador from "../pages/Comprador/index.tsx";
 import PaginaOrganizador from "../pages/Organizador";
 import CompradorNavBarLayout from "../layout/Navbar/Comprador/index.tsx";
 import PaginaInicial from "../pages/PaginaInicial/index.tsx";
-import PaginaEvento from "../pages/Evento/index.tsx";
 import { TiposUsuarios } from "../utils/tipoUsuario.constants.ts";
 import DashboardGeral from "../components/Dashboard/Geral/";
 import DashboardIndividual from "../components/Dashboard/Individual/";
@@ -14,6 +13,9 @@ import EventDetailsV1 from "../components/EventDetailsContaner/EventDetailsV1.ts
 import EventDetailsV2 from "../components/EventDetailsContaner/EventDetailsV2.tsx";
 import LoginNavBar from "../layout/Navbar/Main/LoginNavBar.tsx";
 import LoginClientPage from "../components/Login/LoginPage.tsx";
+import NovoEvento from "../components/OrganizadorComponents/NovoEvento.tsx";
+import NavBarLayoutOrganizador from "../layout/Navbar/Organizador/index.tsx";
+import PaginaPrincipalOrganizador from "../components/OrganizadorComponents/EventsConteiner.tsx";
 
 
 const router = createBrowserRouter([
@@ -26,7 +28,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/detalhes-do-evento-v2/:id",
-        element: <EventDetailsV1 />,
+        element: <EventDetailsV2 />,
       }
     ],
   },
@@ -44,16 +46,24 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
+    element: <NavBarLayoutOrganizador tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
     children: [
       {
         path: "/paginaorganizador",
         element: <PaginaOrganizador />,
       },
+      {
+        path: "/eventos-publicados",
+        element: <PaginaPrincipalOrganizador />,
+      },
+      {
+        path: "/novo-evento",
+        element: <NovoEvento />,
+      },
     ],
   },
   {
-    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
+    element: <NavBarLayoutOrganizador tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
     children: [
       {
         path: "/dashboard",
@@ -62,7 +72,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: <CompradorNavBarLayout tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
+    element: <NavBarLayoutOrganizador tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
     children: [
       {
         path: "/dashboardIndividual",

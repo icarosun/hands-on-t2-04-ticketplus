@@ -23,6 +23,8 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
+import Stack from "@mui/joy/Stack";
+import IconButton from "@mui/joy/IconButton";
 
 export interface InfoIngressoType {
   id: number;
@@ -164,15 +166,29 @@ const AppBarUsuario = (props: AppBarProps) => {
         </>
       ) : (
         <>
-          <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Button variant="outlined" startDecorator={<EventAvailableOutlinedIcon />}>Ver Todos Os Eventos</Button>
+          <Box
+            sx={{
+              display: 'flex',
+              flexGrow: 1,
+              justifyContent: 'space-between',
+            }}
+          >
             <div
               style={{ flex: 1, textAlign: 'center' }}
             >
               <img width="150" height="80" src={LogoTicketPlus} />
             </div>
-            <UserDropdownMenu tipoUsuario={props.tipoUsuario} />
-          </Toolbar>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: 1.5,
+                alignItems: 'center',
+              }}
+            >
+              <UserDropdownMenu tipoUsuario={props.tipoUsuario} />
+            </Box>
+          </Box>
         </>
       )}
     </Box>
