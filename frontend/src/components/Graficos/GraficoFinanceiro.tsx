@@ -2,64 +2,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-
-const columnChartOptions: ApexOptions = {
-  chart: {
-    height: 350,
-    stacked: false,
-    redrawOnParentResize: true,
-    zoom: {
-      enabled: true,
-    },
-  },
-  grid: {
-    padding: {
-      left: 30,
-      right: 30,
-    },
-  },
-  noData: {
-    align: "center",
-    text: "Sem dados disponível no momento",
-    verticalAlign: "middle",
-  },
-  plotOptions: {
-    bar: {
-      horizontal: false,
-      columnWidth: "30%",
-      borderRadius: 4,
-    },
-  },
-  dataLabels: {
-    enabled: true,
-  },
-  stroke: {
-    show: true,
-    width: [1, 1, 1, 3],
-    curve: "smooth",
-  },
-  yaxis: [
-    {
-      title: {
-        text: "Valores em R$",
-      },
-    },
-  ],
-  tooltip: {
-    y: {
-      formatter(val: number) {
-        return `R$ ${val}`;
-      },
-    },
-  },
-  legend: {
-    position: "top",
-    horizontalAlign: "right",
-    labels: {
-      colors: "grey.500",
-    },
-  },
-};
+import { GraficoGeralOptions } from "./configs/Geral";
 
 interface DadosGrafico {
   name: string;
@@ -77,24 +20,75 @@ export default function GraficoFinanceiro(props: Graficos) {
   const { primary, secondary } = theme.palette.text;
   const line = theme.palette.divider;
 
-  const inteira = theme.palette.success.dark;
-  const meia_entrada = theme.palette.info.dark;
-  const vip = theme.palette.error.dark;
+  const inteira = theme.palette.success.light;
+  const meia_entrada = theme.palette.info.light;
+  const vip = theme.palette.error.light;
   const total = theme.palette.secondary.dark;
 
   const [series, setSeries] = useState<DadosGrafico[]>([]);
-  const [options, setOptions] = useState<ApexOptions>(columnChartOptions);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [options, setOptions] = useState<ApexOptions>(GraficoGeralOptions);
 
   useEffect(() => {
+    setCategories(props.eventos);
     setOptions((prev) => ({
       ...prev,
+      title: {
+        text: "Por Ticket",
+      },
       xaxis: {
-        categories: props.eventos,
+        categories: categories,
+        labels: {
+          style: {
+            colors: [
+              secondary,
+              secondary,
+              secondary,
+              secondary,
+              secondary,
+              secondary,
+            ],
+          },
+        },
       },
       colors: [inteira, meia_entrada, vip, total],
+      yaxis: {
+        title: {
+          text: "Valores em R$",
+        },
+        labels: {
+          style: {
+            colors: [secondary],
+          },
+        },
+      },
+
+      grid: {
+        borderColor: line,
+        row: {
+          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.5,
+        },
+      },
+      tooltip: {
+        theme: "light",
+        y: {
+          formatter(val: number) {
+            return `R$ ${val}`;
+          },
+        },
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "right",
+        labels: {
+          colors: "grey.500",
+        },
+      },
     }));
     setSeries(props.dadosGrafico);
   }, [
+    categories,
     meia_entrada,
     vip,
     inteira,
@@ -112,7 +106,7 @@ export default function GraficoFinanceiro(props: Graficos) {
         options={options}
         series={series}
         height="400"
-        type="line"
+        type="bar"
       />
     </div>
   );

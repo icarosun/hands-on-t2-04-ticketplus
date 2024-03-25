@@ -1,11 +1,11 @@
 import { Pedido, PrismaClient } from "@prisma/client";
-import { CreatePedidoDto } from "./pedido.types";
+import { CreatePedidoDto, PedidoRes } from "./pedido.types";
 
 import { StatusPedido } from "./pedido.constants";
 
 const prisma = new PrismaClient();
 
-export async function createPedido (pedido: CreatePedidoDto): Promise<Pedido> {
+export async function createPedido (pedido: CreatePedidoDto): Promise<PedidoRes> {
     return await prisma.pedido.create({
         data: pedido
     });

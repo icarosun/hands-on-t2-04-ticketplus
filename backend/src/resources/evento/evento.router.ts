@@ -8,24 +8,8 @@ import { usuarioAutenticado } from "../../middlewares/usuarioAutenticado";
 const router = Router();
 
 router.get(
-  "/eventosOrganizador",
-  usuarioAutenticado,
-  isOrganizador,
-  eventoController.getEventosByOrganziador
-);
-
-router.get("/", eventoController.index);
-
-router.get("/search", eventoController.searchByTitulo);
-
-router.get("/:idEvento", eventoController.read);
-
-router.put(
-  "/:idEvento",
-  usuarioAutenticado,
-  isOrganizador,
-  validarSchema(SchemasEvento.schemaCreateEvento),
-  eventoController.update
+  "/",
+  eventoController.index
 );
 
 router.post(
@@ -34,6 +18,40 @@ router.post(
   isOrganizador,
   validarSchema(SchemasEvento.schemaCreateEvento),
   eventoController.create
+);
+
+router.get(
+  "/eventosOrganizador",
+  usuarioAutenticado,
+  isOrganizador,
+  eventoController.getEventosByOrganziador
+);
+
+router.post(
+  "/searchEventosOrganizador",
+  usuarioAutenticado,
+  isOrganizador,
+  eventoController.searchEventosOrganizador
+);
+
+router.get(
+  "/:idEvento",
+  eventoController.read
+);
+
+router.get(
+  "/categoria/:categoriaEventoId",
+  eventoController.readCategoria
+);
+
+router.get("/search", eventoController.searchByTitulo);
+
+router.put(
+  "/:idEvento",
+  usuarioAutenticado,
+  isOrganizador,
+  validarSchema(SchemasEvento.schemaCreateEvento),
+  eventoController.update
 );
 
 router.put(

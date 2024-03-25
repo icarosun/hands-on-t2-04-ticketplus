@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+
 const tiposTicketsEventosObj = Joi.object({
   tipoTicketId: Joi.number().required(),
   quantidade: Joi.number().required(),
@@ -27,6 +28,12 @@ const eventoCamposSchema = {
     .length(8)
     .required(),
   numero: Joi.number()
+    .required(),
+  dataInicio: Joi.string()
+    .regex(/^([12]\d{3}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z)*$/)
+    .required(),
+  dataFim: Joi.string()
+    .regex(/^([12]\d{3}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]Z)*$/)
     .required()
 }
 
@@ -38,4 +45,8 @@ const schemaUpdateEvento = Joi.object({
   id: Joi.number().required(),
 });
 
-export default { schemaCreateEvento, schemaUpdateEvento };
+const schemaSearchEventosOrganizador = Joi.object({
+  titulo: Joi.string()
+});
+
+export default { schemaCreateEvento, schemaUpdateEvento, schemaSearchEventosOrganizador };

@@ -7,7 +7,7 @@ export function validarSchema (schema: Schema) {
         const { error } = schema.validate(req.body, {
             abortEarly: false
         });
-        if (error) res.status(422).json(error);
+        if (error) return res.status(422).json(error);
 	    else next();
     }
 }

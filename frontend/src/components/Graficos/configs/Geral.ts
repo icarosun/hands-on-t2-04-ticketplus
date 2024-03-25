@@ -1,12 +1,6 @@
 import { ApexOptions } from "apexcharts";
 
 export const GraficoGeralOptions: ApexOptions = {
-  chart: {
-    stacked: true,
-    toolbar: {
-      show: true,
-    },
-  },
   noData: {
     align: "center",
     text: "Sem dados disponível no momento",
@@ -30,13 +24,6 @@ export const GraficoGeralOptions: ApexOptions = {
   fill: {
     opacity: 1,
   },
-  tooltip: {
-    y: {
-      formatter(val: number) {
-        return `${val} tickets`;
-      },
-    },
-  },
   legend: {
     show: true,
     fontFamily: `'Public Sans', sans-serif`,
@@ -50,8 +37,6 @@ export const GraficoGeralOptions: ApexOptions = {
       width: 16,
       height: 16,
       radius: 50,
-      //offsexX: 2,
-      //offsexY: 2,
     },
     itemMargin: {
       horizontal: 15,
