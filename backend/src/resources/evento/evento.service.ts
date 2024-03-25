@@ -6,7 +6,11 @@ import { DadosEnderecoType } from "../endereco/endereco.types";
 const prisma = new PrismaClient();
 
 export async function getAllEventos(): Promise<Evento[]> {
-  return await prisma.evento.findMany();
+  return await prisma.evento.findMany({
+    include: {
+      CategoriaEvento: true
+    }
+  });
 }
 
 export async function getEvento(idEvento: number): Promise<Evento | null> {

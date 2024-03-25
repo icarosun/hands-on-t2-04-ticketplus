@@ -1,9 +1,22 @@
 import { Evento } from "@prisma/client";
+import { CategoriaEvento } from "@prisma/client";
 
 export type EventoDto = Pick<
   Evento,
   "titulo" | "descricao" | "vagas" | "faixaEtaria"
 >;
+
+export interface GetEventosType {
+  id: number;
+  titulo: string;
+  descricao: string;
+  localizacao: string;
+  faixaEtaria: number;
+  vagas: number;
+  dataInicio: Date;
+  dataFim: Date;
+  CategoriaEvento: CategoriaEvento;
+}
 
 export interface TipoTicketEventoType {
   tipoTicketId: number;
