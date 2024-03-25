@@ -8,7 +8,15 @@ const schemaCadastroComprador = Joi.object({
 		.min(3)
 		.max(100)
 		.pattern(new RegExp(regexNomeSobrenome))
-		.required(),
+		.required()
+    .messages({
+      'string.base': 'O nome de usuário deve ser uma string',
+      'string.empty': 'O nome de usuário não pode estar vazio',
+      'string.min': 'O nome de usuário deve ter no mínimo {#limit} caracteres',
+      'string.max': 'O nome de usuário deve ter no máximo {#limit} caracteres',
+      'string.pattern.base': 'O nome de usuário deve ser uma string',
+      'any.required': 'O nome de usuário é obrigatório'
+    }),
 	/*sobrenome: Joi.string()
 		.min(3)
 		.max(300)
@@ -16,11 +24,19 @@ const schemaCadastroComprador = Joi.object({
 		.required(),*/
 	email: Joi.string()
 		.email()
-		.required(),
+		.required()
+    .messages({
+      'string.email': 'O email fornecido não é válido',
+      'any.required': 'O email é obrigatório'
+    }),
 	senha: Joi.string()
 		.min(8)
 		//.pattern(new RegExp(regexSenha))
-		.required(),
+		.required()
+    .messages({
+      'string.pattern.base': 'A senha deve ter no mínimo 8 caracteres',
+      'any.required': 'A senha é obrigatória'
+    }),
 	repeteSenha: Joi.ref('senha')
 });
 
