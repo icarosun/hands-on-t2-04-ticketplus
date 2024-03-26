@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { GraficoPeriodoOptions } from "./configs/PorPeriodo";
+import { processData } from "../Dashboard/Data/graficoGeralPorPeriodoData";
 
 export interface DadosGrafico {
   name: string;
@@ -10,10 +11,11 @@ export interface DadosGrafico {
 }
 
 interface Graficos {
-  periodo: "1" | "7" | "30";
+  id: number;
   categorias: string[];
   evento: string;
-  dadosGrafico: DadosGrafico[];
+  periodo: number;
+  //dadosGrafico: DadosGrafico[];
 }
 
 export default function GraficoTicketsPorPeriodo(props: Graficos) {
@@ -35,14 +37,20 @@ export default function GraficoTicketsPorPeriodo(props: Graficos) {
   const [options, setOptions] = useState<ApexOptions>(GraficoPeriodoOptions);
 
   useEffect(() => {
-    setSeries(props.dadosGrafico);
+    const fetchData = async () => {
+      try {
+        const a = await processData(props.periodo, props.id);
+        setSeries(a);
+        //console.log(a);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
     setCategories(props.categorias);
     setOptions(GraficoPeriodoOptions);
     setTitle(props.evento);
-    /*if (props.periodo === "7") {
-    } else {
-      
-    }*/
+
     setOptions((prev) => ({
       ...prev,
       title: {
@@ -105,7 +113,6 @@ export default function GraficoTicketsPorPeriodo(props: Graficos) {
     props.categorias,
     title,
     props.evento,
-    props.periodo,
     meia_entrada,
     meia_entrada_disponivel,
     vip_disponivel,
@@ -115,7 +122,8 @@ export default function GraficoTicketsPorPeriodo(props: Graficos) {
     primary,
     secondary,
     line,
-    props.dadosGrafico,
+    props.id,
+    props.periodo,
   ]);
 
   return (

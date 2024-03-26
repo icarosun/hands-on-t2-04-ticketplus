@@ -24,10 +24,6 @@ export function setDataGraficoFinanceiro(
 ) {
   const arrays: number[][] = [intValor, meiaValor, vipValor];
   const arraysReceitaTotal: number[] = somaArrays(arrays);
-  console.log("1 " + intValor);
-  console.log("2 " + meiaValor);
-  console.log("3" + vipValor);
-  console.log("4" + arraysReceitaTotal);
   const graficoFinanceiroSeries = [
     {
       name: "Inteira",
