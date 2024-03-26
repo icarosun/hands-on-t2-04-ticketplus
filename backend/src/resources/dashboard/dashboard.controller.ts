@@ -8,22 +8,30 @@ import {
   getTicketTypeOfEvento,
   getTotalPorTipoTicketsEvento,
   getTotalTicketsEvento,
-  getMelhorEvento,
   getTotalReceitaEventos,
   getTotalVagasEventos,
   getTotalTicketsVendidos,
   getTabelaGeralEventos,
   getTabelaGeralIndividual,
   getEventosXGrafico,
+  getMelhorEvento,
+  getTotalVagasEventosPeriodo,
+  getEventosGraficoPeriodo,
 } from "./dashboard.service";
 
 import {
   getDadosYGrafico,
   getDadosYGraficoFinanceiro,
+  getDadosGraficoGeralPeriodo,
+  getDadosGraficoFinanceiroPeriodo,
 } from "./dashboard.service2";
 
 interface CardTotalVendidos {
   vendidos: number;
+}
+
+interface CardTotalVagasPeriodo {
+  vagas: number;
 }
 
 interface xDesc {
@@ -63,10 +71,6 @@ interface PrismaSum {
   _sum: SumAux;
 }
 
-interface PrismaCount {
-  _count: SumAux;
-}
-
 interface cardCompradosQuant {
   eventoId: number;
 }
@@ -85,20 +89,11 @@ interface cardValor {
   valor: number;
 }
 
-interface GraficoY {
-  evento: string;
-  vendidos: number;
-  restante: number;
+interface GraficoPeriodo {
   tipo_ticket: string;
-}
-
-interface GraficoX {
-  titulo: string;
-}
-
-interface GraficoGeral {
-  titulo: string;
-  data: GraficoY[];
+  data: string;
+  disponivel: number;
+  vendidos: number;
 }
 
 async function modalTitle(req: Request, res: Response) {
@@ -232,9 +227,11 @@ async function graficoYVend(req: Request, res: Response) {
 // Total de Receita de um Organizador
 async function cardReceitaTotal(req: Request, res: Response) {
   const organizadorId = req.session.uid;
+  const periodo = parseInt(req.params.periodo);
   try {
     const receita = (await getTotalReceitaEventos(
-      organizadorId
+      organizadorId,
+      periodo
     )) as ReceitaTotal[];
     if (!receita) return res.status(404).json({ msg: "Não há receita!" });
     const receitaData: number = receita[0].valor;
@@ -263,11 +260,35 @@ async function cardVagasTotal(req: Request, res: Response) {
   }
 }
 
+async function cardVagasTotalPorPeriodo(req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  const periodo = parseInt(req.params.periodo);
+  try {
+    const total = (await getTotalVagasEventosPeriodo(
+      organizadorId,
+      periodo
+    )) as CardTotalVagasPeriodo[];
+    if (!total)
+      return res.status(404).json({ msg: "Evento sem tickets cadastrados!" });
+    const cardData: number = total[0].vagas;
+
+    if (cardData === null) {
+      return res.status(200).json(0);
+    }
+
+    return res.status(200).json(cardData);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 async function cardTicketsVendidosTotal(req: Request, res: Response) {
   const organizadorId = req.session.uid;
+  const periodo: number = parseInt(req.params.periodo);
   try {
     const totalTicketsVendidos = (await getTotalTicketsVendidos(
-      organizadorId
+      organizadorId,
+      periodo
     )) as CardTotalVendidos[];
     if (!totalTicketsVendidos)
       return res
@@ -289,6 +310,7 @@ async function cardTicketsVendidosTotal(req: Request, res: Response) {
 
 async function cardPorcentagemTotal(req: Request, res: Response) {
   const organizadorId = req.session.uid;
+
   try {
     const totalTicketsVendidos = (await getTotalTicketsVendidos(
       organizadorId
@@ -315,19 +337,52 @@ async function cardPorcentagemTotal(req: Request, res: Response) {
     return res.status(500).json(error);
   }
 }
+
+async function cardPorcentagemTotalPeriodo(req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  const periodo = parseInt(req.params.periodo);
+
+  try {
+    const totalTicketsVendidos = (await getTotalTicketsVendidos(
+      organizadorId,
+      periodo
+    )) as CardTotalVendidos[];
+    const totalDisponivel = (await getTotalVagasEventosPeriodo(
+      organizadorId,
+      periodo
+    )) as CardTotalVagasPeriodo[];
+    if (!totalTicketsVendidos || !totalDisponivel)
+      return res
+        .status(404)
+        .json({ msg: "Organizador possui eventos sem tickets cadastrados!" });
+    const cardData: CardTotalVendidos[] = totalTicketsVendidos;
+    const cardData2: number = totalDisponivel[0].vagas;
+
+    if (cardData === null || cardData2 === null) {
+      return res.status(200).json(0);
+    }
+
+    // Porcentagem
+    const total: number = (cardData[0].vendidos * 100) / cardData2;
+
+    return res.status(200).json(total);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
 // Evento com mais tickets vendidos (desempata por receita)
 async function cardMelhorEvento(req: Request, res: Response) {
   const organizadorId = req.session.uid;
+  const periodo = parseInt(req.params.periodo);
   try {
-    const evento = (await getMelhorEvento(organizadorId)) as MelhorEvento[];
-    if (!evento)
+    const evento = (await getMelhorEvento(
+      organizadorId,
+      periodo
+    )) as MelhorEvento[];
+    if (!evento || evento === undefined)
       return res.status(404).json({ msg: "Nenhum evento encontrado." });
     const melhorEventoData: MelhorEvento[] = evento;
-
-    if (melhorEventoData.length === 0) {
-      return res.status(404).json({ msg: "Nenhum evento encontrado." });
-    }
-
     const best = {
       titulo: melhorEventoData[0].titulo,
       tickets: melhorEventoData[0].vendidos,
@@ -335,14 +390,17 @@ async function cardMelhorEvento(req: Request, res: Response) {
 
     return res.status(200).json(best);
   } catch (error) {
+    // Este aqui retorna erro 500 se não tiver nada pra retonar. Necessita de mais investigação.
     return res.status(500).json(error);
   }
 }
 
 async function tabelaGeral(req: Request, res: Response) {
   const organizadorId = req.session.uid;
+  const periodo = parseInt(req.params.periodo);
   try {
-    const evento = await getTabelaGeralEventos(organizadorId);
+    const evento = await getTabelaGeralEventos(organizadorId, periodo);
+
     if (!evento)
       return res.status(404).json({ msg: "Nenhum dado encontrado." });
     const eventoData: object = evento;
@@ -373,6 +431,62 @@ async function graficoXGeral(req: Request, res: Response) {
     if (!evento)
       return res.status(404).json({ msg: "Nenhum dado encontrado." });
     const eventoData: object = evento;
+    return res.status(200).json(eventoData);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+async function graficoGeralPeriodo(req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  const periodo = parseInt(req.params.periodo);
+  try {
+    const evento = await getEventosGraficoPeriodo(organizadorId, periodo);
+    if (!evento)
+      return res.status(404).json({ msg: "Nenhum dado encontrado." });
+    const eventoData: object = evento;
+    return res.status(200).json(eventoData);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+async function graficoGeralPeriodoDados(req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  const idEvento = parseInt(req.params.idEvento);
+  const periodo = parseInt(req.params.periodo);
+
+  try {
+    const evento = (await getDadosGraficoGeralPeriodo(
+      organizadorId,
+      idEvento,
+      periodo
+    )) as GraficoPeriodo;
+    if (!evento)
+      return res.status(404).json({ msg: "Nenhum dado encontrado." });
+    const eventoData: GraficoPeriodo = evento;
+
+    return res.status(200).json(eventoData);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+
+async function graficoFinanceiroPeriodoDados(req: Request, res: Response) {
+  const organizadorId = req.session.uid;
+  const idEvento = parseInt(req.params.idEvento);
+  const periodo = parseInt(req.params.periodo);
+
+  try {
+    const evento = (await getDadosGraficoFinanceiroPeriodo(
+      organizadorId,
+      idEvento,
+      periodo
+    )) as GraficoPeriodo;
+    if (!evento)
+      return res.status(404).json({ msg: "Nenhum dado encontrado." });
+    const eventoData: GraficoPeriodo = evento;
+
     return res.status(200).json(eventoData);
   } catch (error) {
     return res.status(500).json(error);
@@ -413,6 +527,11 @@ async function graficoYGeralFinanceiro(req: Request, res: Response) {
 }
 
 export default {
+  graficoFinanceiroPeriodoDados,
+  graficoGeralPeriodoDados,
+  graficoGeralPeriodo,
+  cardPorcentagemTotalPeriodo,
+  cardVagasTotalPorPeriodo,
   graficoYGeralFinanceiro,
   graficoYGeral,
   graficoXGeral,

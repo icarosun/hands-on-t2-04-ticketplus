@@ -38,9 +38,6 @@ export default function MelhorVendaEvento(props: Card) {
         <Typography variant="h6" sx={{ my: 4, color: "primary.main" }}>
           {props.tickets} tickets vendidos
         </Typography>
-        <Button size="small" variant="contained">
-          Visualizar Evento
-        </Button>
         <TriangleImg alt="triangle background" src={TriangleLight} />
         <TrophyImg alt="trophy" src={Trophy} />
       </CardContent>

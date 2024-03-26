@@ -3,17 +3,19 @@ import { useTheme } from "@mui/material/styles";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { GraficoFinanceiroPeriodoOptions } from "./configs/FinanceiroPorPeriodo";
+import { processDataFin } from "../Dashboard/Data/graficoGeralFinaceiroPorPeriodo";
 
 export interface DadosGrafico {
   name: string;
+  type?: string;
   data: number[];
 }
 
 interface Graficos {
-  periodo: "1" | "7" | "30";
+  id: number;
   categorias: string[];
   evento: string;
-  dadosGrafico: DadosGrafico[];
+  periodo: number;
 }
 
 export default function GraficoFinanceiroPorPeriodo(props: Graficos) {
@@ -36,7 +38,15 @@ export default function GraficoFinanceiroPorPeriodo(props: Graficos) {
   );
 
   useEffect(() => {
-    setSeries(props.dadosGrafico);
+    const fetchData = async () => {
+      try {
+        const a = await processDataFin(props.periodo, props.id);
+        setSeries(a);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
     setCategories(props.categorias);
     setOptions(GraficoFinanceiroPeriodoOptions);
     setTitle(props.evento);
@@ -95,14 +105,14 @@ export default function GraficoFinanceiroPorPeriodo(props: Graficos) {
     props.categorias,
     title,
     props.evento,
-    props.periodo,
     meia_entrada,
     vip,
     inteira,
     primary,
     secondary,
     line,
-    props.dadosGrafico,
+    props.id,
+    props.periodo,
   ]);
 
   return (

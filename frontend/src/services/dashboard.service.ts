@@ -48,6 +48,7 @@ interface Tabela {
 }
 
 export interface XGraficoGeral {
+  id: number;
   titulo: string;
 }
 
@@ -91,40 +92,114 @@ interface GraficoY {
   data?: GraficoAux;
 }
 
+export interface GraficoXYPeriodo {
+  tipo_ticket: string;
+  date: string;
+  vendidos: number;
+}
+
+export interface GraficoXYPeriodoFin {
+  tipo_ticket: string;
+  date: string;
+  valor: number;
+}
+
+export interface GraficoXY {
+  data: GraficoXYPeriodo[];
+}
+
+export interface GraficoXYFin {
+  data: GraficoXYPeriodoFin[];
+}
+
 // ========================= Dashboard Geral - Sem período ====================== //
 
 // ================== Cards ================== //
 
 // Evento com maior venda
+// Geral
 export async function getMelhorEvento(): Promise<BestSeller | null> {
   return await HttpInstance.http.get(`/dashboard/cardMelhorEvento`);
 }
 
+// Por Periodo
+export async function getMelhorEventoPeriodo(
+  periodo: number
+): Promise<BestSeller | null> {
+  return await HttpInstance.http.get(`/dashboard/cardMelhorEvento/${periodo}`);
+}
+
 // Todos os tickets disponibilizados
+// Geral
 export async function getVagas(): Promise<Resumo | null> {
   return await HttpInstance.http.get(`/dashboard/cardVagasEventos`);
 }
 
+// Por período
+export async function getVagasPeriodo(periodo: number): Promise<Resumo | null> {
+  return await HttpInstance.http.get(`/dashboard/cardVagasEventos/${periodo}`);
+}
+
 // Todos os tickets vendidos
+// Geral
 export async function getTicketsVendidos(): Promise<Resumo | null> {
   return await HttpInstance.http.get(`/dashboard/cardTicketsVendidosTotal`);
 }
 
+// Por período
+export async function getTicketsVendidosPeriodo(
+  periodo: number
+): Promise<Resumo | null> {
+  return await HttpInstance.http.get(
+    `/dashboard/cardTicketsVendidosTotal/${periodo}`
+  );
+}
+
 // Porcentagem total entre venda e disponibilidade
+// Geral
 export async function getPorcentagemTotal(): Promise<Resumo | null> {
   return await HttpInstance.http.get(`/dashboard/cardPorcentagemTotal`);
 }
 
+// Por período
+export async function getPorcentagemTotalPeriodo(
+  periodo: number
+): Promise<Resumo | null> {
+  return await HttpInstance.http.get(
+    `/dashboard/cardPorcentagemTotal/${periodo}`
+  );
+}
+
 // Receita Total
+// Geral
 export async function getCardReceitaTotal(): Promise<Resumo | null> {
   return await HttpInstance.http.get(`/dashboard/cardReceitaTotal`);
+}
+
+// Por período
+export async function getCardReceitaTotalPeriodo(
+  periodo: number
+): Promise<Resumo | null> {
+  return await HttpInstance.http.get(
+    `/dashboard/cardReceitaTotalPeriodo/${periodo}`
+  );
 }
 
 // ================== Gráficos ================== //
 
 // X (Categorias) de Tickets e Finanças
+// Geral
 export async function getXGraficoGeral(): Promise<GraficoX | null> {
   return await HttpInstance.http.get(`/dashboard/graficoGeralX`);
+}
+
+// Recuperar eventos
+export async function getGraficoGeralPorPeriodo(
+  periodo: number
+): Promise<GraficoX | null> {
+  return await HttpInstance.http.get(
+    `/dashboard/graficoGeralPeriodo/${periodo}`
+  );
 }
 
 // Y (series) de Tickets
@@ -132,9 +207,29 @@ export async function getYGraficoGeral(): Promise<GraficoY> {
   return await HttpInstance.http.get(`/dashboard/graficoGeralY/`);
 }
 
+// X e Y de Tickets por Periodo e por Evento
+export async function getGraficoGeralDadosPorPeriodo(
+  periodo: number,
+  eventoId: number
+): Promise<GraficoXY | null> {
+  return await HttpInstance.http.get(
+    `/dashboard/graficoGeralPeriodoDados/${eventoId}/${periodo}`
+  );
+}
+
 // Y (Series) de Finanças
 export async function getYGraficoGeralFinanceiro(): Promise<GraficoYFinancas> {
   return await HttpInstance.http.get(`/dashboard/graficoGeralYFinanceiro/`);
+}
+
+// X e Y de Tickets por Periodo e por Evento
+export async function getGraficoFinanceiroDadosPorPeriodo(
+  periodo: number,
+  eventoId: number
+): Promise<GraficoXYFin | null> {
+  return await HttpInstance.http.get(
+    `/dashboard/graficoFinanceiroPeriodoDados/${eventoId}/${periodo}`
+  );
 }
 
 // ================== Tabela de Compras ================== //

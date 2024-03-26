@@ -22,6 +22,14 @@ import {
   XGraficoGeral,
   getYGraficoGeral,
   getYGraficoGeralFinanceiro,
+  getTabelaPeriodo,
+  getMelhorEventoPeriodo,
+  getVagasPeriodo,
+  getTicketsVendidosPeriodo,
+  getPorcentagemTotalPeriodo,
+  getCardReceitaTotalPeriodo,
+  getGraficoGeralPorPeriodo,
+  GraficoXY,
 } from "../../../services/dashboard.service";
 import { SelectChangeEvent } from "@mui/material";
 import GraficoFinanceiroGeral from "../../Graficos/GraficoFinanceiro";
@@ -31,10 +39,10 @@ import EstatisticasVendas from "../Estatistica";
 import EnhancedTable from "../Tabela";
 import { setDataGrafico } from "../Data/graficoGeralData";
 import {
-  categoriasSemana,
-  categoriasMes,
   ultSemana,
   UltMes,
+  processData,
+  generateDateArray,
 } from "../Data/graficoGeralPorPeriodoData";
 import { setDataGraficoFinanceiro } from "../Data/graficoGeralFinanceiroData";
 import { DadosGrafico } from "../../Graficos/GraficoTicketsPorPeriodo";
@@ -58,6 +66,8 @@ export default function DashboardGeral() {
   const [bestTickets, setBestTickets] = useState<number>(0);
   const [resumoCards, setResumoCards] = useState<number[]>([0, 0, 0, 0]);
   const [tabela, setTabela] = useState<TabelaGeral[]>([]);
+  const [seriesPeriodo, setSeriesPeriodo] = useState<DadosGrafico[][]>([]);
+  const [grafico, setGrafico] = useState<XGraficoGeral[]>([]);
 
   const handleChange = (event: SelectChangeEvent | "1" | "7" | "30") => {
     setPeriodo(event.target.value);
@@ -128,16 +138,57 @@ export default function DashboardGeral() {
         console.error(error);
       }
     };
+    const fetchDataTemp = async (periodo: number) => {
+      try {
+        // Tabela por tempo
+        const tabelaTemp = await getTabelaPeriodo(periodo);
+        const table = tabelaTemp?.data as TabelaGeral[];
+        setTabela(table);
+        // Card de melhor evento - Por Período
+        const best = await getMelhorEventoPeriodo(periodo);
+        const bestCard = best?.data as BestSeller;
+        setBestTitulo(bestCard.titulo);
+        setBestTickets(bestCard.tickets);
+        // Cards com resumos
+        const resumoVagas = (await getVagasPeriodo(periodo)) as Resumo;
+        const resumoVendidos = (await getTicketsVendidosPeriodo(
+          periodo
+        )) as Resumo;
+        const resumoPorcen = (await getPorcentagemTotalPeriodo(
+          periodo
+        )) as Resumo;
+        const resumoReceita = (await getCardReceitaTotalPeriodo(
+          periodo
+        )) as Resumo;
+        setResumoCards([
+          resumoVagas.data,
+          resumoVendidos.data,
+          resumoPorcen.data,
+          resumoReceita.data,
+        ]);
+        // Graficos por Periodo
+        // Cada Evento tem um grafico
+        const graficoGeralPeriodo = await getGraficoGeralPorPeriodo(periodo);
+        const a = graficoGeralPeriodo?.data as XGraficoGeral[];
+        setGrafico(a);
+
+        // categorias
+        const catPeriodo: string[] = generateDateArray(periodo);
+        setCategorias(catPeriodo);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (periodo === "7") {
+      fetchDataTemp(parseInt(periodo));
       setTitleTemp("Última Semana");
-      setCategorias(categoriasSemana);
       setSeries(ultSemana);
       setSeriesFin(ultSemanaFinanceiro);
       setTextTickets(`Resumo - Tickets Vendidos/Disponíveis - ${titleTemp}`);
       setTextFinanceiro(`Resumo - Financeiro por Evento - ${titleTemp}`);
     } else if (periodo === "30") {
+      fetchDataTemp(parseInt(periodo));
       setTitleTemp("Último mês");
-      setCategorias(categoriasMes);
       setSeries(UltMes);
       setSeriesFin(UltMesFinanceiro);
       setTextTickets(`Resumo - Tickets Vendidos/Disponíveis - ${titleTemp}`);
@@ -187,14 +238,16 @@ export default function DashboardGeral() {
           <Grid item xs={12}>
             <Card sx={{ mt: 2, p: 2 }}>
               <Typography variant="h6">{textTickets}</Typography>
+
               {titleTemp ? (
-                eventos.map((evento, index) => (
+                grafico.map((a, index) => (
                   <GraficoTicketsPorPeriodo
+                    //dadosGrafico={seriesPeriodo[index]}
                     key={index}
-                    evento={evento}
-                    periodo={periodo}
+                    id={a.id}
+                    evento={a.titulo}
+                    periodo={parseInt(periodo)}
                     categorias={categorias}
-                    dadosGrafico={series}
                   />
                 ))
               ) : (
@@ -211,20 +264,19 @@ export default function DashboardGeral() {
             <Card sx={{ mt: 2, p: 2 }}>
               <Typography variant="h6">{textFinanceiro}</Typography>
               {titleTemp ? (
-                eventos.map((evento, index) => (
+                grafico.map((b, index) => (
                   <GraficoFinanceiroPorPeriodo
                     key={index}
-                    evento={evento}
-                    periodo={periodo}
+                    id={b.id}
+                    evento={b.titulo}
+                    periodo={parseInt(periodo)}
                     categorias={categorias}
-                    dadosGrafico={seriesFin}
                   />
                 ))
               ) : (
                 <GraficoFinanceiroGeral
                   dadosGrafico={seriesFin}
                   eventos={eventos}
-                  //title={titleTemp}
                 />
               )}
             </Card>
