@@ -10,6 +10,10 @@ export interface cadastraEventoType {
     titulo: string;
     descricao: string;
     localizacao: string;
+    faixaEtaria: number;
+    categoriaEventoId: number;
+    cep: string;
+    numero: number;
     imageBase64: string;
     tiposTicketsEventos: TipoTicketsEventosType[];
 }
@@ -20,6 +24,10 @@ export async function cadastraEvento (dadosRequisicao: cadastraEventoType) {
             titulo: dadosRequisicao.titulo,
             descricao: dadosRequisicao.descricao,
             localizacao: dadosRequisicao.localizacao,
+            faixaEtaria: dadosRequisicao.faixaEtaria,
+            categoriaEventoId: dadosRequisicao.categoriaEventoId,
+            cep: dadosRequisicao.cep,
+            numero: dadosRequisicao.numero,
             imageBase64: dadosRequisicao.imageBase64,
             tiposTicketsEventos: dadosRequisicao.tiposTicketsEventos
         }

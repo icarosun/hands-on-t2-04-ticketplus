@@ -20,6 +20,7 @@ interface FormInputProps {
     readOnly?: boolean;
     shrink?: boolean;
     style?: object;
+    placeholder? : string;
     inteiraInput?: boolean;
 }
 
@@ -41,24 +42,13 @@ const FormInput = (props: FormInputProps) => {
         return (
             <>
                 <FormControl fullWidth>
-                    <InputLabel
-                        htmlFor={props.id}
-                        shrink={true}
-                        variant="outlined"
-                        margin="dense"
-                        style={{
-                            padding: '0px 5px',
-                            backgroundColor: "#FFF"
-                        }}
-                        key={`input-label`}
-                    >
-                        {props.label}
-                    </InputLabel>
                     <OutlinedInput
+                        size='small'
                         label={props.label}
                         id={props.id}
                         type={props.type}
-                        sx={{ marginBottom: 1.5 }}
+                        placeholder={props.placeholder}
+                        sx={{ marginBottom: 0 }}
                         key={`outlined-input`}
                     />
                 </FormControl>
@@ -68,16 +58,9 @@ const FormInput = (props: FormInputProps) => {
         return (
             <>
                 <FormControl fullWidth>
-                    <InputLabel
-                        htmlFor={props.id}
-                        key={`input-label`}
-                        shrink={props.shrink}
-                        style={props.style}
-                    >
-                        {props.label}
-                    </InputLabel>
                     {props.onChange && 
                         <OutlinedInput
+                            size='small'
                             label={props.label}
                             value={props.value}
                             id={props.id}
@@ -86,12 +69,14 @@ const FormInput = (props: FormInputProps) => {
                             sx={{ marginBottom: 1.5 }}
                             multiline={props.multiline}
                             minRows={props.minRows}
+                            placeholder={props.placeholder}
                             key={`outlined-input`}
                             readOnly={props.readOnly}
                         />
                     }
                     {!props.onChange && 
                         <OutlinedInput
+                            size='small'
                             label={props.label}
                             value={props.value}
                             id={props.id}
@@ -99,6 +84,7 @@ const FormInput = (props: FormInputProps) => {
                             sx={{ marginBottom: 1.5 }}
                             multiline={props.multiline}
                             minRows={props.minRows}
+                            placeholder={props.placeholder}
                             key={`outlined-input`}
                             readOnly={props.readOnly}
                             onChange={handleOnChange}

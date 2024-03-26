@@ -108,7 +108,7 @@ const ModalCadastraEvento = () => {
                         imageBase64,
                         tiposTicketsEventos
                     };
-                    await cadastraEvento(dadosRequisicao);
+                    //await cadastraEvento(dadosRequisicao);
                     escondeMensagemErro();
                     handleOpenModalSuccessMessage();
                     setTimeout(() => {

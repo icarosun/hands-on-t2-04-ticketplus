@@ -4,7 +4,11 @@ export interface DetalhesEventoType {
   id: number;
   titulo: string;
   descricao: string;
+  faixaEtaria:number;
   localizacao: string;
+  categoriaEventoId: number;
+  cep: string;
+  numero: number;
   preco: number;
   data?: object;
   imageUrl: string;
@@ -37,23 +41,35 @@ export async function updateEvento(
   imageBase64: string,
   titulo: string,
   descricao: string,
-  localizacao: string,
+  faixaEtaria:number,
+  categoriaEventoId: number,
+  localizacao:string,
+  cep: string,
+  numero: number,
   preco: number
 ) {
   console.log({
     id: idEvento,
     imageBase64,
     titulo,
+    categoriaEventoId,
+    faixaEtaria,
     descricao,
     localizacao,
+    cep,
+    numero,
     preco,
   });
   return await HttpInstance.http.put(`/evento/${idEvento}`, {
     id: idEvento,
     imageBase64,
     titulo,
+    categoriaEventoId,
+    faixaEtaria,
     descricao,
     localizacao,
+    cep,
+    numero,
     preco,
   });
 }

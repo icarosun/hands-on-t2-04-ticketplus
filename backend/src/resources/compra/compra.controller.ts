@@ -58,11 +58,11 @@ async function create(req: Request, res: Response) {
   const pedidoId = req.body.pedidoId;
   const cpfComprador = String(req.session.cpf);
   if (!pedidoId)
-    res.status(404).json({ msg: "A ordem de compra solicitada não existe" });
+    return res.status(404).json({ msg: "A ordem de compra solicitada não existe" });
   try {
     const pedido = await getPedidoById(pedidoId);
     if (!pedido)
-      res.status(404).json({ msg: "A ordem de compra solicitada não existe" });
+      return res.status(404).json({ msg: "A ordem de compra solicitada não existe" });
 
     const compra = await getCompraByPedidoId(pedidoId);
     if (!!compra)

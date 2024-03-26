@@ -324,7 +324,7 @@ async function cardMelhorEvento(req: Request, res: Response) {
       return res.status(404).json({ msg: "Nenhum evento encontrado." });
     const melhorEventoData: MelhorEvento[] = evento;
 
-    if (!melhorEventoData) {
+    if (melhorEventoData.length === 0) {
       return res.status(404).json({ msg: "Nenhum evento encontrado." });
     }
 
