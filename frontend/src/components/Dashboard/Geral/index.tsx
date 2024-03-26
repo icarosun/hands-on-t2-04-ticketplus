@@ -29,7 +29,6 @@ import {
   getPorcentagemTotalPeriodo,
   getCardReceitaTotalPeriodo,
   getGraficoGeralPorPeriodo,
-  GraficoXY,
 } from "../../../services/dashboard.service";
 import { SelectChangeEvent } from "@mui/material";
 import GraficoFinanceiroGeral from "../../Graficos/GraficoFinanceiro";
@@ -41,7 +40,6 @@ import { setDataGrafico } from "../Data/graficoGeralData";
 import {
   ultSemana,
   UltMes,
-  processData,
   generateDateArray,
 } from "../Data/graficoGeralPorPeriodoData";
 import { setDataGraficoFinanceiro } from "../Data/graficoGeralFinanceiroData";
@@ -66,7 +64,6 @@ export default function DashboardGeral() {
   const [bestTickets, setBestTickets] = useState<number>(0);
   const [resumoCards, setResumoCards] = useState<number[]>([0, 0, 0, 0]);
   const [tabela, setTabela] = useState<TabelaGeral[]>([]);
-  const [seriesPeriodo, setSeriesPeriodo] = useState<DadosGrafico[][]>([]);
   const [grafico, setGrafico] = useState<XGraficoGeral[]>([]);
 
   const handleChange = (event: SelectChangeEvent | "1" | "7" | "30") => {

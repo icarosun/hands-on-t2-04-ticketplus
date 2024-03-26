@@ -30,5 +30,6 @@ GROUP BY
   `a`.`preco`,
   `c`.`descricao`
 ORDER BY
+  `b`.`id`,
   `b`.`titulo`,
   `c`.`descricao`

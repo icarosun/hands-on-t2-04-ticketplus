@@ -51,13 +51,13 @@ export async function getDadosYGraficoFinanceiro(
 export async function getDadosGraficoGeralPeriodo(
   organizadorId: string | undefined,
   eventoId: number | undefined,
-  periodo: number | undefined
+  periodo: number
 ): Promise<object | null> {
   if (organizadorId === undefined || eventoId === undefined) return null;
   const connection = await conectDatabase();
   const resultado = await connection.execute(
     "SELECT tipo_ticket, data as date, SUM(vendidos) as vendidos FROM `resumoGraficoGeralPorPeriodo` where id = ? and organizador = ? and data >= DATE_SUB(CURDATE(), INTERVAL ? DAY) GROUP BY data, tipo_ticket ORDER BY data;",
-    [eventoId, organizadorId, periodo]
+    [eventoId, organizadorId, periodo - 1]
   );
   connection.end();
   return resultado[0];
@@ -66,13 +66,13 @@ export async function getDadosGraficoGeralPeriodo(
 export async function getDadosGraficoFinanceiroPeriodo(
   organizadorId: string | undefined,
   eventoId: number | undefined,
-  periodo: number | undefined
+  periodo: number
 ): Promise<object | null> {
   if (organizadorId === undefined || eventoId === undefined) return null;
   const connection = await conectDatabase();
   const resultado = await connection.execute(
     "SELECT tipo_ticket, data as date, SUM(valor) as valor FROM `resumoGraficoFinanceiroPorPeriodo` where id = ? and organizador = ? and data >= DATE_SUB(CURDATE(), INTERVAL ? DAY) GROUP BY data, tipo_ticket ORDER BY data;",
-    [eventoId, organizadorId, periodo]
+    [eventoId, organizadorId, periodo - 1]
   );
   connection.end();
   return resultado[0];

@@ -50,27 +50,33 @@ export async function processData(periodo: number, id: number) {
     periodo,
     id
   )) as GraficoXY;
-  // pega as datas onde cada tipo de ticket aparece
 
+  // pega as datas onde cada tipo de ticket aparece
   const inteiraDates = dados.data
     .filter((ticket) => ticket.tipo_ticket === "inteira")
     .map((e) => {
-      const date = new Date(e.date);
-      return date.toLocaleDateString().toString();
+      const date = new Date(e.date).toLocaleDateString("pt-BR", {
+        timeZone: "UTC",
+      });
+      return date.toString();
     });
 
   const meiaDates = dados.data
     .filter((ticket) => ticket.tipo_ticket === "meia-entrada")
     .map((e) => {
-      const date = new Date(e.date);
-      return date.toLocaleDateString().toString();
+      const date = new Date(e.date).toLocaleDateString("pt-BR", {
+        timeZone: "UTC",
+      });
+      return date.toString();
     });
 
   const vipDates = dados.data
     .filter((ticket) => ticket.tipo_ticket === "VIP")
     .map((e) => {
-      const date = new Date(e.date);
-      return date.toLocaleDateString().toString();
+      const date = new Date(e.date).toLocaleDateString("pt-BR", {
+        timeZone: "UTC",
+      });
+      return date.toString();
     });
 
   // pega os valores da cada tipo de ticket

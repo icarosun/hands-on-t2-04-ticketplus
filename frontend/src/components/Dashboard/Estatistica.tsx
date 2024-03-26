@@ -56,7 +56,7 @@ export default function EstatisticasVendas(props: Estatistica) {
   const salesData: DataType[] = [
     {
       valor: `${props.valores[0]}`,
-      title: "Disponibilizados",
+      title: "Disponíveis",
       color: "primary",
       icon: <EventAvailableIcon sx={{ fontSize: "1.75rem" }} />,
     },

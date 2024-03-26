@@ -51,8 +51,7 @@ export async function processDataFin(periodo: number, id: number) {
     id
   )) as GraficoXYFin;
   // pega as datas onde cada tipo de ticket aparece
-  console.log("alo");
-  console.log(dados);
+
   const inteiraDates = dados.data
     .filter((ticket) => ticket.tipo_ticket === "inteira")
     .map((e) => {

@@ -32,5 +32,6 @@ GROUP BY
   `a`.`quantidade`,
   `c`.`descricao`
 ORDER BY
+  `b`.`id`,
   `b`.`titulo`,
   `c`.`descricao`
