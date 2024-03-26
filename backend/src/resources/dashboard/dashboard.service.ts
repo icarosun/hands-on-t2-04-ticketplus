@@ -27,21 +27,21 @@ export const getDashboardEventoData = async (
 export async function countAllTicketsByType(
   eventoId: number
 ): Promise<object | null> {
-  return await prisma.ticket.groupBy({
+  return await prisma.pedido.groupBy({
     orderBy: { tipoTicketId: "asc" },
     by: ["tipoTicketId"],
     where: { eventoId },
-    _count: { tipoTicketId: true },
+    _sum: { quantidade: true },
   });
 }
 
 export async function getTotalTicketsCompradosEvento(
   eventoId: number
 ): Promise<object | null> {
-  return await prisma.ticket.groupBy({
+  return await prisma.pedido.groupBy({
     by: ["eventoId"],
-    _count: {
-      eventoId: true,
+    _sum: {
+      quantidade: true,
     },
     where: {
       eventoId,
@@ -52,8 +52,15 @@ export async function getTotalTicketsCompradosEvento(
 export async function getValorTotaldeVendas(
   eventoId: number
 ): Promise<object | null> {
-  return await prisma.$queryRaw`SELECT SUM(a.preco) as valor FROM tipoTicketsEventos a JOIN tickets b on a.tipoTicketId = b.tipoTicketId and a.eventoId = b.eventoId
-  where a.eventoId = ${eventoId};`;
+  return await prisma.pedido.groupBy({
+    by: ["eventoId"],
+    _sum: {
+      valor: true,
+    },
+    where: {
+      eventoId,
+    },
+  });
 }
 
 export async function getVendidosPorTipoTicketsEvento(

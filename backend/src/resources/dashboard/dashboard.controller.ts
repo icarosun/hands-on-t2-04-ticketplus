@@ -53,12 +53,12 @@ interface yAxisDisp {
 }
 
 interface yAxisVend {
-  _count: yAxisQuant;
+  _sum: yAxisQuant;
   tipoTicketId: number;
 }
 
 interface yAxisQuant {
-  tipoTicketId: number;
+  quantidade: number;
 }
 
 interface SumAux {
@@ -69,6 +69,14 @@ interface SumAux {
 
 interface PrismaSum {
   _sum: SumAux;
+}
+
+interface SumAux2 {
+  quantidade: number;
+  valor: number;
+}
+interface PrismaSum2 {
+  _sum: SumAux2;
 }
 
 interface cardCompradosQuant {
@@ -134,16 +142,12 @@ async function cardDataComprados(req: Request, res: Response) {
   try {
     const qtTicketsComprados = (await getTotalTicketsCompradosEvento(
       idEvento
-    )) as cardComprados[];
+    )) as PrismaSum2[];
     if (!qtTicketsComprados)
       return res.status(404).json({ msg: "Evento sem tickets comprados!" });
 
-    if (qtTicketsComprados.length === 0) {
-      return res.status(200).json(0);
-    }
-
     // prisma resulta o group by como um array, mas botei a condicional de eventoId então não preciso tratar
-    const cardData: number = qtTicketsComprados[0]._count.eventoId;
+    const cardData: number = qtTicketsComprados[0]._sum.quantidade; //qtTicketsComprados[0]._count.eventoId;
 
     return res.status(200).json(cardData);
   } catch (error) {
@@ -154,9 +158,9 @@ async function cardDataComprados(req: Request, res: Response) {
 async function cardDataReceita(req: Request, res: Response) {
   const idEvento = parseInt(req.params.idEvento);
   try {
-    const valor = (await getValorTotaldeVendas(idEvento)) as cardValor[];
+    const valor = (await getValorTotaldeVendas(idEvento)) as PrismaSum2[];
 
-    const cardData = valor[0].valor;
+    const cardData: number = valor[0]._sum.valor;
 
     if (cardData === null) {
       return res.status(200).json(0);
@@ -214,9 +218,7 @@ async function graficoYVend(req: Request, res: Response) {
     // aqui só conta. Pode ser 0.
     const yVendidos = (await countAllTicketsByType(idEvento)) as yAxisVend[];
 
-    const graficoData: number[] = yVendidos.map(
-      (item) => item._count.tipoTicketId
-    );
+    const graficoData: number[] = yVendidos.map((item) => item._sum.quantidade);
 
     return res.status(200).json(graficoData);
   } catch (error) {
