@@ -5,40 +5,33 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 
-const products = [
-  {
-    name: 'Boi Bumbá Parintins 2024',
-    desc: 'VIP',
-    price: '$1500',
-  },
-];
-
 interface InfoProps {
-  totalPrice: string;
+  titulo: string;
+  precoUnitario: number;
+  total: number;
+  tipoIngressoSelecionado: string;
 }
 
-export default function Info({ totalPrice }: InfoProps) {
+export default function Info(props: InfoProps) {
   return (
     <React.Fragment>
       <Typography variant="subtitle2" color="text.secondary">
         Total
       </Typography>
       <Typography variant="h4" gutterBottom>
-        {totalPrice}
+        {`$${props.total} `}
       </Typography>
       <List disablePadding>
-        {products.map((product) => (
-          <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
+          <ListItem key={props.titulo} sx={{ py: 1, px: 0 }}>
             <ListItemText
               sx={{ mr: 2 }}
-              primary={product.name}
-              secondary={product.desc}
+              primary={props.titulo}
+              secondary={props.tipoIngressoSelecionado}
             />
             <Typography variant="body1" fontWeight="medium">
-              {product.price}
+              {`$${props.precoUnitario}`}
             </Typography>
           </ListItem>
-        ))}
       </List>
     </React.Fragment>
   );

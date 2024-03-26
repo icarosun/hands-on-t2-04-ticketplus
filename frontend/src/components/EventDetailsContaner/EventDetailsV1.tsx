@@ -57,6 +57,7 @@ const EventDetailsV1 = () => {
     const [tiposTickets, setTiposTickets] = useState<any[]>([]);
     const [tipoIngressoSelecionado, setTipoIngressoSelecionado] = useState<number>(1); // Estado para acompanhar o tipo de ingresso selecionado
 
+
     useEffect(() => {
         if (location.state) {
             const { detalhesEvento, tiposTicketsEvento, tiposTickets } = location.state;
@@ -65,6 +66,7 @@ const EventDetailsV1 = () => {
             setTiposTickets(tiposTickets);
         }
     }, [location]);
+
 
     for (let tipoTocketDescricao of tiposTickets) {
         tiposTicketsDescricoes.push(
@@ -117,7 +119,27 @@ const EventDetailsV1 = () => {
     };
 
     const goCheckout = () => {
-        navigate('/checkout')
+        let descricaoTipoTicket = "";
+        let precoUnitario = 0;
+        for (let tipoTicket of tiposTickets) {
+            if (tipoTicket.id == tipoIngressoSelecionado)
+                descricaoTipoTicket = tipoTicket.descricao;
+        }
+        for (let tipoTicketEvento of tiposTicketsEvento) {
+            if (tipoTicketEvento.tipoTicketId === tipoIngressoSelecionado)
+                precoUnitario = tipoTicketEvento.preco
+        }
+        descricaoTipoTicket = primeiraLetraMaiuscula(descricaoTipoTicket);
+        navigate('/checkout', {
+            state: {
+                ...eventoData,
+                tipoIngressoSelecionado: descricaoTipoTicket,
+                total,
+                tiposTicketsEvento,
+                quantidade: count,
+                precoUnitario: precoUnitario
+            }
+        });
     }
 
     return (

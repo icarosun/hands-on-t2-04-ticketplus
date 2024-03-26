@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -82,10 +82,16 @@ const logoStyle = {
   marginRight: '-8px',
 };
 
-function getStepContent(step: number) {
+
+function getStepContent(step: number, state: any) {
   switch (step) {
     case 0:
-        return <Review />;
+        return <Review 
+          tipoIngressoSelecionado={state.tipoIngressoSelecionado}
+          precoUnitario={state.precoUnitario}
+          total={state.total}
+          quantidade={state.quantidade}
+        />;
     case 1:
       return <PaymentForm />;
     case 2:
@@ -102,6 +108,10 @@ export default function CheckoutStepper() {
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const { state } = useLocation();
+
+  // console.log(state);
+  
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
@@ -149,7 +159,12 @@ export default function CheckoutStepper() {
               maxWidth: 500,
             }}
           >
-            <Info totalPrice={activeStep >= 2 ? '$144.97' : '$134.98'} />
+            <Info 
+              titulo={state.titulo}
+              total={state.total}
+              tipoIngressoSelecionado={state.tipoIngressoSelecionado}
+              precoUnitario={state.precoUnitario}
+            />
           </Box>
         </Grid>
         <Grid
@@ -294,7 +309,7 @@ export default function CheckoutStepper() {
               </Stack>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
+                {getStepContent(activeStep, state)}
                 <Box
                   sx={{
                     display: 'flex',
