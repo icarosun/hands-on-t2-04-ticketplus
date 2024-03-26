@@ -58,6 +58,7 @@ async function create(req: Request, res: Response) {
       }
 
       const tipoTicketEvento = await getTipoTicketEvento(eventoId, tipoTicketId);
+      console.log(tipoTicketEvento);
       if (!tipoTicketEvento)
         return res
           .status(404)
