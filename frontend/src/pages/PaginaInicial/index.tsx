@@ -21,7 +21,7 @@ const CarrouselProps = [
         image: 'https://www.ingressomix.com/images/banners/65a9dd8c14bd7.jpg',
     },
     {
-        image: 'https://www.ingressomix.com/images/banners/65ecba48e7cfd.jpg',
+      image: 'https://img.freepik.com/vetores-gratis/capa-de-facebook-de-musica-eletronica-gradiente_23-2149837070.jpg?w=996&t=st=1711485419~exp=1711486019~hmac=a6a1e8d83a0b12c7e3342214b2ec5efd6e9ccf9526e4e1545e0a3760af9903bd'  
     }
 ];
 export default function PaginaInicial() {

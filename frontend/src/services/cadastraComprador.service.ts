@@ -5,7 +5,7 @@ export interface UsuarioComprador {
   email: string;
   senha: string;
   repeteSenha: string;
-  //cpf: string;
+  cpf: string;
 }
 
 export async function signupComprador (dadosRequisicao: UsuarioComprador) {

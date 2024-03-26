@@ -31,6 +31,9 @@ const AppBarContent = () => {
   const loginClientPage = (event: any) => {
     navigate(`/login_cliente`);
   }
+  const signUpClientPage = (event: any) => {
+    navigate('/signup');
+  }
   return (
     <React.Fragment>
       <AppBar position='static' style={{ backgroundColor: '#fff' }}>
@@ -46,7 +49,7 @@ const AppBarContent = () => {
             </Typography></MenuButton>
             <Menu variant='soft' sx={{ alignItems: 'flex-center', width: 250, wordBreak: 'break-all' }}>
               <MenuItem onClick={loginClientPage}>Entrar</MenuItem>
-              <MenuItem>Cadastrar</MenuItem>
+              <MenuItem onClick={signUpClientPage}>Cadastrar</MenuItem>
             </Menu>
           </Dropdown>
           <div
