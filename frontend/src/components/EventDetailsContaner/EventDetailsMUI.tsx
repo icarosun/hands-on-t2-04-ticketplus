@@ -182,10 +182,6 @@ const EventDetails: React.FC<EventDetailsContainerProps> = ({ show, handleClose,
                             Comprar
                         </Button>
                     }
-                    {
-                        paginaComprador &&
-                        <PayPalButton eventoId={detailsEvent.id}/>
-                    }
                 </CardActions>
             </Card>
         </Modal>

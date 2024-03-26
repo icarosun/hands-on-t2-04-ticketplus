@@ -93,7 +93,11 @@ function getStepContent(step: number, state: any) {
           quantidade={state.quantidade}
         />;
     case 1:
-      return <PaymentForm />;
+      return <PaymentForm
+        eventoId={state.eventoId}
+        quantity={state.quantidade}
+        tipoTicketId={state.tipoTicketId}
+      />;
     case 2:
       return <AddressForm />;
     default:

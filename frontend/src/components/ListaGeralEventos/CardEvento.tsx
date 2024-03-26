@@ -84,7 +84,10 @@ export default function CardEvento(props: { id: number; url: string | undefined;
             // Navega para a página de detalhes do evento com os dados necessários passados como estado
             navigate(`/detalhes-do-evento-v1/${idEvento}`, {
                 state: {
-                    detalhesEvento: resDetalhesEventos?.data,
+                    detalhesEvento: {
+                        ...resDetalhesEventos?.data,
+                        eventoId: idEvento
+                    },
                     tiposTicketsEvento: tiposTicketsEventoData,
                     tiposTickets: resTiposTickets
                 }

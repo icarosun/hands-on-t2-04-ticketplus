@@ -133,6 +133,7 @@ const EventDetailsV1 = () => {
         navigate('/checkout', {
             state: {
                 ...eventoData,
+                tipoTicketId: tipoIngressoSelecionado,
                 tipoIngressoSelecionado: descricaoTipoTicket,
                 total,
                 tiposTicketsEvento,
