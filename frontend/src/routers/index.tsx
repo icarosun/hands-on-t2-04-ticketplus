@@ -81,7 +81,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: <CheckoutNavBarLayout tipoUsuario={TiposUsuarios.COMPRADOR} />,
+    element: <CheckoutNavBarLayout />,
     children: [
       {
         path: "/checkout",

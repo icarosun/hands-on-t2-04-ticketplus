@@ -1,18 +1,9 @@
 // ** MUI Imports
-import * as React from "react";
 import Button from '@mui/joy/Button';
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/joy/Typography";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { defineSessaoUsuario } from "../../../utils/defineSessaoUsuario";
-import {
-  CompraType,
-  getIngressosByComprador,
-} from "../../../services/listaIngressos";
-import SaldoComponente from "../../CarteiraUsuario/CarteiraItem";
-import MeusIngressos from "../../IngressosComprados/MeusIngressos";
 import { TiposUsuarios } from "../../../utils/tipoUsuario.constants";
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from "@mui/material";
@@ -23,8 +14,6 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
-import Stack from "@mui/joy/Stack";
-import IconButton from "@mui/joy/IconButton";
 
 export interface InfoIngressoType {
   id: number;
@@ -40,64 +29,15 @@ interface AppBarProps {
 }
 
 const AppBarUsuario = (props: AppBarProps) => {
-  const [saldoAtual, setSaldoAtual] = useState<number | undefined>(undefined);
-  const [ingressos, setIngressos] = useState<InfoIngressoType[]>([]);
-  const [mostraSpinner, setMostraSpinner] = useState(true);
-
-  const usuarioComprador = props.tipoUsuario === TiposUsuarios.COMPRADOR;
-
-  const navigate = useNavigate();
-
   useEffect(() => {
     (async () => {
       try {
-        const resSessao = await defineSessaoUsuario();
-        if (props.tipoUsuario === TiposUsuarios.COMPRADOR) {
-          const resIngressos = await getIngressosByComprador();
-          const saldo = resSessao.data.saldo;
-          setSaldoAtual(saldo);
-          const compras = resIngressos?.data.comprasData;
-          let index = 1;
-          const ingressosAux: InfoIngressoType[] = [];
-          compras?.map((compra: CompraType) => {
-            const ingresso = compra.evento;
-            const comprador = compra.comprador;
-            const ingressoInfo = {
-              id: parseInt(`${ingresso.id}${index}`),
-              imageUrlEvento: compra.imageUrl,
-              nomeEvento: ingresso.titulo,
-              localEvento: ingresso.localizacao,
-              quantidadeIngressos: 1,
-              nomeProprietario: comprador.nome,
-            };
-            ingressosAux.push(ingressoInfo);
-            index++;
-          });
-          setIngressos(ingressosAux);
-        }
+        await defineSessaoUsuario();
       } catch (error) {
-        navigate("/");
         console.error(error);
       }
     })();
   }, []);
-
-  useEffect(() => {
-    if (saldoAtual !== undefined) setMostraSpinner(false);
-  }, [saldoAtual]);
-
-  let componentesComprador: any[] = [];
-
-  if (props.tipoUsuario === TiposUsuarios.COMPRADOR) {
-    componentesComprador = [
-      <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-        <SaldoComponente saldo={saldoAtual} spinner={mostraSpinner} />
-        <MeusIngressos ingressos={ingressos}></MeusIngressos>
-      </Box>,
-    ];
-  } else {
-    //ggg
-  }
 
   const sections = [
     { title: 'Tecnologia', url: '#' },
@@ -128,7 +68,6 @@ const AppBarUsuario = (props: AppBarProps) => {
               <Option value="bird">Belo Horizonte</Option>
               <Option value="bird">Brasilia</Option>
             </Select>
-            <MeusIngressos ingressos={ingressos}></MeusIngressos>
             <div
               style={{ flex: 1, textAlign: 'center' }}
             >
@@ -166,29 +105,15 @@ const AppBarUsuario = (props: AppBarProps) => {
         </>
       ) : (
         <>
-          <Box
-            sx={{
-              display: 'flex',
-              flexGrow: 1,
-              justifyContent: 'space-between',
-            }}
-          >
+          <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Button variant="outlined" startDecorator={<EventAvailableOutlinedIcon />}>Ver Todos Os Eventos</Button>
             <div
               style={{ flex: 1, textAlign: 'center' }}
             >
               <img width="150" height="80" src={LogoTicketPlus} />
             </div>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: 1.5,
-                alignItems: 'center',
-              }}
-            >
-              <UserDropdownMenu tipoUsuario={props.tipoUsuario} />
-            </Box>
-          </Box>
+            <UserDropdownMenu tipoUsuario={props.tipoUsuario} />
+          </Toolbar>
         </>
       )}
     </Box>

@@ -1,9 +1,22 @@
 import { Evento } from "@prisma/client";
+import { CategoriaEvento } from "@prisma/client";
 
 export type EventoDto = Pick<
   Evento,
   "titulo" | "descricao" | "vagas" | "faixaEtaria"
 >;
+
+export interface GetEventosType {
+  id: number;
+  titulo: string;
+  descricao: string;
+  localizacao: string;
+  faixaEtaria: number;
+  vagas: number;
+  dataInicio: Date;
+  dataFim: Date;
+  CategoriaEvento: CategoriaEvento;
+}
 
 export interface TipoTicketEventoType {
   tipoTicketId: number;
@@ -16,6 +29,8 @@ export interface CreateEventoReqType {
   descricao: string;
   localizacao: string;
   vagas: number;
+  dataInicio: Date;
+  dataFim: Date;
   faixaEtaria: number;
   imageBase64: string;
   categoriaEventoId: number;
@@ -42,6 +57,8 @@ export type CreateEventoDto = Pick<
   | "localizacao"
   | "faixaEtaria"
   | "vagas"
+  | "dataInicio"
+  | "dataFim"
   | "organizadorId"
   | "categoriaEventoId"
   | "enderecoEventoId"
@@ -52,7 +69,9 @@ export type UpdateEventoDto = Pick<
   | "titulo"
   | "descricao"
   | "localizacao"
-  | "vagas"
   | "faixaEtaria"
+  | "vagas"
+  | "dataInicio"
+  | "dataFim"
   | "categoriaEventoId"
 >;

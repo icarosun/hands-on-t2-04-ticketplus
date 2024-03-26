@@ -11,7 +11,7 @@ async function comprador() {
         nome: "Luiz",
         email: "joao@usuario.com",
         senha: "$2a$10$AlzsERbpGbrLig3.vPWGN.T.NzFxilZJqBIJ05vA00tJYommOYvRC", //Senha: 12345678
-        saldo: 100,
+        cpf: "76201437002"
       },
     ],
     skipDuplicates: true,

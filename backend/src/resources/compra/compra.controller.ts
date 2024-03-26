@@ -2,13 +2,17 @@ import { Request, Response } from "express";
 import dotenv from "dotenv";
 
 import { getPedidoById } from "../pedido/pedido.service";
-import { createCompra } from "./compra.service";
+import {
+  createCompra,
+  getCompraByPedidoId
+} from "./compra.service";
 import { updateQuantidadeTiposTicketsEventos } from "../tiposTicketsEventos/tiposTicketsEventos.service";
 import { updateVagasEvento } from "../evento/evento.service";
 import { CreateCompraDto } from "./compra.types";
 import { createTicketService } from "../ticket/ticket.service";
 import { updateStatusPedido } from "../pedido/pedido.service";
 import { StatusPedido } from "../pedido/pedido.constants";
+import { createTotalTicketsComprados, getTotalTicketsComprados, updateTotalTicketsComprados } from "../totalTicketsComprados/totalTicketsComprados.service";
 
 dotenv.config();
 
@@ -50,17 +54,24 @@ async function create(req: Request, res: Response) {
       in: 'body',
       schema: { $ref: '#/definitions/Compra'}
     }
-  */
-  const pedidoId = req.session.pedidoId;
+  /*/
+  const pedidoId = req.body.pedidoId;
+  const cpfComprador = String(req.session.cpf);
   if (!pedidoId)
-    res.status(404).json({ msg: "A ordem de compra solicitada não existe" });
+    return res.status(404).json({ msg: "A ordem de compra solicitada não existe" });
   try {
     const pedido = await getPedidoById(pedidoId);
     if (!pedido)
-      res.status(404).json({ msg: "A ordem de compra solicitada não existe" });
+      return res.status(404).json({ msg: "A ordem de compra solicitada não existe" });
+
+    const compra = await getCompraByPedidoId(pedidoId);
+    if (!!compra)
+      return res.status(401).json({ msg: "Compra já realizada anteriormente" });
     
     const tipoTicketId = pedido?.tipoTicketId as number;
     const eventoId = pedido?.eventoId as number;
+
+    const quantidade = pedido?.quantidade as number;
 
     const novoTicket = await createTicketService(eventoId, tipoTicketId);
     const ticketId = novoTicket.id;
@@ -74,12 +85,17 @@ async function create(req: Request, res: Response) {
     await updateStatusPedido(
       String(pedidoId),
       StatusPedido.PAGO
-    );
-    
-    req.session.pedidoId = undefined;
-    
-    await updateQuantidadeTiposTicketsEventos(eventoId, tipoTicketId, 1); // 1 ticket por vez
-    await updateVagasEvento(eventoId, 1); // 1 ticket por vez
+    )
+
+    const totalTicketsComprados = await getTotalTicketsComprados(cpfComprador, eventoId);
+    if (totalTicketsComprados)
+      await updateTotalTicketsComprados(cpfComprador, eventoId, quantidade);
+    else
+      await createTotalTicketsComprados(cpfComprador, eventoId, quantidade);
+
+    await updateQuantidadeTiposTicketsEventos(eventoId, tipoTicketId, quantidade);
+    await updateVagasEvento(eventoId, quantidade);
+
     return res.status(201).json({ msg: "Compra realizada com sucesso" }); 
     
   } catch (error) {

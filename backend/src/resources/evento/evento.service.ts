@@ -1,10 +1,16 @@
 import { PrismaClient, Evento, Compra, TipoTicket, Pedido } from "@prisma/client";
 import { CreateEventoDto, UpdateEventoDto } from "./evento.types";
+import { getDadosEnderecoByCEP } from "../endereco/endereco.service";
+import { DadosEnderecoType } from "../endereco/endereco.types";
 
 const prisma = new PrismaClient();
 
 export async function getAllEventos(): Promise<Evento[]> {
-  return await prisma.evento.findMany();
+  return await prisma.evento.findMany({
+    include: {
+      CategoriaEvento: true
+    }
+  });
 }
 
 export async function getEvento(idEvento: number): Promise<Evento | null> {
@@ -15,14 +21,36 @@ export async function getEvento(idEvento: number): Promise<Evento | null> {
   });
 }
 
-export const getEventosByOrganizador = async (
+export async function getEventosByOrganizador (
   organizadorId: string | undefined
-): Promise<Evento[] | null> => {
+): Promise<Evento[] | null> {
   if (organizadorId === undefined) return null;
   return await prisma.evento.findMany({
     where: { organizadorId },
   });
 };
+
+export async function searchEventosOrganizadorByTitulo (
+  organizadorId: string | undefined,
+  titulo: string
+): Promise<Evento[]> {
+  return await prisma.evento.findMany({
+    where: {
+      organizadorId,
+      titulo: {
+        search: titulo,
+      },
+    },
+  })
+}
+
+export async function getEventoByCategoriaId (
+  categoriaEventoId: number
+): Promise<Evento[] | null> {
+  return await prisma.evento.findMany({
+    where: { categoriaEventoId }
+  });
+}
 
 export const getPedidoByEventoId = async (
   eventoId: number
@@ -57,3 +85,15 @@ export const updateVagasEvento = async (
     data: { vagas: { decrement: ocupacao } },
   });
 };
+
+export const findEventoByTitle = async (
+  titulo: string
+): Promise<Evento[]> => {
+  return await prisma.evento.findMany({
+    where: {
+      titulo: {
+        search: titulo,
+      }
+    }
+  })
+}

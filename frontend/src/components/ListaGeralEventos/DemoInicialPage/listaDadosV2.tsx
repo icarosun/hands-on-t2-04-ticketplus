@@ -1,31 +1,24 @@
+import { GetEventoReqType } from "../../../interfaces/GetEventoReqType";
 import { HttpInstance } from "../../../utils/http";
 
-// import { HttpInstance } from "../../../src/assets/imgs/amazon-games.jpg";
-
-
-interface ProductDataTypeV2 {
-  id: number;
-  imageUrl: string;
-  titulo: string;
-  localizacao: string;
-  descricao: string;
-  preco: number;
-}
-
-export const productDataV2: ProductDataTypeV2[] = [];
+export const productDataV2: GetEventoReqType[] = [];
 
 const res = await HttpInstance.http.get("/evento");
 const eventos = res.data;
 
 
-eventos.map((data: ProductDataTypeV2) => {
+eventos.map((data: GetEventoReqType) => {
   productDataV2.push({
     id: data.id,
-    imageUrl: data.imageUrl,
     titulo: data.titulo,
-    localizacao: data.localizacao,
     descricao: data.descricao,
-    preco: data.preco
+    localizacao: data.localizacao,
+    faixaEtaria: data.faixaEtaria,
+    vagas: data.vagas,
+    dataInicio: data.dataInicio,
+    dataFim: data.dataFim,
+    categoria: data.categoria,
+    imageUrl: data.imageUrl
   })
 });
 
@@ -49,4 +42,3 @@ export const responsive = {
       items: 1,
     },
   };
-  
