@@ -64,7 +64,7 @@ const SignUpComprador = () => {
             email: values.email,
             senha: values.password,
             repeteSenha: values.repeatPassword,
-            //cpf: values.cpf
+            cpf: values.cpf
           }
         );
 
@@ -176,7 +176,7 @@ const SignUpComprador = () => {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <Box sx={{ gap: 2, display: 'flex', alignItems: 'center' , backgroundColor:'#fff'}}>
+                    <Box onClick = {() => navigate("/")} sx={{ gap: 2, display: 'flex', alignItems: 'center' , backgroundColor:'#fff'}}>
                         <IconButton variant="plain" color="primary" size="sm">
                             <LocalActivityIcon />
                         </IconButton>

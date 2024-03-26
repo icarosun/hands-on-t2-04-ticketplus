@@ -227,7 +227,7 @@ export default function LoginClientPage() {
                                     Veja seus pedidos de forma fácil, compre mais rápido e tenha uma experiência personalizada 🤗
                                 </Typography>
                                 <Typography level="body-sm">
-                                  Novo no TicketPlus? <Link level="title-sm" href="/signUp">
+                                  Novo no TicketPlus? <Link level="title-sm" href="/signup">
                                             Crie sua conta
                                         </Link>
                                 </Typography>

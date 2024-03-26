@@ -16,6 +16,7 @@ import LoginClientPage from "../components/Login/LoginPage.tsx";
 import NovoEvento from "../components/OrganizadorComponents/NovoEvento.tsx";
 import NavBarLayoutOrganizador from "../layout/Navbar/Organizador/index.tsx";
 import PaginaPrincipalOrganizador from "../components/OrganizadorComponents/EventsConteiner.tsx";
+import SignUpComprador from "../components/SignUp/SignUpComprador.tsx";
 
 
 const router = createBrowserRouter([
@@ -96,10 +97,10 @@ const router = createBrowserRouter([
         path: "/login_cliente",
         element: <LoginClientPage />,
       },
-      /*{
+      {
         path: "/signup",
         element: <SignUpComprador />
-      }*/
+      }
     ],
   }
 ]);
