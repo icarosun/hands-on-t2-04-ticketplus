@@ -226,6 +226,11 @@ export default function LoginClientPage() {
                                 <Typography level="body-sm">
                                     Veja seus pedidos de forma fácil, compre mais rápido e tenha uma experiência personalizada 🤗
                                 </Typography>
+                                <Typography level="body-sm">
+                                  Novo no TicketPlus? <Link level="title-sm" href="/signUp">
+                                            Crie sua conta
+                                        </Link>
+                                </Typography>
                             </Stack>
                         </Stack>
                         <Stack gap={4} sx={{ mt: 2 }}>

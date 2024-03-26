@@ -10,6 +10,7 @@ async function comprador() {
         id: "518ce6e8-b66c-4168-9bee-aa71d3c01647",
         nome: "Luiz",
         email: "joao@usuario.com",
+        cpf: "81417831065",
         senha: "$2a$10$AlzsERbpGbrLig3.vPWGN.T.NzFxilZJqBIJ05vA00tJYommOYvRC", //Senha: 12345678
         cpf: "76201437002"
       },

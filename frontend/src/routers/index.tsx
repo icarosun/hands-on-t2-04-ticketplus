@@ -95,6 +95,10 @@ const router = createBrowserRouter([
       {
         path: "/login_cliente",
         element: <LoginClientPage />,
+      },
+      {
+        path: "/signup",
+        element: <SignUpComprador />
       }
     ],
   }

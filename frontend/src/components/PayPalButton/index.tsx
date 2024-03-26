@@ -40,10 +40,11 @@ const PayPalButton = (props: PayPalButtonProps) => {
         try {
             return await realizaPedido(
                 props.eventoId,
-                1,
-                1
+                props.quantity,
+                props.tipoTicketId
             ).then((response) => response.json())
             .then((order) => {
+                console.log(order);
                 return order.id;
             });
         } catch (err) {

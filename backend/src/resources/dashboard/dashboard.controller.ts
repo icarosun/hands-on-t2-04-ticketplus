@@ -348,7 +348,6 @@ async function tabelaGeral(req: Request, res: Response) {
     const eventoData: object = evento;
     return res.status(200).json(eventoData);
   } catch (error) {
-    console.log(error);
     return res.status(500).json(error);
   }
 }
@@ -391,7 +390,6 @@ async function graficoYGeral(req: Request, res: Response) {
     const data = { inteiras, meia, vip };
     return res.status(200).json(data);
   } catch (error) {
-    console.log(error);
     return res.status(500).json(error);
   }
 }
