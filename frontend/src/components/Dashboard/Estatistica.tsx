@@ -6,10 +6,11 @@ import Avatar from "@mui/material/Avatar";
 import CardHeader from "@mui/material/CardHeader";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import EventAvailableIcon from "@mui/icons-material/EventAvailable";
+//import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import TrendingUp from "mdi-material-ui/TrendingUp";
 import CurrencyUsd from "mdi-material-ui/CurrencyUsd";
+import { Money } from "../../utils/currency";
 
 interface Estatistica {
   title?: string;
@@ -55,15 +56,9 @@ export default function EstatisticasVendas(props: Estatistica) {
 
   const salesData: DataType[] = [
     {
-      valor: `${props.valores[0]}`,
-      title: "Disponíveis",
-      color: "primary",
-      icon: <EventAvailableIcon sx={{ fontSize: "1.75rem" }} />,
-    },
-    {
       valor: `${props.valores[1]}`,
       title: "Vendidos",
-      color: "success",
+      color: "primary",
       icon: <ShoppingCartIcon sx={{ fontSize: "1.75rem" }} />,
     },
     {
@@ -73,7 +68,7 @@ export default function EstatisticasVendas(props: Estatistica) {
       icon: <TrendingUp sx={{ fontSize: "1.75rem" }} />,
     },
     {
-      valor: `R$ ${props.valores[3]}`,
+      valor: `${Money.format(props.valores[3])}`,
       color: "success",
       title: "Receita",
       icon: <CurrencyUsd sx={{ fontSize: "1.75rem" }} />,
