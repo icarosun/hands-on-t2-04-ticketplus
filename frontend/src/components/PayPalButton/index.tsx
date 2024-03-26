@@ -2,10 +2,12 @@ import {
     useState,
     useEffect
 } from "react";
+import { useDispatch } from 'react-redux';
 import {
     PayPalScriptProvider,
     PayPalButtons
 } from "@paypal/react-paypal-js";
+import { setOrderId } from "../../redux/slices/app.slice";
 
 import { compraTicket } from "../../services/compra.service";
 import { PayPalButtonProps } from "../../interfaces/PayPalButtonProps";
@@ -18,6 +20,8 @@ const PayPalButton = (props: PayPalButtonProps) => {
     const [displayBotoesPayPal, setDisplayBotoesPayPal] = useState("none");
     const [pedidoId, setPedidoId] = useState<string>("");
     const [pagamentoAprovado, setPagamentoAprovado] = useState<boolean>(false);
+
+    const dispatch = useDispatch();
 
     const onInit = () => {
         setDisplayBotoesPayPal("block");
@@ -34,6 +38,9 @@ const PayPalButton = (props: PayPalButtonProps) => {
             ).then((response) => response.json())
             .then((order) => {
                 setPedidoId(order.pedidoId);
+                dispatch(setOrderId({
+                    orderId: order.id
+                }));
                 return order.id;
             });
         } catch (err) {
@@ -41,28 +48,25 @@ const PayPalButton = (props: PayPalButtonProps) => {
         }
     }
 
-    useEffect(() => {
+    async function finalizaCompra () {
         (async () => {
             if (pedidoId !== "" && pagamentoAprovado) {
                 try {
                     await compraTicket(pedidoId);
+                    document.querySelectorAll("button")[4].click();
                 } catch (error) {
                     console.error(error);
                 }
             }
         })();
+    }
+
+    useEffect(() => {
+        finalizaCompra();
     }, [pedidoId]);
 
     useEffect(() => {
-        (async () => {
-            if (pedidoId !== "" && pagamentoAprovado) {
-                try {
-                    await compraTicket(pedidoId);
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-        })();
+        finalizaCompra();
     }, [pagamentoAprovado]);
 
     const onApprove = async () =>  {

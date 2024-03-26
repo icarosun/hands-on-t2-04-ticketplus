@@ -22,12 +22,12 @@ import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
-import AddressForm from './AddressForm';
 import getCheckoutTheme from './getCheckoutTheme.tsx';
 import Info from './Info.tsx';
 import InfoMobile from './InforMobile.tsx';
 import PaymentForm from './PaymentForm.tsx';
 import Review from './Review.tsx';
+import store from '../../redux/store.ts';
 // import ToggleColorMode from './ToggleColorMode.tsx';
 
 interface ToggleCustomThemeProps {
@@ -73,7 +73,7 @@ function ToggleCustomTheme({
   );
 }
 
-const steps = ["Revise sua compra", "Pagamento", "Finalização"];
+const steps = ["Revise sua compra", "Pagamento"];
 
 const logoStyle = {
   width: '140px',
@@ -98,8 +98,6 @@ function getStepContent(step: number, state: any) {
         quantity={state.quantidade}
         tipoTicketId={state.tipoTicketId}
       />;
-    case 2:
-      return <AddressForm />;
     default:
       throw new Error('Unknown step');
   }
@@ -112,7 +110,11 @@ export default function CheckoutStepper() {
   const defaultTheme = createTheme({ palette: { mode } });
   const [activeStep, setActiveStep] = React.useState(0);
 
+  const orderId = store.getState().AppReducer.orderId;
+
   const { state } = useLocation();
+
+  const displayNextButton = activeStep === steps.length - 1 ? 'none' : 'flex';
 
   // console.log(state);
   
@@ -294,12 +296,11 @@ export default function CheckoutStepper() {
             </Stepper>
             {activeStep === steps.length ? (
               <Stack spacing={2} useFlexGap>
-                <Typography variant="h1">📦</Typography>
-                <Typography variant="h5">Thank you for your order!</Typography>
+                <Typography variant="h1">🎟️</Typography>
+                <Typography variant="h5">Obrigado por sua compra!</Typography>
                 <Typography variant="body1" color="text.secondary">
-                  Your order number is
-                  <strong>&nbsp;#140396</strong>. We have emailed your order
-                  confirmation and will update you once its shipped.
+                  O identificador do seu pedido é
+                  <strong>&nbsp;#{orderId}</strong>. Você pode conferir os ingressos adquiridos na sessão <b>Meus Ingressos</b>.
                 </Typography>
                 <Button
                   variant="contained"
@@ -308,7 +309,7 @@ export default function CheckoutStepper() {
                     width: { xs: '100%', sm: 'auto' },
                   }}
                 >
-                  Go to my orders
+                  Ir para Meus Ingressos
                 </Button>
               </Stack>
             ) : (
@@ -336,7 +337,7 @@ export default function CheckoutStepper() {
                         display: { xs: 'none', sm: 'flex' },
                       }}
                     >
-                      Previous
+                      Anterior
                     </Button>
                   )}
                   {activeStep !== 0 && (
@@ -349,7 +350,7 @@ export default function CheckoutStepper() {
                         display: { xs: 'flex', sm: 'none' },
                       }}
                     >
-                      Previous
+                      Anterior
                     </Button>
                   )}
                   <Button
@@ -358,9 +359,10 @@ export default function CheckoutStepper() {
                     onClick={handleNext}
                     sx={{
                       width: { xs: '100%', sm: 'fit-content' },
+                      display: `${displayNextButton}`
                     }}
                   >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
                   </Button>
                 </Box>
               </React.Fragment>
