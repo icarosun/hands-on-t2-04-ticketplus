@@ -69,12 +69,75 @@ router.get(
   dashboardController.cardReceitaTotal
 );
 
+router.get(
+  "/graficoFinanceiroPeriodoDados/:idEvento/:periodo",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.graficoFinanceiroPeriodoDados
+);
+
+router.get(
+  "/graficoGeralPeriodoDados/:idEvento/:periodo",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.graficoGeralPeriodoDados
+);
+
+router.get(
+  "/cardReceitaTotalPeriodo/:periodo",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.cardReceitaTotal
+);
+
+router.get(
+  "/cardPorcentagemTotal/:periodo",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.cardPorcentagemTotalPeriodo
+);
+
+router.get(
+  "/cardVagasEventos/:periodo",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.cardVagasTotalPorPeriodo
+);
+
+router.get(
+  "/graficoGeralPeriodo/:periodo",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.graficoGeralPeriodo
+);
+
+router.get(
+  "/tabela/:periodo",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.tabelaGeral
+);
+
 // titulo do evento
 router.get(
   "/:idEvento",
   usuarioAutenticado,
   isOrganizador,
   dashboardController.modalTitle
+);
+
+router.get(
+  "/cardTicketsVendidosTotal/:periodo",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.cardTicketsVendidosTotal
+);
+
+router.get(
+  "/cardMelhorEvento/:periodo",
+  usuarioAutenticado,
+  isOrganizador,
+  dashboardController.cardMelhorEvento
 );
 
 router.get(

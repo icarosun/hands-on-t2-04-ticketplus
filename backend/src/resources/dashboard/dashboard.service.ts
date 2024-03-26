@@ -131,8 +131,13 @@ export async function getTicketTypeOfEvento(
 
 // Receita Total
 export async function getTotalReceitaEventos(
-  organizadorId: string | undefined
+  organizadorId: string | undefined,
+  periodo?: number | undefined
 ): Promise<object | null> {
+  if (organizadorId === undefined) return null;
+  if (periodo) {
+    return await prisma.$queryRaw`SELECT SUM(a.valor) valor FROM pedidos a join eventos b on b.id = a.eventoId and b.organizadorId = ${organizadorId} WHERE a.status = "Pago" and b.created_at >= DATE_SUB(CURDATE(), INTERVAL ${periodo} DAY) and a.created_at >= DATE_SUB(CURDATE(), INTERVAL ${periodo} DAY);`;
+  }
   return await prisma.$queryRaw`SELECT SUM(a.valor) valor FROM pedidos a join eventos b on b.id = a.eventoId and b.organizadorId = ${organizadorId} WHERE a.status = "Pago"`;
 }
 
@@ -140,6 +145,7 @@ export async function getTotalReceitaEventos(
 export async function getTotalVagasEventos(
   organizadorId: string | undefined
 ): Promise<object | null> {
+  if (organizadorId === undefined) return null;
   return await prisma.evento.groupBy({
     by: ["organizadorId"],
     where: {
@@ -151,24 +157,45 @@ export async function getTotalVagasEventos(
   });
 }
 
+export async function getTotalVagasEventosPeriodo(
+  organizadorId: string | undefined,
+  periodo: number | undefined
+): Promise<object | null> {
+  if (organizadorId === undefined || periodo === undefined) return null;
+  return await prisma.$queryRaw`select SUM(a.vagas) as vagas from eventos a where a.organizadorId = ${organizadorId} and a.created_at >= DATE_SUB(CURDATE(), INTERVAL ${periodo} DAY);`;
+}
+
 // Quantidade de Tickets Vendidos
 export async function getTotalTicketsVendidos(
-  organizadorId: string | undefined
+  organizadorId: string | undefined,
+  periodo?: number | undefined
 ): Promise<object | null> {
+  if (organizadorId === undefined) return null;
+  if (periodo) {
+    return await prisma.$queryRaw`select IFNULL(SUM(b.quantidade),0) as vendidos from eventos a join pedidos b on a.id = b.eventoId where b.status = "Pago" and a.organizadorId = ${organizadorId} and b.created_at >= DATE_SUB(CURDATE(), INTERVAL ${periodo} DAY) and a.created_at >= DATE_SUB(CURDATE(), INTERVAL ${periodo} DAY);`;
+  }
   return await prisma.$queryRaw`select IFNULL(SUM(b.quantidade),0) as vendidos from eventos a join pedidos b on a.id = b.eventoId where b.status = "Pago" and a.organizadorId = ${organizadorId};`;
 }
 
 export async function getMelhorEvento(
-  organizadorId: string | undefined
+  organizadorId: string | undefined,
+  periodo?: number | undefined
 ): Promise<object | null> {
   if (organizadorId === undefined) return null;
+  if (periodo) {
+    return await prisma.$queryRaw`select a.titulo, IFNULL(SUM(b.quantidade),0) as vendidos from eventos a join pedidos b on a.id = b.eventoId where b.status = "Pago" and a.organizadorId = ${organizadorId} and b.created_at >= DATE_SUB(CURDATE(), INTERVAL ${periodo} DAY) and a.created_at >= DATE_SUB(CURDATE(), INTERVAL ${periodo} DAY) GROUP BY a.titulo ORDER BY vendidos DESC LIMIT 1;`;
+  }
   return await prisma.$queryRaw`select a.titulo, IFNULL(SUM(b.quantidade),0) as vendidos from eventos a join pedidos b on a.id = b.eventoId where b.status = "Pago" and a.organizadorId = ${organizadorId} GROUP BY a.titulo ORDER BY vendidos DESC LIMIT 1;`;
 }
 
 export async function getTabelaGeralEventos(
-  organizadorId: string | undefined
+  organizadorId: string | undefined,
+  periodo?: number | undefined
 ): Promise<object | null> {
   if (organizadorId === undefined) return null;
+  if (periodo) {
+    return await prisma.$queryRaw`select a.titulo, b.created_at, b.formaPagamento, c.descricao, b.status, b.valor, b.quantidade from eventos a join pedidos b on a.id = b.eventoId join tipoTickets c on b.tipoTicketId = c.id where organizadorId = ${organizadorId} and b.created_at >= DATE_SUB(CURDATE(), INTERVAL ${periodo} DAY)`;
+  }
   return await prisma.$queryRaw`select a.titulo, b.created_at, b.formaPagamento, c.descricao, b.status, b.valor, b.quantidade from eventos a join pedidos b on a.id = b.eventoId join tipoTickets c on b.tipoTicketId = c.id where organizadorId = ${organizadorId}`;
 }
 
@@ -199,6 +226,7 @@ export async function getTabelaGeralIndividual(
 export async function getEventosXGrafico(
   organizadorId: string | undefined
 ): Promise<object | null> {
+  if (organizadorId === undefined) return null;
   return await prisma.evento.findMany({
     select: {
       titulo: true,
@@ -207,6 +235,14 @@ export async function getEventosXGrafico(
       organizadorId,
     },
   });
+}
+
+export async function getEventosGraficoPeriodo(
+  organizadorId: string | undefined,
+  periodo: number | undefined
+): Promise<object | null> {
+  if (organizadorId === undefined || periodo === undefined) return null;
+  return await prisma.$queryRaw`select a.id, a.titulo from eventos a where organizadorId = ${organizadorId} and a.created_at >= DATE_SUB(CURDATE(), INTERVAL ${periodo} DAY) order by a.id`;
 }
 
 /*
