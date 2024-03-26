@@ -2,6 +2,18 @@ import { PrismaClient } from "@prisma/client";
 //import { TiposUsuarios } from "../src/resources/tipoUsuario/tipoUsuario.constants";
 const prisma = new PrismaClient();
 
+const pagamentosTipos: string[] = [
+  "Cartão de Crédito",
+  "Débito",
+  "PIX",
+  "PayPal",
+];
+
+function getRandomStringFromArray(arr: string[]): string {
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
+}
+
 async function comprador() {
   await prisma.comprador.createMany({
     data: [
@@ -154,11 +166,11 @@ async function eventos() {
         descricao:
           "O Web Academy é um projeto realizado pela Universidade Federal do Amazonas (UFAM), em parceria com a Motorola Mobility Comércio de Produtos Eletrônicos Ltda e Flextronics da Amazônia Ltda. O projeto visa a formação de profissionais na área de Desenvolvimento em Web Full Stack, com foco em alunos de graduação, pós-graduação e profissionais do mercado com curso superior.",
         localizacao: "Universidade Feral do Amazonas - Manaus-AM",
-        faixaEtaria: 18,
-        vagas: 30,
-        dataInicio: new Date("2023-07-18 19:00:00.000000"),
-        createdAt: new Date("2023-07-18 19:00:00.000000"),
-        dataFim: new Date("2024-03-27 19:00:00.000000"),
+        faixaEtaria: 16,
+        vagas: 45,
+        dataInicio: new Date("2024-03-27 19:00:00.000000"),
+        createdAt: new Date("2024-03-01 19:00:00.000000"),
+        dataFim: new Date("2024-03-27 21:00:00.000000"),
         organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
         categoriaEventoId: 6,
         enderecoEventoId: 1,
@@ -171,42 +183,12 @@ async function eventos() {
         localizacao: "Motorola Solutions Brasil - São Paulo-SP",
         faixaEtaria: 18,
         vagas: 100,
-        dataInicio: new Date("2024-02-27 19:00:00.000000"),
-        createdAt: new Date("2024-02-27 19:00:00.000000"),
-        dataFim: new Date("2024-03-27 19:00:00.000000"),
+        dataInicio: new Date("2024-03-27 19:00:00.000000"),
+        createdAt: new Date("2024-03-27 19:00:00.000000"),
+        dataFim: new Date("2024-03-27 21:00:00.000000"),
         organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
         categoriaEventoId: 6,
         enderecoEventoId: 2,
-      },
-      {
-        id: 3,
-        titulo: "Festival Folclórico de Parintins 2024",
-        descricao:
-          "O Festival Folclórico de Parintins é uma festa popular que acontece todos os anos no município brasileiro de Parintins, no interior do estado do Amazonas. O festival é reconhecido como Patrimônio Cultural do Brasil pelo Instituto do Patrimônio Histórico e Artístico Nacional (IPHAN). As apresentações simbolizam uma disputa a céu aberto entre duas agremiações folclóricas, a do Boi Garantido (vermelho) e a do Boi Caprichoso (azul), que acontece no Centro Cultural de Parintins – mais conhecido como Bumbódromo, tem capacidade para 35 mil espectadores.",
-        localizacao: "Centro Cultural de Parintins - Parintins-AM",
-        faixaEtaria: 18,
-        vagas: 35000,
-        dataInicio: new Date("2024-03-01 19:00:00.000000"),
-        createdAt: new Date("2024-03-01 19:00:00.000000"),
-        dataFim: new Date("2024-06-30 19:00:00.000000"),
-        organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
-        categoriaEventoId: 1,
-        enderecoEventoId: 4,
-      },
-      {
-        id: 4,
-        titulo: "Ivete Sangalo - O Turnê",
-        descricao:
-          "Show da Ivete Sangalo em Manaus. Comemorando seus 30 anos de carreira.",
-        localizacao: "Arena da Amazônia - Manaus-AM",
-        faixaEtaria: 5,
-        vagas: 5000,
-        dataInicio: new Date("2024-07-27 19:00:00.000000"),
-        createdAt: new Date("2024-07-27 19:00:00.000000"),
-        dataFim: new Date("2024-06-01 19:00:00.000000"),
-        organizadorId: "19454928-0f2b-44e6-ba87-8e65a1fff621",
-        categoriaEventoId: 1,
-        enderecoEventoId: 3,
       },
       {
         id: 5,
@@ -232,81 +214,49 @@ async function eventos() {
 async function tipoTicketsEventos() {
   await prisma.tiposTicketsEventos.createMany({
     data: [
-      // Web Academy 30 vagas
+      // Web Academy 45 vagas
       {
         tipoTicketId: 1,
         eventoId: 1,
-        quantidade: 10,
-        preco: 10,
+        quantidade: 30,
+        preco: 150,
+        createdAt: new Date("2024-03-01 19:00:00.000000"),
       },
       {
         tipoTicketId: 2,
         eventoId: 1,
-        quantidade: 10,
-        preco: 5,
+        quantidade: 5,
+        preco: 75,
+        createdAt: new Date("2024-03-01 19:00:00.000000"),
       },
       {
         tipoTicketId: 3,
         eventoId: 1,
         quantidade: 10,
-        preco: 20,
+        preco: 200,
+        createdAt: new Date("2024-03-01 19:00:00.000000"),
       },
       // Motorola - 100 vagas
       {
         tipoTicketId: 1,
         eventoId: 2,
         quantidade: 40,
-        preco: 100,
+        preco: 25.5,
+        createdAt: new Date("2024-03-27 19:00:00.000000"),
       },
       {
         tipoTicketId: 2,
         eventoId: 2,
         quantidade: 40,
-        preco: 50,
+        preco: 12.25,
+        createdAt: new Date("2024-03-27 19:00:00.000000"),
       },
       {
         tipoTicketId: 3,
         eventoId: 2,
         quantidade: 20,
-        preco: 200,
-      },
-      // Parintins 35.000 vagas
-      {
-        tipoTicketId: 1,
-        eventoId: 3,
-        quantidade: 20000,
-        preco: 2000,
-      },
-      {
-        tipoTicketId: 2,
-        eventoId: 3,
-        quantidade: 5000,
-        preco: 1000,
-      },
-      {
-        tipoTicketId: 3,
-        eventoId: 3,
-        quantidade: 10000,
-        preco: 5000,
-      },
-      // Arena da Amazonia 5.000 vagas
-      {
-        tipoTicketId: 1,
-        eventoId: 4,
-        quantidade: 1000,
-        preco: 1000,
-      },
-      {
-        tipoTicketId: 2,
-        eventoId: 4,
-        quantidade: 2000,
-        preco: 500,
-      },
-      {
-        tipoTicketId: 3,
-        eventoId: 4,
-        quantidade: 2000,
-        preco: 2500,
+        preco: 50,
+        createdAt: new Date("2024-03-27 19:00:00.000000"),
       },
       // Centro de Convenções Vasco Vasques 50 vagas
       {
@@ -336,48 +286,258 @@ async function tipoTicketsEventos() {
 async function pedidos() {
   await prisma.pedido.createMany({
     data: [
-      // WebAcademy
+      // WebAcademy - 30 inteiras (R$150) - 5 meia-entrada (R$75) - 10 vip (R$200)
       {
-        id: "518ce6e8-b66c-4168-9bee-aa71d3c01611",
-        formaPagamento: "Cartão de Crédito",
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01644",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
         quantidade: 5,
-        valor: 50,
+        valor: 750,
         status: "Pago",
         compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
-        createdAt: new Date("2023-07-18 19:00:00.000000"),
+        createdAt: new Date("2024-03-01 20:00:00.000000"),
         eventoId: 1,
         tipoTicketId: 1,
       },
       {
-        id: "518ce6e8-b66c-4168-9bee-aa71d3c01611",
-        formaPagamento: "Cartão de Crédito",
-        quantidade: 2,
-        valor: 40,
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01645",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 3,
+        valor: 600,
         status: "Pago",
         compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
-        createdAt: new Date("2023-07-19 19:00:00.000000"),
+        createdAt: new Date("2024-03-01 20:00:00.000000"),
         eventoId: 1,
         tipoTicketId: 3,
       },
       {
-        id: "518ce6e8-b66c-4168-9bee-aa71d3c01611",
-        formaPagamento: "Cartão de Crédito",
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01646",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
         quantidade: 1,
-        valor: 10,
+        valor: 150,
         status: "Pago",
         compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
-        createdAt: new Date("2023-07-19 19:00:00.000000"),
+        createdAt: new Date("2024-03-01 20:00:00.000000"),
         eventoId: 1,
         tipoTicketId: 1,
       },
       {
-        id: "518ce6e8-b66c-4168-9bee-aa71d3c01611",
-        formaPagamento: "Débito",
-        quantidade: 4,
-        valor: 40,
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01647",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 150,
         status: "Pago",
         compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
-        createdAt: new Date("2023-07-20 19:00:00.000000"),
+        createdAt: new Date("2024-03-02 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01649",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 200,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-04 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 3,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01650",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 2,
+        valor: 300,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-04 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01651",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 2,
+        valor: 400,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-06 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 3,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01652",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 150,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-07 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01653",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 150,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-07 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01654",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 200,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-11 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 3,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01655",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 2,
+        valor: 300,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-13 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01656",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 2,
+        valor: 300,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-15 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01657",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 200,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-15 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 3,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01658",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 2,
+        valor: 400,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-15 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 3,
+      },
+      // 16 inteiras restantes
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01659",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 150,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-18 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01660",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 150,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-19 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01661",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 2,
+        valor: 300,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-20 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01662",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 75,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-21 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 2,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01663",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 150,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-21 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01664",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 150,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-21 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01665",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 5,
+        valor: 750,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-25 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01666",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 3,
+        valor: 450,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-26 20:00:00.000000"),
+        eventoId: 1,
+        tipoTicketId: 1,
+      },
+      {
+        id: "518ce6e8-b66c-4168-9bee-aa71d3c01667",
+        formaPagamento: getRandomStringFromArray(pagamentosTipos),
+        quantidade: 1,
+        valor: 150,
+        status: "Pago",
+        compradorId: "518ce6e8-b66c-4168-9bee-aa71d3c01648",
+        createdAt: new Date("2024-03-26 20:00:00.000000"),
         eventoId: 1,
         tipoTicketId: 1,
       },
@@ -393,6 +553,15 @@ async function pedidos() {
 }
 
 // compras
+
+tipoTicket()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
 
 organizador()
   .catch((e) => {
@@ -431,15 +600,6 @@ enderecosEventos()
   });
 
 eventos()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
-
-tipoTicket()
   .catch((e) => {
     console.error(e);
     process.exit(1);
