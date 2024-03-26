@@ -42,4 +42,3 @@ export const responsive = {
       items: 1,
     },
   };
-  

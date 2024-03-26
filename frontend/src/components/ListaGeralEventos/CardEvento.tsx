@@ -1,11 +1,9 @@
 // ** MUI Imports
 import { useEffect, useState } from 'react'
 import { getDetalhesEvento } from "../../services/evento.service";
-import { DetalhesEventoType } from "../../services/evento.service";
 import { defineSessaoUsuario } from "../../utils/defineSessaoUsuario";
-import { Button, CardMedia, Typography, useTheme, Chip, } from '@mui/material';
+import { Typography, useTheme, Chip, } from '@mui/material';
 import { AspectRatio, CardContent, Card } from "@mui/joy";
-import PushPinIcon from '@mui/icons-material/PushPin';
 import { getTiposTicketsService } from '../../services/getTiposTickets';
 import { getTiposTicketsEventosByEventoId } from '../../services/getTiposTicketsEventos.service';
 import { TipoTicketsEventosType } from '../../services/cadastraEvento.service';

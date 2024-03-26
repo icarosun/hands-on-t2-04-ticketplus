@@ -18,7 +18,6 @@ import ModalDashboardEvento from "../../components/ModalDashboardEvento";
 
 const PaginaOrganizador = () => {
   const dispatch = useDispatch();
-
   const [dadosEventos, setDadosEventos] = useState([]);
   const [labelEventos, setLabelEventos] = useState<string>(
     "Carregando Eventos..."
@@ -94,11 +93,14 @@ const PaginaOrganizador = () => {
               id={dadosEvento.id}
               titulo={dadosEvento.titulo}
               descricao={dadosEvento.descricao}
+              faixaEtaria={dadosEvento.faixaEtaria}
               localizacao={dadosEvento.localizacao}
               preco={dadosEvento.preco}
               imageUrl={dadosEvento.imageUrl}
+              cep={dadosEvento.cep}
+              numero={dadosEvento.numero}
               key={`evento-organizador-${index}`}
-            />
+              categoriaEventoId={dadosEvento.categoriaEventoId}            />
           );
         })}
       </Container>
