@@ -4,7 +4,8 @@ import Button from '@mui/material/Button';
 
 
 interface SignUpOptionsProps {
-    handleSignUp: () => void,
+    handleSignUpComprador: () => void,
+    handleSignUpOrganizador: () => void,
 }
 
 const SignUpOptions = (props: SignUpOptionsProps) => {
@@ -20,13 +21,13 @@ const SignUpOptions = (props: SignUpOptionsProps) => {
             }}>
                 <Button
                     variant="contained"
-                    onClick={props.handleSignUp}
+                    onClick={props.handleSignUpComprador}
                 >
                     Quero comprar ingressos
                 </Button>
                 <Button
                     variant="outlined"
-                    onClick={props.handleSignUp}
+                    onClick={props.handleSignUpOrganizador}
                 >
                     Quero vender ingressos
                 </Button>

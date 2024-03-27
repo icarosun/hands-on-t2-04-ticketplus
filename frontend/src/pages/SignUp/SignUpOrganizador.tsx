@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ChangeEvent, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import Button from '@mui/joy/Button';
@@ -11,26 +11,34 @@ import Alert from '@mui/joy/Alert';
 
 import { signupComprador } from '../../services/cadastraComprador.service';
 import { verificarErrorValidacao } from '../../utils/verifyErrorOfPost';
+import { Box } from '@mui/material';
 
 interface State {
+    nome: string
     email: string
     password: string
     repeatPassword: string
-    nome: string
-    cpf: string
+    agencia: string;
+    numeroConta: string;
+    digito: string;
+    cnpj: string;
   }
 
 
 const SignUpOrganizador = () => {
     const navigate = useNavigate();
     const [values, setValues] = useState<State>({
+      nome: '',
       email: '',
       password: '',
       repeatPassword: '',
-      nome: '',
-      cpf: ''
+      agencia: '',
+      numeroConta: '',
+      digito: '',
+      cnpj: ''
     });
-  
+
+    
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [loginError, setLoginError] = useState<string | null>(null);
   
@@ -53,20 +61,21 @@ const SignUpOrganizador = () => {
           while (nome.includes(" ")) {
             nome = nome.replace(" ", "");
           }
-          await signupComprador(
+          /*await signupOrganizador(
             {
               nome: nome, 
               email: values.email,
               senha: values.password,
               repeteSenha: values.repeatPassword,
-              cpf: values.cpf
+              conta: values.conta,
+              cnpj: values.cnpj
             }
-          );
+          );*/
   
           handleOpenModalSuccessMessage()
           setTimeout(() => {
             handleCloseModalSuccessMessage(); // Esconde a mensagem após 5 segundos
-            navigate("/login_cliente");
+            // navigate("/login_cliente");
           }, 5000);
   
         } catch(error: any) {
@@ -82,9 +91,12 @@ const SignUpOrganizador = () => {
             case 409:
               setLoginError("Já existe usuário cadastrado com E-mail informado");
               break;
-            default:
+            case 500:
               console.log(errorStatus);
-              return;
+              break;
+            default:
+                setLoginError(messageError);
+                return;
           }
         }
       } else {
@@ -99,11 +111,32 @@ const SignUpOrganizador = () => {
       }
       
       const regexCpf = /^\d{11}$/;
+      
+      const regexNumero = /^[0-9]*$/;
   
-      const verifyCpf = new RegExp(regexCpf).exec(values.cpf.trim());
-  
-      if (!verifyCpf){
-        setLoginError("Por favor, insira um CPF válido. Apenas números")
+      const verifyCnpj = new RegExp(regexNumero).exec(values.cnpj.trim());
+      const verifyAgencia = new RegExp(regexNumero).exec(values.agencia.trim());
+      const verifyNumeroConta = new RegExp(regexNumero).exec(values.numeroConta.trim());
+      const verifyDigito = new RegExp(regexNumero).exec(values.digito.trim());
+      
+      
+      if (!verifyCnpj || values.cnpj === ""){
+        setLoginError("Insira um CNPJ válido")
+        return false;
+      }
+
+      if (!verifyAgencia || values.agencia === "") {
+        setLoginError("Por favor, insira um número de agência válido")
+        return false;
+      }
+
+      if (!verifyNumeroConta  || values.numeroConta === "") {
+        setLoginError("Por favor, insira um número de conta válido")
+        return false;
+      }
+
+      if (!verifyDigito || values.digito === "") {
+        setLoginError("Por favor, insira um dígito válido")
         return false;
       }
   
@@ -135,12 +168,12 @@ const SignUpOrganizador = () => {
                             onSubmit={e => e.preventDefault()}
                         >
                             <FormControl required>
-                                <FormLabel>Nome<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
+                                <FormLabel>Razao Social<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
                                 <Input id='email' value={values.nome} type="text" name="nome" onChange={handleChange('nome')} />
                             </FormControl>
                             <FormControl required>
-                                <FormLabel>CPF (apenas números)<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
-                                <Input id='cpf' value={values.cpf} type="text" name="nome" onChange={handleChange('cpf')} />
+                                <FormLabel>CNPJ (apenas números)<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
+                                <Input id='cnpj' value={values.cnpj} type="text" name="nome" onChange={handleChange('cnpj')} />
                             </FormControl>
                             <FormControl required>
                                 <FormLabel>Email<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
@@ -166,6 +199,29 @@ const SignUpOrganizador = () => {
                                 type = "password"
                               />
                             </FormControl>
+                            <Stack gap={1}>
+                                <Typography
+                                    sx={{
+                                        marginTop: 1.2,
+                                        marginBottom: 1.5,
+                                        fontWeight: "bold"
+                                    }}
+                                >Informações Bancárias</Typography>
+                                <FormControl required>
+                                    <FormLabel>Agência<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
+                                    <Input id='agencia' value={values.agencia} type="text" name="agencia" onChange={handleChange('agencia')} />
+                                </FormControl>
+                                <Stack gap={1}>
+                                    <FormControl required>
+                                        <FormLabel>Número da conta<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
+                                        <Input id='numeroConta' value={values.numeroConta} type="text" name="numeroConta" onChange={handleChange('numeroConta')} />
+                                    </FormControl>
+                                    <FormControl required>
+                                        <FormLabel>Dígito<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
+                                        <Input id='digito' value={values.digito} type="text" name="digito" onChange={handleChange('digito')} />
+                                    </FormControl>
+                                </Stack>
+                            </Stack>
                             <Stack gap={4} sx={{ mt: 2 }}>
                                 <Button onClick={handleCreatePerfil} fullWidth>
                                   Cadastrar

@@ -14,6 +14,7 @@ import { Step, StepLabel, Stepper } from '@mui/material';
 
 import SignUpOptions from './SignUpOptions';
 import SignUpComprador from './SignUpComprador';
+import SignUpOrganizador from './SignUpOrganizador';
 
 const steps = ["Tipo de usuário", "Cadastro"];
 
@@ -33,12 +34,25 @@ const SignUpStepper = () => {
     setActiveStep(activeStep + 2);
   };
 
+  const voltarComprador = () => {
+    setActiveStep(activeStep - 1);
+  }
+
+  const voltarOrganizador = () => {
+    setActiveStep(activeStep - 2);
+  }
+
   function getStepContent(step: number) {
     switch (step) {
       case 0:
-        return <SignUpOptions handleSignUp={handleSignUpComprador}/>
+        return <SignUpOptions 
+          handleSignUpComprador={handleSignUpComprador}
+          handleSignUpOrganizador={handleSignUpOrganizador}
+        />
       case 1:
         return <SignUpComprador/>
+      case 2:
+          return <SignUpOrganizador/>
       default:
         throw new Error('Unknown step');
     }

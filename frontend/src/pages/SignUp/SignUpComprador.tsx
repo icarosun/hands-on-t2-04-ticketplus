@@ -82,9 +82,12 @@ const SignUpComprador = () => {
             case 409:
               setLoginError("Já existe usuário cadastrado com E-mail informado");
               break;
-            default:
+            case 500:
               console.log(errorStatus);
-              return;
+              break;
+            default:
+                setLoginError(messageError);
+                return;
           }
         }
       } else {
@@ -94,7 +97,7 @@ const SignUpComprador = () => {
   
     const handleValidateForm = () => {
       if (values.nome.trim().length < 3) {
-        setLoginError("Por favor, insira o nome completo");
+        setLoginError("Preencha todos os dados");
         return false;
       }
       
@@ -102,7 +105,7 @@ const SignUpComprador = () => {
   
       const verifyCpf = new RegExp(regexCpf).exec(values.cpf.trim());
   
-      if (!verifyCpf){
+      if (!verifyCpf || values.cpf === ""){
         setLoginError("Por favor, insira um CPF válido. Apenas números")
         return false;
       }
