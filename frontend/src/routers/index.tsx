@@ -15,7 +15,7 @@ import LoginClientPage from "../components/Login/LoginPage.tsx";
 import NovoEvento from "../components/OrganizadorComponents/NovoEvento.tsx";
 import NavBarLayoutOrganizador from "../layout/Navbar/Organizador/index.tsx";
 import PaginaPrincipalOrganizador from "../components/OrganizadorComponents/EventsConteiner.tsx";
-import SignUpComprador from "../components/SignUp/SignUpComprador.tsx";
+import SignUp from "../pages/SignUp/SignUpPage.tsx";
 import SearchEvento from "../pages/Search/index.tsx";
 
 const router = createBrowserRouter([
@@ -97,7 +97,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/signup",
-        element: <SignUpComprador />
+        element: <SignUp />
       }
     ],
   },
