@@ -8,6 +8,7 @@ import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
 import Alert from '@mui/joy/Alert';
+import SuccessMessage from '../../components/SuccessMessage';
 
 import { verificarErrorValidacao } from '../../utils/verifyErrorOfPost';
 import { signupOrganizador } from '../../services/cadastraOrganziador.service';
@@ -94,7 +95,7 @@ const SignUpOrganizador = () => {
                 handleOpenModalSuccessMessage();
                 setTimeout(() => {
                     handleCloseModalSuccessMessage(); // Esconde a mensagem após 5 segundos
-                    // navigate("/login_cliente");
+                    navigate("/login_cliente");
                 }, 5000);
         
                 } catch(error: any) {
@@ -180,6 +181,7 @@ const SignUpOrganizador = () => {
     }
 
     return (
+            <>
             <Stack gap={1}>
                         {loginError && <Alert sx={{ alignItems: 'flex-start' }} variant="soft" color='danger'>{loginError}</Alert>}
                         <form
@@ -249,6 +251,13 @@ const SignUpOrganizador = () => {
                             </Stack>
                         </form>
                     </Stack>
+            <SuccessMessage
+                showSuccessMessage={showSuccessMessage}
+                handleCloseModalSuccessMessage={handleCloseModalSuccessMessage}
+                tituloModal="Sucesso"
+                mensagemModal="Cadastro realizado com sucesso!"
+            />
+        </>
     )
 }
 
