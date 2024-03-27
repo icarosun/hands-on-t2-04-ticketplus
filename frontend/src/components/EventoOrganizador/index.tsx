@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { Container, Box, IconButton, Typography, Chip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import BarChartIcon from "@mui/icons-material/BarChart";
+//import BarChartIcon from "@mui/icons-material/BarChart";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import {
   BoxIconesStyle,
@@ -96,9 +96,6 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
         const res = await getDashboardTitle(idEvento);
         const modalTitulo = res?.data as DashboardTitle;
         const titulo = modalTitulo.titulo;
-
-        console.log("titulo modal");
-        console.log(titulo);
 
         const graficoX = await getDashboardGraficoX(idEvento);
         const modalGraficoX = graficoX?.data as xAxis;
@@ -194,9 +191,10 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
         </Box>
       </Box>
       <Box sx={BoxIconesStyle}>
+        {/*
         <IconButton onClick={handleAbreModalDashboard}>
           <BarChartIcon />
-        </IconButton>
+        </IconButton>*/}
         <IconButton onClick={handleAbreModalEdicao}>
           <EditIcon />
         </IconButton>
