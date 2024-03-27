@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
-import { Container, Box, IconButton, Typography, Chip } from "@mui/material";
-import BarChartIcon from "@mui/icons-material/BarChart";
+import { Container, Box, Typography, Chip } from "@mui/material";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import {
   BoxIconesStyle,
@@ -187,18 +186,13 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
             label={props.localizacao}
             icon={<PushPinIcon />}
           />
-          <Box sx={{marginTop: 1.5}}>
+          {!props.comprador && <Box sx={{marginTop: 1.5}}>
             {`${formataDataHora(props.dataInicio)}`}
+          </Box>}
+          <Box sx={{marginTop: 1.5}}>
+            {`Quantidade: ${props.quantidade}`}
           </Box>
         </Box>
-      </Box>
-      <Box sx={BoxIconesStyle}>
-        <IconButton
-          size="large"
-          onClick={handleAbreModalDashboard}
-        >
-          <BarChartIcon/>
-        </IconButton>
       </Box>
     </Container>
   );

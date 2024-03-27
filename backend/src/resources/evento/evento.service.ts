@@ -18,6 +18,9 @@ export async function getEvento(idEvento: number): Promise<Evento | null> {
     where: {
       id: idEvento,
     },
+    include: {
+      CategoriaEvento: true
+    }
   });
 }
 

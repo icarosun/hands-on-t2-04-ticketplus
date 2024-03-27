@@ -68,7 +68,14 @@ const UserDropdownMenu = (props: UserDropdownMenuProps) => {
         >
           <ListItem role="none">
             <ListItemButton role="menuitem">
-              <ListItemContent>Ver Minha Conta</ListItemContent>
+              <ListItemContent>
+                <a href="/meustickets" style={{
+                  textDecoration: "none",
+                  color: "inherit"
+                }}>
+                  Meus Ingressos
+                </a>
+              </ListItemContent>
             </ListItemButton>
           </ListItem>
           <ListDivider />

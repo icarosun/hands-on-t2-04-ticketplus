@@ -14,6 +14,8 @@ export interface DetalhesEventoType {
   imageUrl: string;
   dataInicio: string;
   dataFim: string;
+  quantidade?: number;
+  comprador?: boolean;
 }
 
 export async function getDetalhesEvento(

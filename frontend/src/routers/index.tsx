@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import NavBarLayout from "../layout/Navbar/Main/index.tsx";
 import PaginaComprador from "../pages/Comprador/index.tsx";
-import PaginaOrganizador from "../pages/Organizador";
 import CompradorNavBarLayout from "../layout/Navbar/Comprador/index.tsx";
 import PaginaInicial from "../pages/PaginaInicial/index.tsx";
 import { TiposUsuarios } from "../utils/tipoUsuario.constants.ts";
@@ -17,6 +16,7 @@ import NavBarLayoutOrganizador from "../layout/Navbar/Organizador/index.tsx";
 import PaginaPrincipalOrganizador from "../components/OrganizadorComponents/EventsConteiner.tsx";
 import SignUp from "../pages/SignUp/SignUpPage.tsx";
 import SearchEvento from "../pages/Search/index.tsx";
+import MeusTickets from "../pages/MeusTickets/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +47,10 @@ const router = createBrowserRouter([
         path: "/detalhes-do-evento-v1/:id",
         element: <EventDetailsV1 />,
       },
+      {
+        path: "/meustickets",
+        element: <MeusTickets/>
+      }
     ],
   },
   {

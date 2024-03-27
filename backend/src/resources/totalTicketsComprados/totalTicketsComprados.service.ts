@@ -14,6 +14,14 @@ export async function getTotalTicketsComprados (
     });
 }
 
+export async function getTotalTicketsCompradosByCpf (cpfComprador: string): Promise<TotalTicketsComprados[] | null> {
+    return await prisma.totalTicketsComprados.findMany({
+        where: {
+            cpfComprador
+        }
+    });
+}
+
 export async function createTotalTicketsComprados (
     cpfComprador: string,
     eventoId: number,

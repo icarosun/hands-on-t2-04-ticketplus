@@ -1,18 +1,19 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 
-import { getPedidoById } from "../pedido/pedido.service";
+import { getPedidoById, getPedidosByStatusAndCompradorId } from "../pedido/pedido.service";
 import {
   createCompra,
   getCompraByPedidoId
 } from "./compra.service";
 import { updateQuantidadeTiposTicketsEventos } from "../tiposTicketsEventos/tiposTicketsEventos.service";
-import { updateVagasEvento } from "../evento/evento.service";
+import { getEvento, updateVagasEvento } from "../evento/evento.service";
 import { CreateCompraDto } from "./compra.types";
 import { createTicketService } from "../ticket/ticket.service";
 import { updateStatusPedido } from "../pedido/pedido.service";
 import { StatusPedido } from "../pedido/pedido.constants";
-import { createTotalTicketsComprados, getTotalTicketsComprados, updateTotalTicketsComprados } from "../totalTicketsComprados/totalTicketsComprados.service";
+import { createTotalTicketsComprados, getTotalTicketsComprados, getTotalTicketsCompradosByCpf, updateTotalTicketsComprados } from "../totalTicketsComprados/totalTicketsComprados.service";
+import { GetEventosType } from "../evento/evento.types";
 
 dotenv.config();
 
@@ -25,26 +26,31 @@ async function index(req: Request, res: Response) {
         #swagger.responses[200] = {
             schema: { $ref: '#/definitions/Compras' }
   } */
-  /*const compradorId = String(req.session.uid);
+  const cpfComprador = String(req.session.cpf);
   const eventosIds: number[] = [];
+  const eventos: GetEventosType[] = [];
   try {
-    const compras = (await getComprasByCompradorId(
-      compradorId
-    )) as unknown as CreateCompraDto[];
-    const comprasData: object[] = [];
+    const compras = await getTotalTicketsCompradosByCpf(
+      cpfComprador
+    );
+    console.log(cpfComprador);
+    if (!compras)
+      return res.status(404).json({ msg: "Nenhum pedido encotrado" });
     for (let compra of compras) {
-      eventosIds.push(compra.eventoId as number); // here
+      eventosIds.push(compra.eventoId);
     }
-    for (let i = 0; i < compras.length; i++) {
-      comprasData.push({
-        ...compras[i],
+    for (let i = 0; i < eventosIds.length; i++) {
+      const evento = await getEvento(eventosIds[i]) as unknown as GetEventosType;
+      eventos.push({
+        ...evento,
+        quantidade: compras[i].totalTicketsComprados,
         imageUrl: `http://localhost:${PORT}/v1/img/events/${eventosIds[i]}`,
       });
     }
-    return res.status(200).json({ comprasData });
+    return res.status(200).json(eventos);
   } catch (error) {
     return res.status(500).json({ error });
-  }*/
+  }
 }
 
 async function create(req: Request, res: Response) {

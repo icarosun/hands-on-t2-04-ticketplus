@@ -50,7 +50,7 @@ const PayPalButton = (props: PayPalButtonProps) => {
                 props.tipoTicketId
             ).then((response) => response.json())
             .then((order) => {
-                if (order.msg) {
+                if (order.msg === "Não é possível realizar o pedido. Cinco tickets já foram comprados para esse evento") {
                     handleOpenModalErrorMessage();
                     setMensagemModal("Não foi possível realizar o pedido. Você já comprou cinco tickets para este evento");
                     return false;

@@ -16,6 +16,8 @@ export interface GetEventosType {
   dataInicio: Date;
   dataFim: Date;
   CategoriaEvento: CategoriaEvento;
+  quantidade?: number;
+  imageUrl?: string;
 }
 
 export interface TipoTicketEventoType {

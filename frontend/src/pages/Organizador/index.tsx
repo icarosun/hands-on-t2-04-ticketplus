@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+/*import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Box, Container } from "@mui/material";
 import Button from "@mui/joy/Button";
@@ -14,9 +14,9 @@ import {
 import EventoOrganizador from "../../components/EventoOrganizador";
 import { getEventosByOrganizador } from "../../services/evento.service";
 import { DetalhesEventoType } from "../../services/evento.service";
-import ModalDashboardEvento from "../../components/ModalDashboardEvento";
+import ModalDashboardEvento from "../../components/ModalDashboardEvento";*/
 
-const PaginaOrganizador = () => {
+/*const PaginaOrganizador = () => {
   const dispatch = useDispatch();
   const [dadosEventos, setDadosEventos] = useState([]);
   const [labelEventos, setLabelEventos] = useState<string>(
@@ -70,7 +70,6 @@ const PaginaOrganizador = () => {
           <AddIcon />
           Novo Evento
         </Button>
-        {/*<Button onClick={handleAbreModalEdicao}>Edita</Button>*/}
       </Box>
       <Box
         sx={{
@@ -112,4 +111,4 @@ const PaginaOrganizador = () => {
   );
 };
 
-export default PaginaOrganizador;
+export default PaginaOrganizador;*/
