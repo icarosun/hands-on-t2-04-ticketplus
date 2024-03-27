@@ -97,6 +97,9 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
         const modalTitulo = res?.data as DashboardTitle;
         const titulo = modalTitulo.titulo;
 
+        console.log("titulo modal");
+        console.log(titulo);
+
         const graficoX = await getDashboardGraficoX(idEvento);
         const modalGraficoX = graficoX?.data as xAxis;
 

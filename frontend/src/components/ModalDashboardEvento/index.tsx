@@ -11,6 +11,7 @@ import {
 //import CustomTable from "../TabelaVendas";
 import CustomCard from "../Cards";
 import { xAxis } from "../../services/dashboard.service";
+import CustomGrafico from "../Graficos/GraficoModal";
 import {
   setOpenModalState,
   eraseModalState,
@@ -72,11 +73,17 @@ export default function ModalDashboardEvento() {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        sx={{
+          left: "30%",
+          maxHeight: 600,
+          top: "5%",
+          maxWidth: 1000,
+        }}
       >
         <Card
           sx={{
             position: "absolute",
-            minWidth: 950, // Largura relativa ao modal
+            minWidth: 800, // Largura relativa ao modal
             maxHeight: 900, // Altura relativa ao modal
             bgcolor: "#fff",
             top: "50%",
@@ -95,8 +102,7 @@ export default function ModalDashboardEvento() {
               marginTop: 1,
             }}
           />
-
-          <Grid item xs={12} md={1} lg={12}>
+          <Grid item xs={12}>
             <Grid container rowSpacing={1} columnSpacing={2} p={2}>
               <Grid item xs={12} sm={6} md={4} lg={4}>
                 <CustomCard
@@ -117,7 +123,7 @@ export default function ModalDashboardEvento() {
                       Resumo das Vendas
                     </Typography>
                   </Stack>
-                  {/*<CustomGrafico dadosGrafico={graficoSeries} eventos={xDesc} />*/}
+                  <CustomGrafico dadosGrafico={graficoSeries} eventos={xDesc} />
                 </Card>
               </Grid>
             </Grid>
@@ -125,12 +131,9 @@ export default function ModalDashboardEvento() {
             {/*<Grid item xs={12} md={7} lg={12}>
               <Grid item>
                 <Card sx={{ mt: 2, p: 2 }}>
-                  <Stack sx={{ pt: 1.5, pl: 1.5 }}>
-                    <Typography variant="h6" color="textPrimary">
-                      Compras Recentes
-                    </Typography>
-                  </Stack>
-                  <CustomTable />
+                  {"Tabela"}
+
+                  {/*<EnhancedTable title={titleTemp} rows={tabela} />
                 </Card>
               </Grid>
             </Grid>*/}

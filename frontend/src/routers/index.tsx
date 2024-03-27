@@ -6,7 +6,6 @@ import CompradorNavBarLayout from "../layout/Navbar/Comprador/index.tsx";
 import PaginaInicial from "../pages/PaginaInicial/index.tsx";
 import { TiposUsuarios } from "../utils/tipoUsuario.constants.ts";
 import DashboardGeral from "../components/Dashboard/Geral/";
-import DashboardIndividual from "../components/Dashboard/Individual/";
 import CheckoutNavBarLayout from "../layout/Navbar/Comprador/CheckoutNavBar.tsx";
 import CheckoutStepper from "../pages/CheckoutPage/CheckPage.tsx";
 import EventDetailsV1 from "../components/EventDetailsContaner/EventDetailsV1.tsx";
@@ -18,7 +17,6 @@ import NavBarLayoutOrganizador from "../layout/Navbar/Organizador/index.tsx";
 import PaginaPrincipalOrganizador from "../components/OrganizadorComponents/EventsConteiner.tsx";
 import SignUpComprador from "../components/SignUp/SignUpComprador.tsx";
 import SearchEvento from "../pages/Search/index.tsx";
-
 
 const router = createBrowserRouter([
   {
@@ -48,11 +46,13 @@ const router = createBrowserRouter([
       {
         path: "/detalhes-do-evento-v1/:id",
         element: <EventDetailsV1 />,
-      }
+      },
     ],
   },
   {
-    element: <NavBarLayoutOrganizador tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
+    element: (
+      <NavBarLayoutOrganizador tipoUsuario={TiposUsuarios.ORGANIZADOR} />
+    ),
     children: [
       {
         path: "/paginaorganizador",
@@ -69,20 +69,13 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: <NavBarLayoutOrganizador tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
+    element: (
+      <NavBarLayoutOrganizador tipoUsuario={TiposUsuarios.ORGANIZADOR} />
+    ),
     children: [
       {
         path: "/dashboard",
         element: <DashboardGeral />,
-      },
-    ],
-  },
-  {
-    element: <NavBarLayoutOrganizador tipoUsuario={TiposUsuarios.ORGANIZADOR} />,
-    children: [
-      {
-        path: "/dashboardIndividual",
-        element: <DashboardIndividual />,
       },
     ],
   },
@@ -96,7 +89,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: <LoginNavBar  />,
+    element: <LoginNavBar />,
     children: [
       {
         path: "/login_cliente",
@@ -107,7 +100,7 @@ const router = createBrowserRouter([
         element: <SignUpComprador />
       }
     ],
-  }
+  },
 ]);
 
 export default router;
