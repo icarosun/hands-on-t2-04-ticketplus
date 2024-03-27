@@ -44,7 +44,7 @@ router.get(
   eventoController.readCategoria
 );
 
-router.get("/search", eventoController.searchByTitulo);
+router.get("/search/many", eventoController.searchByTitulo);
 
 router.put(
   "/:idEvento",
