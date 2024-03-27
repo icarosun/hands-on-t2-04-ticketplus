@@ -49,10 +49,7 @@ const SignUpComprador = () => {
     const handleCreatePerfil = async () => {
       if (handleValidateForm()) {
         try {
-          let nome = values.nome;
-          while (nome.includes(" ")) {
-            nome = nome.replace(" ", "");
-          }
+          let nome = values.nome.trim();
           await signupComprador(
             {
               nome: nome, 

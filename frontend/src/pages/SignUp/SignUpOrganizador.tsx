@@ -9,9 +9,8 @@ import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
 import Alert from '@mui/joy/Alert';
 
-import { signupComprador } from '../../services/cadastraComprador.service';
 import { verificarErrorValidacao } from '../../utils/verifyErrorOfPost';
-import { Box } from '@mui/material';
+import { signupOrganizador } from '../../services/cadastraOrganziador.service';
 
 interface State {
     nome: string
@@ -53,54 +52,75 @@ const SignUpOrganizador = () => {
     const handleCloseModalSuccessMessage = () => {
         setShowSuccessMessage(false);
     };
+
+    const preencheZerosEsquerda = (stringOriginal: string, tamanho: number) => {
+        let novaString = stringOriginal;
+        while (novaString.length < tamanho) {
+          novaString = "0" + novaString;
+        }
+        return novaString;
+    }
+
+    const formataCnpj  = (cnpj: string) => {
+        let cnpjFormatado = `${cnpj.slice(0,2)}.`;
+        cnpjFormatado = cnpjFormatado + `${cnpj.slice(2,5)}.`;
+        cnpjFormatado = cnpjFormatado + `${cnpj.slice(5,8)}/`;
+        cnpjFormatado = cnpjFormatado + `${cnpj.slice(8,12)}-`;
+        cnpjFormatado = cnpjFormatado + `${cnpj.slice(12,15)}`;
+        return cnpjFormatado;
+    }
   
     const handleCreatePerfil = async () => {
-      if (handleValidateForm()) {
-        try {
-          let nome = values.nome;
-          while (nome.includes(" ")) {
-            nome = nome.replace(" ", "");
-          }
-          /*await signupOrganizador(
-            {
-              nome: nome, 
-              email: values.email,
-              senha: values.password,
-              repeteSenha: values.repeatPassword,
-              conta: values.conta,
-              cnpj: values.cnpj
+      try {
+        if (handleValidateForm()) {
+            try {
+                let nome = values.nome.trim();
+                const agencia = preencheZerosEsquerda(values.agencia, 4);
+                const numeroConta = preencheZerosEsquerda(values.numeroConta, 20);
+                const conta = `${agencia};${numeroConta}-${values.digito}`;
+                const cnpjFormatado = formataCnpj(values.cnpj);
+                
+                await signupOrganizador(
+                    {
+                    nome: nome, 
+                    email: values.email,
+                    senha: values.password,
+                    repeteSenha: values.repeatPassword,
+                    conta: conta,
+                    cnpj: cnpjFormatado
+                    }
+                );
+        
+                handleOpenModalSuccessMessage();
+                setTimeout(() => {
+                    handleCloseModalSuccessMessage(); // Esconde a mensagem após 5 segundos
+                    // navigate("/login_cliente");
+                }, 5000);
+        
+                } catch(error: any) {
+        
+                const errorStatus = error.response.status;
+        
+                const messageError = verificarErrorValidacao(error);
+        
+                switch(errorStatus) {
+                    case 422:
+                    setLoginError(messageError);
+                    break;
+                    case 409:
+                    setLoginError("Já existe um usuário cadastrado com o e-mail informado");
+                    break;
+                    case 500:
+                    console.log(errorStatus);
+                    break;
+                    default:
+                        setLoginError(messageError);
+                        return;
+                }
             }
-          );*/
-  
-          handleOpenModalSuccessMessage()
-          setTimeout(() => {
-            handleCloseModalSuccessMessage(); // Esconde a mensagem após 5 segundos
-            // navigate("/login_cliente");
-          }, 5000);
-  
-        } catch(error: any) {
-  
-          const errorStatus = error.response.status;
-  
-          const messageError = verificarErrorValidacao(error);
-  
-          switch(errorStatus) {
-            case 422:
-              setLoginError(messageError);
-              break;
-            case 409:
-              setLoginError("Já existe usuário cadastrado com E-mail informado");
-              break;
-            case 500:
-              console.log(errorStatus);
-              break;
-            default:
-                setLoginError(messageError);
-                return;
-          }
         }
-      } else {
-        console.log("error");
+    } catch (error) {
+        console.log(error);
       }
     }
   
@@ -110,18 +130,18 @@ const SignUpOrganizador = () => {
         return false;
       }
       
-      const regexCpf = /^\d{11}$/;
-      
+      const regexCnpj = /^\d{14}$/;
       const regexNumero = /^[0-9]*$/;
+      const regexDigito = /^\d{1}$/;
   
-      const verifyCnpj = new RegExp(regexNumero).exec(values.cnpj.trim());
+      const verifyCnpj = new RegExp(regexCnpj).exec(values.cnpj.trim());
       const verifyAgencia = new RegExp(regexNumero).exec(values.agencia.trim());
       const verifyNumeroConta = new RegExp(regexNumero).exec(values.numeroConta.trim());
-      const verifyDigito = new RegExp(regexNumero).exec(values.digito.trim());
+      const verifyDigito = new RegExp(regexDigito).exec(values.digito.trim());
       
       
       if (!verifyCnpj || values.cnpj === ""){
-        setLoginError("Insira um CNPJ válido")
+        setLoginError("Insira um CNPJ válido");
         return false;
       }
 
