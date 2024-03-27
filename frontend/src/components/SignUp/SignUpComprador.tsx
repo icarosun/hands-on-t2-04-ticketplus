@@ -58,9 +58,13 @@ const SignUpComprador = () => {
   const handleCreatePerfil = async () => {
     if (handleValidateForm()) {
       try {
+        let nome = values.nome;
+        while (nome.includes(" ")) {
+          nome = nome.replace(" ", "");
+        }
         await signupComprador(
           {
-            nome: values.nome, 
+            nome: nome, 
             email: values.email,
             senha: values.password,
             repeteSenha: values.repeatPassword,
@@ -108,7 +112,7 @@ const SignUpComprador = () => {
     const verifyCpf = new RegExp(regexCpf).exec(values.cpf.trim());
 
     if (!verifyCpf){
-      setLoginError("Por favor, insira um cpf válido. Apenas números")
+      setLoginError("Por favor, insira um CPF válido. Apenas números")
       return false;
     }
 
@@ -122,8 +126,8 @@ const SignUpComprador = () => {
       return false;
     }
 
-    if (values.repeatPassword != values.password) {
-      setLoginError("Senhas diferentes, digite a mesma senha");
+    if (values.repeatPassword !== values.password) {
+      setLoginError("As senhas não conferem");
       return false;
     }
 
@@ -222,11 +226,11 @@ const SignUpComprador = () => {
                             onSubmit={e => e.preventDefault()}
                         >
                             <FormControl required>
-                                <FormLabel>Nome completo<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
+                                <FormLabel>Nome<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
                                 <Input id='email' value={values.nome} type="text" name="nome" onChange={handleChange('nome')} />
                             </FormControl>
                             <FormControl required>
-                                <FormLabel>CPF<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
+                                <FormLabel>CPF (apenas números)<Typography sx= {{ color: "red"}}>*</Typography></FormLabel>
                                 <Input id='cpf' value={values.cpf} type="text" name="nome" onChange={handleChange('cpf')} />
                             </FormControl>
                             <FormControl required>
