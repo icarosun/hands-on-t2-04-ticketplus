@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import Stack from '@mui/joy/Stack';
 import Card from '@mui/joy/Card';
@@ -25,6 +25,7 @@ import Snackbar from '@mui/joy/Snackbar';
 import { keyframes } from '@mui/system';
 import React from 'react';
 import { AlertProps } from '@mui/joy/Alert';
+import { Box } from '@mui/material';
 
 const inAnimation = keyframes`
   0% {
@@ -70,6 +71,8 @@ export interface State {
   numero: number;
   imageBase64: string;
   tiposTicketsEventos: TipoTicketsEventosType[];
+  dataInicio: string;
+  dataFim: string;
 }
 
 export interface EnderecoPorCep {
@@ -102,7 +105,13 @@ export default function NovoEvento() {
     numero: 0,
     imageBase64: '',
     tiposTicketsEventos: [],
+    dataInicio: "",
+    dataFim: ""
   });
+
+  /*useEffect(() => {
+    console.log(values);
+  }, [values]);*/
 
   const [endereco, setEndereco] = useState<EnderecoPorCep>({
     bairro: '',
@@ -224,6 +233,8 @@ export default function NovoEvento() {
         const tiposTicketsEventos: TipoTicketsEventosType[] = values.tiposTicketsEventos
         const cep: string = values.cep
         const numero: number = values.numero
+        const dataInicio: string = values.dataInicio;
+        const dataFim: string = values.dataFim;
 
         const dadosRequisicao = {
           titulo,
@@ -234,8 +245,11 @@ export default function NovoEvento() {
           categoriaEventoId,
           tiposTicketsEventos,
           cep,
-          numero
+          numero,
+          dataInicio: dataInicio,
+          dataFim: dataFim
         }
+        console.log(dadosRequisicao);
         await cadastraEvento(dadosRequisicao);
         handleOpenModalSuccessMessage();
         setTimeout(() => {
@@ -253,6 +267,11 @@ export default function NovoEvento() {
 
 
   return (
+    <Box sx={{
+      display: "flex",
+      alignSelf: "center",
+      width: "60%"
+    }}>
     <Card variant="plain">
       <Stack spacing={2} sx={{ p: 1 }}>
         <Typography color="primary" fontWeight={700} fontSize={30}>Novo Evento</Typography>
@@ -330,7 +349,7 @@ export default function NovoEvento() {
           />
         </FormControl>
         <FormControl>
-          <Typography >Selecione a faixa etaria</Typography>
+          <Typography >Selecione a classificação indicativa</Typography>
           <Select
             size="md"
             value={values.faixaEtaria.toString()}
@@ -361,7 +380,26 @@ export default function NovoEvento() {
             <Option value="8">Outros</Option>
           </Select>
         </FormControl>
-        <Stack spacing={2} sx={{ flexGrow: 1 }}>
+        <Box sx={{display: 'grid', gridTemplateColumns: "repeat(2, 1fr)", gap: 2}}>
+          <FormControl>
+            <Typography >Selecione a data e a hora de início</Typography>
+            <Input
+              type='datetime-local'
+              onChange={handleChange('dataInicio')}
+            />
+          </FormControl>
+          <FormControl>
+            <Typography >Selecione a data e a hora de fim</Typography>
+            <Input
+              type='datetime-local'
+              onChange={handleChange('dataFim')}
+            />
+          </FormControl>
+        </Box>
+        <Stack spacing={2} sx={{
+            display: "flex",
+            flexGrow: 1
+          }}>
           <Stack spacing={1} sx={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
@@ -428,7 +466,7 @@ export default function NovoEvento() {
           Evento Cadastrado Com Sucesso
         </Snackbar>
         <Button
-          size="md"
+          size="md"        
           variant="solid"
           onClick={handleSubmit}
         >
@@ -436,5 +474,6 @@ export default function NovoEvento() {
         </Button>
       </Stack>
     </Card>
+    </Box>
   );
 }

@@ -16,6 +16,8 @@ export interface cadastraEventoType {
     numero: number;
     imageBase64: string;
     tiposTicketsEventos: TipoTicketsEventosType[];
+    dataInicio: string;
+    dataFim: string;
 }
 
 export async function cadastraEvento (dadosRequisicao: cadastraEventoType) {
@@ -29,7 +31,9 @@ export async function cadastraEvento (dadosRequisicao: cadastraEventoType) {
             cep: dadosRequisicao.cep,
             numero: dadosRequisicao.numero,
             imageBase64: dadosRequisicao.imageBase64,
-            tiposTicketsEventos: dadosRequisicao.tiposTicketsEventos
+            tiposTicketsEventos: dadosRequisicao.tiposTicketsEventos,
+            dataInicio: `${dadosRequisicao.dataInicio}:00Z`,
+            dataFim: `${dadosRequisicao.dataFim}:00Z`
         }
     );
 }
