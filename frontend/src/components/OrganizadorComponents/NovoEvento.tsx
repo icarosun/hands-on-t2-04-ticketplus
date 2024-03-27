@@ -1,4 +1,5 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Stack from '@mui/joy/Stack';
 import Card from '@mui/joy/Card';
@@ -25,6 +26,9 @@ import Snackbar from '@mui/joy/Snackbar';
 import { keyframes } from '@mui/system';
 import React from 'react';
 import { AlertProps } from '@mui/joy/Alert';
+import { Box } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { getEnderecoInfo } from '../../services/getEnderecoInfo.service';
 
 const inAnimation = keyframes`
   0% {
@@ -70,6 +74,8 @@ export interface State {
   numero: number;
   imageBase64: string;
   tiposTicketsEventos: TipoTicketsEventosType[];
+  dataInicio: string;
+  dataFim: string;
 }
 
 export interface EnderecoPorCep {
@@ -92,6 +98,8 @@ export default function NovoEvento() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [mostraImagem, setMostraImagem] = useState<boolean>(false);
+  const [displayCloudIcon, setDisplayCloudIcon] = useState<string>("block");
   const [values, setValues] = useState<State>({
     titulo: '',
     descricao: '',
@@ -100,9 +108,13 @@ export default function NovoEvento() {
     categoriaEventoId: 0,
     cep: '',
     numero: 0,
-    imageBase64: '',
+    imageBase64: "",
     tiposTicketsEventos: [],
+    dataInicio: "",
+    dataFim: ""
   });
+
+  const navigate = useNavigate();
 
   const [endereco, setEndereco] = useState<EnderecoPorCep>({
     bairro: '',
@@ -110,6 +122,35 @@ export default function NovoEvento() {
     uf: '',
     cidade: '',
   });
+
+  useEffect(() => {
+    if (values.imageBase64 !== "")
+      setMostraImagem(true);
+      setDisplayCloudIcon("none");
+  }, [values.imageBase64]);
+
+  useEffect(() => {
+    if (values.cep.length === 8) {
+      (async() => {
+        const res = await getEnderecoInfo(values.cep);
+        const dadosEndereco = {
+          bairro: res.data.bairro,
+          logradouro: res.data.logradouro,
+          uf: res.data.uf,
+          cidade: res.data.localidade
+        }
+        setEndereco(dadosEndereco);
+      })();
+    } else {
+      const dadosEndereco = {
+        bairro: "",
+        logradouro: "",
+        uf: "",
+        cidade: ""
+      }
+      setEndereco(dadosEndereco);
+    }
+  }, [values.cep]);
 
   const animationDuration = 600;
 
@@ -119,7 +160,7 @@ export default function NovoEvento() {
 
   const handleOpenModalSuccessMessage = () => {
     setShowSuccessMessage(true);
-    setOpen(false);
+    setOpen(true);
   }
 
   const handleCloseModalSuccessMessage = () => {
@@ -224,6 +265,8 @@ export default function NovoEvento() {
         const tiposTicketsEventos: TipoTicketsEventosType[] = values.tiposTicketsEventos
         const cep: string = values.cep
         const numero: number = values.numero
+        const dataInicio: string = values.dataInicio;
+        const dataFim: string = values.dataFim;
 
         const dadosRequisicao = {
           titulo,
@@ -234,13 +277,15 @@ export default function NovoEvento() {
           categoriaEventoId,
           tiposTicketsEventos,
           cep,
-          numero
+          numero,
+          dataInicio: dataInicio,
+          dataFim: dataFim
         }
         await cadastraEvento(dadosRequisicao);
         handleOpenModalSuccessMessage();
         setTimeout(() => {
           handleCloseModalSuccessMessage();
-          location.reload();
+          navigate("/eventos-publicados");
         }, 2500);
         console.log(dadosRequisicao);
       }
@@ -253,6 +298,11 @@ export default function NovoEvento() {
 
 
   return (
+    <Box sx={{
+      /*display: "flex",
+      alignSelf: "center",
+      width: "60%"*/
+    }}>
     <Card variant="plain">
       <Stack spacing={2} sx={{ p: 1 }}>
         <Typography color="primary" fontWeight={700} fontSize={30}>Novo Evento</Typography>
@@ -261,17 +311,39 @@ export default function NovoEvento() {
         </Typography>
         <Divider />
         <Stack direction="column" spacing={1}>
-          <AspectRatio
-            ratio="1"
-            maxHeight={350}
-            sx={{ flex: 1, minWidth: '100%' }}
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center"
+            }}
           >
-            <img
-              src={values.imageBase64}
-              loading="lazy"
-              alt=""
-            ></img>
-          </AspectRatio>
+            {!mostraImagem &&
+              <Box sx={{
+                position: "absolute",
+                zIndex: 3,
+                display: "flex",
+                alignSelf: "center",
+              }}>
+                <CloudUploadIcon
+                  sx={{
+                    width: "100px",
+                    height: "100px"
+                  }}
+                />
+            </Box>}
+            <AspectRatio
+              ratio="1"
+              maxHeight={350}
+              sx={{ flex: 1, minWidth: '100%' }}
+            >
+              {mostraImagem && <img
+                src={values.imageBase64}
+                loading="lazy"
+                alt=""
+              ></img>}
+            </AspectRatio>
+          </Box>
           <Button
             component="label"
             role={undefined}
@@ -330,7 +402,7 @@ export default function NovoEvento() {
           />
         </FormControl>
         <FormControl>
-          <Typography >Selecione a faixa etaria</Typography>
+          <Typography >Selecione a classificação indicativa</Typography>
           <Select
             size="md"
             value={values.faixaEtaria.toString()}
@@ -361,7 +433,26 @@ export default function NovoEvento() {
             <Option value="8">Outros</Option>
           </Select>
         </FormControl>
-        <Stack spacing={2} sx={{ flexGrow: 1 }}>
+        <Box sx={{display: 'grid', gridTemplateColumns: "repeat(2, 1fr)", gap: 2}}>
+          <FormControl>
+            <Typography >Selecione a data e a hora de início</Typography>
+            <Input
+              type='datetime-local'
+              onChange={handleChange('dataInicio')}
+            />
+          </FormControl>
+          <FormControl>
+            <Typography >Selecione a data e a hora de fim</Typography>
+            <Input
+              type='datetime-local'
+              onChange={handleChange('dataFim')}
+            />
+          </FormControl>
+        </Box>
+        <Stack spacing={2} sx={{
+            display: "flex",
+            flexGrow: 1
+          }}>
           <Stack spacing={1} sx={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
@@ -428,7 +519,7 @@ export default function NovoEvento() {
           Evento Cadastrado Com Sucesso
         </Snackbar>
         <Button
-          size="md"
+          size="md"        
           variant="solid"
           onClick={handleSubmit}
         >
@@ -436,5 +527,6 @@ export default function NovoEvento() {
         </Button>
       </Stack>
     </Card>
+    </Box>
   );
 }

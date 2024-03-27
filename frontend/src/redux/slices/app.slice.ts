@@ -5,7 +5,8 @@ const AppSlice = createSlice({
     name: 'app',
     initialState: {
         qtdeIngressos: '',
-        mostraBotaoComprar: false
+        mostraBotaoComprar: false,
+        orderId: ''
     },
     reducers: {
         setQtdeIngressos: (state, { payload }) => {
@@ -14,9 +15,12 @@ const AppSlice = createSlice({
         },
         setMostraBotaoComprar: (state, { payload }) => {
             state.mostraBotaoComprar = payload.mostraBotaoComprar;
+        },
+        setOrderId: (state, { payload }) => {
+            state.orderId = payload.orderId;
         }
     }
 })
 
-export const { setQtdeIngressos, setMostraBotaoComprar } = AppSlice.actions;
+export const { setQtdeIngressos, setMostraBotaoComprar, setOrderId } = AppSlice.actions;
 export default AppSlice.reducer;

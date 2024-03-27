@@ -16,22 +16,29 @@ const payments = [
   { name: 'Expiry date:', detail: '04/2024' },
 ];
 
-export default function Review() {
+export interface ReviewProps {
+  tipoIngressoSelecionado?: string;
+  precoUnitario?: number;
+  total?: number;
+  quantidade?: number;
+}
+
+export default function Review(props: ReviewProps) {
   return (
     <Stack spacing={2}>
       <List disablePadding>
         <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary="Ingresso VIP" secondary="Valor unitário" />
-          <Typography variant="body2">$134.98</Typography>
+          <ListItemText primary={`Ingresso ${props.tipoIngressoSelecionado}`} secondary="Valor unitário" />
+          <Typography variant="body2">{`$${props.precoUnitario}`}</Typography>
         </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Quantidade" />
-          <Typography variant="body2">4</Typography>
+          <Typography variant="body2">{props.quantidade}</Typography>
         </ListItem>
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            $539.92
+            {`$${props.total}`}
           </Typography>
         </ListItem>
       </List>

@@ -1,12 +1,13 @@
 import PayPalButton from "../../components/PayPalButton";
+import { PayPalButtonProps } from "../../interfaces/PayPalButtonProps";
 
-export default function PaymentForm() {
+export default function PaymentForm(props: PayPalButtonProps) {
   return (
     <>
       <PayPalButton
-        eventoId={1}
-        quantity={1}
-        tipoTicketId={1}
+        eventoId={props.eventoId}
+        quantity={props.quantity}
+        tipoTicketId={props.tipoTicketId}
       />
     </>
   );

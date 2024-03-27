@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ModalCadastraEvento from "../../components/ModalCadastraEvento";
 import ModalEditaEvento from "../../components/ModalEditaEvento";
 import SearchBar from "../../components/SearchBar";
-import MarginBottom from "../../components/MarginBottom.tsx";
+import MarginBottom from "../../components/MarginBottom.tsx/index.tsx";
 import {
   setOpenModalCadastroState,
   setOpenModalEdicaoState,

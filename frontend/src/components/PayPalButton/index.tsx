@@ -7,44 +7,40 @@ import {
     PayPalScriptProvider,
     PayPalButtons
 } from "@paypal/react-paypal-js";
+import { setOrderId } from "../../redux/slices/app.slice";
 
-// import { getPayPalToken } from "../../services/getPayPalToken.service";
-import { GetPayPalTokenType } from "../../services/getPayPalToken.service";
 import { compraTicket } from "../../services/compra.service";
 import { PayPalButtonProps } from "../../interfaces/PayPalButtonProps";
-import { setMostraBotaoComprar } from "../../redux/slices/app.slice";
 import { Box } from "@mui/material";
 import { realizaPedido } from "../../services/pedido.service";
+import { CircularProgress } from '@mui/material';
 
 const PayPalButton = (props: PayPalButtonProps) => {
-    const [dadosAuthPagamento, setDadosAuthPagamento] = useState<GetPayPalTokenType | null>({
-        clientId: "",
-        dataClientToken: ""
-    });
     const [mostraBotoesPagamento, setMostraBotoesPagamento] = useState<boolean>(false);
+    const [displayBotoesPayPal, setDisplayBotoesPayPal] = useState("none");
+    const [pedidoId, setPedidoId] = useState<string>("");
+    const [pagamentoAprovado, setPagamentoAprovado] = useState<boolean>(false);
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (dadosAuthPagamento?.clientId !== "")
-            setMostraBotoesPagamento(true);
-    }, [dadosAuthPagamento]);
-
     const onInit = () => {
-        dispatch(setMostraBotaoComprar({
-            mostraBotaoComprar: true
-        }));
+        setDisplayBotoesPayPal("block");
+        setMostraBotoesPagamento(true);
     }
 
     const createOrder = async () =>  {
         try {
+            console.log(props.eventoId);
             return await realizaPedido(
                 props.eventoId,
                 props.quantity,
                 props.tipoTicketId
             ).then((response) => response.json())
             .then((order) => {
-                console.log(order);
+                setPedidoId(order.pedidoId);
+                dispatch(setOrderId({
+                    orderId: order.id
+                }));
                 return order.id;
             });
         } catch (err) {
@@ -52,31 +48,64 @@ const PayPalButton = (props: PayPalButtonProps) => {
         }
     }
 
+    async function finalizaCompra () {
+        (async () => {
+            if (pedidoId !== "" && pagamentoAprovado) {
+                try {
+                    await compraTicket(pedidoId);
+                    document.querySelectorAll("button")[4].click();
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        })();
+    }
+
+    useEffect(() => {
+        finalizaCompra();
+    }, [pedidoId]);
+
+    useEffect(() => {
+        finalizaCompra();
+    }, [pagamentoAprovado]);
+
     const onApprove = async () =>  {
-        try {
-            await compraTicket();
-            console.log("Compra realizada com sucesso");
-        } catch (error) {
-            console.error(error);
-        }
+        setPagamentoAprovado(true);
     }
 
 
         return (
-            <Box id="paypal-container">
-                <PayPalScriptProvider
-                    options={{
-                        clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
-                        currency: "BRL",
-                        intent: "capture"
-                    }}
-                >
-                    <PayPalButtons
-                        onInit={onInit}
-                        createOrder={createOrder}
-                        onApprove={onApprove}
-                    />
-                </PayPalScriptProvider>
+            <Box id="paypal-container" sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            }}>
+                <Box sx={{
+                    width: "100%",
+                    marginTop: 4,
+                    display: `${displayBotoesPayPal}`
+                }}>
+                    <PayPalScriptProvider
+                        options={{
+                            clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
+                            currency: "BRL",
+                            intent: "capture"
+                        }}
+                    >
+                        <PayPalButtons
+                            onInit={onInit}
+                            createOrder={createOrder}
+                            onApprove={onApprove}
+                        />
+                    </PayPalScriptProvider>
+                </Box>
+                {!mostraBotoesPagamento &&
+                    <Box sx={{
+                        marginTop: 10
+                    }}>
+                        <CircularProgress/>
+                    </Box>
+                }
             </Box>
         )
 }
