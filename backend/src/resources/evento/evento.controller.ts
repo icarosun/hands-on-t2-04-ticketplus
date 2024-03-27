@@ -323,6 +323,17 @@ async function searchByTitulo (req: Request, res: Response) {
 
     const eventos = await findEventoByTitle(titulo);
 
+    if (eventos.length > 0) {
+      const eventosData: object[] = [];
+      for (let i = 0; i < eventos.length; i++) {
+        eventosData.push({
+          ...eventos[i],
+          imageUrl: `http://localhost:${PORT}/v1/img/events/${eventos[i].id}`,
+        });
+      }
+      return res.status(200).json(eventosData);
+    }
+
     return res.status(200).json(eventos);
   } catch (error) {
     return res.status(500).json(error);
