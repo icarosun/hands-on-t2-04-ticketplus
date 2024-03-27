@@ -15,7 +15,7 @@ interface SuccessMessageProps {
     mensagemModal: string;
 }
 
-const SuccessMessage = (props: SuccessMessageProps) => {
+const SuccessMessageModal = (props: SuccessMessageProps) => {
     return (
         <Modal
             open={props.showSuccessMessage}
@@ -80,4 +80,4 @@ const SuccessMessage = (props: SuccessMessageProps) => {
     )
 }
 
-export default SuccessMessage;
+export default SuccessMessageModal;

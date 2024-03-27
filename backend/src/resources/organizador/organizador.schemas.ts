@@ -1,7 +1,6 @@
 import Joi from "joi";
 
 const regexNomeSobrenome = "^[a-zA-Z\\s]*$";
-const regexCPNJ = "^\d{2}.\d{3}.\d{3}\/000[1-2]\-\d{2}$";
 
 const schemaCadastroOrganizador = Joi.object({
 	nome: Joi.string()

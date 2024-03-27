@@ -8,7 +8,7 @@ import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
 import Alert from '@mui/joy/Alert';
-import SuccessMessage from '../../components/SuccessMessage';
+import SuccessMessage from '../../components/SuccessMessageModal';
 
 import { verificarErrorValidacao } from '../../utils/verifyErrorOfPost';
 import { signupOrganizador } from '../../services/cadastraOrganziador.service';

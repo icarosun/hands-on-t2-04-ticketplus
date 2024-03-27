@@ -14,12 +14,25 @@ import { PayPalButtonProps } from "../../interfaces/PayPalButtonProps";
 import { Box } from "@mui/material";
 import { realizaPedido } from "../../services/pedido.service";
 import { CircularProgress } from '@mui/material';
+import ErrorMessageModal from "../ErrorMessageModal";
 
 const PayPalButton = (props: PayPalButtonProps) => {
+
     const [mostraBotoesPagamento, setMostraBotoesPagamento] = useState<boolean>(false);
     const [displayBotoesPayPal, setDisplayBotoesPayPal] = useState("none");
     const [pedidoId, setPedidoId] = useState<string>("");
     const [pagamentoAprovado, setPagamentoAprovado] = useState<boolean>(false);
+    const [mensagemModal, setMensagemModal] = useState<string>("");
+
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
+
+    const handleOpenModalErrorMessage = () => {
+        setShowErrorMessage(true);
+    };
+  
+    const handleCloseModalErrorMessage = () => {
+      setShowErrorMessage(false);
+    };
 
     const dispatch = useDispatch();
 
@@ -37,13 +50,18 @@ const PayPalButton = (props: PayPalButtonProps) => {
                 props.tipoTicketId
             ).then((response) => response.json())
             .then((order) => {
+                if (order.msg) {
+                    handleOpenModalErrorMessage();
+                    setMensagemModal("Não foi possível realizar o pedido. Você já comprou cinco tickets para este evento");
+                    return false;
+                }
                 setPedidoId(order.pedidoId);
                 dispatch(setOrderId({
                     orderId: order.id
                 }));
                 return order.id;
             });
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
         }
     }
@@ -106,6 +124,12 @@ const PayPalButton = (props: PayPalButtonProps) => {
                         <CircularProgress/>
                     </Box>
                 }
+                <ErrorMessageModal
+                    showErrorMessage={showErrorMessage}
+                    handleCloseModalErrorMessage={handleCloseModalErrorMessage}
+                    tituloModal="Erro"
+                    mensagemModal={mensagemModal}
+                />
             </Box>
         )
 }
