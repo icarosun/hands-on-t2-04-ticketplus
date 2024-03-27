@@ -28,6 +28,7 @@ import React from 'react';
 import { AlertProps } from '@mui/joy/Alert';
 import { Box } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { getEnderecoInfo } from '../../services/getEnderecoInfo.service';
 
 const inAnimation = keyframes`
   0% {
@@ -127,6 +128,29 @@ export default function NovoEvento() {
       setMostraImagem(true);
       setDisplayCloudIcon("none");
   }, [values.imageBase64]);
+
+  useEffect(() => {
+    if (values.cep.length === 8) {
+      (async() => {
+        const res = await getEnderecoInfo(values.cep);
+        const dadosEndereco = {
+          bairro: res.data.bairro,
+          logradouro: res.data.logradouro,
+          uf: res.data.uf,
+          cidade: res.data.localidade
+        }
+        setEndereco(dadosEndereco);
+      })();
+    } else {
+      const dadosEndereco = {
+        bairro: "",
+        logradouro: "",
+        uf: "",
+        cidade: ""
+      }
+      setEndereco(dadosEndereco);
+    }
+  }, [values.cep]);
 
   const animationDuration = 600;
 
