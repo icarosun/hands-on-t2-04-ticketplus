@@ -1,14 +1,16 @@
+const containerEventoHeight = 150;
+
 export const EventoOrganizadorStyle = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     border: '1px solid rgba(0,0,0,0.09)',
-    boxShadow: '0px 2px 10px rgba(0,0,0,0.1)',
-    width: '80%',
-    height: '100px',
+    boxShadow: '0px 2px 10px rgba(0,0,2,0.1)',
+    width: '100%',
+    height: `${containerEventoHeight}px`,
     marginTop: '25px',
-    borderRadius: '1rem',
+    borderRadius: '0.5rem',
 }
 
 export const BoxEventoImageInfoStyle = {
@@ -29,16 +31,18 @@ export const NomeEventoStyle = {
 
 export const BoxImagemStyle = {
     position: 'relative',
-    left: -17,
-    borderRadius: '1rem 0.5rem 0.5rem 1rem',
-    height: '90px',
-    width: '150px',
+    left: -24,
+    borderRadius: '0.5rem 0 0 0.5rem',
+    height: `${containerEventoHeight - 2}px`,
+    width: '250px',
     backgroundSize: 'cover',
 }
 
 export const BoxIconesStyle = {
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    aligmItems: 'center',
+    justifyContent: 'center'
 }
 
 export const ChipStyle = {

@@ -55,10 +55,6 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/paginaorganizador",
-        element: <PaginaOrganizador />,
-      },
-      {
         path: "/eventos-publicados",
         element: <PaginaPrincipalOrganizador />,
       },

@@ -1,7 +1,5 @@
 import { useDispatch } from "react-redux";
 import { Container, Box, IconButton, Typography, Chip } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import PushPinIcon from "@mui/icons-material/PushPin";
 import {
@@ -45,6 +43,7 @@ import {
   getDashboardCardReceita,
   getDashboardCardComprados,
 } from "../../services/dashboard.service";
+import { formataDataHora } from "../../utils/formataData";
 
 const EventoOrganizador = (props: DetalhesEventoType) => {
   const dispatch = useDispatch();
@@ -55,6 +54,7 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
         const idEvento = props.id;
         const res = await getDetalhesEvento(idEvento);
         const dadosEvento = res?.data as DetalhesEventoType;
+        console.log(dadosEvento);
         const titulo = dadosEvento.titulo;
         const descricao = dadosEvento.descricao;
         const preco = dadosEvento.preco;
@@ -170,10 +170,6 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
     );
   };
 
-  const handleDeletaEvento = () => {
-    console.log("Deleta Evento");
-  };
-
   return (
     <Container sx={EventoOrganizadorStyle}>
       <Box sx={BoxEventoImageInfoStyle}>
@@ -188,20 +184,20 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
           <Chip
             sx={ChipStyle}
             size="small"
-            label={props.cep}
+            label={props.localizacao}
             icon={<PushPinIcon />}
           />
+          <Box sx={{marginTop: 1.5}}>
+            {`${formataDataHora(props.dataInicio)}`}
+          </Box>
         </Box>
       </Box>
       <Box sx={BoxIconesStyle}>
-        <IconButton onClick={handleAbreModalDashboard}>
-          <BarChartIcon />
-        </IconButton>
-        <IconButton onClick={handleAbreModalEdicao}>
-          <EditIcon />
-        </IconButton>
-        <IconButton onClick={handleDeletaEvento}>
-          <DeleteIcon />
+        <IconButton
+          size="large"
+          onClick={handleAbreModalDashboard}
+        >
+          <BarChartIcon/>
         </IconButton>
       </Box>
     </Container>

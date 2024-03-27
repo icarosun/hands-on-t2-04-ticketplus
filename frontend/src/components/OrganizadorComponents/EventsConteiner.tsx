@@ -12,23 +12,19 @@ import { useState, useEffect } from "react";
 import { getEventosByOrganizador } from "../../services/evento.service";
 import EventoOrganizador from '../EventoOrganizador';
 import { DetalhesEventoType } from "../../services/evento.service";
-import EventCard from './EventCardConteiner';
+import MarginBottom from '../MarginBottom.tsx';
 
 export default function PaginaPrincipalOrganizador() {
     const navigate = useNavigate();
     const [dadosEventos, setDadosEventos] = useState([]);
-    const [labelEventos, setLabelEventos] = useState<string>(
-        "Carregando Eventos..."
-    );
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const res = await getEventosByOrganizador();
                 const dados = res?.data;
+                console.log(dados);
                 setDadosEventos(dados);
-                if (dados.length > 0) setLabelEventos("Eventos Cadastrados");
-                else setLabelEventos("Nenhum Evento Cadastrado");
             } catch (error) {
                 console.error(error);
             }
@@ -77,7 +73,7 @@ export default function PaginaPrincipalOrganizador() {
                 </Box>
                 <Stack sx={{ mb: 2 }}>
                     <Typography level="body-md" color="neutral">
-                        Aqui estar a lista de todos os seus eventos publicados
+                        Todos os seus eventos publicados
                     </Typography>
                 </Stack>
                 <div>
@@ -85,7 +81,6 @@ export default function PaginaPrincipalOrganizador() {
                         <FormControl sx={{ flex: 1 }}>
                             <Input
                                 placeholder="Search"
-                                value={'Manaus'}
                                 startDecorator={<SearchRoundedIcon />}
                                 aria-label="Pesquisar Evento"
                             />
@@ -103,12 +98,10 @@ export default function PaginaPrincipalOrganizador() {
                     justifyContent: 'center'
                 }}
             >
-                <Typography level="title-md" component="h5">
-                    Nenhum Evento Publicado
-                </Typography>
             </Box>
-            <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, pt: 2, minHeight: 0 }}>
-                <Stack spacing={2} sx={{ overflow: 'auto' }}>
+            <Box>
+            <Stack spacing={2} sx={{ px: { xs: 2, md: 4 }, pt: 2, minHeight: 0, display: "flex", justifySelf: "center"}}>
+                <Stack spacing={4} sx={{ overflow: 'auto' }}>
                     {dadosEventos.map((dadosEvento: DetalhesEventoType, index) => {
                         return (
                             <EventoOrganizador
@@ -123,11 +116,15 @@ export default function PaginaPrincipalOrganizador() {
                                 cep={dadosEvento.cep}
                                 numero={dadosEvento.numero}
                                 key={`evento-organizador-${index}`}
+                                dataInicio={dadosEvento.dataInicio}
+                                dataFim={dadosEvento.dataFim}
                             />
                         );
                     })}
                 </Stack>
             </Stack>
+            <MarginBottom/>
+            </Box>
         </Box>
     );
 }

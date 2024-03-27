@@ -12,6 +12,8 @@ export interface DetalhesEventoType {
   preco: number;
   data?: object;
   imageUrl: string;
+  dataInicio: string;
+  dataFim: string;
 }
 
 export async function getDetalhesEvento(
