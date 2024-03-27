@@ -16,6 +16,8 @@ import Menu from '@mui/joy/Menu';
 import MenuButton from '@mui/joy/MenuButton';
 import MenuItem from '@mui/joy/MenuItem';
 import { useNavigate } from 'react-router-dom';
+import { ChangeEvent, useState } from 'react'
+import { searchEventosByTitulo } from '../../../services/searchEventoByTitulo';
 
 const sections = [
   { title: 'Tecnologia', url: '#' },
@@ -28,12 +30,26 @@ const sections = [
 
 const AppBarContent = () => {
   const navigate = useNavigate();
+  const [valueSearch, setValueSearch] = useState<string>("");
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+      setValueSearch(event.target.value); 
+  }
+
   const loginClientPage = (event: any) => {
     navigate(`/login_cliente`);
   }
+
   const signUpClientPage = (event: any) => {
     navigate('/signup');
   }
+
+  const handleSearch = async () => {
+    if (valueSearch.length > 0) {
+      navigate(`/search?titulo=${valueSearch}`);
+     }
+  }
+
   return (
     <React.Fragment>
       <AppBar position='static' style={{ backgroundColor: '#fff' }}>
@@ -60,8 +76,10 @@ const AppBarContent = () => {
           <UserDropdown></UserDropdown>
           <Input
             placeholder="Pesquisar eventos..."
+            value = {valueSearch}
+            onChange = {handleChange}
             startDecorator={
-              <Button variant="soft" color="neutral" startDecorator={<SearchIcon />}>
+              <Button onClick={handleSearch} variant="soft" color="neutral" startDecorator={<SearchIcon />}>
                 Pesquisar
               </Button>
             }
