@@ -185,11 +185,7 @@ export default function SidebarOranizador(props: SideBarOrganizadorProps) {
           </Typography>
         </Card>
       </Box>
-      <Input
-        size="sm"
-        startDecorator={<SearchRoundedIcon />}
-        placeholder="Pesquisar Evento"
-      />
+
       <Box
         sx={{
           minHeight: 0,
@@ -221,7 +217,7 @@ export default function SidebarOranizador(props: SideBarOrganizadorProps) {
 
           <ListItem>
             <ListItemButton
-              onClick={() => navigate("/eventos-publicados")}
+              onClick={() => navigate("/paginaorganizador")}
               role="menuitem"
               component="a"
             >
@@ -245,54 +241,6 @@ export default function SidebarOranizador(props: SideBarOrganizadorProps) {
             </ListItemButton>
           </ListItem>
         </List>
-        <List
-          size="sm"
-          sx={{
-            mt: "auto",
-            flexGrow: 0,
-            "--ListItem-radius": (theme) => theme.vars.radius.sm,
-            "--List-gap": "8px",
-            mb: 2,
-          }}
-        >
-          <ListItem>
-            <ListItemButton>
-              <SupportRoundedIcon />
-              Suporte
-            </ListItemButton>
-          </ListItem>
-          <ListItem>
-            <ListItemButton>
-              <SettingsRoundedIcon />
-              Configurações
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Card
-          invertedColors
-          variant="soft"
-          color="primary"
-          size="sm"
-          sx={{ boxShadow: "none" }}
-        >
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography level="title-sm">Plano Atual</Typography>
-            <IconButton size="sm">
-              <CloseRoundedIcon />
-            </IconButton>
-          </Stack>
-          <Typography level="body-sm">
-            Gratuito, tenha acesso a diversas funcionalidades e com atualizações
-            em tempo real
-          </Typography>
-          <Button size="sm" variant="solid">
-            Atualizar Plano
-          </Button>
-        </Card>
       </Box>
       <Divider />
       <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>

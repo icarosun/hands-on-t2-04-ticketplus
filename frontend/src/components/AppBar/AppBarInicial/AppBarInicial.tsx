@@ -20,7 +20,7 @@ import { ChangeEvent, useState } from 'react'
 import { searchEventosByTitulo } from '../../../services/searchEventoByTitulo';
 
 const sections = [
-  { title: 'Tecnologia', url: '#' },
+  { title: 'Tecnologia', url: '/tecnologia' },
   { title: 'Cultura', url: '#' },
   { title: 'Festas e Shows', url: '#' },
   { title: 'Gastronomia', url: '#' },

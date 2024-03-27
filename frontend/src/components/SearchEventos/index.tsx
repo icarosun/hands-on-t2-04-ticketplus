@@ -25,7 +25,7 @@ const ListEventosSearch = (props: ListEventoSearchType) => {
     };
 
     search();
-  }, [evento.length])
+  }, [props.titulo])
 
     return (
         <Box sx={{ flexGrow: 1 }}>
