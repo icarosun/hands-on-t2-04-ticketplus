@@ -4,7 +4,7 @@ const MarginBottom = () => {
     return (
         <Container
             sx={{
-                marginBottom: 15
+                marginBottom: 10
             }}
         />
     )

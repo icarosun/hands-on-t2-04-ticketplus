@@ -7,6 +7,12 @@ import compraSchemas from "./compra.schemas";
 
 const router = Router();
 
+router.get("/",
+    usuarioAutenticado,
+    isComprador,
+    compraController.index
+);
+
 router.post("/",
     usuarioAutenticado,
     isComprador,

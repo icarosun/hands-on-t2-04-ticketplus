@@ -12,6 +12,10 @@ export interface DetalhesEventoType {
   preco: number;
   data?: object;
   imageUrl: string;
+  dataInicio: string;
+  dataFim: string;
+  quantidade?: number;
+  comprador?: boolean;
 }
 
 export async function getDetalhesEvento(

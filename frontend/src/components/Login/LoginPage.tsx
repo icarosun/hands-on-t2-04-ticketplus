@@ -130,7 +130,7 @@ export default function LoginClientPage() {
                 if (dadosUsuario?.tipoUsuario === TiposUsuarios.COMPRADOR) {
                     navigate("/paginacomprador");
                 } else {
-                    navigate("/paginaorganizador");
+                    navigate("/eventos-publicados");
                 }
                 location.reload();
             }, 5000);

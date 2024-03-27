@@ -45,6 +45,7 @@ import {
   getDashboardCardReceita,
   getDashboardCardComprados,
 } from "../../services/dashboard.service";
+import { formataDataHora } from "../../utils/formataData";
 
 const EventoOrganizador = (props: DetalhesEventoType) => {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
         const idEvento = props.id;
         const res = await getDetalhesEvento(idEvento);
         const dadosEvento = res?.data as DetalhesEventoType;
+        console.log(dadosEvento);
         const titulo = dadosEvento.titulo;
         const descricao = dadosEvento.descricao;
         const preco = dadosEvento.preco;
@@ -167,10 +169,6 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
     );
   };
 
-  const handleDeletaEvento = () => {
-    console.log("Deleta Evento");
-  };
-
   return (
     <Container sx={EventoOrganizadorStyle}>
       <Box sx={BoxEventoImageInfoStyle}>
@@ -185,9 +183,15 @@ const EventoOrganizador = (props: DetalhesEventoType) => {
           <Chip
             sx={ChipStyle}
             size="small"
-            label={props.cep}
+            label={props.localizacao}
             icon={<PushPinIcon />}
           />
+          {!props.comprador && <Box sx={{marginTop: 1.5}}>
+            {`${formataDataHora(props.dataInicio)}`}
+          </Box>}
+          <Box sx={{marginTop: 1.5}}>
+            {`Quantidade: ${props.quantidade}`}
+          </Box>
         </Box>
       </Box>
       <Box sx={BoxIconesStyle}>

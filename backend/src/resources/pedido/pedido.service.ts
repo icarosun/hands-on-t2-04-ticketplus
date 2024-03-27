@@ -20,6 +20,18 @@ export async function getPedidoById (id: string | undefined): Promise<Pedido | n
     });
 }
 
+export async function getPedidosByStatusAndCompradorId (
+    compradorId: string,
+    status: string
+): Promise<Pedido[] | null> {
+    return await prisma.pedido.findMany({
+        where: {
+            compradorId,
+            status 
+        }
+    });
+}
+
 export async function updateStatusPedido (
     id: string,
     status: 
