@@ -21,7 +21,7 @@ interface State {
   }
 
 
-const SignUpComprador = () => {
+const SignUpOrganizador = () => {
     const navigate = useNavigate();
     const [values, setValues] = useState<State>({
       email: '',
@@ -176,4 +176,4 @@ const SignUpComprador = () => {
     )
 }
 
-export default SignUpComprador;
+export default SignUpOrganizador;

@@ -1,55 +1,48 @@
 import React from 'react';
-import { ChangeEvent, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { CssVarsProvider } from '@mui/joy/styles';
 import GlobalStyles from '@mui/joy/GlobalStyles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
-import Alert from '@mui/joy/Alert';
-import Check from '@mui/icons-material/Check';
-import Modal from '@mui/joy/Modal';
-import AspectRatio from '@mui/joy/AspectRatio';
-import LinearProgress from '@mui/joy/LinearProgress';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 
-import { signupComprador } from '../../services/cadastraComprador.service';
-import { verificarErrorValidacao } from '../../utils/verifyErrorOfPost';
 import { Step, StepLabel, Stepper } from '@mui/material';
 
-import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+
+import SignUpOptions from './SignUpOptions';
+import SignUpComprador from './SignUpComprador';
 
 const steps = ["Tipo de usuário", "Cadastro"];
 
-function getStepContent(step: number) {
+
+const SignUpStepper = () => {
+  const navigate = useNavigate();
+
+  const [activeStep, setActiveStep] = React.useState(0);
+    
+  const displayNextButton = activeStep === steps.length - 1 ? 'none' : 'flex';
+
+  const handleSignUpComprador = () => {
+      setActiveStep(activeStep + 1);
+  };
+    
+  const handleSignUpOrganizador = () => {
+    setActiveStep(activeStep + 2);
+  };
+
+  function getStepContent(step: number) {
     switch (step) {
       case 0:
-          return <Box/>
+        return <SignUpOptions handleSignUp={handleSignUpComprador}/>
       case 1:
-        return <Box/>
+        return <SignUpComprador/>
       default:
         throw new Error('Unknown step');
     }
   }
-
-const SignUpStepper = () => {
-    const navigate = useNavigate();
-
-    const [activeStep, setActiveStep] = React.useState(0);
-    
-    const displayNextButton = activeStep === steps.length - 1 ? 'none' : 'flex';
-
-    const handleNext = () => {
-        setActiveStep(activeStep + 1);
-    };
-    
-    const handleBack = () => {
-        setActiveStep(activeStep - 1);
-    };
     
 
   return (
@@ -130,9 +123,6 @@ const SignUpStepper = () => {
                       <Typography component="h1" level="h3">
                         Bem Vindo ao TicketPlus! 👋🏻
                       </Typography>
-                      <Typography>
-                        Faça o seu cadastro
-                      </Typography>
                     </Stack>
                     <Box
             sx={{
@@ -183,42 +173,6 @@ const SignUpStepper = () => {
                     mb: '60px',
                   }}
                 >
-                  {activeStep !== 0 && (
-                    <Button
-                      startIcon={<ChevronLeftRoundedIcon />}
-                      onClick={handleBack}
-                      variant="text"
-                      sx={{
-                        display: { xs: 'none', sm: 'flex' },
-                      }}
-                    >
-                      Anterior
-                    </Button>
-                  )}
-                  {activeStep !== 0 && (
-                    <Button
-                      startIcon={<ChevronLeftRoundedIcon />}
-                      onClick={handleBack}
-                      variant="outlined"
-                      fullWidth
-                      sx={{
-                        display: { xs: 'flex', sm: 'none' },
-                      }}
-                    >
-                      Anterior
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    endIcon={<ChevronRightRoundedIcon />}
-                    onClick={handleNext}
-                    sx={{
-                      width: { xs: '100%', sm: 'fit-content' },
-                      display: `${displayNextButton}`
-                    }}
-                  >
-                    {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
-                  </Button>
                 </Box>
               </React.Fragment>
             )}
