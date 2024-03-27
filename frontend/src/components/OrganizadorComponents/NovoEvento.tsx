@@ -1,4 +1,5 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Stack from '@mui/joy/Stack';
 import Card from '@mui/joy/Card';
@@ -26,6 +27,7 @@ import { keyframes } from '@mui/system';
 import React from 'react';
 import { AlertProps } from '@mui/joy/Alert';
 import { Box } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const inAnimation = keyframes`
   0% {
@@ -95,6 +97,8 @@ export default function NovoEvento() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [mostraImagem, setMostraImagem] = useState<boolean>(false);
+  const [displayCloudIcon, setDisplayCloudIcon] = useState<string>("block");
   const [values, setValues] = useState<State>({
     titulo: '',
     descricao: '',
@@ -103,15 +107,13 @@ export default function NovoEvento() {
     categoriaEventoId: 0,
     cep: '',
     numero: 0,
-    imageBase64: '',
+    imageBase64: "",
     tiposTicketsEventos: [],
     dataInicio: "",
     dataFim: ""
   });
 
-  /*useEffect(() => {
-    console.log(values);
-  }, [values]);*/
+  const navigate = useNavigate();
 
   const [endereco, setEndereco] = useState<EnderecoPorCep>({
     bairro: '',
@@ -119,6 +121,12 @@ export default function NovoEvento() {
     uf: '',
     cidade: '',
   });
+
+  useEffect(() => {
+    if (values.imageBase64 !== "")
+      setMostraImagem(true);
+      setDisplayCloudIcon("none");
+  }, [values.imageBase64]);
 
   const animationDuration = 600;
 
@@ -128,7 +136,7 @@ export default function NovoEvento() {
 
   const handleOpenModalSuccessMessage = () => {
     setShowSuccessMessage(true);
-    setOpen(false);
+    setOpen(true);
   }
 
   const handleCloseModalSuccessMessage = () => {
@@ -249,12 +257,11 @@ export default function NovoEvento() {
           dataInicio: dataInicio,
           dataFim: dataFim
         }
-        console.log(dadosRequisicao);
         await cadastraEvento(dadosRequisicao);
         handleOpenModalSuccessMessage();
         setTimeout(() => {
           handleCloseModalSuccessMessage();
-          location.reload();
+          navigate("/eventos-publicados");
         }, 2500);
         console.log(dadosRequisicao);
       }
@@ -268,9 +275,9 @@ export default function NovoEvento() {
 
   return (
     <Box sx={{
-      display: "flex",
+      /*display: "flex",
       alignSelf: "center",
-      width: "60%"
+      width: "60%"*/
     }}>
     <Card variant="plain">
       <Stack spacing={2} sx={{ p: 1 }}>
@@ -280,17 +287,39 @@ export default function NovoEvento() {
         </Typography>
         <Divider />
         <Stack direction="column" spacing={1}>
-          <AspectRatio
-            ratio="1"
-            maxHeight={350}
-            sx={{ flex: 1, minWidth: '100%' }}
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center"
+            }}
           >
-            <img
-              src={values.imageBase64}
-              loading="lazy"
-              alt=""
-            ></img>
-          </AspectRatio>
+            {!mostraImagem &&
+              <Box sx={{
+                position: "absolute",
+                zIndex: 3,
+                display: "flex",
+                alignSelf: "center",
+              }}>
+                <CloudUploadIcon
+                  sx={{
+                    width: "100px",
+                    height: "100px"
+                  }}
+                />
+            </Box>}
+            <AspectRatio
+              ratio="1"
+              maxHeight={350}
+              sx={{ flex: 1, minWidth: '100%' }}
+            >
+              {mostraImagem && <img
+                src={values.imageBase64}
+                loading="lazy"
+                alt=""
+              ></img>}
+            </AspectRatio>
+          </Box>
           <Button
             component="label"
             role={undefined}
